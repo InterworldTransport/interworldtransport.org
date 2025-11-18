@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CladosConstant.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">CladosConstant.java</span></div><h1>CladosConstant.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.CladosConstant&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.CladosConstant&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.List;
+
+/**
+ * This class just acts as a bucket for magic numbers so they aren't nightmarish
+ * to find when they change in the future.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+public final class CladosConstant {
+	/**
+	 * This is the smallest generator in the enumeration of the same name.
+	 */
+<span class="fc" id="L40">	public final static Generator GENERATOR_MIN = Generator.E1;</span>
+	/**
+	 * This is the largest generator in the enumeration of the same name. It's value
+	 * can change here when Clados is reworked to support larger algebras. Changing
+	 * it here enables all support validity testing methods to refer here instead of
+	 * supporting their own 'magic numbers'.
+	 * &lt;br&gt;
+	 * At present it is as large as it can be for the computer being used to test it.
+	 */
+<span class="fc" id="L49">	public final static Generator GENERATOR_MAX = Generator.EF;</span>
+	/**
+	 * This is teh smallest grade supported by Clados.
+	 */
+	public final static byte SCALARGRADE = 0;
+	/**
+	 * This is the largest grade supported by Clados
+	 */
+<span class="fc" id="L57">	public final static byte MAXGRADE = CladosConstant.GENERATOR_MAX.ord;</span>
+	/**
+	 * This is just a list of the special cases for Monad construction. Rather than
+	 * have a copy of them in each monad class, we keep them here.
+	 */
+<span class="fc" id="L62">	public final static List&lt;String&gt; MONAD_SPECIAL_CASES = List.of(&quot;Unit Scalar&quot;, &quot;Unit -Scalar&quot;,</span>
+<span class="fc" id="L63">			&quot;Unit PScalar&quot;, &quot;Unit -PScalar&quot;);</span>
+	/**
+	 * Alias for -1 to help readability elsewhere. Java's Float doesn't have it.
+	 */
+<span class="fc" id="L67">	public final static Float MINUS_ONE_F = Float.valueOf(-1.0f);</span>
+	/**
+	 * Alias for -1 to help readability elsewhere. Java's Double doesn't have it.
+	 */
+<span class="fc" id="L71">	public final static Double MINUS_ONE_D = Double.valueOf(-1.0d);</span>
+	/**
+	 * Alias for +1 to help readability elsewhere. Java's Float doesn't have it.
+	 */
+<span class="fc" id="L75">	public final static Float PLUS_ONE_F = Float.valueOf(1.0f);</span>
+	/**
+	 * Alias for +1 to help readability elsewhere. Java's Double doesn't have it.
+	 */
+<span class="fc" id="L79">	public final static Double PLUS_ONE_D = Double.valueOf(1.0d);</span>
+	/**
+	 * This is just an alias for 0.5f
+	 */
+<span class="fc" id="L83">	public final static Float BY2_F = Float.valueOf(0.5f);</span>
+	/**
+	 * This is just an alias for 0.5d
+	 */
+<span class="fc" id="L87">	public final static Double BY2_D = Double.valueOf(0.5d);</span>
+
+	private CladosConstant() {
+		;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

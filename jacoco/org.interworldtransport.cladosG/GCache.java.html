@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GCache.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">GCache.java</span></div><h1>GCache.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GCache&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GCache&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+/**
+ * Any classes within CladosG that benefit from a supporting cache make use of this 
+ * singleton enumeration as a 'builder'. Nothing fancy here otherwise. Just simple 
+ * create, append, find, and remove capabilities backed by ArrayLists of cached objects.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+<span class="fc" id="L38">public enum GCache {</span>
+<span class="fc" id="L39">	/**</span>
+	 * There is an implicit private constructor for this, but we won't override it.
+	 */
+<span class="fc" id="L42">	INSTANCE;</span>
+
+	/**
+	 * Heads Up! These ArrayLists ensure this 'enumeration' is mutable. This class
+	 * is a cache, so this should suprise no one. It is supposed to keep track of
+	 * the CladosG objects that can be safely shared in use.
+	 */
+<span class="fc" id="L49">	private ArrayList&lt;Basis&gt; listOfBases = new ArrayList&lt;&gt;(1);</span>
+	/**
+	 * Heads Up! These ArrayLists ensure this 'enumeration' is mutable. This class
+	 * is a cache, so this should suprise no one. It is supposed to keep track of
+	 * the CladosG objects that can be safely shared in use.
+	 */
+<span class="fc" id="L55">	private ArrayList&lt;GProduct&gt; listOfGProducts = new ArrayList&lt;&gt;(1);</span>
+
+	/**
+	 * Method appends offered basis to cache IF one like it is not already present.
+	 * If it IS, nothing is done and the method silently returns.
+	 * &lt;br&gt;
+	 * By 'like it' we mean the basis objects have the same number of generators
+	 * used to construct them. It doesn't matter what signatures are used as a basis
+	 * isn't aware of products except as lists. NO generator duplications should
+	 * exist in blades within a basis, thus all N-generator basis objects are
+	 * structurally the same even if represented by different instances.
+	 * &lt;br&gt;
+	 * Important NOTE. Basis objects capture structural meaning implied by a list of
+	 * generators of an algebra. They do NOT capture the meaning of the generators
+	 * themselves. Generators in one algebra need not mean the same thing as
+	 * generators in another algebra, but the structure created in a basis is the
+	 * same between algebras if the basis for each shares the same number of
+	 * generators.
+	 * &lt;br&gt;
+	 * @param pB Basis to be appended to the cache IF not already present.
+	 */
+	public void appendBasis(Basis pB) {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		if (!listOfBases.contains(pB))</span>
+<span class="fc" id="L78">			listOfBases.add(pB);</span>
+<span class="fc" id="L79">	}</span>
+
+	/**
+	 * Method appends offered product to cache IF one like it is not already
+	 * present. If it IS, nothing is done and the method silently returns.
+	 * &lt;br&gt;
+	 * By 'like it' we mean the product objects have the same number of generators
+	 * and identical signatures used to construct them. NO generator duplications
+	 * will survive in a product table after reducing blade combinations using the
+	 * product's signature, so there is structural similarity between product tables
+	 * that use the same number of generators (because of basis similarities) and
+	 * the same signatures.
+	 * &lt;br&gt;
+	 * Important Note. GProduct objects capture structural meaning implied in
+	 * a product table of elements of a Basis. As with a basis, no meaning
+	 * to the generators or blades is implied in a product table.
+	 * &lt;br&gt;
+	 * @param pGP GProduct to be appended to the cache IF not already
+	 *            present.
+	 */
+	public void appendGProduct(GProduct pGP) {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (!listOfGProducts.contains(pGP))</span>
+<span class="fc" id="L101">			listOfGProducts.add(pGP);</span>
+<span class="fc" id="L102">	}</span>
+
+	/**
+	 * This is for resetting the cache of basis objects. It should rarely be used
+	 * since they don't take up a lot of space, but it is faster than removing one
+	 * at a time.
+	 */
+	public void clearBases() {
+<span class="fc" id="L110">		listOfBases = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * This is for resetting the cache of gproduct objects. It should be used sparingly
+	 * since gproducts can be time consuming to recreate for large algebras. It 
+	 * shouldn't HAVE to be done, but it is faster than removing one at a time.
+	 */
+	public void clearGProducts() {
+<span class="fc" id="L119">		new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 * This method returns an Optional of Basis using the integer number of
+	 * generators offered for the search. If found, the optional will be engaged. If
+	 * not, it will be disengaged. IF by some chance there are two basis instances
+	 * in the cache by the same number of generators (which should NOT happen) the
+	 * first one found will be returned in the Optional.
+	 * &lt;br&gt;
+	 * @param pGen byte integer of generators in a basis to be found in the cache
+	 * @return Optional of Basis matching the number of generators offered.
+	 */
+	public Optional&lt;Basis&gt; findBasis(byte pGen) {
+<span class="fc bfc" id="L133" title="All 2 branches covered.">		return listOfBases.stream().filter(x -&gt; (x.getGradeCount() - 1) == pGen).findFirst();</span>
+	}
+
+	/**
+	 * This method returns an Optional of GProduct using the String signature
+	 * offered for the search. If found, the optional will be engaged. If not, it
+	 * will be disengaged. IF by some chance there are two product instances in the
+	 * cache by the same signatures (which should NOT happen) the first one found
+	 * will be returned in the Optional.
+	 * &lt;br&gt;
+	 * @param pSig String signature in a product to be found in the cache
+	 * @return Optional of GProduct matching the signature offered.
+	 */
+	public Optional&lt;GProduct&gt; findGProduct(String pSig) {
+<span class="fc" id="L147">		return listOfGProducts.stream().filter(x -&gt; x.signature().equals(pSig)).findFirst();</span>
+	}
+
+	/**
+	 * Simple gettor for the size of the basis cache. Since there is a limit to the
+	 * Generator enumeration, there is also a limit to the basis cache. One should
+	 * NEVER see more than CladosConstant.MAXGRADE basis objects in the cache.
+	 * &lt;br&gt;
+	 * @return byte integer of the size of the cache of basis instances.
+	 */
+	public byte getBasisListSize() {
+<span class="fc" id="L158">		return (byte) listOfBases.size();</span>
+	}
+
+	/**
+	 * Simple gettor for the size of the product cache. Since there is a limit to
+	 * the Generator enumeration, there is also a limit to the product cache. One
+	 * should NEVER see more than 2^(CladosConstant.MAXGRADE+1)-1 product objects in
+	 * the cache.
+	 * &lt;br&gt;
+	 * @return integer of the size of the cache of basis instances.
+	 */
+	public int getGProductListSize() {
+<span class="nc" id="L170">		return listOfGProducts.size();</span>
+	}
+
+	/**
+	 * Method removes explicit basis from cache IF present. If it IS NOT, nothing is
+	 * done and the method silently returns.
+	 * &lt;br&gt;
+	 * @param pB Basis to remove from the cache IF present.
+	 * @return boolean TRUE if removal succeed. FALSE otherwise.
+	 */
+	public boolean removeBasis(Basis pB) {
+<span class="fc" id="L181">		return listOfBases.remove(pB);</span>
+	}
+
+	/**
+	 * Method removes implied basis from cache IF one like it is present. If it IS
+	 * NOT, nothing is done and the method silently returns.
+	 * &lt;br&gt;
+	 * An implied basis is simply one that matches the integer number of generators
+	 * passed in as a parameter. If no basis is found, nothing is done. That covers
+	 * error conditions too. For example, no basis exists with -1 generators, but
+	 * this method will report TRUE as though it removed it. There is no harm in
+	 * this since the point of this method is to clean out the cache and NOT to
+	 * error check the calling object.
+	 * &lt;br&gt;
+	 * So... Generator size quality is NOT checked.
+	 * &lt;br&gt;
+	 * @param pGen byte integer number of generators in a basis to remove from the
+	 *             cache IF present.
+	 * @return boolean TRUE if removal succeed. FALSE otherwise.
+	 */
+	public boolean removeBasis(byte pGen) {
+<span class="fc" id="L202">		Optional&lt;Basis&gt; B = findBasis(pGen);</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (B.isEmpty())</span>
+<span class="fc" id="L204">			return true;</span>
+<span class="fc" id="L205">		return removeBasis(B.get());</span>
+	}
+
+	/**
+	 * Method removes explicit product from cache IF present. If it IS NOT, nothing
+	 * is done and the method silently returns.
+	 * &lt;br&gt;
+	 * @param pGP GProduct to remove from the cache IF present.
+	 * @return boolean TRUE if removal succeed. FALSE otherwise.
+	 */
+	public boolean removeGProduct(GProduct pGP) {
+<span class="fc" id="L216">		return listOfGProducts.remove(pGP);</span>
+	}
+
+	/**
+	 * Method removes implied product from cache IF one like it is present. If it IS
+	 * NOT, nothing is done and the method silently returns.
+	 * &lt;br&gt;
+	 * An implied product is simply one that matches the signature parameter and its
+	 * integer size. If no product is found, nothing is done. That covers error
+	 * conditions too. For example, no GProduct exists with -1 generators (no
+	 * matter the signature) or 3 generators with &quot;+*-&quot; signature, but this method
+	 * will report TRUE as though it removed them. There is no harm in this since
+	 * the point of this method is to clean out the cache and NOT to error check the
+	 * calling object.
+	 * &lt;br&gt;
+	 * So... Signature quality is NOT checked.
+	 * &lt;br&gt;
+	 * @param pSig String signature of product to remove from the cache IF present.
+	 * @return boolean TRUE if removal succeed. FALSE otherwise.
+	 */
+	public boolean removeGProduct(String pSig) {
+<span class="fc" id="L237">		Optional&lt;GProduct&gt; GP = findGProduct(pSig); // This function tries to find the passed signature</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">		if (GP.isEmpty())</span>
+<span class="fc" id="L239">			return true;									  // If not found, no worries. It is 'removed'.</span>
+<span class="fc" id="L240">		return removeGProduct(GP.get());</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

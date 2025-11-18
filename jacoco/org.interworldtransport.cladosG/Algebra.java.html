@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Algebra.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Algebra.java</span></div><h1>Algebra.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.Algebra&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.Algebra&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.UUID;
+
+import org.interworldtransport.cladosF.Field;			//Algebras are defined over fields
+import org.interworldtransport.cladosF.Normalizable;	//Limit on usable fields
+import org.interworldtransport.cladosF.ProtoN;			//Parent class of usable fields
+import org.interworldtransport.cladosGExceptions.BadSignatureException;
+import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+
+/**
+ * The algebra object holds all geometric details that support the definition of
+ * a multivector over a division field {Cl(p,q) x ProtoN} except for the
+ * actual field. That makes this a partial abstraction of an algebra. Once an
+ * actual division field is in the mix we are there, but that structure is
+ * reserved for the Monad class.
+ * &lt;br&gt;&lt;br&gt;
+ * The primary data structures in a Algebra are a Basis and a GProduct.
+ * Between them they define the structure of operations an Algebra can support.
+ * The basis provides for most behaviors people know from vector spaces. The
+ * product provides the other behaviors people know from differential forms.
+ * Together, though, they enable linear combinations of multi-ranked sums, thus
+ * they step beyond familiar ground from forms and outer products AND the
+ * familiar ground of scalar-only multiplication in vector spaces. All elements
+ * of an algebra an participate in addition and multiplication and
+ * multiplicative commutativity is NOT expected.
+ * &lt;br&gt;&lt;br&gt;
+ * This isn't the place to explain what Clifford Algebras are and what they do.
+ * This IS the place to point that that Clados extends the idea slightly in
+ * order to support future uses.
+ * &lt;br&gt;&lt;br&gt;
+ * 1. An Algebra references a 'Foot' object to imitate a location where the
+ * algebra's geometry is expected to be a tangent space to some underlying
+ * curved sub-manifold. No attempt at curvature is made here, but the Foot
+ * object IS used in reference match tests. This is intentionally done to
+ * prevent different tangent spaces being compared. In a model that assumes
+ * curvature on the manifold, one must first transport their frame before making
+ * comparisons. No 'transport' capability is written for Clados, but it might be
+ * some day.
+ * &lt;br&gt;&lt;br&gt;
+ * Anyone wanting to get around this feature need only declare one 'Foot' and
+ * then re-use it everywhere. The computational penalty is miniscule.
+ * &lt;br&gt;&lt;br&gt;
+ * 2. There is a UUID string kept internally for use an XML variant of
+ * serialization. It has no geometric meaning. Think of it as a digital name.
+ * &lt;br&gt;&lt;br&gt;
+ * 3. There is also a 'name' string for the human readable name of an algebra.
+ * It has no geometric meaning and is not used for anything important.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+public final class Algebra implements Comparable&lt;Algebra&gt; {
+	/**
+	 * This is an exporter of internal details to XML. It exists to bypass certain
+	 * security concerns related to Java serialization of objects.
+	 * &lt;br&gt;
+	 * @param pA     Algebra to be exported as XML data
+	 * @param indent String of tab characters to assist with human readability of
+	 *               output.
+	 * @return String formatted as XML containing information about the Algebra
+	 */
+	public final static String toXMLString(Algebra pA, String indent) {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L89">			indent = &quot;\t\t\t\t&quot;;</span>
+<span class="fc" id="L90">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Algebra UUID=\&quot;&quot;).append(pA.uuid).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L91">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pA.getAlgebraName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+		// -----------------------------------------------------------------------
+<span class="fc" id="L93">		rB.append(Foot.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L94">		rB.append(GProduct.toXMLString(pA.getGProduct(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L95">		rB.append(indent).append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
+<span class="fc" id="L96">		return rB.toString();</span>
+	}
+
+	/**
+	 * All algebra types share some elements that are not dependent on number types.
+	 * The first among them is the 'tangent point' of the sub-manifold represented
+	 * by the algebra. This is the Foot.
+	 */
+	protected Foot foot;
+
+	/**
+	 * The second among the common elements is the Eddington basis formed from all
+	 * blades that can be produced through exterior products of generating
+	 * 'coordinate' vectors. For N generators, there are 2^N blades.
+	 */
+	protected Basis gBasis;
+	/**
+	 * The third among the common elements is the geometric product table formed by
+	 * every product possible using members of the Eddington basis. This class has a
+	 * few helper methods for dealing with symmetric and antisymmetric products and
+	 * detection of other useful conditions.
+	 */
+	protected GProduct gProduct;
+	/**
+	 * Finally, the algebra has a name because this helps distinguish different
+	 * reference frames associated with the same Foot.
+	 */
+	protected String name;
+	/**
+	 * Unique string (hopefully) that provides a machine readable name more likely
+	 * to be unique. Used by apps that need more than the human readable name to
+	 * avoid duplicating objects unnecessarily.
+	 * &lt;br&gt;
+	 * 
+	 */
+	protected String uuid;
+
+	/**
+	 * This is the constructor that assumes a full Algebra has already been
+	 * constructed. This new one re-uses the objects in the one offered. No
+	 * independent objects are made in this constructor except the algebra itself
+	 * &lt;br&gt;
+	 * THIS CONSTRUCTOR is one that enables algebras to function as light weight frames.
+	 * &lt;br&gt;
+	 * @param pNewName 	This is the Algebra's name
+	 * @param pA 		This is the other Algebra to copy.
+	 */
+<span class="fc" id="L143">	public Algebra(String pNewName, Algebra pA) {</span>
+<span class="fc" id="L144">		setAlgebraName(pNewName);</span>
+<span class="fc" id="L145">		setFoot(pA.getFoot());							//RE-USE of Foot</span>
+<span class="fc" id="L146">		setGProduct(pA.getGProduct());					//RE-USE of GP</span>
+<span class="fc" id="L147">		gBasis = pA.getGProduct().getBasis();			//RE-USE of Basis</span>
+<span class="fc" id="L148">		uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L149">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L150">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * This is the constructor that assumes a Foot and GProduct have been
+	 * instantiated and will simply point at them. It takes in one string for 
+	 * the algebra name as well and then produces the algebra. Nothing can be 
+	 * wrong with the signature since the GProduct is already constructed.
+	 * &lt;br&gt;
+	 * THIS CONSTRUCTOR is the one that most enables algebras to function as light
+	 * weight frames. Two algebras can have different names but share everything
+	 * else and cause reference matches to fail. The effect is that the canonical
+	 * basis in both algebras is the same, but the name differences ensure the
+	 * mismatch needed to prevent unphysical operations.
+	 * &lt;br&gt;
+	 * @param pNewName	This is the Algebra's name
+	 * @param pF    	This is the foot being offered for reference
+	 * @param pGP   	This is the geometric product being offered for reference
+	 */
+<span class="fc" id="L169">	public Algebra(String pNewName, Foot pF, GProduct pGP) {</span>
+<span class="fc" id="L170">		setAlgebraName(pNewName);</span>
+<span class="fc" id="L171">		setFoot(pF);</span>
+<span class="fc" id="L172">		setGProduct(pGP);							//RE-USE of GP</span>
+<span class="fc" id="L173">		gBasis = pGP.getBasis();					//RE-USE of Basis</span>
+<span class="fc" id="L174">		uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L175">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L176">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L177">	}</span>
+	
+	/**
+	 * This is the constructor that assumes a Foot has been instantiated. 
+	 * It takes in two strings (one name and a product signature) and the Foot 
+	 * and produces an Algebra. If anything is wrong with the signature it throws 
+	 * an exception. Any other error throws a general monad exception.
+	 * &lt;br&gt;
+	 * THIS CONSTRUCTOR is the one that enables algebras to function as medium
+	 * weight frames. Two algebras can have different names and GProducts but share
+	 * a Foot and cause reference matches to fail. This is the behavior necessary to
+	 * prevent unintended operations between monads expressed using different
+	 * signatures in their geometric products.
+	 * &lt;br&gt;
+	 * @param pNewName	This is the Algebra's name
+	 * @param pF    	This is the foot being offered for reference
+	 * @param pSig  	This is the signature of the GProduct
+	 * @throws BadSignatureException   This constructor creates a new GProduct which
+	 *                                 requires a signature for the generators. This
+	 *                                 signature string must be parse-able or this
+	 *                                 exception is thrown.
+	 * @throws GeneratorRangeException This exception catches when the supported
+	 *                                 number of generators is out of range.
+	 */
+	public Algebra(String pNewName, Foot pF, String pSig)
+			throws BadSignatureException, GeneratorRangeException {
+<span class="fc" id="L203">		this(	pNewName, </span>
+<span class="fc" id="L204">				pF, </span>
+<span class="fc" id="L205">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
+<span class="fc" id="L206">											pSig));</span>
+<span class="fc" id="L207">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L208">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L209">	}</span>
+
+	/**
+	 * This is the raw constructor that assumes only the number type has been
+	 * instantiated. It takes in three strings (two names and a product signature)
+	 * and the example ProtoN and produces an Algebra. If anything is wrong with
+	 * the signature it throws one of two exceptions.
+	 * &lt;br&gt;
+	 * This is the constructor that ensures algebra reference match failures even
+	 * when exactly the same string names are used to construct all its parts.
+	 * Because the Foot object is constructed within, the algebra will be distinct
+	 * by definition.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  		This is the type of &quot;Number&quot; being offered
+	 * @param pNewName	This is the Algebra's name
+	 * @param pFootName This is the Foot's name
+	 * @param pSig      This is the signature of the GProduct
+	 * @param pF        This is the number type to use expressed as a ProtoN
+	 * @throws BadSignatureException   This constructor creates a new GProduct which
+	 *                                 requires a signature for the generators. This
+	 *                                 signature string must be parse-able or this
+	 *                                 exception is thrown.
+	 * @throws GeneratorRangeException This exception catches when the supported
+	 *                                 number of generators is out of range.
+	 */
+	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt;  Algebra(	String pNewName, 
+																String pFootName, 
+																String pSig, 
+																D pF)
+			throws BadSignatureException, GeneratorRangeException {
+		
+<span class="fc" id="L240">		this(	pNewName, </span>
+<span class="fc" id="L241">				GBuilder.createFoot(		pFootName, </span>
+<span class="fc" id="L242">											pF.getCardinalString()),</span>
+<span class="fc" id="L243">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
+<span class="fc" id="L244">											pSig));</span>
+<span class="fc" id="L245">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L246">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L247">	}</span>
+
+	/**
+	 * This method is present to enable sorting of lists of algebras. It isn't
+	 * critical in the geometric sense, but it might be useful in certain physical
+	 * models.
+	 * &lt;br&gt;
+	 * @param pAnother Algebra This is the algebra to be name compared
+	 * @return int -1 if the name of 'this' algebra is 'less' than that of pAnother.
+	 *         0 if the two names are the same +1 if the name of this algebra is
+	 *         'greater' than that of pAnother.
+	 */
+	@Override
+	public int compareTo(Algebra pAnother) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">		if (this.name == null)</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">			if (pAnother.name == null)</span>
+<span class="fc" id="L263">				return 0;</span>
+			else
+<span class="fc" id="L265">				return +1; // A null name is considered larger than a non-null name</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">		else if (pAnother.name == null)</span>
+<span class="fc" id="L267">			return -1; // A null name is considered larger than a non-null name</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">		else if (this.name.equals(pAnother.name))</span>
+<span class="fc" id="L269">			return 0;</span>
+		else // At this point neither name is null nor are they equal
+		{
+<span class="fc" id="L272">			char[] first = this.name.toCharArray();</span>
+<span class="fc" id="L273">			char[] second = pAnother.name.toCharArray();</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">			int loopLimit = (first.length &lt;= second.length) ? first.length : second.length;</span>
+<span class="pc bfc" id="L275" title="All 2 branches covered.">			for (int j = 0; j &lt; loopLimit; j++) {</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">				if (first[j] &lt; second[j])</span>
+<span class="fc" id="L277">					return -1;</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">				if (first[j] &gt; second[j])</span>
+<span class="fc" id="L279">					return +1;</span>
+			}
+			/* We know this.name and pAnother.name are the same up to all characters
+			*  in the smaller one. We also know they can't be equal.
+			*/
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">			if (first.length &lt; second.length)</span>
+<span class="nc" id="L285">				return -1;</span>
+<span class="fc" id="L286">			else return +1;</span>
+		}
+	}
+	/**
+	 * Overridden Equals method from Object.
+	 * This ensures reference quality is the standard.
+	 * They must literally be the same object to be equal.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">		if (this == obj) return true;</span>
+<span class="fc" id="L297">		return false;</span>
+	}
+
+	/**
+	 * This method returns the Algebra's name.
+	 * &lt;br&gt;
+	 * @return String
+	 */
+	public String getAlgebraName() {
+<span class="fc" id="L306">		return name;</span>
+	}
+
+	/**
+	 * This is a short-hand method providing the blade count on the canonical basis.
+	 * A Frame's blade count will be limited at the upper end by this blade count.
+	 * &lt;br&gt;
+	 * @return short This is the size of a monad's coefficient array, but more
+	 *         importantly it is the number of dimensions in the vector space
+	 *         represented by the canonical basis.
+	 */
+	public int getBladeCount() {
+<span class="fc" id="L318">		return gBasis.getBladeCount();</span>
+	}
+
+	/**
+	 * This method returns a reference to the Foot of the algebra.
+	 * &lt;br&gt;
+	 * @return Foot
+	 */
+	public Foot getFoot() {
+<span class="fc" id="L327">		return foot;</span>
+	}
+
+	/**
+	 * Return the entire basis definition object.
+	 * &lt;br&gt;
+	 * @return gBasis
+	 */
+	public Basis getGBasis() {
+<span class="fc" id="L336">		return gBasis;</span>
+	}
+
+	/**
+	 * Return the entire product definition object.
+	 * &lt;br&gt;
+	 * @return gProduct
+	 */
+	public GProduct getGProduct() {
+<span class="fc" id="L345">		return gProduct;</span>
+	}
+
+	/**
+	 * This is a short-hand method providing the grade count on the canonical basis.
+	 * A Frame's grade count will be limited at the upper end by this grade count.
+	 * &lt;br&gt;
+	 * @return byte This is the length of a monad's grade key. In an algebra with N
+	 *         generators it will always be N+1.
+	 */
+	public byte getGradeCount() {
+<span class="fc" id="L356">		return (byte) gBasis.getGradeCount();</span>
+	}
+
+	/**
+	 * This is a short-hand method providing where a particular grade starts and
+	 * ends on the canonical basis. The GProduct is asked instead of the Basis
+	 * because the basis tracks where they start. GProduct already knows where.
+	 * &lt;br&gt;
+	 * @param pInd short integer describing the grade to be selected from the basis.
+	 * @return int[] This is an integer index between 0 and bladeCount inclusive.
+	 */
+	public int[] getGradeRange(byte pInd) {
+<span class="fc" id="L368">		return gProduct.getGradeRange(pInd);</span>
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L373">		return uuid.hashCode();</span>
+	}
+
+	/**
+	 * Resetting the algebra name is mildly useful when its purpose in a model
+	 * shifts. Otherwise, it will probably not be used. Once it is set by the
+	 * constructor, it will probably remain.
+	 * &lt;br&gt;
+	 * @param pName String for the Algebra's name.
+	 */
+	public void setAlgebraName(String pName) {
+<span class="fc" id="L384">		name = pName;</span>
+<span class="fc" id="L385">	}</span>
+
+	/**
+	 * This method is a little dangerous and should use used only with great
+	 * caution. Ideally, it would never be used because an algebra is defined
+	 * relative to a tangent point on a sub-manifold. Sometimes, however, one might
+	 * find that two seemingly distinct feet are actually the same. In this limited
+	 * case it should be possible for a model writer to adjust an algebra to point
+	 * at a different foot after construction.
+	 * &lt;br&gt;
+	 * @param footPoint Foot for the Algebra to use as its 'tangent' contact point.
+	 */
+	public void setFoot(Foot footPoint) {
+<span class="fc" id="L398">		foot = footPoint;</span>
+<span class="fc" id="L399">	}</span>
+
+	/**
+	 * This method is a little dangerous and should use used only with great
+	 * caution. Ideally, it would never be used because an algebra is defined
+	 * relative to a tangent point and the coordinates there form both a geometric
+	 * basis on which a geometric product is defined. Sometimes, however, one might
+	 * find that two seemingly distinct feet are actually the same. In this limited
+	 * case it should be possible to adjust an algebra to at a different gProduct
+	 * after construction.
+	 * &lt;br&gt;
+	 * @param pGP GProduct GProduct object for the Algebra to use as its geometric
+	 *            product operation on the canonical basis.
+	 */
+	protected void setGProduct(GProduct pGP) {
+<span class="fc" id="L414">		gProduct = pGP;</span>
+<span class="fc" id="L415">		gBasis = pGP.getBasis();</span>
+<span class="fc" id="L416">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

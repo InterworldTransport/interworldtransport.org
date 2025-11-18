@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BladeDuet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">BladeDuet.java</span></div><h1>BladeDuet.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.BladeDuet&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.BladeDuet&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * This class just acts as a bucket two blades when they are combined and
+ * reduced in product result discovery. In Clados v1 the methods were all buried
+ * in the Basis and GProduct classes. They are surfaced here in BladeDuet in
+ * order to support parallelization of product table generation.
+ * &lt;br&gt;&lt;br&gt;
+ * BladeDuet makes use of streams, but intentionally avoids parallelizing
+ * computations internally. Most of what each one does must be done in sequence.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+<span class="fc" id="L42">public final class BladeDuet {</span>
+
+	/**
+	 * This method reduces pairs of directions in what is ALMOST a sorted bladeDuet
+	 * list. It's actually two buckets of sorted generators that upon duplication
+	 * removal MIGHT be sorted. If not, we can jump straight to the sorted order
+	 * simply by inserting the generators in an EnumSet which happens to be their
+	 * destination in a Blade anyway. What we don't know immeidately is how many
+	 * transpositions are necessary to reach that sort order. That's what this
+	 * method does after removing generator duplicates.
+	 * &lt;br&gt;
+	 * The offered numeric signature is used for the reduction to handle sign flips.
+	 * Generators with a positive square appear as a one (1) while those with
+	 * negative squares appear as negative one (-1).
+	 * &lt;br&gt;
+	 * NOTE that the numeric signature representation is a departure with prior use
+	 * in Clados where zero(0) implied no sign flip and one(1) implied sign flip for
+	 * negative squared generator. Prior practice used to add up the sign flips and
+	 * then look at what was left modulo 2. Ideally, what we want is a 'signed bit'
+	 * sized data element to track signs.
+	 * &lt;br&gt;
+	 * Exception cases NOT checked because this is for CladosG internal use. The
+	 * method itself is public, but it's really for internal use.
+	 * &lt;br&gt;
+	 * @param pB1 Blade appearing on the left/row of a multiplication operation
+	 * @param pB2 Blade appearing on the right/column of a multiplication operation
+	 * @param sig signature array to use to reduce duplicate generators
+	 * @return A fully reduced blade
+	 */
+	public static final Blade simplify(Blade pB1, Blade pB2, byte[] sig) {
+<span class="fc" id="L72">		BladeDuet tBD = new BladeDuet(pB1, pB2);</span>
+<span class="fc" id="L73">		return tBD.simplify(sig);</span>
+	}
+	/**
+	 * These are the bitKey's of the Blades inserted.
+	 * They get used to help with the simplify algorithm.
+	 */
+<span class="fc" id="L79">	private int bitKeyLeft, bitKeyRight = 0;</span>
+	
+	/**
+	 * This holds the combined list of generators from each blade.
+	 * Left blade goes first, then right
+	 */
+	private ArrayList&lt;Generator&gt; bladeDuet;
+
+	/**
+	 * This byte holds the sign of the blade to which the list of 
+	 * generators simplifies in the end. A +1 sign means a blade that 
+	 * is an even permutation of the remaining generators. A -1 sign 
+	 * means an odd permutation.
+	 * &lt;br&gt;
+	 * Calculating the sign ALSO gets the algebra's signature involved,
+	 * so this DOES involve the metric.
+	 */
+<span class="fc" id="L96">	private byte sign = 1;</span>
+
+	/**
+	 * This is where the hint is kept for the largest possible blade in the 
+	 * basis to which the resulting blade actually belongs. It is capped by the 
+	 * maximum grade from one of the blades... which really should have the 
+	 * same maximum grade.
+	 */
+	private final byte maxGen;
+
+	/**
+	 * This is a re-use constructor that builds this as a juxtaposition of the two
+	 * offered blades.
+	 * &lt;br&gt;
+	 * @param pB1 A Blade to re-use on the left.
+	 * @param pB2 A Blade to re-use on the right.
+	 */
+<span class="fc" id="L113">	public BladeDuet(Blade pB1, Blade pB2) {</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		assert (pB1.maxGenerator() == pB2.maxGenerator());</span>
+<span class="fc" id="L115">		maxGen = pB1.maxGenerator();</span>
+		// assert (maxGen &gt; 0);
+<span class="fc" id="L117">		bladeDuet = new ArrayList&lt;&gt;(2 * maxGen);</span>
+<span class="fc" id="L118">		pB1.getGenerators().stream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L119">		sign = pB1.sign();</span>
+<span class="fc" id="L120">		bitKeyLeft = pB1.bitKey();</span>
+<span class="fc" id="L121">		pB2.getGenerators().stream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L122">		sign *= pB2.sign();</span>
+<span class="fc" id="L123">		bitKeyRight = pB2.bitKey();</span>
+<span class="fc" id="L124">	}</span>
+
+	/**
+	 * This method reduces pairs of directions in what is ALMOST a sorted bladeDuet
+	 * list. It's actually two buckets of sorted generators that upon duplication
+	 * removal MIGHT be sorted. If not, we can jump straight to the sorted order
+	 * simply by inserting the generators in an EnumSet which happens to be their
+	 * destination in a Blade anyway. What we don't know immediately is how many
+	 * transpositions are necessary to reach that sort order. That's what this
+	 * method does after removing generator duplicates.
+	 * &lt;br&gt;
+	 * The offered numeric signature is used for the reduction to handle sign flips.
+	 * Generators with a positive square appear as a one (1) while those with
+	 * negative squares appear as negative one (-1).
+	 * &lt;br&gt;
+	 * NOTE that the numeric signature representation is a departure with prior use
+	 * in Clados where zero(0) implied no sign flip and one(1) implied sign flip for
+	 * negative squared generator. Prior practice used to add up the sign flips and
+	 * then look at what was left modulo 2. Ideally, what we want is a 'signed bit'
+	 * sized data element to track signs.
+	 * &lt;br&gt;
+	 * Exception cases NOT checked because this is for CladosG internal use.
+	 * &lt;br&gt;
+	 * @param pSig An array of unboxed short integers that signifies when sign flips
+	 *             occur as generator pairs are removed from the internal dual list.
+	 * @return Blade [supporting stream approach]
+	 */
+	protected Blade simplify(byte[] pSig) {
+<span class="fc" id="L152">		int andKey = bitKeyLeft &amp; bitKeyRight;</span>
+<span class="fc" id="L153">		byte gen = 1;										//start with lowest generator</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit points at duplicate generator</span>
+<span class="fc" id="L156">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
+															//lastIndexOf = right-most. indexOf = left-most.
+															//We won't be in this section unless there are exactly two.
+															//This permutes indexes getting both generators next to each other.
+<span class="fc" id="L161">				sign *= pSig[gen - 1];</span>
+<span class="fc" id="L162">				bladeDuet.removeAll(Collections.singleton(eq));</span>
+			}
+<span class="fc" id="L164">			gen++;											//move up to the next generator to test</span>
+<span class="fc" id="L165">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
+		}
+<span class="fc" id="L167">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		if (sign == 0)							</span>
+<span class="fc" id="L169">			return returnIt.setSign((byte) 0);				//In the degenerate case, we are done!</span>
+		
+<span class="fc" id="L171">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators IF NO paired generator was degenerate</span>
+															//returnIt has the correct generators, but might have the wrong sign
+<span class="fc" id="L173">		andKey = bitKeyLeft &amp; bitKeyRight;</span>
+															// if either residue key vanishes, the bladeDuet is already in SORT order.
+<span class="fc bfc" id="L175" title="All 6 branches covered.">		if ((bitKeyLeft - andKey) != 0 &amp; (bitKeyRight - andKey) != 0) {</span>
+<span class="fc" id="L176">			ArrayList&lt;Generator&gt; pB = new ArrayList&lt;&gt;(returnIt.getGenerators());</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">			for (Generator pG : pB) { 						// Exploiting the KNOWN correct order.</span>
+<span class="fc" id="L178">				int found = bladeDuet.indexOf(pG);</span>
+<span class="fc" id="L179">				int refer = pB.indexOf(pG);</span>
+
+<span class="fc bfc" id="L181" title="All 2 branches covered.">				if (found != refer) {</span>
+<span class="fc" id="L182">					sign *= (byte) -1;</span>
+<span class="fc" id="L183">					Collections.swap(bladeDuet, found, refer);</span>
+				}
+			}
+		}
+<span class="fc" id="L187">		return returnIt.setSign(sign);</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * BladeDuet in a human readable form. This is likely ONLY useful during debug
+	 * efforts.
+	 * &lt;br&gt;
+	 * This variation uses a Generator's name in the generator list.
+	 * &lt;br&gt;
+	 * @param pBD The blade duet to export as XML.
+	 * @return String The XML formated String representing the BladeDuet.
+	 */
+	public final static String toXMLString(BladeDuet pBD) {
+<span class="fc" id="L201">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L202">		rB.append(&quot;&lt;BladeDuet sign=\&quot;&quot;).append(pBD.sign).append(&quot;\&quot; maxGrade=\&quot;&quot;).append(pBD.maxGen).append(&quot;\&quot; generators=\&quot;&quot;);</span>
+<span class="fc" id="L203">		pBD.bladeDuet.stream().forEachOrdered(g -&gt; rB.append(g.toString() + &quot;,&quot;));</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">		if (pBD.bladeDuet.size() &gt; 0)</span>
+<span class="fc" id="L205">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L206">		rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L207">		return rB.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">GBuilder.java</span></div><h1>GBuilder.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GBuilder&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GBuilder&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.Optional;
+
+import org.interworldtransport.cladosF.Cardinal;
+import org.interworldtransport.cladosF.FBuilder;
+import org.interworldtransport.cladosF.FCache;
+import org.interworldtransport.cladosF.Field;
+import org.interworldtransport.cladosF.Normalizable;
+import org.interworldtransport.cladosF.ProtoN;
+import org.interworldtransport.cladosGExceptions.BadSignatureException;
+import org.interworldtransport.cladosGExceptions.CladosMonadException;
+import org.interworldtransport.cladosGExceptions.CladosNyadException;
+import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+
+/**
+ * This builder gets basic information and constructs many Clados Geometry objects.
+ * &lt;br&gt;&lt;br&gt;
+ * This enumeration has NO non-static element for the instance, thus GBuilder 
+ * HAS NO INTERNAL STATE that can change.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+<span class="fc" id="L49">public enum GBuilder { // This has an implicit private constructor we won't override.</span>
+	/**
+	 * There is an implicit private constructor for this, but we won't override it.
+	 */
+<span class="fc" id="L53">	INSTANCE;</span>
+
+	/**
+	 * Cleans the signature string to ensure it passes the validateSignature() test.
+	 * &lt;br&gt;
+	 * Any char in the string that isn't '+' or '-' is simply removed. If the
+	 * resulting string is too long, it is clipped at the supported length.
+	 * &lt;br&gt;
+	 * @param pSig String signature to be cleaned
+	 * @return String that has only + or - characters in it.
+	 */
+	public final static String cleanSignature(String pSig) {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (validateSignature(pSig))</span>
+<span class="fc" id="L66">			return pSig;</span>
+		else {
+<span class="fc" id="L68">			StringBuffer tSpot = new StringBuffer();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			for (char j : pSig.toCharArray())</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">				switch (j) {</span>
+<span class="fc" id="L71">				case '+' -&gt; tSpot.append(j); // good character (hyperbolic generator)</span>
+<span class="fc" id="L72">				case '0' -&gt; tSpot.append(j); // good character (dual generator)</span>
+<span class="fc" id="L73">				case '-' -&gt; tSpot.append(j); // good character (imaginary generator)</span>
+				}
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			if (tSpot.length() &gt; CladosConstant.MAXGRADE)</span>
+<span class="fc" id="L76">				return tSpot.substring(0, CladosConstant.MAXGRADE).toString();</span>
+<span class="fc" id="L77">			return tSpot.toString();</span>
+		}
+	}
+
+	/**
+	 * Algebra Constructor #1 covered with this
+	 * &lt;br&gt;
+	 * @param pA    The Algebra to be copied.
+	 * @param pName A String for the new algebra's name.
+	 * @return Algebra
+	 */
+	public static final Algebra copyOfAlgebra(Algebra pA, String pName) {
+<span class="nc" id="L89">		return new Algebra(pName, pA);</span>
+
+	}
+
+	/**
+	 * This method creates a new Foot object with one Cardinal re-used from the Foot
+	 * to be imitated.
+	 * &lt;br&gt;
+	 * @param pF    Foot object to copy
+	 * @param pSpot indexed location in offered Foot to find a Cardinal
+	 * @return Foot (new instance)
+	 */
+	public final static Foot copyOfFoot(Foot pF, int pSpot) {
+<span class="nc" id="L102">		return createFootLike(pF.getFootName(), pF, pSpot);</span>
+	}
+
+	/**
+	 * Monad Constructor #1 covered with this method
+	 * &lt;br&gt;
+	 * @param pM The monad to be copied. USE A CONCRETE Monad here or nada.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 */
+	public static final Monad copyOfMonad(Monad pM) {
+<span class="fc" id="L112">		return new Monad(pM);</span>
+	}
+
+	/**
+	 * Monad Constructor #2 covered with this method
+	 * &lt;br&gt;
+	 * @param pM    The monad to be copied. USE A CONCRETE Monad here or nada.
+	 * @param pName A String for the new monad's name.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 */
+	public static final Monad copyOfMonad(Monad pM, String pName) {
+<span class="fc" id="L123">		return new Monad(pName, pM);</span>
+	}
+
+	/**
+	 * This method builds a copy of the offered monad with a slightly different name
+	 * and then completely swaps out the weights to ensure it is a pscalar that otherwise
+	 * passes all reference tests.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pM Monad to be mostly copied in constructing a pscalar for it.
+	 * @return Monad that is a unit pscalar that otherwise matches the offered Monad.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad pscalarOfMonad(Monad pM) {
+<span class="fc" id="L137">		Scale&lt;T&gt; tempScales = (Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights());</span>
+<span class="fc" id="L138">		tempScales.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1));</span>
+<span class="fc" id="L139">		tempScales.setPScalarWeight((T) FBuilder.createONE(pM.getMode(), pM.getWeights().getCardinal()));</span>
+<span class="fc" id="L140">		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+&quot;-PScalarOf&quot;);</span>
+<span class="fc" id="L141">		returnThis.scales = tempScales;</span>
+<span class="fc" id="L142">		return returnThis;</span>
+	}
+
+	/**
+	 * Simple copy method. Offer a Scale, get a copy of it back as far as mapped values go.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; generic description of a CladosF number. Descends from
+	 *            ProtoN but must also implement Field and Normalizable.
+	 * @param pIn The Scale object to be imitated.
+	 * @return new Scale object that RE-USES blades from the contained basis, but
+	 *         copies all numbers ensuring the two Scale objects do NOT share values
+	 *         in their internal maps.
+	 */
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;T&gt; copyOfScale(Scale&lt;T&gt; pIn) {
+<span class="fc" id="L156">		return new Scale&lt;T&gt;(pIn);</span>
+	}
+
+	/**
+	 * Algebra Constructor #5 covered with this
+	 * &lt;br&gt;
+	 * @param pNumber The ProtoN to be re-used.
+	 * @param pName   A String for the new algebra's name.
+	 * @param pFTName A String to name a new Foot.
+	 * @param pSig    A String for the new algebra's signature.
+	 * @return Algebra
+	 * @throws BadSignatureException   Thrown by an algebra constructor if the pSig
+	 *                                 parameter is malformed
+	 * @throws GeneratorRangeException Thrown by an algebra constructor if the pSig
+	 *                                 parameter is too long
+	 */
+	public static final Algebra createAlgebra(ProtoN pNumber, String pName, String pFTName, String pSig)
+			throws BadSignatureException, GeneratorRangeException {
+<span class="fc" id="L174">		return new Algebra(pName, createFoot(pFTName, pNumber.getCardinalString()), pSig);</span>
+	}
+
+	/**
+	 * Algebra Constructor #3 covered with this
+	 * &lt;br&gt;
+	 * @param pF    A Foot to be referenced so a new one is NOT created.
+	 * @param pName A String for the new algebra's name.
+	 * @param pSig  A String for the new algebra's signature.
+	 * @return Algebra
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	public static final Algebra createAlgebraWithFoot(Foot pF, String pName, String pSig)
+			throws BadSignatureException, GeneratorRangeException {
+<span class="fc" id="L189">		return new Algebra(pName, pF, pSig);</span>
+	}
+
+	/**
+	 * Algebra Constructor #2 covered with this method
+	 * &lt;br&gt;
+	 * @param pF    A Foot to be referenced so a new one is NOT created.
+	 * @param pGP   The GProduct to be re-used.
+	 * @param pName A String for the new algebra's name.
+	 * @return Algebra
+	 */
+	public static final Algebra createAlgebraWithFootGP(Foot pF, GProduct pGP, String pName) {
+<span class="fc" id="L201">		return new Algebra(pName, pF, pGP);</span>
+	}
+
+	/**
+	 * This method creates a basis and caches it.
+	 * &lt;br&gt;
+	 * @param pGen integer number of generators to use in constructing the basis.
+	 * @return Basis constructed
+	 * @throws GeneratorRangeException This can be thrown by the constructors on
+	 *                                 which this method depends. Nothing special in
+	 *                                 this method will throw them, so look to the
+	 *                                 Basis and see why it complains.
+	 */
+	public final static Basis createBasis(byte pGen) throws GeneratorRangeException {
+<span class="fc" id="L215">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen);</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">		if (tB.isPresent())</span>
+<span class="fc" id="L217">			return tB.get();</span>
+		else {
+<span class="fc" id="L219">			Basis tSpot = Basis.using(pGen);</span>
+<span class="fc" id="L220">			GCache.INSTANCE.appendBasis(tSpot);</span>
+<span class="fc" id="L221">			return tSpot;</span>
+		}
+	}
+
+	/**
+	 * This method creates a basis and caches it.
+	 * &lt;br&gt;
+	 * @param pGen Generator to use in constructing the basis.
+	 * @return Basis constructed
+	 * @throws GeneratorRangeException This can be thrown by the constructors on
+	 *                                 which this method depends. Nothing special in
+	 *                                 this method will throw them, so look to the
+	 *                                 Basis and see why it complains.
+	 */
+	public final static Basis createBasis(Generator pGen) throws GeneratorRangeException {
+<span class="fc" id="L236">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen.ord);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (tB.isPresent())</span>
+<span class="fc" id="L238">			return tB.get();</span>
+		else {
+<span class="fc" id="L240">			Basis tSpot = Basis.using(pGen);</span>
+<span class="fc" id="L241">			GCache.INSTANCE.appendBasis(tSpot);</span>
+<span class="fc" id="L242">			return tSpot;</span>
+		}
+	}
+
+	/**
+	 * This method creates a new Foot object and a new Cardinal to go with it.
+	 * &lt;br&gt;
+	 * NOTE this method checks the Cardinal cache first. If one is found that
+	 * matches the offered name, it is re-used instead of creating a new Cardinal.
+	 * &lt;br&gt;
+	 * @param pName     String name of new Foot
+	 * @param pCardName String name of new Cardinal
+	 * @return Foot (new instance)
+	 */
+	public final static Foot createFoot(String pName, String pCardName) {
+<span class="fc" id="L257">		Optional&lt;Cardinal&gt; find = FCache.INSTANCE.findCardinal(pCardName);</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">		if (find.isPresent())</span>
+<span class="fc" id="L259">			return createFootLike(pName, find.get());</span>
+<span class="fc" id="L260">		return Foot.buildAsType(pName, Cardinal.generate(pCardName));</span>
+	}
+
+	/**
+	 * This method creates a new Foot object using the Cardinal offered.
+	 * &lt;br&gt;
+	 * @param pName String name of new Foot
+	 * @param pCard Cardinal to be re-used.
+	 * @return Foot (new instance)
+	 */
+	public final static Foot createFootLike(String pName, Cardinal pCard) {
+<span class="fc" id="L271">		return Foot.buildAsType(pName, pCard);</span>
+	}
+
+	/**
+	 * This method creates a new Foot object with one Cardinal re-used from the Foot
+	 * to be imitated but the Foot has a new name too.
+	 * &lt;br&gt;
+	 * This method would EASILY cause a runtime error with an index out of bounds 
+	 * complaint if the suggested spot for the Cardinal is out of range. Instead of
+	 * that runtime error, it detects for this and returns null for the cardinal instead.
+	 * That isn't and issue for the Foot constructor because 'null' will be added to 
+	 * the cardinal list. 'null' IS A VALID CARDINAL conceptually speaking.
+	 * &lt;br&gt;
+	 * @param pName New string name for Foot to be created.
+	 * @param pF    Foot object to copy
+	 * @param pSpot indexed location in offered Foot to find a Cardinal
+	 * @return Foot (new instance)
+	 */
+	public final static Foot createFootLike(String pName, Foot pF, int pSpot) {
+<span class="fc" id="L290">		return Foot.buildAsType(pName, pF.getCardinal(pSpot));</span>
+	}
+
+	/**
+	 * This method creates a new Foot object using the Cardinal offered.
+	 * &lt;br&gt;
+	 * @param pName String name of new Foot
+	 * @param pDiv  ProtoN holding Cardinal to be re-used.
+	 * @return Foot (new instance)
+	 */
+	public final static Foot createFootLike(String pName, ProtoN pDiv) {
+<span class="fc" id="L301">		return createFootLike(pName, pDiv.getCardinal());</span>
+	}
+
+	/**
+	 * This method constructs a GProduct using the offered basis and
+	 * signature. It first checks the product cache and returns a matching product
+	 * instead of constructing a new one IF it is found. If not, it deposits the
+	 * offered Basis in the cache and then calls the method for creating a product
+	 * that does not try to re-use a basis. The net result works the same, though,
+	 * since that other method checks the basis cache before making a new basis. By
+	 * the end of the method, both basis and product caches are populated with
+	 * anything that had to be constructed.
+	 * &lt;br&gt;
+	 * @param pB   Basis to re-use in constructing product
+	 * @param pSig String form of the product's signature
+	 * @return GProduct constructed
+	 * @throws GeneratorRangeException This can be thrown by the constructors on
+	 *                                 which this method depends. Nothing special in
+	 *                                 this method will throw them, so look to the
+	 *                                 Basis and see why it complains.
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 */
+	public final static GProduct createGProduct(Optional&lt;Basis&gt; pB, String pSig)
+			throws BadSignatureException, GeneratorRangeException {
+
+<span class="fc bfc" id="L326" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
+<span class="fc" id="L327">			throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
+
+<span class="fc" id="L329">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
+<span class="fc" id="L331">			return tSpot.get();</span>
+		else {
+<span class="fc bfc" id="L333" title="All 2 branches covered.">			if (pB.isPresent()) {</span>
+<span class="fc" id="L334">				GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
+<span class="fc" id="L335">				tSpot = Optional.ofNullable(createGProduct(pSig));</span>
+<span class="fc" id="L336">			} else {</span>
+<span class="fc" id="L337">				tSpot = Optional.ofNullable(createGProduct(pSig));</span>
+<span class="fc" id="L338">				GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
+			}
+			
+<span class="fc" id="L341">			return tSpot.get();</span>
+		}
+	}
+
+	/**
+	 * This method constructs a GProduct using the offered signature String.
+	 * It first checks the product cache and returns a matching product instead of
+	 * constructing a new one IF it is found. If not, it checks the basis cache for
+	 * a match to decide which product constructor to use. By the end of the method,
+	 * both basis and product caches are populated with anything that had to be
+	 * constructed.
+	 * &lt;br&gt;
+	 * @param pSig String form of the product's signature
+	 * @return GProduct constructed
+	 * @throws GeneratorRangeException This can be thrown by the constructors on
+	 *                                 which this method depends. Nothing special in
+	 *                                 this method will throw them, so look to the
+	 *                                 Basis and see why it complains.
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 */
+	public final static GProduct createGProduct(String pSig)
+			throws BadSignatureException, GeneratorRangeException {
+
+<span class="fc bfc" id="L364" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
+<span class="fc" id="L365">				throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
+		
+<span class="fc" id="L367">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
+<span class="fc" id="L369">			return tSpot.get(); // GProduct already created. return it.</span>
+		else {
+			// Create a new GProduct, but might still find a cached Basis.
+<span class="fc" id="L372">			Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis((byte) pSig.length());</span>
+			GProduct tSpot2;
+<span class="fc bfc" id="L374" title="All 2 branches covered.">			if (tB.isPresent()){</span>
+<span class="fc" id="L375">				tSpot2 = new GProduct(tB, pSig);</span>
+<span class="fc" id="L376">				GCache.INSTANCE.appendGProduct(tSpot2);</span>
+<span class="fc" id="L377">			}</span>
+			else {
+<span class="fc" id="L379">				tSpot2 = new GProduct(pSig);</span>
+<span class="fc" id="L380">				GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
+<span class="fc" id="L381">				GCache.INSTANCE.appendGProduct(tSpot2);</span>
+			}
+			//if (tSpot2 != null) {
+			//	GCache.INSTANCE.appendBasis(tSpot2.getBasis());
+			//	GCache.INSTANCE.appendGProduct(tSpot2);
+			//}
+<span class="fc" id="L387">			return tSpot2;</span>
+		}
+	}
+
+	/**
+	 * Monad Constructor #5 covered with this method
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;      CladosF number is a ProtoN child that implemnts Field
+	 *                 and Normalizable.
+	 * @param pNumber  The ProtoN to be re-used. USE A CONCRETE one here or
+	 *                 nada.
+	 * @param pName    A String for the new monad's name.
+	 * @param pAName   A String for the new algebra's name.
+	 * @param pFoot    A String to name a new Foot.
+	 * @param pSig     A String for the new algebra's signature.
+	 * @param pSpecial A String for special handling constructor. ex: &quot;Unit Scalar&quot;, &quot;Unit -Scalar&quot;, &quot;Unit PScalar&quot;, &quot;Unit -PScalar&quot;
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException    Thrown for a general monad constructor error
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadSpecial(ProtoN pNumber,
+			String pName, String pAName, String pFoot, String pSig, String pSpecial)
+			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+<span class="fc" id="L412">		return new Monad(pName, pAName, pFoot, pSig, (T) pNumber, pSpecial);</span>
+	}
+
+	/**
+	 * Monad Constructor #7 covered with this method
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;     CladosF number is a ProtoN child that implemnts Field and Normalizable.
+	 * @param pNumbers The ProtoN to be re-used. USE A CONCRETE one here or nada.
+	 * @param pA      The Algebra to be re-used. USE A CONCRETE on here or nada.
+	 * @param pName   A String for the new monad's name.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException    Thrown for a general monad constructor error
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithAlgebra(	Scale&lt;T&gt; pNumbers,
+																								Algebra pA, 
+																								String pName)
+			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+<span class="pc bpc" id="L431" title="1 of 2 branches missed.">		if (pA.getGBasis() != pNumbers.getBasis()) </span>
+<span class="nc" id="L432">			throw new CladosMonadException(	null, </span>
+<span class="nc" id="L433">											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);</span>
+		
+<span class="fc" id="L435">		return new Monad(pName, pA, pNumbers);</span>
+	}
+
+	/**
+	 * Monad Constructor #7 covered with this method.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;     CladosF number is a ProtoN child that implemnts Field
+	 *                and Normalizable.
+	 * @param pNumbers The ProtoN weights to be used. USE A CONCRETE one here or nada.
+	 * @param pName   A String for the new monad's name.
+	 * @param pAName  A String for the new algebra's name.
+	 * @param pFoot   A String to name a new Foot.
+	 * @param pSig    A String for the new algebra's signature.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException    Thrown for a general monad constructor error
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithCoeffs(Scale&lt;T&gt; pNumbers,
+			String pName, String pAName, String pFoot, String pSig)
+			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+		
+<span class="fc" id="L457">		return new Monad(	pName, 		//A String</span>
+<span class="fc" id="L458">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
+<span class="fc" id="L459">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
+<span class="fc" id="L460">													pName),</span>
+<span class="fc" id="L461">							pNumbers);	//A Scale object use for weights AND the basis</span>
+	}
+
+	/**
+	 * Monad Constructor #4 covered with this method
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;     CladosF number is a ProtoN child that implemnts Field
+	 *                and Normalizable.
+	 * @param pNumber The ProtoN to be re-used.
+	 * @param pFt     A Foot to be referenced so a new one is NOT created.
+	 * @param pName   A String for the new monad's name.
+	 * @param pAName  A String for the new algebra's name.
+	 * @param pSig    A String for the new algebra's signature.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException    Thrown for a general monad constructor error
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithFoot(	ProtoN pNumber,
+																								Foot pFt, 
+																								String pName, 
+																								String pAName, 
+																								String pSig)
+			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+<span class="fc" id="L486">		return new Monad(pName, pAName, pFt, pSig, (T) pNumber);</span>
+	}
+
+	/**
+	 * Monad Constructor #3 covered with this method
+	 * &lt;br&gt;
+	 * @param &lt;T&gt;     CladosF number is a ProtoN child that implemnts Field
+	 *                and Normalizable.
+	 * @param pNumber The ProtoN to be re-used. USE A CONCRETE one here or
+	 *                nada.
+	 * @param pName   A String for the new monad's name.
+	 * @param pAName  A String for the new algebra's name.
+	 * @param pFoot   A String to name a new Foot.
+	 * @param pSig    A String for the new algebra's signature.
+	 * @return Monad (Cast this as the concrete monad to be used)
+	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException    Thrown for a general monad constructor error
+	 * @throws GeneratorRangeException Thrown if the pSig parameter is too long
+	 */
+	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadZero(	T pNumber, 
+																							String pName,
+																							String pAName, 
+																							String pFoot, 
+																							String pSig)
+			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+<span class="fc" id="L511">		return new Monad(pName, pAName, pFoot, pSig, pNumber);</span>
+	}
+
+	/**
+	 * Tests the byte integer of generators to be used to see if it can be
+	 * supported.
+	 * &lt;br&gt;
+	 * This method just calls the method of the same name in the CanonicalBasis
+	 * interface. It is here for convenience.
+	 * &lt;br&gt;
+	 * @param pGen byte integer of number of generators for the test
+	 * @return TRUE if integer is in the supported range. FALSE otherwise.
+	 */
+	public final static boolean validateBasisSize(byte pGen) {
+<span class="fc" id="L525">		return CanonicalBasis.validateSize(pGen);</span>
+	}
+
+	/**
+	 * Tests the signature string to see if it contains the correct chars and no
+	 * more of them than can be supported.
+	 * &lt;br&gt;
+	 * This method just calls the method of the same name in the CliffordProduct
+	 * interface. It is here for convenience.
+	 * &lt;br&gt;
+	 * @param pSig String signature to be tested
+	 * @return TRUE if string is composed of '+' and '-' chars, but not too many.
+	 *         FALSE otherwise.
+	 */
+	public final static boolean validateSignature(String pSig) {
+<span class="fc" id="L540">		return CliffordProduct.validateSignature(pSig);</span>
+	}
+
+	private GBuilder() {
+		;
+	}
+
+	/**
+	 * Nyad Constructor #1 covered with this method
+	 * &lt;br&gt;
+	 * @param pN The nyad to be copied. USE A CONCRETE Nyad here or nada
+	 * @return Nyad (Cast this as the concrete nyad to be used)
+	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException  Thrown for a general monad constructor error
+	 * @throws CladosNyadException   Thrown for a general nyad constructor error
+	 */
+	public final Nyad copyOfNyad(Nyad pN) throws BadSignatureException, CladosMonadException, CladosNyadException {
+<span class="nc" id="L557">		return new Nyad(pN);</span>
+	}
+
+	/**
+	 * Nyad Constructor #3 covered with this method
+	 * &lt;br&gt;
+	 * @param pN    The nyad to copy causing all listed monads TO BE CONSTRUCTED.
+	 * @param pName A String for the new Nyad's name.
+	 * @return Nyad (Cast this as the concrete nyad to be used)
+	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException  Thrown for a general monad constructor error
+	 * @throws CladosNyadException   Thrown for a general nyad constructor error
+	 */
+	public final Nyad copyOfNyad(Nyad pN, String pName)
+			throws BadSignatureException, CladosMonadException, CladosNyadException {
+<span class="nc" id="L572">		return new Nyad(pName, pN, true);</span>
+	}
+
+	/**
+	 * Nyad Constructor #2 covered with this method, but with re-use
+	 * &lt;br&gt;
+	 * @param pM    The monad to be used as the first in monadList in a new nyad.
+	 * @param pName A String for the new Nyad's name.
+	 * @return Nyad (Cast this as the concrete nyad to be used)
+	 * @throws CladosMonadException Thrown for a general monad constructor error
+	 * @throws CladosNyadException  Thrown for a general nyad constructor error
+	 */
+	public final Nyad createNyadUsingMonad(Monad pM, String pName) throws CladosNyadException, CladosMonadException {
+<span class="fc" id="L585">		return new Nyad(pName, pM, false);</span>
+	}
+
+	/**
+	 * Nyad Constructor #2 covered with this method
+	 * &lt;br&gt;
+	 * @param pM    The monad to be COPIED as the first in the list in a new nyad.
+	 * @param pName A String for the new Nyad's name.
+	 * @return Nyad (Cast this as the concrete nyad to be used)
+	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException  Thrown for a general monad constructor error
+	 * @throws CladosNyadException   Thrown for a general nyad constructor error
+	 */
+	public final Nyad createNyadWithMonadCopy(Monad pM, String pName)
+			throws BadSignatureException, CladosMonadException, CladosNyadException {
+<span class="nc" id="L600">		return new Nyad(pName, pM, true);</span>
+	}
+
+	/**
+	 * Nyad Constructor #3 covered with this method, but with re-use. This causes
+	 * the new nyad to use EXACTLY the same monads as the one passed, so it is a
+	 * second reference to the same objects. Dangerous!
+	 * &lt;br&gt;
+	 * @param pN    The nyad to use causing all listed monads TO BE RE-USED AS IS.
+	 * @param pName A String for the new Nyad's name.
+	 * @return Nyad (Cast this as the concrete nyad to be used)
+	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
+	 * @throws CladosMonadException  Thrown for a general monad constructor error
+	 * @throws CladosNyadException   Thrown for a general nyad constructor error
+	 */
+	public final Nyad duplicateNyadReference(Nyad pN, String pName)
+			throws BadSignatureException, CladosMonadException, CladosNyadException {
+<span class="nc" id="L617">		return new Nyad(pName, pN, false);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProtoN.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosF</a> &gt; <span class="el_source">ProtoN.java</span></div><h1>ProtoN.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.ProtoN&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.ProtoN&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosF;
+
+import java.util.Optional;
+
+/**
+ * ProtoN is short for 'proto number'. 
+ * This is the parent class supporting the notion of a division field
+ * from mathematics. Division fields are used as 'numbers' to scale blades 
+ * in an algebra, but they are better known as scalars in the sense of 
+ * linear combinations in vector spaces.
+ * &lt;br&gt;&lt;br&gt;
+ * ProtoN handles unit references common to all its children. When you imagine
+ * the difference between five pigs and five meters you have the role played 
+ * by ProtoN's cardinal element. It says what a number is without saying
+ * how much of it there is.
+ * &lt;br&gt;&lt;br&gt;
+ * ProtoN also implements comparisons that can be overridden if deeper
+ * comparisons are necessary. For example, equality tests at this level only 
+ * test high level references to object and cardinal equality. This is just
+ * enough for unit type matching, but not quantity matching.
+ * &lt;br&gt;&lt;br&gt;
+ * The number(s) that make up quantity don't appear except in a child of
+ * this class. The number and precision of reals for a division field varies. 
+ * Complex numbers require two. Quaternions require four. 
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+public class ProtoN {
+	/**
+	 * Static method that creates a new CladosF number with a copy of the parameter.
+	 * This copy reuses the cardinal to ensure it will pass a type match test.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method sifts through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt; ProtoN number from CladosF with all number interfaces.
+	 * @param pF D extends ProtoN and Field
+	 * @return Optional D which extends ProtoN and Field (A CladosF number)
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public static final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; Optional&lt;D&gt; copyMaybe(D pF) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (pF instanceof RealF)</span>
+<span class="fc" id="L81">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealF((RealF) pF));</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		else if (pF instanceof RealD)</span>
+<span class="fc" id="L83">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealD((RealD) pF));</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">		else if (pF instanceof ComplexF)</span>
+<span class="fc" id="L85">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexF((ComplexF) pF));</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		else if (pF instanceof ComplexD)</span>
+<span class="fc" id="L87">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexD((ComplexD) pF));</span>
+		else
+<span class="nc" id="L89">			return Optional.empty();</span>
+	}
+	
+
+	/**
+	 * Static zero construction method with copied cardinal and real part set to ONE.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method sifts through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt; ProtoN number from CladosF with all number interfaces.
+	 * @param pR D extends ProtoN and Field
+	 * @return D extends ProtoN and Field
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; Optional&lt;D&gt; copyMaybeONE(D pR) {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		if (pR instanceof RealF)</span>
+<span class="fc" id="L119">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealF(pR.getCardinal(), 1.0f));</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		else if (pR instanceof RealD)</span>
+<span class="fc" id="L121">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealD(pR.getCardinal(), 1.0d));</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		else if (pR instanceof ComplexF)</span>
+<span class="fc" id="L123">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexF(pR.getCardinal(), 1.0f, 0.0f));</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">		else if (pR instanceof ComplexD)</span>
+<span class="fc" id="L125">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexD(pR.getCardinal(), 1.0d, 0.0d));</span>
+		else
+<span class="nc" id="L127">			return Optional.empty();</span>
+	}
+	
+	/**
+	 * Static zero construction method with copied cardinal and real part set to ONE.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method sifts through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * @param pR D extends ProtoN and Field
+	 * @param &lt;D&gt; ProtoN number from CladosF with all number interfaces.
+	 * @return D extends ProtoN and Field
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; Optional&lt;D&gt; copyMaybeZERO(D pR) {
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (pR instanceof RealF)</span>
+<span class="fc" id="L156">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealF(pR.getCardinal(), 0.0f));</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		else if (pR instanceof RealD)</span>
+<span class="fc" id="L158">			return (Optional&lt;D&gt;) Optional.ofNullable(new RealD(pR.getCardinal(), 0.0d));</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		else if (pR instanceof ComplexF)</span>
+<span class="fc" id="L160">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexF(pR.getCardinal(), 0.0f, 0.0f));</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">		else if (pR instanceof ComplexD)</span>
+<span class="fc" id="L162">			return (Optional&lt;D&gt;) Optional.ofNullable(new ComplexD(pR.getCardinal(), 0.0d, 0.0d));</span>
+		else
+<span class="nc" id="L164">			return Optional.empty();</span>
+	}
+	
+	/**
+	 * Check to see if the two argument are of the same cardinal.
+	 * &lt;br&gt;
+	 * @param pE ProtoN
+	 * @param pF ProtoN
+	 * @return boolean
+	 */
+	public static final boolean isTypeMatch(ProtoN pE, ProtoN pF) {
+<span class="fc bfc" id="L175" title="All 4 branches covered.">		if (pE._card == null &amp;&amp; pF._card == null)</span>
+<span class="fc" id="L176">			return true;</span>
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">		if (pE._card != null &amp;&amp; pF._card == null)</span>
+<span class="nc" id="L178">			return false;</span>
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">		if (pE._card == null &amp;&amp; pF._card != null)</span>
+<span class="fc" id="L180">			return false;</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		return pE._card.getUnit() == pF._card.getUnit();</span>
+	}
+
+	/**
+	 * Object for the cardinal. A string used to be used here, but a Cardinal 
+	 * object enables reuse through reference allowing all coefficients in monads
+	 * to point to the same place.
+	 * &lt;br&gt;
+	 * This Cardinal is what gives a proto number a sense of what the number means.
+	 */
+	protected Cardinal _card;
+
+	/**
+	 * Construct a simple ProtoN using the Cardinal offered.
+	 * &lt;br&gt;
+	 * @param pCard Cardinal to re-use.
+	 */
+<span class="fc" id="L198">	public ProtoN(Cardinal pCard) {</span>
+<span class="fc" id="L199">		setCardinal(pCard);</span>
+<span class="fc" id="L200">	}</span>
+	
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		if (this == obj)</span>
+<span class="fc" id="L205">			return true;</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (obj == null)</span>
+<span class="fc" id="L207">			return false;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">		if (getClass() != obj.getClass())</span>
+<span class="fc" id="L209">			return false;</span>
+<span class="fc" id="L210">		ProtoN other = (ProtoN) obj;</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">		if (this.getCardinal() == null) {</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">			if (other.getCardinal() == null)</span>
+<span class="nc" id="L213">				return true;</span>
+			else 
+<span class="nc" id="L215">				return false;</span>
+		}
+		else { 
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">			if (other.getCardinal() == null)</span>
+<span class="nc" id="L219">			return false;</span>
+		}
+<span class="fc" id="L221">		return getCardinal().equals(other.getCardinal());</span>
+		
+		
+	}
+
+	/**
+	 * Get method for _card
+	 * &lt;br&gt;
+	 * @return Cardinal (A cardinal name for a ProtoN)
+	 */
+	public Cardinal getCardinal() {
+<span class="fc" id="L232">		return _card;</span>
+	}
+
+	/**
+	 * Get method for _card
+	 * &lt;br&gt;
+	 * @return Cardinal (A cardinal name for a ProtoN)
+	 */
+	public String getCardinalString() {
+<span class="fc" id="L241">		return _card.getUnit();</span>
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L246">		final int prime = 31;</span>
+<span class="fc" id="L247">		int result = 1;</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">		result = prime * result + ((getCardinal() == null) ? 0 : getCardinal().hashCode());</span>
+<span class="fc" id="L249">		return result;</span>
+	}
+
+	/**
+	 * Return a string representation of the field element.
+	 * &lt;br&gt;
+	 * @param pA ProtoN to be exported as XML... which just means the Cardinal right now.
+	 * @return String Flat string representation of this Field float(s) field
+	 */
+	public static String toXMLString(ProtoN pA) {
+<span class="fc" id="L259">		return (&quot;&lt;ProtoN cardinal=\&quot;&quot; + pA.getCardinalString() + &quot;\&quot; /&gt;&quot;);</span>
+	}
+	
+	/**
+	 * Set method for _card
+	 * &lt;br&gt;
+	 * @param pType Cardinal
+	 */
+	protected void setCardinal(Cardinal pType) {
+<span class="fc" id="L268">		_card = pType;</span>
+<span class="fc" id="L269">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

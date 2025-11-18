@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FieldException.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosFExceptions</a> &gt; <span class="el_source">FieldException.java</span></div><h1>FieldException.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosFExceptions.FieldException&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosFExceptions.FieldException&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosFExceptions;
+import org.interworldtransport.cladosF.*;
+/**
+ * This class is designed to be the top of the Field exception family.  All 
+ * instances of descendants are assumed to originate from Field related 
+ * problems.  Common elements from each exception class are found here.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 1.0
+ * @author Dr Alfred W Differ
+ *
+ */
+public class FieldException extends Exception 
+{
+	
+/**
+ * Serialization ID
+ */
+	private static final long serialVersionUID = -3547250547892775149L;
+/**
+ * The source Field element is the originator of the Exception.
+ */
+    private ProtoN  Source;
+/**
+ * The source message is the reason given by the originating Field for the exception.
+ */
+    private String  SourceMessage;
+
+/**
+ * This method is the main constructor of all Clados Field Exceptions.
+ * It needs only a source Field and message.
+ * &lt;br&gt;
+ * @param pSource
+ * 			ProtoN
+ * @param pMessage
+ * 			String
+ */
+    public FieldException(ProtoN pSource, String pMessage)
+    {
+<span class="fc" id="L63">    	super();</span>
+<span class="fc" id="L64">    	SourceMessage=pMessage;</span>
+<span class="fc" id="L65">    	Source=pSource;</span>
+<span class="fc" id="L66">    }</span>
+
+/**
+ * This method delivers a reference to the object that originated the Exception
+ * &lt;br&gt;
+ * @return ProtoN
+ */
+    public ProtoN  getSource()
+    {
+<span class="fc" id="L75">    	return Source;</span>
+    }
+
+/**
+ * This method delivers a the explanation from the field that originated the Exception
+ * &lt;br&gt;
+ * @return String
+ */
+    public String  getSourceMessage() 
+    {
+<span class="nc" id="L85">    	return this.SourceMessage;</span>
+    }
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

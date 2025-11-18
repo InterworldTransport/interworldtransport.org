@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Foot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Foot.java</span></div><h1>Foot.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.Foot&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.Foot&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+import org.interworldtransport.cladosF.Cardinal;
+import org.interworldtransport.cladosF.FBuilder;
+import org.interworldtransport.cladosF.ProtoN;
+
+/**
+ * Objects within the cladosG package have a number of attributes in common that
+ * relate to a point that describes where the geometry of the algebra is tangent
+ * to the manifold underneath it. In a flat space it is not really necessary to
+ * use a foot point, but a simple one is still used in the cladosG package to
+ * help avoid the trap of assuming transport of objects along the manifold
+ * doesn't cause them to re-orient and change into other objects.
+ * &lt;br&gt;&lt;br&gt;
+ * At a minimum, a Foot is the name of an event and the type of numbers used 
+ * as wieghts for the tangent space. At this location it is
+ * assumed the geometry of the algebra is aligned with the tangent geometry of 
+ * the manifold at that point. This makes a Foot the root reference.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+public final class Foot {
+	/**
+	 * This factory build method produces a new Foot with an empty cardinal list. It
+	 * is intend to name an otherwise opaque constructor that creates a new Foot but
+	 * re-uses a Cardinal.
+	 * &lt;br&gt;
+	 * @param pFootName String name for the new Foot
+	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
+	 */
+	public static final Foot buildAsType(String pFootName) {
+<span class="fc" id="L60">		return new Foot(pFootName);</span>
+	}
+
+	/**
+	 * This factory build method produces a new Foot using the offered Cardinal. It
+	 * is intend to name an otherwise opaque constructor that creates a new Foot but
+	 * re-uses a Cardinal.
+	 * &lt;br&gt;
+	 * @param pFootName    String name for the new Foot
+	 * @param pNewCardinal Cardinal to re-use for this new Foot
+	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
+	 */
+	public static final Foot buildAsType(String pFootName, Cardinal pNewCardinal) {
+<span class="fc" id="L73">		return new Foot(pFootName, pNewCardinal);</span>
+	}
+
+	/**
+	 * This object defines the type of numbers used by all objects that share this
+	 * footPoint.
+	 */
+	private ArrayList&lt;Cardinal&gt; cardinalList;
+	/**
+	 * This String is the name the footPoint. Think of it as naming the tangent
+	 * point between a flat algebra and the curvy manifold.
+	 */
+	private String footName;
+
+	/**
+	 * Build the Foot from scratch.
+	 * &lt;br&gt;
+	 * @param pName String This string will be the name of the foot point.
+	 */
+<span class="fc" id="L92">	public Foot(String pName) {</span>
+<span class="fc" id="L93">		setFootName(pName);</span>
+<span class="fc" id="L94">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
+<span class="fc" id="L95">		cardinalList.add(FBuilder.createCardinal(pName));</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * Build the Foot from scratch then put the Cardinal in the internal list.
+	 * &lt;br&gt;
+	 * @param pName String This string will be the name of the foot point.
+	 * @param pFT   Cardinal This object defines the kind of numbers that are
+	 *              meaningful for this foot point
+	 */
+<span class="fc" id="L105">	public Foot(String pName, Cardinal pFT) {</span>
+<span class="fc" id="L106">		setFootName(pName);</span>
+<span class="fc" id="L107">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
+<span class="fc" id="L108">		cardinalList.add(pFT);</span>
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * Build the Foot from scratch then put the number's Cardinal in the internal list.
+	 * &lt;br&gt;
+	 * @param pName String This string will be the name of the foot point.
+	 * @param pF    ProtoN This object holds the cardinal that defines the kind of
+	 *              numbers that are meaningful for this foot point
+	 */
+<span class="fc" id="L118">	public Foot(String pName, ProtoN pF) {</span>
+<span class="fc" id="L119">		setFootName(pName);</span>
+<span class="fc" id="L120">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
+<span class="fc" id="L121">		cardinalList.add(pF.getCardinal());</span>
+<span class="fc" id="L122">	}</span>
+
+	/**
+	 * This method appends a Cardinal to the list of known cardinals for this foot.
+	 * It will silently terminate IF the cardinal is already in the list.
+	 * &lt;br&gt;
+	 * The uniqueness test is done BY OBJECT and not by the cardinal's string name.
+	 * That means visual inspection of the cardinal list could reveal entries that
+	 * appear to be the same. They aren't, though. The cardinalList references
+	 * objects and NOT their string names. To avoid this use CladosFCache.
+	 * &lt;br&gt;
+	 * @param fN Cardinal reference to append to this Foot
+	 */
+	public void appendCardinal(Cardinal fN) {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (cardinalList.contains(fN))</span>
+<span class="fc" id="L137">			return;</span>
+<span class="fc" id="L138">		cardinalList.ensureCapacity(cardinalList.size() + 1);</span>
+<span class="fc" id="L139">		cardinalList.add(fN);</span>
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * This method looks for the requested cardinal object in the Foot's tracking
+	 * list.
+	 * &lt;br&gt;
+	 * @param pIn Cardinal This is a reference to the Cardinal to be found in the
+	 *            Foot's cardinal list.
+	 * @return int This method looks for the requested Cardinal in the Foot's list
+	 *         and returns the index if it is found. If not, it returns -1.
+	 */
+	public int findCardinal(Cardinal pIn) {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		if (cardinalList.isEmpty())</span>
+<span class="fc" id="L153">			return -1;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (cardinalList.contains(pIn))</span>
+<span class="fc" id="L155">			return cardinalList.indexOf(pIn);</span>
+<span class="fc" id="L156">		return -1;</span>
+	}
+
+	/**
+	 * Find a cardinal in the Foot's list if it exists and return it within an Optional.
+	 * &lt;br&gt;
+	 * @param pName String name requested to be found
+	 * @return Optional Cardinal if one is found by the requested name
+	 */
+	public Optional&lt;Cardinal&gt; findCardinal(String pName) {
+<span class="nc" id="L166">		return cardinalList.stream().filter(x -&gt; x.getUnit().equals(pName)).findFirst();</span>
+	}
+
+	/**
+	 * Simple gettor for one of the cardinals associated with this Foot.
+	 * &lt;br&gt;
+	 * Note that an error condition (like indexOutOfBounds) will return null.
+	 * &lt;br&gt;
+	 * @param pIn Integer index of Cardinal in this Foot to retrieve.
+	 * @return Cardinal found at the integer index... or null.
+	 */
+	public Cardinal getCardinal(int pIn) {
+<span class="fc bfc" id="L178" title="All 6 branches covered.">		if (pIn &gt;= 0 &amp; pIn &lt; cardinalList.size())</span>
+<span class="fc" id="L179">			return cardinalList.get(pIn);</span>
+<span class="fc" id="L180">		return null;</span>
+	}
+
+	/**
+	 * Simple gettor for the entire list of cardinals associated with this Foot.
+	 * &lt;br&gt;
+	 * @return ArrayList of Cardinal instances associated with this Foot.
+	 */
+	public ArrayList&lt;Cardinal&gt; getCardinals() {
+<span class="fc" id="L189">		return cardinalList;</span>
+	}
+
+	/**
+	 * Simple gettor of the Foot's name element
+	 * &lt;br&gt;
+	 * @return String name of the Foot
+	 */
+	public String getFootName() {
+<span class="fc" id="L198">		return footName;</span>
+	}
+
+	/**
+	 * This method removes a Cardinal from the list of known cardinals for this
+	 * foot. It will silently return IF the cardinal wasn't already on the list.
+	 * &lt;br&gt;
+	 * The uniqueness test is done BY OBJECT and not by the cardinal's string name.
+	 * That means visual inspection of the cardinal list could reveal entries that
+	 * appear to be the same. They aren't, though. The cardinalList references
+	 * objects and NOT their string names. To avoid this use CladosFCache.
+	 * &lt;br&gt;
+	 * @param pCard Cardinal reference to remove to this Foot
+	 */
+	public void removeCardinal(Cardinal pCard) {
+<span class="fc" id="L213">		cardinalList.remove(pCard);</span>
+<span class="fc" id="L214">	}</span>
+
+	/**
+	 * Simple setter of the Foot's name element.
+	 * &lt;br&gt;
+	 * @param footName String name of the Foot to set here
+	 */
+	public void setFootName(String footName) {
+<span class="fc" id="L222">		this.footName = footName;</span>
+<span class="fc" id="L223">	}</span>
+
+	/**
+	 * This is an exporter of internal details to XML. It exists to bypass certain
+	 * security concerns related to Java serialization of objects.
+	 * &lt;br&gt;
+	 * @param pF Foot the be exported as XML.
+	 * @param indent String indentation to assist with human readability of output
+	 *               XML data
+	 * @return String formatted as XML containing information about the Foot
+	 */
+	public final static String toXMLString(Foot pF, String indent) {
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L236">			indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L237">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot&gt;\n&quot;);</span>
+<span class="fc" id="L238">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pF.getFootName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+		// -----------------------------------------------------------------------
+<span class="fc" id="L240">		rB.append(indent).append(&quot;\t&lt;Cardinals number=\&quot;&quot;).append(pF.cardinalList.size()).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">		for (Cardinal point : pF.cardinalList)</span>
+<span class="fc" id="L242">			rB.append(indent).append(Cardinal.toXMLString(point, &quot;\t\t&quot;));</span>
+<span class="fc" id="L243">		rB.append(indent).append(&quot;\t&lt;/Cardinals&gt;\n&quot;);</span>
+		// -----------------------------------------------------------------------
+<span class="fc" id="L245">		rB.append(indent).append(&quot;&lt;/Foot&gt;\n&quot;);</span>
+<span class="fc" id="L246">		return rB.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

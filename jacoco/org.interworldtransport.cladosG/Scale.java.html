@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scale.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Scale.java</span></div><h1>Scale.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.Scale&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.Scale&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.interworldtransport.cladosF.Cardinal;
+import org.interworldtransport.cladosF.FBuilder;
+import org.interworldtransport.cladosF.CladosField;
+import org.interworldtransport.cladosF.Field;
+import org.interworldtransport.cladosF.Normalizable;
+import org.interworldtransport.cladosF.ProtoN;
+import org.interworldtransport.cladosF.RealF;
+import org.interworldtransport.cladosF.RealD;
+import org.interworldtransport.cladosF.ComplexF;
+import org.interworldtransport.cladosF.ComplexD;
+import org.interworldtransport.cladosFExceptions.FieldBinaryException;
+import org.interworldtransport.cladosFExceptions.FieldException;
+
+/**
+ * This class contains cladosF numbers that act together as the coefficients of
+ * a monad. They are all children of ProtoN and implement Field, so they
+ * have both a sense of 'units' and support basic arithmetic operations. Which
+ * numbers are contained internally, therefore, is tracked by two private
+ * elements. One contains a reference to a Cardinal that all the numbers should
+ * share. The other is a reference two one of the CladosField elements so we
+ * know whether this Scale is expected to contain real or complex numbers and at
+ * what level of floating point precision. Access to the two private elements is
+ * managed by their 'get' methods. getCardinal() and getMode(). There are set
+ * methods for them too, but they are package protected methods that should not
+ * be handled much by developers of physical models.
+ * &lt;br&gt;&lt;br&gt;
+ * The data structure used to represent 'coefficients' used to be a fixed array
+ * that had the same length as the number of blades in a monad's basis. That has
+ * been modernized to an IdentityHashMap contained within this class. The basis
+ * against which the map is applicable can be referenced by another private
+ * element, but shouldn't be manipulated once set. The private element is
+ * finalized.
+ * &lt;br&gt;&lt;br&gt;
+ * An IdentityHashMap was used instead of a simpler HashMap in order to get
+ * reference equality between map keys instead of object equality. Map Keys are
+ * Blades from the basis, so reference equality is the correct expectation when
+ * comparing keys. Typical use of keys from the map occurs with streams that
+ * effectively iterate through the blades for access to coefficients in the
+ * encompassing vector space. The information within a blade is far less
+ * important than which blade it is, thus reference equality is what is needed.
+ * &lt;br&gt;&lt;br&gt;
+ * Map Values are CladosF numbers like RealF or ComplexD. Because they are
+ * objects instead of primitives, they behave much like Java's boxed primitives.
+ * In fact, they would BE those boxed primitives if not for the need to track
+ * units in physical models. For example, one meter is not one second. No
+ * equality test should pass.
+ * &lt;br&gt;&lt;br&gt;
+ * Because values are objects, care must be taken once one has a reference to
+ * them. Any reference to one enables a developer to change it without the Scale
+ * or Monad knowing. This is the hydra monster named Mutability. It IS a danger
+ * here. Many of Scale's methods copy inbound numbers to avoid altering them,
+ * but some do not INTENTIONALLY.
+ * &lt;br&gt;&lt;br&gt;
+ * 1. Coefficient settors that accept arrays do NOT copy values before placing
+ * them in the internal map. BEWARE BEWARE BEWARE
+ * &lt;br&gt;&lt;br&gt;
+ * 2. Put() does not copy the incoming value before placing it in the internal
+ * map. Again... BEWARE.
+ * &lt;br&gt;&lt;br&gt;
+ * 3. Coefficient settors that accept maps DO COPY values before placing them in
+ * the internal map. Any object from which values are taken to be used here are
+ * safe from the hydra.
+ * &lt;br&gt;&lt;br&gt;
+ * 4. All gettors for coefficients provide direct references to values in the
+ * map. The most common use is INTENTIONAL MUTABILITY, so... BEWARE THE HYDRA.
+ * The safest way to use them is within streams / lambdas.
+ * &lt;br&gt;&lt;br&gt;
+ * GENERAL NOTE | Many of the methods for Scale look a lot like Monad, so one can
+ * reasonably wonder why all the extra stuff in Monad when Scale looks enough like 
+ * a tuple to represent things. The primary difference is that Scale contains only 
+ * the coefficients and references a basis like what we got used to as students. 
+ * That's not enough because a basis is only enough to represent linear combinations
+ * for a vector space. Other geometric meanings aren't in the basis. They are in the
+ * product table. Combining product table and basis into an 'algebra' gives a MUCH 
+ * better description of a 'tuple's' reference frame than a vector space.
+ * &lt;br&gt;&lt;br&gt;
+ * 
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ * @param &lt;D&gt; CladosF number like RealF, RealD, ComplexF, ComplexD. They must be
+ *            children of ProtoN AND implement Field.
+ */
+<span class="fc" id="L114">public final class Scale&lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; implements Unitized, Modal {</span>
+	/**
+	 * When entries appear in the internal map, they should all share the same
+	 * cardinal. That cardinal is referenced here where it gives meaning to the weights
+	 * in this scale. This is WHY Scale implments Unitized.
+	 */
+	private Cardinal card;
+
+	/**
+	 * This basis is the reference against which these scaling weights make sense. 
+	 * For example, a list of 16 real floats is just a tuple. When coupled to a basis, 
+	 * they become weights for a sum of geometry composing a multivector.
+	 * &lt;br&gt;
+	 * Once set, the applicable basis should not change. Scales make sense
+	 * RELATIVE to a basis. Never on their own.
+	 */
+	private final Basis gBasis;
+
+	/**
+	 * This tree map is that actual list of weights mapped by their applicable blade.
+	 * In use, one calls the Scale's get(Blade) to get a generic that happens to be 
+	 * a CladosF.ProtoN child. One can also call a number of specialized 
+	 * gettors to get weights for well named blades.
+	 * &lt;br&gt;
+	 * This feature used to be a simple array of particular children of ProtoN,
+	 * but that made for several different... and mostly related implementations of Scale
+	 * or of burying Scale in Monad and maintaining several mostly related versions 
+	 * of those. Using a map like this reduces the family of objects in CladosG at
+	 * the cost of swapping data structures from an array to a map.
+	 * &lt;br&gt;
+	 * This feature ALSO used to be a hash map (java's IdentityHashMap), but hash maps
+	 * don't ensure the extraction of values arrive in any particular order. That makes
+	 * a mess of the design where streams are used to deliver pieces of geometry or 
+	 * numbers to lambda functions. If the weights storied in this map emerge in 
+	 * unpredictable ways, then all operations must act on blades AND numbers which 
+	 * we are trying to avoid. Getting a predictable order (from a TreeMap) comes 
+	 * at a small performance cost that simply must be paid.
+	 */
+	private TreeMap&lt;Blade, D&gt; map;
+
+	/**
+	 * This is the type of ProtoN that should be present in the list held by
+	 * this class. For example, if mode = CladosField.REALF, then all elements in
+	 * the list will be the RealF child of ProtoN. 
+	 * &lt;br&gt;
+	 * Mode ensures the scale elements all have the same precision and come from the same 
+	 * numeric field. It is also WHY Scale implements Modal.
+	 */
+	private final CladosField mode;
+
+	/**
+	 * This is the constructor to use when one does not have the actual map ready,
+	 * but will provide it later.
+	 * &lt;br&gt;
+	 * @param pMode CladosField enumeration so we know what kind of ProtoN to
+	 *              expect from get()
+	 * @param pB    Basis to which the blades used in the internal map belong.
+	 * @param pCard Incoming Cardinal to reference here.
+	 */
+<span class="fc" id="L173">	public Scale(CladosField pMode, Basis pB, Cardinal pCard) {</span>
+<span class="fc" id="L174">		map = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L175">		mode = pMode;</span>
+<span class="fc" id="L176">		gBasis = pB;</span>
+<span class="fc" id="L177">		card = pCard;</span>
+<span class="fc" id="L178">		zeroAll();</span>
+<span class="fc" id="L179">	}</span>
+
+	/**
+	 * This is the constructor to use when one already has a map built and a
+	 * reference to the basis on which the map relies for keys.
+	 * &lt;br&gt;
+	 * This is NOT a copy constructor. Use it when you fully intend for the offered map
+	 * to directly provide the weights in this Scale.
+	 * &lt;br&gt;
+	 * @param pMode  CladosField enumeration so we know what kind of ProtoN to
+	 *               expect from get()
+	 * @param pB     Basis to which the blades offered in the map belong.
+	 * @param pInMap This is a Map to copy. Probably a view of another Scale object.
+	 */
+<span class="fc" id="L193">	public Scale(CladosField pMode, Basis pB, Map&lt;Blade, D&gt; pInMap) {</span>
+<span class="fc" id="L194">		map = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L195">		mode = pMode;</span>
+<span class="fc" id="L196">		gBasis = pB;</span>
+<span class="fc" id="L197">		map.putAll(pInMap);</span>
+<span class="fc" id="L198">		card = map.get(gBasis.getScalarBlade()).getCardinal(); // gets scalar part cardinal</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">		assert (pInMap.keySet().size() == pB.getBladeCount());</span>
+<span class="fc" id="L200">	}</span>
+
+	/**
+	 * Straight forward copy constructor. Copies values ONLY. Re-uses keys.
+	 * &lt;br&gt;
+	 * @param pIn Scale to be imitated.
+	 */
+	public Scale(Scale&lt;D&gt; pIn) {
+<span class="fc" id="L208">		this(pIn.getMode(), pIn.gBasis, pIn.getCardinal());</span>
+<span class="fc" id="L209">		gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L210">			map.put(blade, FBuilder.copyOf(pIn.get(blade)));</span>
+<span class="fc" id="L211">		});</span>
+<span class="fc" id="L212">	}</span>
+
+	/**
+	 * This method conjugates all the values in the internal map, but leaves the
+	 * blades of the algebra untouched.
+	 * &lt;br&gt;
+	 * @return Scale object. Just this object after modification.
+	 */
+	public Scale&lt;D&gt; conjugate() {
+<span class="fc" id="L221">		this.weightsParallelStream().forEach(w -&gt; w.conjugate());</span>
+<span class="fc" id="L222">		return this;</span>
+	}
+
+	/**
+	 * This method imitates the 'get()' method in a map. Offer a key and receive a
+	 * value in return. In this particular case, keys are blades from the basis and
+	 * values are weights of those blades.
+	 * &lt;br&gt;
+	 * @param pB Blade to use as key in internal map
+	 * @return A ProtoN child related to this blade
+	 */
+	public D get(Blade pB) {
+<span class="fc" id="L234">		return map.get(pB);</span>
+	}
+
+	/**
+	 * Simple gettor method for the Basis associated with this object.
+	 * Be aware this basis is finalized, so it won't be changeable to 
+	 * a new basis. What might be possible is altering the internal details
+	 * of the basis, so be careful.
+	 * &lt;br&gt;
+	 * @return Basis in use in this.
+	 */
+	public Basis getBasis() {
+<span class="fc" id="L246">		return gBasis;</span>
+	}
+
+	/**
+	 * Simple gettor method for the Cardinal associated with this object.
+	 * &lt;br&gt;
+	 * @return Cardinal in use in this.
+	 */
+	@Override
+	public Cardinal getCardinal() {
+<span class="fc" id="L256">		return card;</span>
+	}
+
+	/**
+	 * This method imitates one from V1.0 and should be rarely used. For old code
+	 * needing to handle coefficients directly, this is how to get at them. The
+	 * smarter approach, though, is to call the parent class method values() and
+	 * receive a Collection of coefficients instead of an array. Do it that way and
+	 * they are already of a known ProtoN child class.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers as values, there
+	 * is a cast to a 'generic' type within this method. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @return an array of ProtoN children.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public D[] getWeights() {
+<span class="pc bpc" id="L282" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L283">			case REALF : return (D[]) map.values().toArray(RealF[]::new);</span>
+<span class="fc" id="L284">			case REALD : return (D[]) map.values().toArray(RealD[]::new);</span>
+<span class="fc" id="L285">			case COMPLEXF : return (D[]) map.values().toArray(ComplexF[]::new);</span>
+<span class="fc" id="L286">			case COMPLEXD : return (D[]) map.values().toArray(ComplexD[]::new);</span>
+<span class="nc" id="L287">			default : return null;</span>
+		}
+	}
+
+	/**
+	 * Simple gettor method reporting the Scale's internal mode.
+	 * &lt;br&gt;
+	 * @return CladosField element reporting which ProtoN child is expected in
+	 *         the list of this Scale.
+	 */
+	@Override
+	public CladosField getMode() {
+<span class="fc" id="L299">		return mode;</span>
+	}
+
+	/**
+	 * This method imitates the 'get()' method in a map, but specializes in the
+	 * pscalar blade key.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers as values, there
+	 * is a cast to a 'generic' type within this method. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @return A ProtoN child related to the pscalar blade
+	 */
+	public D getPScalar() {
+<span class="fc" id="L321">		return map.get(gBasis.getPScalarBlade());</span>
+	}
+
+	/**
+	 * This method imitates the 'get()' method in a map, but specializes in the
+	 * scalar blade key.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers as values, there
+	 * is a cast to a 'generic' type within this method. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @return A ProtoN child related to the scalar blade
+	 */
+	public D getScalar() {
+<span class="fc" id="L343">		return map.get(gBasis.getScalarBlade());</span>
+	}
+
+	/**
+	 * This method imitates the main involution. All generators in each blade flip sign, so the
+	 * implications for the values in the internal map are worked out. No typeMismatch can occur. 
+	 * &lt;br&gt;
+	 * This is what we called a parity inversion where generator.# goes to -1.0 * generator.#, 
+	 * but that's not a good name for it going forward.
+	 * &lt;br&gt;
+	 * @return Scale object. Just this object after modification.
+	 */
+	public Scale&lt;D&gt; mainInvolution() {
+<span class="fc bfc" id="L356" title="All 2 branches covered.">		gBasis.gradeStream().filter(j -&gt; (Integer.lowestOneBit(j) == 1)).parallel().forEach(grade -&gt; {</span>
+<span class="fc" id="L357">			gBasis.bladeOfGradeStream((byte) grade).forEach(blade -&gt; {</span>
+<span class="pc bpc" id="L358" title="1 of 3 branches missed.">				switch (mode) {</span>
+				case REALF:
+				case COMPLEXF:
+<span class="fc" id="L361">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_F);</span>
+<span class="fc" id="L362">					break;</span>
+				case REALD:
+				case COMPLEXD:
+<span class="fc" id="L365">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_D);</span>
+				}
+<span class="fc" id="L367">			});</span>
+<span class="fc" id="L368">		});</span>
+<span class="fc" id="L369">		return this;</span>
+	}
+
+	/**
+	 * This is a short hand method to reduce checking in other classes to simply
+	 * asking the question regarding the value rather than handle all the various
+	 * ProtoN children separately.
+	 * &lt;br&gt;
+	 * NOTE this tends to get used in filters in streams to minimize the number of
+	 * coefficients processed in arithmetic operations. Non-zero ones contribute
+	 * non-zero results to products, so this especially matters in O(N^2)
+	 * calculations.
+	 * &lt;br&gt;
+	 * @param pB Blade to use as key to discover if related value is non-zero.
+	 * @return boolean False if the related value evaluates as ZERO in whatever
+	 *         number style it is.
+	 */
+	public boolean isNotZeroAt(Blade pB) {
+<span class="pc bpc" id="L387" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">			case COMPLEXD :	return !ComplexD.isZero((ComplexD) map.get(pB));</span>
+<span class="fc bfc" id="L389" title="All 2 branches covered.">			case COMPLEXF : return !ComplexF.isZero((ComplexF) map.get(pB));</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">			case REALD : return !RealD.isZero((RealD) map.get(pB));</span>
+<span class="fc bfc" id="L391" title="All 2 branches covered.">			case REALF : return !RealF.isZero((RealF) map.get(pB));</span>
+<span class="nc" id="L392">			default : return true;</span>
+		}
+	}
+
+	/**
+	 * This is a short hand method to reduce checking in other classes to simply
+	 * asking this one rather than handle all the various ProtoN children
+	 * separately.
+	 * &lt;br&gt;
+	 * @return boolean True if the pscalar value evaluates as ZERO in whatever
+	 *         number style it is.
+	 */
+	public boolean isPScalarZero() {
+<span class="pc bpc" id="L405" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L406">			case COMPLEXD : return ComplexD.isZero((ComplexD) getPScalar());</span>
+<span class="fc" id="L407">			case COMPLEXF :	return ComplexF.isZero((ComplexF) getPScalar());</span>
+<span class="fc" id="L408">			case REALD : return RealD.isZero((RealD) getPScalar());</span>
+<span class="fc" id="L409">			case REALF : return RealF.isZero((RealF) getPScalar());</span>
+<span class="nc" id="L410">			default : return false;</span>
+		}
+	}
+
+	/**
+	 * This is a short hand method to reduce checking in other classes to simply
+	 * asking this one rather than handle all the various ProtoN children
+	 * separately.
+	 * &lt;br&gt;
+	 * @return boolean True if the scalar value evaluates as ZERO in whatever number
+	 *         style it is.
+	 */
+	public boolean isScalarZero() {
+<span class="pc bpc" id="L423" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L424">			case COMPLEXD : return ComplexD.isZero((ComplexD) getScalar());</span>
+<span class="fc" id="L425">			case COMPLEXF : return ComplexF.isZero((ComplexF) getScalar());</span>
+<span class="fc" id="L426">			case REALD : return RealD.isZero((RealD) getScalar());</span>
+<span class="fc" id="L427">			case REALF : return RealF.isZero((RealF) getScalar());</span>
+<span class="nc" id="L428">			default : return false;</span>
+		}
+	}
+
+	/**
+	 * This method takes all values in the map and returns one ProtoN child
+	 * that has a real value that is equal to the square root of the sum of the
+	 * SQModulus of each value.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method switches through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * Because these are real numbers, though, we get away with simply summing the
+	 * moduli instead. It does not perform a cardinal safety check and will throw
+	 * the exception if that test fails.
+	 * &lt;br&gt;
+	 * @return D ProtoN child that implements all the number interfaces too.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public D modulusSQSum() {
+		D tR;
+<span class="pc bpc" id="L462" title="1 of 5 branches missed.">		switch (mode) {</span>
+			case REALF -&gt; {
+<span class="fc" id="L464">				tR = FBuilder.REALF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L465">				weightsStream().forEach(div -&gt; {</span>
+					try {
+<span class="fc" id="L467">						tR.add(RealF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L468">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L469">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L471">				});</span>
+<span class="fc" id="L472">				return tR;</span>
+			}
+			case REALD -&gt; {
+<span class="fc" id="L475">				tR = FBuilder.REALD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L476">				weightsStream().forEach(div -&gt; {</span>
+					try {
+<span class="fc" id="L478">						tR.add(RealD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L479">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L480">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L482">				});</span>
+<span class="fc" id="L483">				return tR;</span>
+			}
+			case COMPLEXF -&gt; {
+<span class="fc" id="L486">				tR = FBuilder.COMPLEXF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L487">				weightsStream().forEach(div -&gt; {</span>
+					try {
+<span class="fc" id="L489">						tR.add(ComplexF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L490">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L491">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L493">				});</span>
+<span class="fc" id="L494">				return tR;</span>
+			}
+			case COMPLEXD -&gt; {
+<span class="fc" id="L497">				tR = FBuilder.COMPLEXD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L498">				weightsStream().forEach(div -&gt; {</span>
+					try {
+<span class="fc" id="L500">						tR.add(ComplexD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L501">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L502">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L504">				});</span>
+<span class="fc" id="L505">				return tR;</span>
+			}
+			default -&gt; {
+<span class="nc" id="L508">				return (D) new ProtoN(this.getCardinal());</span>
+			}
+		}
+	}
+
+	/**
+	 * This method takes all values in the map and returns one ProtoN child
+	 * that has a real value that is equal to the square root of the sum of the
+	 * SQModulus of each value.
+	 * &lt;br&gt;
+	 * Because these are real numbers, though, we get away with simply summing the
+	 * moduli instead. It does not perform a cardinal safety check and will throw
+	 * the exception if that test fails.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method switches through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * @return D ProtoN child that implements all the number interfaces too.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public D modulusSum() {
+		D tR;
+<span class="pc bpc" id="L543" title="1 of 5 branches missed.">		switch (mode) {</span>
+		case REALF -&gt; {
+<span class="fc" id="L545">			tR = FBuilder.REALF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L546">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
+				try {
+<span class="fc" id="L548">					tR.add(RealF.newONE(this.getCardinal()).scale(div.modulus()));</span>
+<span class="pc" id="L549">				} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L550">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
+				}
+<span class="fc" id="L552">			});</span>
+<span class="fc" id="L553">			return (D) tR;</span>
+		}
+		case REALD -&gt; {
+<span class="fc" id="L556">			tR = FBuilder.REALD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L557">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
+				try {
+<span class="fc" id="L559">					tR.add(RealD.newONE(this.getCardinal()).scale(div.modulus()));</span>
+<span class="pc" id="L560">				} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L561">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
+				}
+<span class="fc" id="L563">			});</span>
+<span class="fc" id="L564">			return (D) tR;</span>
+		}
+		case COMPLEXF -&gt; {
+<span class="fc" id="L567">			tR = FBuilder.COMPLEXF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L568">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
+				try {
+<span class="fc" id="L570">					tR.add(ComplexF.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
+<span class="pc" id="L571">				} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L572">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
+				}
+<span class="fc" id="L574">			});</span>
+<span class="fc" id="L575">			return (D) tR;</span>
+		}
+		case COMPLEXD -&gt; {
+<span class="fc" id="L578">			tR = FBuilder.COMPLEXD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L579">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
+				try {
+<span class="fc" id="L581">					tR.add(ComplexD.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
+<span class="pc" id="L582">				} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L583">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
+				}
+<span class="fc" id="L585">			});</span>
+<span class="fc" id="L586">			return (D) tR;</span>
+		}
+		default -&gt; {
+<span class="nc" id="L589">			return (D) new ProtoN(this.getCardinal());</span>
+		}
+		}
+	}
+
+	/**
+	 * This method normalizes the coefficients as if they were a vector in 2^N
+	 * vector space described by the implied basis from the monad. It's pretty
+	 * simple, though. Just add up the squares of the numbers and then take the
+	 * square root to determine the magnitude and then invert that to scale the
+	 * original numbers.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers as values, there
+	 * is a cast to a 'generic' type within this method. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @throws FieldException This happens when normalizing something that has a
+	 *                        zero magnitude. The exception is thrown by the
+	 *                        invert() method and passed along here.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public void normalize() throws FieldException {
+<span class="fc" id="L619">		this.scale((D) modulusSum().invert());</span>
+<span class="fc" id="L620">	}</span>
+
+	/**
+	 * Put a key/value pair into the internal map of coefficients. A Blade acts as
+	 * key. A ProtoN child acts as coefficient.
+	 * &lt;br&gt;
+	 * 
+	 * @param pB  Blade acting as key in the internal map
+	 * @param pD  ProtoN child acting as the coefficient.
+	 * @return Scale of Unit Abstract objects. Just this object after modification if it occurs.
+	 */
+	public Scale&lt;D&gt; put(Blade pB, D pD) {
+<span class="fc" id="L632">		map.put(pB, pD);</span>
+<span class="fc" id="L633">		return this;</span>
+	}
+
+	/**
+	 * This method reverses all the order of implied multiplication in blade
+	 * generators and works out the sign implications for the values in the internal
+	 * map. No typeMismatch can occur here.
+	 * &lt;br&gt;
+	 * This method shows that blade reversion is handled HERE and not with the sign 
+	 * of the blades themselves. The sign in Blade is ONLY for the order of the 
+	 * enumset of its generators. Grade convolutions are remembered in Scale by
+	 * flipping signs of the ProtoN child values in map.
+	 * &lt;br&gt;
+	 * @return Scale object. Just this object after modification.
+	 */
+	public Scale&lt;D&gt; reverse() {
+<span class="fc bfc" id="L649" title="All 2 branches covered.">		gBasis.gradeStream().filter(j -&gt; (j % 4 &gt; 1)).parallel().forEach(grade -&gt; {</span>
+<span class="fc" id="L650">			gBasis.bladeOfGradeStream((byte) grade).forEach(blade -&gt; {</span>
+<span class="pc bpc" id="L651" title="1 of 3 branches missed.">				switch (mode) {</span>
+				case REALF:	//Tricky here. This case falls through to the next and gets handled.
+				case COMPLEXF:
+<span class="fc" id="L654">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_F);</span>
+<span class="fc" id="L655">					break;	//Both cases handled in one then break.</span>
+				case REALD:	//Tricky here. This case falls through to the next and gets handled.
+				case COMPLEXD:
+<span class="fc" id="L658">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_D);</span>
+				}			//Both cases handled in one then done.
+<span class="fc" id="L660">			});</span>
+<span class="fc" id="L661">		});</span>
+<span class="fc" id="L662">		return this;</span>
+	}
+
+	/**
+	 * This method scales all values in the internal map by the value offered
+	 * provided there is no typeMatch failure. When there IS a type mismatch the 
+	 * number simply does not get scaled.
+	 * &lt;br&gt;
+	 * The first stream filters for weights that pass the match test.
+	 * The second stream scales them.
+	 * That means the embedded IllegalARgumentException will never be thrown.
+	 * &lt;br&gt;
+	 * @param pIn ProtoN child to use as a scaling element. 
+	 * 				Mode and cardinal MUST match values in map.
+	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field.
+	 * @return Scale object. Just this object after modification.
+	 */
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; scale(T pIn) {
+<span class="pc bpc" id="L680" title="1 of 2 branches missed.">		if (this.weightsStream().allMatch(div -&gt; ProtoN.isTypeMatch(div, pIn))) {</span>
+<span class="fc" id="L681">			this.weightsParallelStream().forEach(div -&gt; {</span>
+				try {
+<span class="fc" id="L683">					div.multiply(pIn);</span>
+<span class="pc" id="L684">				} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L685">					throw new IllegalArgumentException(&quot;Can't scale with mismatched cardinal or mode.&quot;);</span>
+				}
+<span class="fc" id="L687">			});</span>
+		}
+<span class="fc" id="L689">		return this;</span>
+	}
+
+	/**
+	 * This is an exporter of internal details to XML. It exists to bypass certain
+	 * security concerns related to Java serialization of objects.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; Some kind of number extending ProtoN that provides weights in the Scale.
+	 * @param pS The Scale oject to be output as XML
+	 * @param indent String of 'tab' characters to get spacing right for human
+	 *               readable XML output.
+	 * @return String formatted as XML containing information about the Algebra
+	 */
+	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; String toXMLString(Scale&lt;T&gt; pS, String indent) {
+
+<span class="fc" id="L704">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;).append(pS.map.size()).append(&quot;\&quot;&gt;\n&quot;);</span>
+
+<span class="fc" id="L706">		pS.gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L707">			rB.append(indent).append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
+<span class="fc" id="L708">			rB.append(indent).append(Blade.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
+<span class="pc bpc" id="L709" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="fc" id="L710">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L711">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L712">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L713">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="nc" id="L714">				default -&gt; 		{rB.append(indent + &quot;\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+			}	
+<span class="fc" id="L716">			rB.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
+<span class="fc" id="L717">		});</span>
+
+<span class="fc" id="L719">		rB.append(indent).append(&quot;\t\t&lt;/Scales&gt;\n&quot;);</span>
+<span class="fc" id="L720">		return rB.toString();</span>
+	}
+
+	/**
+	 * This is a simple gettor method, but it is most likly to be used to establish
+	 * a stream of blades, values, or both from the internal map of this object. The
+	 * map's keys are all blades from the object's basis. The map won't contain just
+	 * a few blades as keys, though. It will contain every blade as a key paired to
+	 * some unique CladosF number.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers (and
+	 * ProtoN itself though that would be useless) there is a cast to a
+	 * 'generic' type before insertion into the map. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field
+	 *            AND Normalizable.
+	 * @return deliver the internal coefficients as the internal map.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Map&lt;Blade, T&gt; getMap() {
+<span class="fc" id="L749">		return (Map&lt;Blade, T&gt;) map;</span>
+	}
+
+	/**
+	 * The settor method supporting Unitized interface that isn't actually in the
+	 * interface. If the cardinal to be set is different from the one already present,
+	 * the weights are cleared out and set to zero. If the cardinal is the same one,
+	 * nothing is done and this Scale is returned.
+	 * &lt;br&gt;
+	 * Once a Cardinal is set, it basically can't be removed. It can be changed, but
+	 * not eliminated entirely.
+	 * @param pCard CladosField element to set as the mode.
+	 * @return Scale object. Just this object after modification.
+	 */
+	protected Scale&lt;D&gt; setCardinal(Cardinal pCard) {
+<span class="pc bpc" id="L764" title="1 of 6 branches missed.">		if (card != pCard &amp; pCard != null) {</span>
+<span class="fc" id="L765">			map.clear();</span>
+<span class="fc" id="L766">			card = pCard;</span>
+<span class="fc" id="L767">			zeroAll();</span>
+		}
+<span class="fc" id="L769">		return this;</span>
+	}
+
+	/**
+	 * This method just sets the pscalar weight with a number that should satisfy type matches. If it
+	 * does not get past the type match check, nothing is done to change any weights.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.
+	 * @param pIn D is a child of ProtoN to use as the pscalar weight.
+	 * @return Scale of numbers for use in streaming operations if desired.
+	 */
+	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setPScalarWeight(D pIn) {
+<span class="fc bfc" id="L781" title="All 2 branches covered.">		if (ProtoN.isTypeMatch(this.getPScalar(), pIn))</span>
+<span class="fc" id="L782">			map.put(gBasis.getPScalarBlade(), pIn);</span>
+<span class="fc" id="L783">		return this;</span>
+	}
+
+	/**
+	 * This method just sets the scalar weight with a number that should satisfy type matches. If it
+	 * does not get past the type match check, nothing is done to change any weights.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.
+	 * @param pIn D is a child of ProtoN to use as the pscalar weight.
+	 * @return Scale of numbers for use in streaming operations if desired.
+	 */
+	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setScalarWeight(D pIn) {
+<span class="fc bfc" id="L795" title="All 2 branches covered.">		if (ProtoN.isTypeMatch(this.getScalar(), pIn))</span>
+<span class="fc" id="L796">			map.put(gBasis.getScalarBlade(), pIn);</span>
+<span class="fc" id="L797">		return this;</span>
+	}
+
+	/**
+	 * This coefficient settor accepts an array of ProtoN numbers, assumes
+	 * they are in basis index order, and then inserts them into the internal map by
+	 * blade at that index.
+	 * &lt;br&gt;
+	 * NOTE | Do NOT use this method if you intend the offered coefficient array to
+	 * be disconnected from this object. It won't be. If you really must use this
+	 * method that way, copy your coefficients first.
+	 * &lt;br&gt;
+	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.
+	 * @param pIn Array of ProtoN children
+	 * @return Scale object. Just this object after modification.
+	 * @throws IllegalArgumentException This happens if the offered array does not
+	 *                                  have the same size as the basis. Good enough
+	 *                                  to ensure all blades are covered.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setWeightsArray(T[] pIn) {
+<span class="pc bpc" id="L818" title="1 of 2 branches missed.">		if (pIn.length == gBasis.getBladeCount())</span>
+<span class="fc" id="L819">			gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L820">				map.put(blade, (D) pIn[gBasis.find(blade) - 1]);</span>
+<span class="fc" id="L821">				});</span>
+<span class="nc" id="L822">		else	throw new IllegalArgumentException(&quot;Offered array of coefficients MUST cover every blade in the basis.&quot;);</span>
+<span class="fc" id="L823">		return this;</span>
+	}
+
+	/**
+	 * This method sets the coefficients represented by this Scale. It accepts a map
+	 * relating blades in the basis to CladosF.DivField children. It checks to see
+	 * if the map is of the wrong size and throws an IllegalArgumentException if so.
+	 * &lt;br&gt;
+	 * NOTE this method DEEP COPIES the inbound map to disconnect the map's source
+	 * DivFields from the ones added to this object. This is the safest settor
+	 * method to use when handing in information from other clados sources.
+	 * &lt;br&gt;
+	 * @param pInMap Inbound Map relating blades to ProtoN child numbers.
+	 * @return Scale object. Just this object after modification.
+	 * @throws IllegalArgumentException This happens if the offered map does not
+	 *                                  have the same size as the basis. Good enough
+	 *                                  to ensure all blades are covered because Map
+	 *                                  doesn't allow duplicate keys.
+	 */
+	protected Scale&lt;D&gt; setWeightsMap(Map&lt;Blade, D&gt; pInMap) {
+<span class="pc bpc" id="L843" title="1 of 2 branches missed.">		if (pInMap.size() != gBasis.getBladeCount())</span>
+<span class="nc" id="L844">			throw new IllegalArgumentException(&quot;Offered map of coefficients MUST cover every blade in the basis.&quot;);</span>
+
+<span class="fc" id="L846">		Map&lt;Blade, D&gt; mapCopy = pInMap.entrySet().parallelStream()</span>
+<span class="fc" id="L847">				.collect(Collectors.toMap(e -&gt; e.getKey(), e -&gt; FBuilder.copyOf((D) e.getValue())));</span>
+<span class="fc" id="L848">		map.putAll(mapCopy);</span>
+<span class="fc" id="L849">		return this;</span>
+	}
+
+	/**
+	 * This coefficient settor accepts an array of ProtoN children, assumes
+	 * they are in basis index order, and then inserts them into the internal map by
+	 * blade at that index offset in the amount necessary to cover ONLY the grade
+	 * suggested by the byte parameter.
+	 * &lt;br&gt;
+	 * NOTE | Do NOT use this method if you intend the offered coefficient array to
+	 * be disconnected from this object. It won't be. If you really must use this
+	 * method that way, copy your coefficients first.
+	 * &lt;br&gt;
+	 * @param pGrade byte integer naming the grade to be overwritten
+	 * @param pIn    Array of ProtoN Children
+	 * @return Scale object. Just this object after modification.
+	 */
+	protected Scale&lt;D&gt; setWeightsAtGrade(byte pGrade, D[] pIn) {
+<span class="pc bpc" id="L867" title="1 of 2 branches missed.">		if (!gBasis.validateGradeIndex(pGrade))</span>
+<span class="nc" id="L868">			throw new IllegalArgumentException(&quot;Offered grade must be in range of underlying basis.&quot;);</span>
+<span class="fc bfc" id="L869" title="All 2 branches covered.">		if (pIn == null)</span>
+<span class="fc" id="L870">			return this;	//Do absolutely nothing... silently... if no weights are offered.</span>
+
+<span class="fc" id="L872">		long grdRnge = gBasis.bladeOfGradeStream(pGrade).count();</span>
+<span class="pc bpc" id="L873" title="1 of 2 branches missed.">		if (grdRnge != (long) pIn.length)</span>
+<span class="nc" id="L874">			throw new IllegalArgumentException(&quot;Offered array must cover the blades in the suggested grade.&quot;);</span>
+		
+<span class="fc" id="L876">		int init = gBasis.getGradeStart(pGrade);</span>
+<span class="fc" id="L877">		gBasis.bladeOfGradeStream(pGrade).forEach(blade -&gt; {</span>
+<span class="fc" id="L878">			map.put(blade, (D) pIn[gBasis.find(blade) - init - 1]);</span>
+<span class="fc" id="L879">		});</span>
+<span class="fc" id="L880">		return this;</span>
+	}
+
+    /**
+	 * This is the compliment of a blade stream involving the scaling factors
+	 * 'multiplied' by blades in the sense of a division field over a vector space.
+	 * When forming a linear combination of blades to make a 'vector', these are the
+	 * 'numbers' that scale each direction.
+	 * &lt;br&gt;
+	 * Since the internal map can accept any of the CladosF numbers as values, there
+	 * is a cast to a 'generic' type within this method. This would normally cause
+	 * warnings by the compiler since the generic named in the internal map IS a
+	 * ProtoN child AND casting an unchecked type could fail at runtime.
+	 * &lt;br&gt;
+	 * That won't happen here when CladosF builders are used. They can't build
+	 * anything that is NOT a ProtoN child. They can't even build a
+	 * ProtoN instance directly. Therefore, only children can arrive as the
+	 * value parameter of the 'put' function. Thus, there is no danger of a failed
+	 * cast operation... until someone creates a new ProtoN child class and
+	 * fails to update all builders.
+	 * &lt;br&gt;
+	 * @return Stream of ProtoN children that are the coefficients represented
+	 *         as values in the internal map.
+	 */
+	protected Stream&lt;D&gt; weightsStream() {
+<span class="fc" id="L905">		return map.values().stream();</span>
+	}
+
+	/**
+	 * This method returns a parallelizable stream of the weights in this scale. 
+	 * It is intended for wholesale operations on the weights that may be done
+	 * in any order. It is mostly for use by the owning object of this Scale.
+	 * &lt;br&gt;
+	 * @return A stream of weights as children of ProtoN.
+	 */
+	protected Stream&lt;D&gt; weightsParallelStream() {
+<span class="fc" id="L916">		return map.values().parallelStream();</span>
+	}
+
+	/**
+	 * This method causes all coefficients to be set to zero using the offered
+	 * cardinal.
+	 * &lt;br&gt;
+	 * @return This Scale instance after coefficients are zero'd out.
+	 */
+	protected Scale&lt;D&gt; zeroAll() {
+<span class="fc" id="L926">		gBasis.bladeStream().forEach(b -&gt; {</span>
+<span class="fc" id="L927">			map.put(b, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L928">		});</span>
+<span class="fc" id="L929">		return this;</span>
+	}
+
+	/**
+	 * This is a specialty method making use of setCoefficientsAtGrade for a
+	 * specific purpose of grade suppression.
+	 * &lt;br&gt;
+	 * @param pGrade byte integer naming the grade to be preserved
+	 * @return This Scale instance after coefficients are zero'd out.
+	 */
+	protected Scale&lt;D&gt; zeroAllButGrade(byte pGrade) {
+<span class="fc bfc" id="L940" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
+<span class="fc bfc" id="L941" title="All 2 branches covered.">			gBasis.bladeStream().filter(blade -&gt; blade.rank() != pGrade).forEach(blade -&gt; {</span>
+<span class="fc" id="L942">				map.put(blade, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L943">		});</span>
+<span class="fc" id="L944">		return this;</span>
+	}
+
+	/**
+	 * Zero the value at the offered blade.
+	 * &lt;br&gt;
+	 * NOTE this doesn't remove the blade from the map because the basis should
+	 * never change. The mapped value at that blade is zero'd.
+	 * &lt;br&gt;
+	 * @param pB Blade key to zero out the related coefficient
+	 * @return Scale object. Just this object after modification.
+	 */
+	public Scale&lt;D&gt; zeroAt(Blade pB) {
+<span class="fc bfc" id="L957" title="All 4 branches covered.">		if (pB != null &amp; map.containsKey(pB))</span>
+<span class="fc" id="L958">			map.put(pB, FBuilder.createZERO(mode, map.get(pB).getCardinal()));</span>
+<span class="fc" id="L959">		return this;</span>
+	}
+
+	/**
+	 * This is a specialty method making use of setCoefficientsAtGrade for a
+	 * specific purpose of grade suppression.
+	 * &lt;br&gt;
+	 * @param pGrade byte integer naming the grade to be overwritten
+	 * @return This Scale instance after coefficients are zero'd out.
+	 */
+	protected Scale&lt;D&gt; zeroAtGrade(byte pGrade) {
+<span class="fc bfc" id="L970" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
+<span class="fc bfc" id="L971" title="All 2 branches covered.">			gBasis.bladeStream().filter(blade -&gt; blade.rank() == pGrade).forEach(blade -&gt; {</span>
+<span class="fc" id="L972">				map.put(blade, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L973">		});</span>
+<span class="fc" id="L974">		return this;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

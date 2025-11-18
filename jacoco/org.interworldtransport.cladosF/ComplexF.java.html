@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComplexF.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosF</a> &gt; <span class="el_source">ComplexF.java</span></div><h1>ComplexF.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.ComplexF&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt;&lt;br&gt; 
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt;&lt;br&gt; 
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.ComplexF&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosF;
+
+import org.interworldtransport.cladosFExceptions.*;
+
+/**
+ * This class implements the concept of a Complex Field from mathematics. Field
+ * objects within the cladosF package are used as 'numbers' in the definition of
+ * an algebra. All Clados objects use DivFieldElements and ComplexF is one
+ * possibility.
+ * &lt;br&gt;&lt;br&gt;
+ * There is no doubt that the overhead related to this class is a waste of
+ * resources. However, it allows one to plug fields into the algebra classes
+ * without having to maintain many different types of monads and nyads. If Java
+ * came with primitive types for complex and quaternion fields, and other
+ * primitives implemented a 'Field' interface, I wouldn't bother writing this
+ * object or any of the other descendants of DivFieldF.
+ * &lt;br&gt;&lt;br&gt;
+ * Applications requiring speed should use the monads and nyads that implement
+ * numbers as primitives. Those classes are marked as such within the library.
+ * &lt;br&gt;&lt;br&gt;
+ * Ideally, this would extend java.lang.Float and implement an interface called
+ * DivFieldF. That can't be done, though, because Float is final.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+public class ComplexF extends ProtoN implements Field, Normalizable {
+	/**
+	 * Static add method that creates a new ComplexF with the sum pF1 + pF2.
+	 * &lt;br&gt;
+	 * @param pF1 ComplexF
+	 * @param pF2 ComplexF
+	 * @throws FieldBinaryException This exception is thrown when there is a field
+	 *                              mismatch
+	 * @return ComplexF
+	 */
+	public static ComplexF add(ComplexF pF1, ComplexF pF2) throws FieldBinaryException {
+<span class="pc bpc" id="L62" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexF.isNaN(pF1) &amp;&amp; !ComplexF.isNaN(pF2) &amp;&amp; !ComplexF.isInfinite(pF1)</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">				&amp;&amp; !ComplexF.isInfinite(pF2))</span>
+<span class="fc" id="L64">			return ComplexF.create(pF1.getCardinal(), pF1.getReal() + pF2.getReal(), pF1.getImg() + pF2.getImg());</span>
+<span class="fc" id="L65">		throw (new FieldBinaryException(pF1, &quot;Static Addition error found&quot;, pF2));</span>
+	}
+
+	/**
+	 * Static method that creates a new ComplexF with the conjugate of the
+	 * parameter. Since the conjugate of a real number is the real number, this
+	 * method is functionally identical to #copy.
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return ComplexF
+	 */
+	public static ComplexF conjugate(ComplexF pF) {
+<span class="fc" id="L77">		return ComplexF.create(pF.getCardinal(), pF.getReal(), -1.0f * pF.getImg());</span>
+	}
+
+	/**
+	 * This static method takes a list of ComplexF objects and returns one ComplexF
+	 * that has a real value that is equal to the square root of the sum of the
+	 * SQModulus of each entry on the list.
+	 * &lt;br&gt;
+	 * It does not perform a cardinal safety check and will throw the exception if
+	 * that test fails.
+	 * &lt;br&gt;
+	 * @param pL ComplexF[]
+	 * @throws FieldBinaryException This exception happens when there is a field
+	 *                              mismatch. It shouldn't happen but it is
+	 *                              technically possible because of the dependence
+	 *                              on sqMagnitude.
+	 * @return complexF
+	 */
+	public final static ComplexF copySumModulus(ComplexF[] pL) throws FieldBinaryException {
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form Modulus Sum from empty array.&quot;);</span>
+<span class="fc" id="L97">		ComplexF tR = ComplexF.copyZERO(pL[0]);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		for (ComplexF point : pL)</span>
+<span class="fc" id="L99">			tR.add((ComplexF.copyONE(point).scale(point.modulus())));</span>
+<span class="fc" id="L100">		tR.setReal((float) Math.sqrt(tR.getReal()));</span>
+<span class="fc" id="L101">		return tR;</span>
+	}
+
+	/**
+	 * This static method takes a list of RealD objects and returns one RealD that
+	 * has a value that is equal to the sum of the SQModulus of each entry on the
+	 * list. It does not perform a cardinal safety check and will throw the
+	 * exception if that test fails.
+	 * &lt;br&gt;
+	 * @param pL ComplexF[]
+	 * @throws FieldBinaryException This exception occurs when there is a field
+	 *                              mismatch. It should never happen but the
+	 *                              implementation uses multiplication, thus it is
+	 *                              technically possible.
+	 * @return ComplexF
+	 */
+	public final static ComplexF copySumSQModulus(ComplexF[] pL) throws FieldBinaryException {
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form SQ Modulus Sum from empty array.&quot;);</span>
+<span class="fc" id="L119">		ComplexF tR = ComplexF.copyZERO(pL[0]);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		for (ComplexF point : pL)</span>
+<span class="fc" id="L121">			tR.add((ComplexF.copyONE(point).scale(point.sqModulus())));</span>
+<span class="fc" id="L122">		return tR;</span>
+	}
+
+	/**
+	 * Static method that creates a new ComplexF with a copy of the parameter. This
+	 * copy reuses the cardinal reference to ensure it will pass a type match test.
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return ComplexF
+	 */
+	public static ComplexF copyOf(ComplexF pF) {
+<span class="fc" id="L133">		return new ComplexF(pF);</span>
+	}
+
+	/**
+	 * Static zero construction method with copied cardinal
+	 * &lt;br&gt;
+	 * @param pR ComplexF
+	 * @return ComplexF
+	 */
+	public static ComplexF copyONE(ProtoN pR) {
+<span class="fc" id="L143">		return ComplexF.create(pR.getCardinal(), 1.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static zero construction method with copied cardinal
+	 * &lt;br&gt;
+	 * @param pR ComplexF
+	 * @return ComplexF
+	 */
+	public static ComplexF copyZERO(ProtoN pR) {
+<span class="fc" id="L153">		return ComplexF.create(pR.getCardinal(), 0.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static method that creates a new ComplexF with a copy of the parameter. This
+	 * copy does not reuse a cardinal reference so it is likely to fail type
+	 * mismatch tests.
+	 * &lt;br&gt;
+	 * @param pR float
+	 * @param pI float
+	 * @return ComplexF
+	 */
+	public static ComplexF create(float pR, float pI) {
+<span class="fc" id="L166">		return new ComplexF(pR, pI);</span>
+	}
+
+	/**
+	 * Static method that creates a new ComplexF with floats and a Cardinal. This
+	 * copy DOES reuse the cardinal so it is likely to pass type mismatch tests.
+	 * &lt;br&gt;
+	 * @param pCard Cardinal
+	 * @param pR float
+	 * @param pI float
+	 * @return ComplexF
+	 */
+	public static ComplexF create(Cardinal pCard, float pR, float pI) {
+<span class="fc" id="L179">		return new ComplexF(pCard, pR, pI);</span>
+	}
+
+	/**
+	 * Static divide method that creates a new ComplexF with the product pF1 / pF2.
+	 * &lt;br&gt;
+	 * @param pF1 ComplexF
+	 * @param pF2 ComplexF
+	 * @throws FieldBinaryException This exception is thrown when there is a field
+	 *                              mismatch
+	 * @return ComplexF
+	 */
+	public static ComplexF divide(ComplexF pF1, ComplexF pF2) throws FieldBinaryException {
+<span class="pc bpc" id="L192" title="1 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexF.isZero(pF2) &amp;&amp; !ComplexF.isNaN(pF1) &amp;&amp; !ComplexF.isNaN(pF2)</span>
+<span class="pc bpc" id="L193" title="1 of 4 branches missed.">				&amp;&amp; !ComplexF.isInfinite(pF1) &amp;&amp; !ComplexF.isInfinite(pF2)) {</span>
+<span class="fc" id="L194">			ComplexF tZ = ComplexF.copyOf(pF1);</span>
+<span class="fc" id="L195">			ComplexF tZ2 = ComplexF.copyOf(pF2);</span>
+<span class="fc" id="L196">			tZ2.conjugate();</span>
+<span class="fc" id="L197">			tZ.multiply(tZ2);</span>
+<span class="fc" id="L198">			tZ2.conjugate();</span>
+<span class="fc" id="L199">			tZ.scale(Float.valueOf(1.0f / tZ2.sqModulus()));</span>
+<span class="fc" id="L200">			return tZ;</span>
+		}
+<span class="fc" id="L202">		throw (new FieldBinaryException(pF1, &quot;Static Division error found&quot;, pF2));</span>
+	}
+
+	/**
+	 * Check for the equality of this object with that of the argument. This checks
+	 * for exact equality using no tolerances. The FieldObject types must match
+	 * first.
+	 * &lt;br&gt;
+	 * @param pE ComplexF
+	 * @param pF ComplexF
+	 * @return boolean &lt;i&gt;true&lt;/i&gt; if both components are the same; &lt;i&gt;false&lt;/i&gt;,
+	 *         otherwise.
+	 */
+	public static boolean isEqual(ComplexF pE, ComplexF pF) {
+<span class="pc bpc" id="L216" title="1 of 6 branches missed.">		return ProtoN.isTypeMatch(pE, pF) &amp;&amp; (pE.getReal() == pF.getReal()) &amp;&amp; (pE.getImg() == pF.getImg());</span>
+	}
+
+	/**
+	 * Returns true if the real part is zero and imaginary part is not zero.
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return boolean
+	 */
+	public static boolean isImaginary(ComplexF pF) {
+<span class="pc bpc" id="L226" title="3 of 4 branches missed.">		return (pF.getReal() == 0.0f &amp;&amp; pF.getImg() != 0.0f);</span>
+	}
+
+	/**
+	 * This method checks to see if either value is infinite.
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return boolean
+	 */
+	public static boolean isInfinite(ComplexF pF) {
+<span class="pc bpc" id="L236" title="1 of 4 branches missed.">		return Float.isInfinite(pF.getReal()) || Float.isInfinite(pF.getImg());</span>
+	}
+
+	/**
+	 * This method checks to see if either value is not a number at all. NAN
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return boolean
+	 */
+	public static boolean isNaN(ComplexF pF) {
+<span class="fc bfc" id="L246" title="All 4 branches covered.">		return Float.isNaN(pF.getReal()) || Float.isNaN(pF.getImg());</span>
+	}
+
+	/**
+	 * Returns true if the imaginary part is zero
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return boolean
+	 */
+	public static boolean isReal(ComplexF pF) {
+<span class="fc bfc" id="L256" title="All 2 branches covered.">		return (pF.getImg() == 0.0f);</span>
+	}
+
+	/**
+	 * This method checks to see if the number is exactly zero.
+	 * &lt;br&gt;
+	 * @param pF ComplexF
+	 * @return boolean
+	 */
+	public static boolean isZero(ComplexF pF) {
+<span class="fc bfc" id="L266" title="All 4 branches covered.">		return (pF.getReal() == 0.0f &amp;&amp; pF.getImg() == 0.0f);</span>
+	}
+
+	/**
+	 * Static multiply method that creates a new ComplexF with the product pF1 *
+	 * pF2.
+	 * &lt;br&gt;
+	 * @param pF1 ComplexF
+	 * @param pF2 ComplexF
+	 * @throws FieldBinaryException This exception happens when there is a field
+	 *                              mismatch.
+	 * @return complexF
+	 */
+	public static ComplexF multiply(ComplexF pF1, ComplexF pF2) throws FieldBinaryException {
+<span class="pc bpc" id="L280" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexF.isNaN(pF1) &amp;&amp; !ComplexF.isNaN(pF2) &amp;&amp; !ComplexF.isInfinite(pF1)</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">				&amp;&amp; !ComplexF.isInfinite(pF2)) {</span>
+<span class="fc" id="L282">			float tempR = pF1.getReal() * pF2.getReal() - pF1.getImg() * pF2.getImg();</span>
+<span class="fc" id="L283">			float tempI = pF1.getReal() * pF2.getImg() + pF1.getImg() * pF2.getReal();</span>
+<span class="fc" id="L284">			return ComplexF.create(pF1.getCardinal(), tempR, tempI);</span>
+		}
+<span class="fc" id="L286">		throw (new FieldBinaryException(pF1, &quot;Static Multiplication error found&quot;, pF2));</span>
+	}
+
+	/**
+	 * Static one construction method
+	 * &lt;br&gt;
+	 * @param pS String
+	 * @return ComplexF
+	 */
+	public static ComplexF newONE(String pS) {
+<span class="fc" id="L296">		return ComplexF.create(Cardinal.generate(pS), 1.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static zero construction method
+	 * &lt;br&gt;
+	 * @param pS String
+	 * @return ComplexF
+	 */
+	public static ComplexF newZERO(String pS) {
+<span class="fc" id="L306">		return ComplexF.create(Cardinal.generate(pS), 0.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static one construction method
+	 * &lt;br&gt;
+	 * @param pC Cardinal
+	 * @return ComplexF
+	 */
+	public static ComplexF newONE(Cardinal pC) {
+<span class="fc" id="L316">		return ComplexF.create(pC, 1.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static zero construction method
+	 * &lt;br&gt;
+	 * @param pC Cardinal
+	 * @return ComplexF
+	 */
+	public static ComplexF newZERO(Cardinal pC) {
+<span class="fc" id="L326">		return ComplexF.create(pC, 0.0f, 0.0f);</span>
+	}
+
+	/**
+	 * Static subtract method that creates a new ComplexF with the difference
+	 * pF1-pF2.
+	 * &lt;br&gt;
+	 * @param pF1 ComplexF
+	 * @param pF2 ComplexF
+	 * @throws FieldBinaryException This exception occurs when there is a field
+	 *                              mismatch.
+	 * @return ComplexF
+	 */
+	public static ComplexF subtract(ComplexF pF1, ComplexF pF2) throws FieldBinaryException {
+<span class="pc bpc" id="L340" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexF.isNaN(pF1) &amp;&amp; !ComplexF.isNaN(pF2) &amp;&amp; !ComplexF.isInfinite(pF1)</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">				&amp;&amp; !ComplexF.isInfinite(pF2))</span>
+<span class="fc" id="L342">			return ComplexF.create(pF1.getCardinal(), pF1.getReal() - pF2.getReal(), pF1.getImg() - pF2.getImg());</span>
+
+<span class="fc" id="L344">		throw (new FieldBinaryException(pF1, &quot;Static Subtraction error found&quot;, pF2));</span>
+	}
+
+	/**
+	 * These are the actual java primitives within the ProtoN child that as as
+	 * 'the number.'
+	 */
+	protected float[] vals;
+
+	/**
+	 * Basic Constructor with no values to initialize.
+	 */
+	public ComplexF() {
+<span class="fc" id="L357">		super(Cardinal.generate(CladosField.COMPLEXF));</span>
+<span class="fc" id="L358">		vals = new float[2];</span>
+<span class="fc" id="L359">		setReal(0.0f);</span>
+<span class="fc" id="L360">		setImg(0.0f);</span>
+<span class="fc" id="L361">	}</span>
+
+	/**
+	 * Copy Constructor that reuses the cardinal reference.
+	 * &lt;br&gt;
+	 * @param pC ComplexF
+	 */
+	public ComplexF(ComplexF pC) {
+<span class="fc" id="L369">		super(pC.getCardinal());</span>
+<span class="fc" id="L370">		vals = new float[2];</span>
+<span class="fc" id="L371">		setReal(pC.getReal());</span>
+<span class="fc" id="L372">		setImg(pC.getImg());</span>
+<span class="fc" id="L373">	}</span>
+
+	/**
+	 * Copy Constructor that reuses the cardinal reference while allowing the values
+	 * to be set.
+	 * &lt;br&gt;
+	 * @param pC ComplexF
+	 * @param pR float
+	 * @param pI float
+	 */
+	public ComplexF(ProtoN pC, float pR, float pI) {
+<span class="fc" id="L384">		super(pC.getCardinal());</span>
+<span class="fc" id="L385">		vals = new float[2];</span>
+<span class="fc" id="L386">		setCardinal(pC.getCardinal());</span>
+<span class="fc" id="L387">		setReal(pR);</span>
+<span class="fc" id="L388">		setImg(pI);</span>
+<span class="fc" id="L389">	}</span>
+
+	/**
+	 * Basic Constructor with only the cardinal to initialize.
+	 * &lt;br&gt;
+	 * @param pT Cardinal
+	 */
+	public ComplexF(Cardinal pT) {
+<span class="fc" id="L397">		super(pT);</span>
+<span class="fc" id="L398">		vals = new float[2];</span>
+<span class="fc" id="L399">		setReal(0.0f);</span>
+<span class="fc" id="L400">		setImg(0.0f);</span>
+<span class="fc" id="L401">	}</span>
+
+	/**
+	 * Basic Constructor with everything to initialize but the imaginary.
+	 * &lt;br&gt;
+	 * @param pT Cardinal
+	 * @param pR float
+	 */
+	public ComplexF(Cardinal pT, float pR) {
+<span class="fc" id="L410">		super(pT);</span>
+<span class="fc" id="L411">		vals = new float[2];</span>
+<span class="fc" id="L412">		setReal(pR);</span>
+<span class="fc" id="L413">		setImg(0.0f);</span>
+<span class="fc" id="L414">	}</span>
+
+	/**
+	 * Basic Constructor with everything to initialize it.
+	 * &lt;br&gt;
+	 * @param pT Cardinal
+	 * @param pR float
+	 * @param pI float
+	 */
+	public ComplexF(Cardinal pT, float pR, float pI) {
+<span class="fc" id="L424">		super(pT);</span>
+<span class="fc" id="L425">		vals = new float[2];</span>
+<span class="fc" id="L426">		setReal(pR);</span>
+<span class="fc" id="L427">		setImg(pI);</span>
+<span class="fc" id="L428">	}</span>
+
+	/**
+	 * Basic Constructor with only the number to initialize.
+	 * &lt;br&gt;
+	 * @param pR float
+	 * @param pI float
+	 */
+	public ComplexF(float pR, float pI) {
+<span class="fc" id="L437">		super(Cardinal.generate(CladosField.COMPLEXF));</span>
+<span class="fc" id="L438">		vals = new float[2];</span>
+<span class="fc" id="L439">		setReal(pR);</span>
+<span class="fc" id="L440">		setImg(pI);</span>
+<span class="fc" id="L441">	}</span>
+
+	/**
+	 * This method adds real numbers together and changes this object to be the
+	 * result.
+	 *&lt;br&gt;
+	 * @param pF Field
+	 * @throws FieldBinaryException This exception occurs when a field mismatch
+	 *                              happens
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF add(Field pF) throws FieldBinaryException {
+<span class="pc bpc" id="L454" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexF.isNaN(this) || ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L455" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) || ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L456">			throw (new FieldBinaryException(this, &quot;Addition failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc" id="L457">		setReal(getReal() + ((ComplexF) pF).getReal());</span>
+<span class="fc" id="L458">		setImg(getImg() + ((ComplexF) pF).getImg());</span>
+<span class="fc" id="L459">		return this;</span>
+	}
+
+	/**
+	 * This is the self-altering conjugate method. This object changes when all of
+	 * its imaginary members are set to their additive inverses.
+	 * &lt;br&gt;
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF conjugate() {
+<span class="fc" id="L470">		setImg(-1.0f * getImg());</span>
+<span class="fc" id="L471">		return this;</span>
+	}
+
+	/**
+	 * This method divides real numbers and changes this object to be the result.
+	 * &lt;br&gt;
+	 * @param pF Field
+	 * @throws FieldBinaryException This exception occurs when field mismatches or
+	 *                              division by zero happens
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF divide(Field pF) throws FieldBinaryException {
+<span class="pc bpc" id="L484" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexF.isNaN(this) || ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L485" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) || ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L486">			throw (new FieldBinaryException(this, &quot;Divide failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L487" title="All 2 branches covered.">		if (ComplexF.isZero((ComplexF) pF))</span>
+<span class="fc" id="L488">			throw (new FieldBinaryException(this, &quot;Divide by Zero detected&quot;, (ProtoN) pF));</span>
+
+<span class="fc" id="L490">		ComplexF tempZ = ComplexF.copyOf((ComplexF) pF);</span>
+<span class="fc" id="L491">		tempZ.conjugate();</span>
+<span class="fc" id="L492">		multiply(tempZ);</span>
+<span class="fc" id="L493">		tempZ.conjugate();</span>
+<span class="fc" id="L494">		scale(Float.valueOf(1.0f / tempZ.sqModulus()));</span>
+<span class="fc" id="L495">		return this;</span>
+	}
+
+	/**
+	 * Get method for the argument of the complex number. This function uses the
+	 * arctangent function, so its range and domain are the same.
+	 * &lt;br&gt;
+	 * @return float
+	 */
+	public float getArgument() {
+<span class="pc bpc" id="L505" title="1 of 2 branches missed.">		if (!ComplexF.isImaginary(this))</span>
+<span class="fc" id="L506">			return (float) Math.atan(getImg() / getReal());</span>
+
+<span class="nc bnc" id="L508" title="All 2 branches missed.">		return (float) ((getImg() &gt;= 0f) ? Math.PI / 2.0f : 3.0D * Math.PI / 2.0f);</span>
+	}
+
+	/**
+	 * Get the imaginary numeric value from the value array
+	 * &lt;br&gt;
+	 * @return float
+	 */
+	public float getImg() {
+<span class="fc" id="L517">		return vals[1];</span>
+	}
+
+	/**
+	 * This is the square root of the SQ Modulus. It is smarter to calculate
+	 * SQModulus first.
+	 * &lt;br&gt;
+	 * @return Float
+	 */
+	@Override
+	public Float modulus() {
+<span class="fc" id="L528">		return Float.valueOf((float) Math.sqrt(sqModulus().floatValue()));</span>
+	}
+
+	/**
+	 * Get the real numeric value from the value array
+	 * &lt;br&gt;
+	 * @return float
+	 */
+	public float getReal() {
+<span class="fc" id="L537">		return vals[0];</span>
+	}
+
+	/**
+	 * This function delivers the sum of the squares of the numeric values. (x^2+y^2)
+	 * Many times it is the modulus squared that is actually needed so it makes 
+	 * sense to calculate this before the modulus itself.
+	 * &lt;br&gt;
+	 * @return Float
+	 */
+	@Override
+	public Float sqModulus() {
+<span class="fc" id="L549">		float tR = 0f;</span>
+<span class="fc bfc" id="L550" title="All 2 branches covered.">		for (float point : vals)</span>
+<span class="fc" id="L551">			tR += point * point;</span>
+<span class="fc" id="L552">		return Float.valueOf(tR);</span>
+	}
+
+	/**
+	 * This method inverts real numbers.
+	 * &lt;br&gt;
+	 * @throws FieldException This exception is thrown when someone tries to invert
+	 *                        ZERO.
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF invert() throws FieldException {
+<span class="fc bfc" id="L564" title="All 2 branches covered.">		if (ComplexF.isZero(this))</span>
+<span class="fc" id="L565">			throw new FieldException(this, &quot;Can't invert a zero ComplexF&quot;);</span>
+
+<span class="fc" id="L567">		float tM = 1.0f / modulus();</span>
+<span class="fc" id="L568">		float tA = -1.0f * getArgument();</span>
+<span class="fc" id="L569">		setReal((float) (tM * Math.cos(tA)));</span>
+<span class="fc" id="L570">		setImg((float) (tM * Math.sin(tA)));</span>
+<span class="fc" id="L571">		return this;</span>
+	}
+
+	/**
+	 * This method multiplies real numbers and changes this object to be the result.
+	 * &lt;br&gt;
+	 * @param pF Field
+	 * @throws FieldBinaryException This exception occurs when field mismatches
+	 *                              happen
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF multiply(Field pF) throws FieldBinaryException {
+<span class="pc bpc" id="L584" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexF.isNaN(this) || ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L585" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) || ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L586">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc" id="L587">		ComplexF tempZ = (ComplexF) pF;</span>
+<span class="fc" id="L588">		setReal(getReal() * tempZ.getReal() - getImg() * tempZ.getImg());</span>
+<span class="fc" id="L589">		setImg(getReal() * tempZ.getImg() + getImg() * tempZ.getReal());</span>
+<span class="fc" id="L590">		return this;</span>
+	}
+
+	/**
+	 * Scale method multiplies the modulus by the scale
+	 * &lt;br&gt;
+	 * @param pS Number
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF scale(Number pS) {
+<span class="fc" id="L601">		setReal(pS.floatValue() * getReal());</span>
+<span class="fc" id="L602">		setImg(pS.floatValue() * getImg());</span>
+<span class="fc" id="L603">		return this;</span>
+	}
+
+	/**
+	 * Set the imaginary numeric value
+	 * &lt;br&gt;
+	 * @param pimg float
+	 */
+	public void setImg(float pimg) {
+<span class="fc" id="L612">		vals[1] = pimg;</span>
+<span class="fc" id="L613">	}</span>
+
+	/**
+	 * Set the real numeric value
+	 * &lt;br&gt;
+	 * @param preal float
+	 */
+	public void setReal(float preal) {
+<span class="fc" id="L621">		vals[0] = preal;</span>
+<span class="fc" id="L622">	}</span>
+
+	/**
+	 * This method subtracts real numbers and changes this object to be the result.
+	 * &lt;br&gt;
+	 * @param pF Field
+	 * @throws FieldBinaryException This exception occurs when field mismatches
+	 *                              happen
+	 * @return ComplexF
+	 */
+	@Override
+	public ComplexF subtract(Field pF) throws FieldBinaryException {
+<span class="pc bpc" id="L634" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexF.isNaN(this) || ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L635" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) || ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L636">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+		
+<span class="fc" id="L638">		setReal(getReal() - ((ComplexF) pF).getReal());</span>
+<span class="fc" id="L639">		setImg(getImg() - ((ComplexF) pF).getImg());</span>
+<span class="fc" id="L640">		return this;</span>
+	}
+
+	/**
+	 * Return a string representation of the real value.
+	 * &lt;br&gt;
+	 * @return String
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L650">		return (getReal() + &quot;FR, &quot; + getImg() + &quot;FI&quot;);</span>
+	}
+
+	/**
+	 * Return a string representation of the real value.
+	 * &lt;br&gt;
+	 * @param pN ComplexF to be exported as XML.
+	 * @return String
+	 */
+	public final static String toXMLString(ComplexF pN) {
+<span class="fc" id="L660">		return (&quot;&lt;ComplexF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; realvalue=\&quot;&quot; + pN.getReal() + &quot;\&quot; imgvalue=\&quot;&quot;</span>
+<span class="fc" id="L661">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

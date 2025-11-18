@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FCache.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosF</a> &gt; <span class="el_source">FCache.java</span></div><h1>FCache.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.FCache&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.FCache&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosF;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Set;
+
+/**
+ * Any classes within CladosF which would benefit from a supporting cache make
+ * use of this singleton enumeration as a 'builder'. Nothing fancy here
+ * otherwise. Just simple create, append, find, and remove capabilities backed
+ * by ArrayLists of cached objects.
+ * &lt;br&gt;&lt;br&gt;
+ * At present, the only thing in CladosF being cached is Cardinals. cladosG.Algebra
+ * has its protonumber which is little more than a Cardinal. cladosG.Foot has its
+ * list of cardinals too. So there are a number of places where cardinals get attached.
+ * The point of this cache, therefore, is to provide a global list to the modeler
+ * who wants to ensure object references match perfectly when they should. That is
+ * accomplished by setting the protonumber's Cardinal to one in this list BY REFERENCE
+ * instead of by string.
+ * &lt;br&gt;&lt;br&gt;
+ * Be aware that the list of cached objects is inheriently mutable. Alteration of an
+ * object here alters it everywhere it is referenced. ALSO... because of this cache, 
+ * it is unlikely that removal of object references elsewhere (set to null) will 
+ * cause the allocated memory to be garbage collected. Any linked here in the cache
+ * will persist while the cache does or the reference to it in the cache does.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+<span class="fc" id="L54">public enum FCache {</span>
+<span class="fc" id="L55">	/**</span>
+	 * There is an implicit private constructor for this singleton, but we won't
+	 * override it.
+	 * &lt;br&gt;
+	 * This ensures only one of these is active at a time. All CladosFCache references
+	 * must refer back to this one cache.
+	 */
+<span class="fc" id="L62">	INSTANCE;</span>
+
+	/**
+	 * Heads Up! This ArrayList ensures this 'enumeration' is mutable. It's a cache,
+	 * so this should surprise no one. It is supposed to be instantiated once and
+	 * then used to keep track of Cardinals in use.
+	 */
+<span class="fc" id="L69">	private ArrayList&lt;Cardinal&gt; listOfCardinals = new ArrayList&lt;Cardinal&gt;(1);</span>
+
+	/**
+	 * Method appends offered Cardinal to cache IF one by that name is not already
+	 * present. If it IS, nothing is done and the method silently returns.
+	 * &lt;br&gt;
+	 * @param pIn Cardinal to be appended to the cache IF it isn't already present.
+	 */
+	public void appendCardinal(Cardinal pIn) {
+<span class="fc" id="L78">		Optional&lt;Cardinal&gt; test = findCardinal(pIn.getUnit());</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		if (test.isEmpty())</span>
+<span class="fc" id="L80">			listOfCardinals.add(pIn);</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * Method appends offered Cardinals to cache IF not already present. If any ARE,
+	 * nothing is done and the method silently loops through remaining Cardinals
+	 * inserting ones that aren't.
+	 * &lt;br&gt;
+	 * @param pIn Cardinal Set to be appended to the cache IF they aren't already present.
+	 */
+	public void appendCardinal(Set&lt;Cardinal&gt; pIn) {
+<span class="fc" id="L91">		pIn.stream().forEach(pC -&gt; {</span>
+<span class="fc" id="L92">			Optional&lt;Cardinal&gt; test = findCardinal(pC.getUnit());</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">			if (test.isEmpty())</span>
+<span class="fc" id="L94">				listOfCardinals.add(pC);</span>
+<span class="fc" id="L95">		});</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * This method returns an Optional of Cardinal using the string name offered for
+	 * the search. If found, the optional will be engaged. If not, it will be
+	 * disengaged. IF by some chance there are two cardinals in the cache by the
+	 * same name (which should NOT happen) the first one found will be returned.
+	 * &lt;br&gt;
+	 * @param pName String name of a Cardinal to be found in the cache
+	 * @return Optional of Cardinal matching the name offered.
+	 */
+	public Optional&lt;Cardinal&gt; findCardinal(String pName) {
+<span class="fc" id="L108">		return listOfCardinals.stream().filter(x -&gt; x.getUnit().equals(pName)).findFirst();</span>
+	}
+
+	/**
+	 * This method clears the Cardinal cache.
+	 */
+	public void clearCardinals() {
+<span class="fc" id="L115">		listOfCardinals.clear();</span>
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * This is a brute force way of retrieving Cardinals in the cache. It should
+	 * rarely be used.
+	 * &lt;br&gt;
+	 * @param pLoc integer index to be used when returning the listed Cardinal
+	 * @return Cardinal at pLoc index will be returned.
+	 */
+	public Cardinal getCardinal(int pLoc) {
+<span class="pc bpc" id="L126" title="1 of 6 branches missed.">		if (listOfCardinals.size() &lt; 1 | listOfCardinals.size() &lt; pLoc+1)</span>
+<span class="fc" id="L127">			return null;</span>
+<span class="fc" id="L128">		return listOfCardinals.get(pLoc);</span>
+	}
+
+	/**
+	 * This method reports the size of the Cardinal cache.
+	 * &lt;br&gt;
+	 * @return int size of the Cardinal cache.
+	 */
+	public int getCardinalListSize() {
+<span class="fc" id="L137">		return listOfCardinals.size();</span>
+	}
+
+	/**
+	 * This is just a pass-thru method to test whether the cache of Cardinals
+	 * is empty.
+	 * &lt;br&gt; 
+	 * @return boolean True if the cache of Cardinals is empty. False otherwise.
+	 */
+	public boolean isEmpty() {
+<span class="fc" id="L147">		return listOfCardinals.isEmpty();</span>
+	}
+
+	/**
+	 * This method supports the removal of a Cardinal from the cache.
+	 * &lt;br&gt;
+	 * @param pCard Cardinal to be removed
+	 * @return boolean True if Cardinal found and removed. False if not found or
+	 *         removal fails.
+	 */
+	public boolean removeCardinal(Cardinal pCard) {
+<span class="fc" id="L158">		return listOfCardinals.remove(pCard);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

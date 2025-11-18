@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosF</a> &gt; <span class="el_source">FBuilder.java</span></div><h1>FBuilder.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.FBuilder&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt;&lt;br&gt; 
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt;&lt;br&gt; 
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosF.FBuilder&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosF;
+
+import java.util.Optional;
+
+/**
+ * This builder gets basic information and constructs any of the children of 
+ * ProtoN and the supporting classes like a Cardinal. Some features are 
+ * supported by the CladosField enumeration.
+ * &lt;br&gt;&lt;br&gt;
+ * This class has ONLY STATIC features hooked to each of the enumerations, thus
+ * NO INTERNAL STATE to can change. This trick is how we get different responses
+ * from the builder because there are as many of them as there are enumerated 
+ * entries without anything having to be instantiated to do it.
+ * &lt;br&gt;&lt;br&gt;
+ * This builder currently comes in four flavors. If we ever get around to 
+ * including quaternions as descendents of ProtoN, this enumeration must 
+ * be expanded to include them.
+ * &lt;br&gt;&lt;br&gt;
+ * @version 2.0
+ * @author Dr Alfred W Differ
+ */
+<span class="fc" id="L46">public enum FBuilder {</span>
+<span class="fc" id="L47">	/**</span>
+	 * The implicit private constructor IS NOT overridden.
+	 */
+<span class="fc" id="L50">	COMPLEXD,</span>
+<span class="fc" id="L51">	/**</span>
+	 * The implicit private constructor IS NOT overridden.
+	 */
+<span class="fc" id="L54">	COMPLEXF,</span>
+<span class="fc" id="L55">	/**</span>
+	 * The implicit private constructor IS NOT overridden.
+	 */
+<span class="fc" id="L58">	REALD,</span>
+<span class="fc" id="L59">	/**</span>
+	 * The implicit private constructor IS NOT overridden.
+	 */
+<span class="fc" id="L62">	REALF;</span>
+
+	/**
+	 * Method creates a new Cardinal using the string provided IF one by that name
+	 * is not present in the cache. If it IS in the cache, the cached Cardinal is
+	 * returned instead.
+	 * &lt;br&gt;
+	 * NOTE that Cardinal has a static method that does something similar. The
+	 * difference is this one also caches the cardinal.
+	 * &lt;br&gt;
+	 * Nothing about this method relies on the mode of the builder because Cardinals
+	 * aren't aware of ProtoN children.
+	 * &lt;br&gt;
+	 * @param pName String name for the associated Cardinal
+	 * @return Cardinal unit cardinal created or retrieved
+	 */
+	public final static Cardinal createCardinal(String pName) {
+<span class="fc" id="L79">		Optional&lt;Cardinal&gt; test = FCache.INSTANCE.findCardinal(pName);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (test.isEmpty()) {</span>
+<span class="fc" id="L81">			test = Optional.ofNullable(Cardinal.generate(pName));</span>
+<span class="fc" id="L82">			FCache.INSTANCE.appendCardinal(test.get());</span>
+		}
+<span class="fc" id="L84">		return test.get();</span>
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ZERO using the
+	 * cardinal provided. Its way of doing this switches on the offered CladosField 
+	 * instead of using this builder's mode.
+	 * &lt;br&gt;
+	 * Nothing about this method relies on the mode of the builder. 
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pMode CladosField mode to use when creating ProtoN numbers
+	 * @param pCard Cardinal to be re-used.
+	 * @return ProtoN child number created
+	 */
+	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(CladosField pMode, Cardinal pCard) {
+<span class="fc" id="L100">		FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="pc bpc" id="L101" title="1 of 5 branches missed.">		switch (pMode) {</span>
+<span class="fc" id="L102">		case REALF : return FBuilder.REALF.createZERO(pCard);</span>
+<span class="fc" id="L103">		case REALD : return FBuilder.REALD.createZERO(pCard);</span>
+<span class="fc" id="L104">		case COMPLEXF : return FBuilder.COMPLEXF.createZERO(pCard);</span>
+<span class="fc" id="L105">		case COMPLEXD : return FBuilder.COMPLEXD.createZERO(pCard);</span>
+<span class="nc" id="L106">		default : return null;</span>
+		}
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ONE using the
+	 * cardinal provided. Its way of doing this switches on the offered CladosField 
+	 * instead of using this builder's mode.
+	 * &lt;br&gt;
+	 * Nothing about this method relies on the mode of the builder.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pMode CladosField mode to use when creating ProtoN numbers
+	 * @param pCard Cardinal to be re-used.
+	 * @return ProtoN child number created
+	 */
+	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(CladosField pMode, Cardinal pCard) {
+<span class="fc" id="L123">		FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="pc bpc" id="L124" title="1 of 5 branches missed.">		switch (pMode) {</span>
+<span class="fc" id="L125">			case REALF : return FBuilder.REALF.createONE(pCard);</span>
+<span class="fc" id="L126">			case REALD : return FBuilder.REALD.createONE(pCard);</span>
+<span class="fc" id="L127">			case COMPLEXF : return FBuilder.COMPLEXF.createONE(pCard);</span>
+<span class="fc" id="L128">			case COMPLEXD : return FBuilder.COMPLEXD.createONE(pCard);</span>
+<span class="nc" id="L129">			default : return null;</span>
+		}
+	}
+
+	/**
+	 * Method copies the incoming number into a distinct object ensuring the ==
+	 * operation fails but equals() does not.
+	 * &lt;br&gt;
+	 * NOTE this one makes no attempt to update the cardinal cache. It is assumed to
+	 * have been done while constructing the number passed in as a parameter.
+	 * &lt;br&gt;
+	 * NOTE about suppressed type cast warnings | This method sifts through the
+	 * possible classes known as descendents of ProtoN. If the object to be
+	 * copied is one of them, the method uses a constructor appropriate to it, but
+	 * then casts the result back to the generic T before returning it.
+	 * &lt;br&gt;
+	 * There is no danger to this with respect to the implementation of this method.
+	 * The danger comes from mis-use of the method. If one passes a different kind
+	 * of object that passes as a descendent of ProtoN implementing Field and
+	 * Normalizable, this method might not detect it and return null. The type
+	 * casting operation itself cannot fail, but unrecognized child classes do NOT
+	 * get copied.
+	 * &lt;br&gt;
+	 * This can happen if one extends ProtoN creating a new CladosF number.
+	 * This method will not be aware of the new class until its implementation is
+	 * updated.
+	 * &lt;br&gt;
+	 * Nothing about this method relies on the mode of the builder.
+	 * &lt;br&gt;
+	 * @param pDiv A ProtoN child number to be copied
+	 * @param &lt;T&gt;  ProtoN child number with the Field and Normalizable
+	 *             interfaces too.
+	 * @return ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T copyOf(T pDiv) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		if (pDiv instanceof RealF) {</span>
+<span class="fc" id="L166">			return (T) new RealF(pDiv.getCardinal(), ((RealF) pDiv).getReal());</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">		} else if (pDiv instanceof RealD) {</span>
+<span class="fc" id="L168">			return (T) new RealD(pDiv.getCardinal(), ((RealD) pDiv).getReal());</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexF) {</span>
+<span class="fc" id="L170">			return (T) new ComplexF(pDiv.getCardinal(), ((ComplexF) pDiv).getReal(), ((ComplexF) pDiv).getImg());</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexD) {</span>
+<span class="fc" id="L172">			return (T) new ComplexD(pDiv.getCardinal(), ((ComplexD) pDiv).getReal(), ((ComplexD) pDiv).getImg());</span>
+		} else {
+<span class="fc" id="L174">			return null;</span>
+		}
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ONE using the
+	 * string provided to define and cache a Cardinal.
+	 * &lt;br&gt;
+	 * This method relies on the mode of the builder called to create the number.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pS String name for the associated Cardinal
+	 * @return  ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(String pS) {
+<span class="fc" id="L190">		Cardinal toCache = createCardinal(pS);</span>
+<span class="pc bpc" id="L191" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L192">			case REALF : return (D) RealF.newONE(toCache);</span>
+<span class="fc" id="L193">			case REALD : return (D) RealD.newONE(toCache);</span>
+<span class="fc" id="L194">			case COMPLEXF : return (D) ComplexF.newONE(toCache);</span>
+<span class="fc" id="L195">			case COMPLEXD :	return (D) ComplexD.newONE(toCache);</span>
+<span class="nc" id="L196">		default : return null;</span>
+		}
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ONE using the
+	 * offered Cardinal.
+	 * &lt;br&gt;
+	 * This method relies on the mode of the builder called to create the number.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pCard Cardinal to use in construction
+	 * @return ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(Cardinal pCard) {
+<span class="pc bpc" id="L212" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L213">			case REALF : return (D) RealF.newONE(pCard);</span>
+<span class="fc" id="L214">			case REALD : return (D) RealD.newONE(pCard);</span>
+<span class="fc" id="L215">			case COMPLEXF : return (D) ComplexF.newONE(pCard);</span>
+<span class="fc" id="L216">			case COMPLEXD :	return (D) ComplexD.newONE(pCard);</span>
+<span class="nc" id="L217">			default : return null;</span>
+		}
+	}
+
+	/**
+	 * Method creates a number as distinct ZERO object using default cardinal name.
+	 * &lt;br&gt;
+	 * This method relies on the mode of the builder called to create the number.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @return ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO() {
+<span class="pc bpc" id="L231" title="1 of 5 branches missed.">		switch (this) {</span>
+		case REALF -&gt; {
+<span class="fc" id="L233">			Cardinal toCache = createCardinal(CladosField.REALF.name());</span>
+<span class="fc" id="L234">			return (D) RealF.newZERO(toCache);</span>
+		}
+		case REALD -&gt; {
+<span class="fc" id="L237">			Cardinal toCache = createCardinal(CladosField.REALD.name());</span>
+<span class="fc" id="L238">			return (D) RealD.newZERO(toCache);</span>
+		}
+		case COMPLEXF -&gt; {
+<span class="fc" id="L241">			Cardinal toCache = createCardinal(CladosField.COMPLEXF.name());</span>
+<span class="fc" id="L242">			return (D) ComplexF.newZERO(toCache);</span>
+		}
+		case COMPLEXD -&gt; {
+<span class="fc" id="L245">			Cardinal toCache = createCardinal(CladosField.COMPLEXD.name());</span>
+<span class="fc" id="L246">			return (D) ComplexD.newZERO(toCache);</span>
+		}
+		default -&gt; {
+<span class="nc" id="L249">			return null;</span>
+		}
+		}
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ZERO using the
+	 * string provided to define and cache a Cardinal.
+	 * &lt;br&gt;
+	 * This method relies on the mode of the builder called to create the number.
+	 * &lt;br&gt;
+	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * @param pCard Cardinal to be re-used.
+	 * @return ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(Cardinal pCard) {
+<span class="pc bpc" id="L266" title="1 of 5 branches missed.">		switch (this) {</span>
+		case REALF -&gt; {
+<span class="fc" id="L268">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L269">			return (D) RealF.newZERO(pCard);</span>
+		}
+		case REALD -&gt; {
+<span class="fc" id="L272">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L273">			return (D) RealD.newZERO(pCard);</span>
+		}
+		case COMPLEXF -&gt; {
+<span class="fc" id="L276">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L277">			return (D) ComplexF.newZERO(pCard);</span>
+		}
+		case COMPLEXD -&gt; {
+<span class="fc" id="L280">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L281">			return (D) ComplexD.newZERO(pCard);</span>
+		}
+		default -&gt; {
+<span class="nc" id="L284">			return null;</span>
+		}
+		}
+	}
+
+	/**
+	 * Method creates a new number object with a real value set to ZERO using the
+	 * string provided to define and cache a Cardinal.
+	 * &lt;br&gt;
+	 * This method relies on the mode of the builder called to create the number.
+	 * &lt;br&gt;
+	 * @param pS  String name for the associated Cardinal
+	 * @param &lt;D&gt; ProtoN child number with the Field interface too.
+	 * @return ProtoN child number created
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;D extends ProtoN &amp; Field&gt; D createZERO(String pS) {
+<span class="fc" id="L301">		Cardinal toCache = createCardinal(pS);</span>
+<span class="pc bpc" id="L302" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L303">			case REALF : return (D) RealF.newZERO(toCache);</span>
+<span class="fc" id="L304">			case REALD : return (D) RealD.newZERO(toCache);</span>
+<span class="fc" id="L305">			case COMPLEXF : return (D) ComplexF.newZERO(toCache);</span>
+<span class="fc" id="L306">			case COMPLEXD : return (D) ComplexD.newZERO(toCache);</span>
+<span class="nc" id="L307">			default : return null;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
