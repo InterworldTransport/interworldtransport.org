@@ -52,7 +52,7 @@ import java.util.Set;
  * @author Dr Alfred W Differ
  */
 <span class="fc" id="L54">public enum FCache {</span>
-<span class="fc" id="L55">	/**</span>
+	/**
 	 * There is an implicit private constructor for this singleton, but we won't
 	 * override it.
 	 * &lt;br&gt;
@@ -90,7 +90,7 @@ import java.util.Set;
 	public void appendCardinal(Set&lt;Cardinal&gt; pIn) {
 <span class="fc" id="L91">		pIn.stream().forEach(pC -&gt; {</span>
 <span class="fc" id="L92">			Optional&lt;Cardinal&gt; test = findCardinal(pC.getUnit());</span>
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">			if (test.isEmpty())</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">			if (test.isEmpty())</span>
 <span class="fc" id="L94">				listOfCardinals.add(pC);</span>
 <span class="fc" id="L95">		});</span>
 <span class="fc" id="L96">	}</span>

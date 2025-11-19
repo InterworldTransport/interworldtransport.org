@@ -163,7 +163,7 @@ public final class Foot {
 	 * @return Optional Cardinal if one is found by the requested name
 	 */
 	public Optional&lt;Cardinal&gt; findCardinal(String pName) {
-<span class="nc" id="L166">		return cardinalList.stream().filter(x -&gt; x.getUnit().equals(pName)).findFirst();</span>
+<span class="fc" id="L166">		return cardinalList.stream().filter(x -&gt; x.getUnit().equals(pName)).findFirst();</span>
 	}
 
 	/**
@@ -232,8 +232,8 @@ public final class Foot {
 	 * @return String formatted as XML containing information about the Foot
 	 */
 	public final static String toXMLString(Foot pF, String indent) {
-<span class="pc bpc" id="L235" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L236">			indent = &quot;\t\t&quot;;</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L236">			indent = &quot;\t\t&quot;;</span>
 <span class="fc" id="L237">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot&gt;\n&quot;);</span>
 <span class="fc" id="L238">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pF.getFootName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
 		// -----------------------------------------------------------------------

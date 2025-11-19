@@ -201,9 +201,9 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	public Algebra(String pNewName, Foot pF, String pSig)
 			throws BadSignatureException, GeneratorRangeException {
 <span class="fc" id="L203">		this(	pNewName, </span>
-<span class="fc" id="L204">				pF, </span>
+				pF, 
 <span class="fc" id="L205">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-<span class="fc" id="L206">											pSig));</span>
+											pSig));
 <span class="fc" id="L207">		GCache.INSTANCE.appendBasis(gBasis);</span>
 <span class="fc" id="L208">		GCache.INSTANCE.appendGProduct(gProduct);</span>
 <span class="fc" id="L209">	}</span>
@@ -241,7 +241,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 <span class="fc" id="L241">				GBuilder.createFoot(		pFootName, </span>
 <span class="fc" id="L242">											pF.getCardinalString()),</span>
 <span class="fc" id="L243">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-<span class="fc" id="L244">											pSig));</span>
+											pSig));
 <span class="fc" id="L245">		GCache.INSTANCE.appendBasis(gBasis);</span>
 <span class="fc" id="L246">		GCache.INSTANCE.appendGProduct(gProduct);</span>
 <span class="fc" id="L247">	}</span>

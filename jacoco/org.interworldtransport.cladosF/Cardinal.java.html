@@ -87,29 +87,39 @@ public final class Cardinal {
 
 	private final String unit;
 
-<span class="fc" id="L90">	private Cardinal(CladosField pT) {</span>
-<span class="fc" id="L91">		unit = pT.name();</span>
-<span class="fc" id="L92">	}</span>
+	/*
+	 * This private constructor re-uses the CladosField enumeration as a basic unit.
+	 * This constructor exists so objects using CladosF classes have a basic unit that
+	 * doesn't have to mean anything. The other option they could have is to use a null 
+	 * Cardinal, but then type matching likely fails. Anyone using the CladosField 
+	 * enumeration likely prefers not to use Cardinals at all.
+	 */
+<span class="fc" id="L97">	private Cardinal(CladosField pT) {</span>
+<span class="fc" id="L98">		unit = pT.name();</span>
+<span class="fc" id="L99">		FCache.INSTANCE.appendCardinal(this);</span>
+<span class="fc" id="L100">	}</span>
 
-<span class="fc" id="L94">	private Cardinal(String pT) {</span>
-<span class="fc" id="L95">		unit = pT;</span>
-<span class="fc" id="L96">	}</span>
+	/*
+	 * This private constructor accepts a string as the name of some 'units' associated 
+	 * with a CladosF number class. The string may be any legal java string.
+	 */
+<span class="fc" id="L106">	private Cardinal(String pT) {</span>
+<span class="fc" id="L107">		unit = pT;</span>
+<span class="fc" id="L108">		FCache.INSTANCE.appendCardinal(this);</span>
+<span class="fc" id="L109">	}</span>
 
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (this == obj)</span>
-<span class="fc" id="L101">			return true;</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		if (obj == null)</span>
-<span class="nc" id="L103">			return false;</span>
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())</span>
-<span class="nc" id="L105">			return false;</span>
-<span class="fc" id="L106">		Cardinal other = (Cardinal) obj;</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if (unit == null) {</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">			if (other.unit != null)</span>
-<span class="nc" id="L109">				return false;</span>
-<span class="fc bfc" id="L110" title="All 2 branches covered.">		} else if (!this.getUnit().equals(other.getUnit()))</span>
-<span class="fc" id="L111">			return false;</span>
-<span class="fc" id="L112">		return true;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (this == obj)</span>
+<span class="fc" id="L114">			return true;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		if (obj == null)</span>
+<span class="fc" id="L116">			return false;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (getClass() != obj.getClass())</span>
+<span class="fc" id="L118">			return false;</span>
+<span class="fc" id="L119">		Cardinal other = (Cardinal) obj;</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (!this.getUnit().equals(other.getUnit()))</span>
+<span class="fc" id="L121">			return false;</span>
+<span class="fc" id="L122">		return true;</span>
 	}
 
 	/**
@@ -118,15 +128,15 @@ public final class Cardinal {
 	 * @return String This string names the 'unit type' represented by the Cardinal
 	 */
 	public String getUnit() {
-<span class="fc" id="L121">		return unit;</span>
+<span class="fc" id="L131">		return unit;</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L126">		final int prime = 31;</span>
-<span class="fc" id="L127">		int result = 1;</span>
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		result = prime * result + ((unit == null) ? 0 : unit.hashCode());</span>
-<span class="fc" id="L129">		return result;</span>
+<span class="fc" id="L136">		final int prime = 31;</span>
+<span class="fc" id="L137">		int result = 1;</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		result = prime * result + ((unit == null) ? 0 : unit.hashCode());</span>
+<span class="fc" id="L139">		return result;</span>
 	}
 
 	/**
@@ -137,9 +147,9 @@ public final class Cardinal {
 	 * @return String XML compatible sub-unit for code relying on export-able Cardinals.
 	 */
 	public final static String toXMLString(Cardinal pCard, String indent) {
-<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L141">			indent =&quot;&quot;;</span>
-<span class="fc" id="L142">		return (indent + &quot;&lt;Cardinal unit=\&quot;&quot; + pCard.unit + &quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L151">			indent =&quot;&quot;;</span>
+<span class="fc" id="L152">		return (indent + &quot;&lt;Cardinal unit=\&quot;&quot; + pCard.unit + &quot;\&quot; /&gt;\n&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

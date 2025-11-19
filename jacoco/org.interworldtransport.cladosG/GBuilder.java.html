@@ -333,7 +333,7 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 <span class="fc bfc" id="L333" title="All 2 branches covered.">			if (pB.isPresent()) {</span>
 <span class="fc" id="L334">				GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
 <span class="fc" id="L335">				tSpot = Optional.ofNullable(createGProduct(pSig));</span>
-<span class="fc" id="L336">			} else {</span>
+			} else {
 <span class="fc" id="L337">				tSpot = Optional.ofNullable(createGProduct(pSig));</span>
 <span class="fc" id="L338">				GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
 			}
@@ -374,7 +374,7 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 <span class="fc bfc" id="L374" title="All 2 branches covered.">			if (tB.isPresent()){</span>
 <span class="fc" id="L375">				tSpot2 = new GProduct(tB, pSig);</span>
 <span class="fc" id="L376">				GCache.INSTANCE.appendGProduct(tSpot2);</span>
-<span class="fc" id="L377">			}</span>
+			}
 			else {
 <span class="fc" id="L379">				tSpot2 = new GProduct(pSig);</span>
 <span class="fc" id="L380">				GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
@@ -430,7 +430,7 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
 <span class="pc bpc" id="L431" title="1 of 2 branches missed.">		if (pA.getGBasis() != pNumbers.getBasis()) </span>
 <span class="nc" id="L432">			throw new CladosMonadException(	null, </span>
-<span class="nc" id="L433">											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);</span>
+											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);
 		
 <span class="fc" id="L435">		return new Monad(pName, pA, pNumbers);</span>
 	}
@@ -457,8 +457,8 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 <span class="fc" id="L457">		return new Monad(	pName, 		//A String</span>
 <span class="fc" id="L458">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
 <span class="fc" id="L459">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
-<span class="fc" id="L460">													pName),</span>
-<span class="fc" id="L461">							pNumbers);	//A Scale object use for weights AND the basis</span>
+													pName),
+							pNumbers);	//A Scale object use for weights AND the basis
 	}
 
 	/**
@@ -549,11 +549,11 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 * &lt;br&gt;
 	 * @param pN The nyad to be copied. USE A CONCRETE Nyad here or nada
 	 * @return Nyad (Cast this as the concrete nyad to be used)
-	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException  Thrown for a general monad constructor error
 	 * @throws CladosNyadException   Thrown for a general nyad constructor error
 	 */
-	public final Nyad copyOfNyad(Nyad pN) throws BadSignatureException, CladosMonadException, CladosNyadException {
+	public final Nyad copyOfNyad(Nyad pN) 
+			throws CladosMonadException, CladosNyadException {
 <span class="nc" id="L557">		return new Nyad(pN);</span>
 	}
 
@@ -563,13 +563,12 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 * @param pN    The nyad to copy causing all listed monads TO BE CONSTRUCTED.
 	 * @param pName A String for the new Nyad's name.
 	 * @return Nyad (Cast this as the concrete nyad to be used)
-	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException  Thrown for a general monad constructor error
 	 * @throws CladosNyadException   Thrown for a general nyad constructor error
 	 */
 	public final Nyad copyOfNyad(Nyad pN, String pName)
-			throws BadSignatureException, CladosMonadException, CladosNyadException {
-<span class="nc" id="L572">		return new Nyad(pName, pN, true);</span>
+			throws CladosMonadException, CladosNyadException {
+<span class="nc" id="L571">		return new Nyad(pName, pN, true);</span>
 	}
 
 	/**
@@ -581,7 +580,8 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 * @throws CladosMonadException Thrown for a general monad constructor error
 	 * @throws CladosNyadException  Thrown for a general nyad constructor error
 	 */
-	public final Nyad createNyadUsingMonad(Monad pM, String pName) throws CladosNyadException, CladosMonadException {
+	public final Nyad createNyadUsingMonad(Monad pM, String pName) 
+			throws CladosNyadException, CladosMonadException {
 <span class="fc" id="L585">		return new Nyad(pName, pM, false);</span>
 	}
 
@@ -591,13 +591,12 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 * @param pM    The monad to be COPIED as the first in the list in a new nyad.
 	 * @param pName A String for the new Nyad's name.
 	 * @return Nyad (Cast this as the concrete nyad to be used)
-	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException  Thrown for a general monad constructor error
 	 * @throws CladosNyadException   Thrown for a general nyad constructor error
 	 */
 	public final Nyad createNyadWithMonadCopy(Monad pM, String pName)
-			throws BadSignatureException, CladosMonadException, CladosNyadException {
-<span class="nc" id="L600">		return new Nyad(pName, pM, true);</span>
+			throws CladosMonadException, CladosNyadException {
+<span class="nc" id="L599">		return new Nyad(pName, pM, true);</span>
 	}
 
 	/**
@@ -608,13 +607,12 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 * @param pN    The nyad to use causing all listed monads TO BE RE-USED AS IS.
 	 * @param pName A String for the new Nyad's name.
 	 * @return Nyad (Cast this as the concrete nyad to be used)
-	 * @throws BadSignatureException Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException  Thrown for a general monad constructor error
 	 * @throws CladosNyadException   Thrown for a general nyad constructor error
 	 */
 	public final Nyad duplicateNyadReference(Nyad pN, String pName)
-			throws BadSignatureException, CladosMonadException, CladosNyadException {
-<span class="nc" id="L617">		return new Nyad(pName, pN, false);</span>
+			throws CladosMonadException, CladosNyadException {
+<span class="nc" id="L615">		return new Nyad(pName, pN, false);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

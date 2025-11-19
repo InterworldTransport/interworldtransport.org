@@ -39,7 +39,6 @@ import org.interworldtransport.cladosF.RealD;
 import org.interworldtransport.cladosF.RealF;
 import org.interworldtransport.cladosF.Field;
 import org.interworldtransport.cladosF.Normalizable;
-import org.interworldtransport.cladosFExceptions.FieldBinaryException;
 import org.interworldtransport.cladosGExceptions.BadSignatureException;
 import org.interworldtransport.cladosGExceptions.CladosMonadException;
 import org.interworldtransport.cladosGExceptions.CladosNyadException;
@@ -87,18 +86,18 @@ public class Nyad implements Modal {
 	 * @return boolean
 	 */
 	public static final boolean isMEqual(Nyad pT, Nyad pN) {
-<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		if (pT.getNyadMOrder() != pN.getNyadMOrder())		// Check if the Nyads are of the same order</span>
-<span class="nc" id="L91">			return false;									// Return false if they are not</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if (pT.getNyadMOrder() != pN.getNyadMOrder())		// Check if the Nyads are of the same order</span>
+<span class="nc" id="L90">			return false;									// Return false if they are not</span>
 
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		if (pT.getNyadAOrder() != pN.getNyadAOrder())		// Check if the nyads algebra orders are the same</span>
-<span class="nc" id="L94">			return false;									// Return false if they are not</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (pT.getNyadAOrder() != pN.getNyadAOrder())		// Check if the nyads algebra orders are the same</span>
+<span class="nc" id="L93">			return false;									// Return false if they are not</span>
 		
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check if the feet match</span>
-<span class="nc" id="L97">			return false;									// Return false if they don't	</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check if the feet match</span>
+<span class="nc" id="L96">			return false;									// Return false if they don't	</span>
 		
-<span class="fc" id="L99">		boolean fcheck = pT.monadStream().allMatch(y -&gt; pN.monadStream().anyMatch(x -&gt; x.isGEqual(y)));</span>
-<span class="fc" id="L100">		boolean bcheck = pN.monadStream().allMatch(y -&gt; pT.monadStream().anyMatch(x -&gt; x.isGEqual(y)));</span>
-<span class="fc" id="L101">		return fcheck &amp; bcheck;								// These two ensure reflexive testing is complete</span>
+<span class="fc" id="L98">		boolean fcheck = pT.monadStream().allMatch(y -&gt; pN.monadStream().anyMatch(x -&gt; x.isGEqual(y)));</span>
+<span class="fc" id="L99">		boolean bcheck = pN.monadStream().allMatch(y -&gt; pT.monadStream().anyMatch(x -&gt; x.isGEqual(y)));</span>
+<span class="fc" id="L100">		return fcheck &amp; bcheck;								// These two ensure reflexive testing is complete</span>
 															// Failures in one should stop the other, but the streams will
 															// halt in a protected way where loops risk mutability.	
 	}
@@ -116,18 +115,18 @@ public class Nyad implements Modal {
 	 * @return boolean
 	 */
 	public static final boolean isStrongReferenceMatch(Nyad pT, Nyad pN) {
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (pT.getNyadMOrder() != pN.getNyadMOrder())		// Check if the Nyads are of the same order</span>
-<span class="nc" id="L120">			return false;									// Return false if they are not</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (pT.getNyadMOrder() != pN.getNyadMOrder())		// Check if the Nyads are of the same order</span>
+<span class="nc" id="L119">			return false;									// Return false if they are not</span>
 		
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (pT.getNyadAOrder() != pN.getNyadAOrder())		// Check if the nyads algebra orders are the same</span>
-<span class="nc" id="L123">			return false;									// Return false if they are not</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">		if (pT.getNyadAOrder() != pN.getNyadAOrder())		// Check if the nyads algebra orders are the same</span>
+<span class="nc" id="L122">			return false;									// Return false if they are not</span>
 
-<span class="pc bpc" id="L125" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check if the feet match</span>
-<span class="nc" id="L126">			return false;									// Return false if they do not		</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check if the feet match</span>
+<span class="nc" id="L125">			return false;									// Return false if they do not		</span>
 		
-<span class="fc" id="L128">		boolean fcheck = pT.monadStream().allMatch(y -&gt; pN.monadStream().anyMatch(x -&gt; Monad.isReferenceMatch(x, y)));</span>
-<span class="fc" id="L129">		boolean bcheck = pN.monadStream().allMatch(y -&gt; pT.monadStream().anyMatch(x -&gt; Monad.isReferenceMatch(x, y)));</span>
-<span class="fc" id="L130">		return fcheck &amp; bcheck;								// These two ensure reflexive testing is complete</span>
+<span class="fc" id="L127">		boolean fcheck = pT.monadStream().allMatch(y -&gt; pN.monadStream().anyMatch(x -&gt; Monad.isReferenceMatch(x, y)));</span>
+<span class="fc" id="L128">		boolean bcheck = pN.monadStream().allMatch(y -&gt; pT.monadStream().anyMatch(x -&gt; Monad.isReferenceMatch(x, y)));</span>
+<span class="fc" id="L129">		return fcheck &amp; bcheck;								// These two ensure reflexive testing is complete</span>
 															// Failures in one should stop the other, but the streams will
 															// halt in a protected way where loops risk mutability.	
 	}
@@ -145,20 +144,20 @@ public class Nyad implements Modal {
 	 * @return boolean
 	 */
 	public static final boolean isWeakReferenceMatch(Nyad pT, Nyad pN) {
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check to see if the Feet match</span>
-<span class="nc" id="L149">			return false;									// Return false if they do not	</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">		if (pT.getFoot() != pN.getFoot())					// Check to see if the Feet match</span>
+<span class="nc" id="L148">			return false;									// Return false if they do not	</span>
 
-<span class="pc bpc" id="L151" title="3 of 6 branches missed.">		if (pT.getNyadAOrder() == 0 | pN.getNyadAOrder() == 0)</span>
-<span class="nc" id="L152">			return true;									// If one nyad is empty, the other has danglers and passes.</span>
+<span class="pc bpc" id="L150" title="3 of 6 branches missed.">		if (pT.getNyadAOrder() == 0 | pN.getNyadAOrder() == 0)</span>
+<span class="nc" id="L151">			return true;									// If one nyad is empty, the other has danglers and passes.</span>
 
-<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (!pT.algebraStream().anyMatch(y -&gt; pN.algebraStream().anyMatch(x -&gt; x.equals(y)))) 										</span>
-<span class="fc" id="L155">			return true;									// Edge case: ALL monads are danglers. Weak reference match occurs by default</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (!pT.algebraStream().anyMatch(y -&gt; pN.algebraStream().anyMatch(x -&gt; x.equals(y)))) 										</span>
+<span class="fc" id="L154">			return true;									// Edge case: ALL monads are danglers. Weak reference match occurs by default</span>
 		
-<span class="fc" id="L157">		return  pT.algebraStream().anyMatch(y -&gt; 			// Pick an algebra in pT [Failure to match means algebra in both and unit match failed]</span>
-<span class="fc" id="L158">					pT.monadInAlgebraStream(y).anyMatch(pTm -&gt; 		// Pick a monad in pT using the algebra and find anyMatch of</span>
-<span class="fc" id="L159">						pN.monadInAlgebraStream(y).anyMatch(pNm -&gt; 			// Pick a monad in pN using the algebra and find anyMatch of</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">							Monad.isUnitMatch(pNm, pTm) | !pN.hasAlgebra(y)			// The two monads being unit matches or pT's being a dangler</span>
-<span class="fc" id="L161">								)));</span>
+<span class="fc" id="L156">		return  pT.algebraStream().anyMatch(y -&gt; 			// Pick an algebra in pT [Failure to match means algebra in both and unit match failed]</span>
+<span class="fc" id="L157">					pT.monadInAlgebraStream(y).anyMatch(pTm -&gt; 		// Pick a monad in pT using the algebra and find anyMatch of</span>
+<span class="fc" id="L158">						pN.monadInAlgebraStream(y).anyMatch(pNm -&gt; 			// Pick a monad in pN using the algebra and find anyMatch of</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">							Monad.isUnitMatch(pNm, pTm) | !pN.hasAlgebra(y)			// The two monads being unit matches or pT's being a dangler</span>
+								)));
 															// Any monad in pN not chosen for a check is a known dangler. No need to check it.
 															// Any unit match for monads sharing an algebra suffices, so two nyads with 
 															// two monads in the same algebra with different units will pass weak matching
@@ -167,16 +166,48 @@ public class Nyad implements Modal {
 	}
 
 	/**
+	 * Project the second Monad into the algebra of the first where it is assumed that the two algebras
+	 * share the same basis. In that rare case, the algebra distinctions are merely bookkeeping tricks.
+	 * &lt;br&gt;
+	 * @param pLeft the monad acting as a source of an algebra to project into
+	 * @param pRight the monad to be projected
+	 * @return Monad which has been pressed into the other algebra
+	 */
+	public static Monad projectOntoAlgebra(Monad pLeft, Monad pRight) {
+
+		//Scale&lt;?&gt; tempRightWeights = pRight.getWeights();
+		//Algebra tempLeftAlg = pLeft.getAlgebra();
+		//Basis tempLeftBasis = tempLeftAlg.getGBasis();
+		//Scale&lt;T&gt; newRightScale = new Scale&lt;&gt;(pRight.getMode(), tempLeftBasis, tempRightWeights.getCardinal());
+
+		//tempLeftBasis.bladeStream().forEach(blade -&gt; {
+		//	newRightScale.put(blade, (T) tempRightWeights.get(blade));
+		//	});;
+
+		// Because 'blade' is the same in left and right monads, there is no need to recast the Scale for pRight.
+		// If this is EVER to work with different bases, there must be a map (a frame?) supporting calculation
+		// of linear combination weight from the old basis to use for each blade in the new basis. 
+		
+		// Ken's old connector idea had the bases line up, though. Algebra distinctions were bookkeeping methods.
+		// Truth is... we can probably recover that without nyads by using a dual generator to double a basis size
+		// and place one of the monads in the degenerate extension. Weird, but it might work.
+
+<span class="nc" id="L195">		pRight.setAlgebra(pLeft.getAlgebra());</span>
+
+<span class="nc" id="L197">		return pRight;</span>
+	}
+
+	/**
 	 * This is a boolean flag set to True when the monads ALL refer to the same
 	 * algebra. Otherwise it should be false.
 	 */
-<span class="pc" id="L173">	private boolean compositionFlag = false;</span>
+<span class="pc" id="L204">	private boolean compositionFlag = false;</span>
 
 	/**
 	 * This is a boolean flag set to True when the monads ALL refer to DIFFERENT
 	 * algebras. Otherwise it should be false.
 	 */
-<span class="pc" id="L179">	private boolean jFlag = false;</span>
+<span class="pc" id="L210">	private boolean jFlag = false;</span>
 
 	/**
 	 * This array is the list of algebras used in the Nyad.
@@ -217,8 +248,8 @@ public class Nyad implements Modal {
 	 *                              monads in the nyad being copied.
 	 */
 	public Nyad(Nyad pN) throws CladosNyadException, CladosMonadException {
-<span class="nc" id="L220">		this(pN.getName(), pN, true);</span>
-<span class="nc" id="L221">	}</span>
+<span class="nc" id="L251">		this(pN.getName(), pN, true);</span>
+<span class="nc" id="L252">	}</span>
 
 	/**
 	 * A basic constructor of a Nyad that starts with a Monad. The Monad will be
@@ -231,17 +262,17 @@ public class Nyad implements Modal {
 	 * @throws CladosNyadException  This exception is thrown when the offered Nyad
 	 *                              is malformed. Make no assumptions!
 	 */
-<span class="fc" id="L234">	public Nyad(String pName, Monad pM, boolean pCopy) throws CladosNyadException {</span>
-<span class="fc" id="L235">		setName(pName);</span>
-<span class="fc" id="L236">		setFoot(pM.getAlgebra().getFoot());</span>
-<span class="fc" id="L237">		mode = pM.getMode();</span>
-<span class="fc" id="L238">		monadList = new ArrayList&lt;Monad&gt;(1);</span>
-<span class="fc" id="L239">		algebraList = new ArrayList&lt;Algebra&gt;(1);</span>
-<span class="pc bpc" id="L240" title="1 of 2 branches missed.">		if (pCopy)</span>
-<span class="nc" id="L241">			appendMonadCopy(pM);</span>
+<span class="fc" id="L265">	public Nyad(String pName, Monad pM, boolean pCopy) throws CladosNyadException {</span>
+<span class="fc" id="L266">		setName(pName);</span>
+<span class="fc" id="L267">		setFoot(pM.getAlgebra().getFoot());</span>
+<span class="fc" id="L268">		mode = pM.getMode();</span>
+<span class="fc" id="L269">		monadList = new ArrayList&lt;Monad&gt;(1);</span>
+<span class="fc" id="L270">		algebraList = new ArrayList&lt;Algebra&gt;(1);</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">		if (pCopy)</span>
+<span class="nc" id="L272">			appendMonadCopy(pM);</span>
 		else
-<span class="fc" id="L243">			appendMonad(pM);</span>
-<span class="fc" id="L244">	}</span>
+<span class="fc" id="L274">			appendMonad(pM);</span>
+<span class="fc" id="L275">	}</span>
 
 	/**
 	 * A simple copy constructor of a Nyad. The passed Nyad will be copied
@@ -258,24 +289,24 @@ public class Nyad implements Modal {
 	 * @throws CladosNyadException  This exception is thrown when the offered Nyad
 	 *                              is malformed. Make no assumptions!
 	 */
-<span class="nc" id="L261">	public Nyad(String pName, Nyad pN, boolean pCopy) throws CladosNyadException {</span>
-<span class="nc bnc" id="L262" title="All 2 branches missed.">		if (pN.getNyadMOrder() == 0)</span>
-<span class="nc" id="L263">			throw new IllegalArgumentException(&quot;Offered Nyad to copy is empty.&quot;);</span>
+<span class="nc" id="L292">	public Nyad(String pName, Nyad pN, boolean pCopy) throws CladosNyadException {</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">		if (pN.getNyadMOrder() == 0)</span>
+<span class="nc" id="L294">			throw new IllegalArgumentException(&quot;Offered Nyad to copy is empty.&quot;);</span>
 
-<span class="nc" id="L265">		setName(pName);</span>
-<span class="nc" id="L266">		setFoot(pN.getFoot());</span>
-<span class="nc" id="L267">		mode = pN.getMonadAt(0).getMode();</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">		if (pN.monadList != null) {</span>
-<span class="nc" id="L269">			monadList = new ArrayList&lt;Monad&gt;(pN.monadList.size());</span>
-<span class="nc" id="L270">			algebraList = new ArrayList&lt;Algebra&gt;(pN.algebraList.size());</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">			if (pCopy)</span>
-<span class="nc bnc" id="L272" title="All 2 branches missed.">				for (Monad tSpot : pN.monadList)</span>
-<span class="nc" id="L273">					appendMonadCopy(tSpot);</span>
+<span class="nc" id="L296">		setName(pName);</span>
+<span class="nc" id="L297">		setFoot(pN.getFoot());</span>
+<span class="nc" id="L298">		mode = pN.getMonadAt(0).getMode();</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		if (pN.monadList != null) {</span>
+<span class="nc" id="L300">			monadList = new ArrayList&lt;Monad&gt;(pN.monadList.size());</span>
+<span class="nc" id="L301">			algebraList = new ArrayList&lt;Algebra&gt;(pN.algebraList.size());</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">			if (pCopy)</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">				for (Monad tSpot : pN.monadList)</span>
+<span class="nc" id="L304">					appendMonadCopy(tSpot);</span>
 			else
-<span class="nc bnc" id="L275" title="All 2 branches missed.">				for (Monad tSpot : pN.monadList)</span>
-<span class="nc" id="L276">					appendMonad(tSpot);</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">				for (Monad tSpot : pN.monadList)</span>
+<span class="nc" id="L307">					appendMonad(tSpot);</span>
 		}
-<span class="nc" id="L278">	}</span>
+<span class="nc" id="L309">	}</span>
 
 	/**
 	 * This is just an alias for algebraList.stream().
@@ -283,7 +314,7 @@ public class Nyad implements Modal {
 	 * @return Stream of distinct algebras in use in this Nyad.
 	 */
 	public Stream&lt;Algebra&gt; algebraStream() {
-<span class="fc" id="L286">		return algebraList.stream();</span>
+<span class="fc" id="L317">		return algebraList.stream();</span>
 	}
 
 	/**
@@ -299,16 +330,16 @@ public class Nyad implements Modal {
 	 * @return Nyad
 	 */
 	public Nyad appendMonad(Monad pM) throws CladosNyadException {
-<span class="pc bpc" id="L302" title="1 of 2 branches missed.">		if (findMonad(pM) != -1)							// -1 implies the monad is not already in the list</span>
-<span class="nc" id="L303">			return this;									// If it is in the list, silently return.</span>
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">		if (hasMonad(pM))									// If it is in the list...</span>
+<span class="nc" id="L334">			return this;									// silently return.</span>
 
-<span class="pc bpc" id="L305" title="1 of 2 branches missed.">		if (!pM.getAlgebra().getFoot().equals(getFoot()))</span>
-<span class="nc" id="L306">			throw new CladosNyadException(this, &quot;Nyad / New Monad Foot mismatch&quot;);</span>
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (!pM.getAlgebra().getFoot().equals(getFoot()))</span>
+<span class="nc" id="L337">			throw new CladosNyadException(this, &quot;Nyad / New Monad Foot mismatch&quot;);</span>
 
-<span class="fc" id="L308">		monadList.ensureCapacity(monadList.size() + 1);		// Append monad to the list</span>
-<span class="fc" id="L309">		monadList.add(pM);</span>
-<span class="fc" id="L310">		resetAlgebraList();</span>
-<span class="fc" id="L311">		return this;</span>
+<span class="fc" id="L339">		monadList.ensureCapacity(monadList.size() + 1);		// Append monad to the list</span>
+<span class="fc" id="L340">		monadList.add(pM);</span>
+<span class="fc" id="L341">		resetFlags();</span>
+<span class="fc" id="L342">		return this;</span>
 	}
 
 	/**
@@ -323,13 +354,13 @@ public class Nyad implements Modal {
 	 * @return Nyad
 	 */
 	public Nyad appendMonadCopy(Monad pM) throws CladosNyadException {
-<span class="pc bpc" id="L326" title="1 of 2 branches missed.">		if (!pM.getAlgebra().getFoot().equals(getFoot()))</span>
-<span class="nc" id="L327">			throw new CladosNyadException(this, &quot;Nyad / New Monad Foot mismatch&quot;);</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">		if (!pM.getAlgebra().getFoot().equals(getFoot()))</span>
+<span class="nc" id="L358">			throw new CladosNyadException(this, &quot;Nyad / New Monad Foot mismatch&quot;);</span>
 		
-<span class="fc" id="L329">		monadList.ensureCapacity(monadList.size() + 1);		// Add Monad to the ArrayList</span>
-<span class="fc" id="L330">		monadList.add(GBuilder.copyOfMonad(pM));</span>
-<span class="fc" id="L331">		resetAlgebraList();</span>
-<span class="fc" id="L332">		return this;</span>
+<span class="fc" id="L360">		monadList.ensureCapacity(monadList.size() + 1);		// Add Monad to the ArrayList</span>
+<span class="fc" id="L361">		monadList.add(GBuilder.copyOfMonad(pM));</span>
+<span class="fc" id="L362">		resetFlags();</span>
+<span class="fc" id="L363">		return this;</span>
 	}
 
 	/**
@@ -347,35 +378,35 @@ public class Nyad implements Modal {
 	 * &lt;br&gt;&lt;br&gt;
 	 * @param pInto int
 	 * @param pFrom int
-	 * @throws FieldBinaryException This exception is thrown when the monads to be
-	 *                              compressed fail the Field match test
 	 * @throws CladosNyadException 	This happens with a couple of edge cases involving
 	 * 								list range errors and basis mis-match issues.
 	 */
-	public void compressAntiSymm(int pInto, int pFrom) throws FieldBinaryException, CladosNyadException {
-<span class="nc bnc" id="L356" title="All 10 branches missed.">		if (pInto &gt;= 0 &amp; pFrom &gt;=0 &amp; pInto &lt; monadList.size() &amp; pFrom &lt; monadList.size()) { // Check for array out of bounds errors.</span>
-<span class="nc" id="L357">			Monad tempLeft = monadList.get(pInto);</span>
-<span class="nc" id="L358">			Algebra tempLeftAlg = tempLeft.getAlgebra();									// Project into this one</span>
-<span class="nc" id="L359">			Monad tempRight = monadList.get(pFrom);</span>
-<span class="nc" id="L360">			Algebra tempRightAlg = tempRight.getAlgebra();									// Keep a temp reference to the old one</span>
+	public void compressAntiSymm(int pInto, int pFrom) throws CladosNyadException {
+<span class="nc bnc" id="L385" title="All 4 branches missed.">		if (pInto &gt;= 0 &amp; pFrom &gt;=0 </span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">				&amp; pInto &lt; monadList.size() </span>
+<span class="nc bnc" id="L387" title="All 4 branches missed.">				&amp; pFrom &lt; monadList.size()) { 					// Check for array out of bounds errors.</span>
+<span class="nc" id="L388">			Monad tLeft = monadList.get(pInto);</span>
+<span class="nc" id="L389">			Algebra tLeftAlg = tLeft.getAlgebra();				// Project into this one</span>
+<span class="nc" id="L390">			Monad tRight = monadList.get(pFrom);</span>
+<span class="nc" id="L391">			Algebra tRightAlg = tRight.getAlgebra();			// Keep a temp reference to the old one</span>
 
-<span class="nc bnc" id="L362" title="All 2 branches missed.">			if (tempLeftAlg.getGBasis() == tempRightAlg.getGBasis()) {						// Proceed only if Basis is exact match</span>
-<span class="nc" id="L363">				tempRight = projectOntoAlgebra(tempLeft, tempRight);						// second Monad is ALTERED HERE!</span>
-<span class="nc" id="L364">				tempLeft.multiplyAntisymm(tempRight);										// Only now can we do the deed.</span>
+<span class="nc bnc" id="L393" title="All 2 branches missed.">			if (tLeftAlg.getGBasis() == tRightAlg.getGBasis()) {// Proceed only if Basis is exact match</span>
+<span class="nc" id="L394">				tRight = projectOntoAlgebra(tLeft, tRight);		// second Monad is ALTERED HERE!</span>
+<span class="nc" id="L395">				tLeft.multiplyAntisymm(tRight);					// Only now can we do the deed.</span>
 
-<span class="nc" id="L366">				monadList.remove(pFrom);													// Cleanup</span>
-<span class="nc" id="L367">				monadList.trimToSize();</span>
-<span class="nc bnc" id="L368" title="All 2 branches missed.">				if (tempLeftAlg != tempRightAlg) {</span>
-<span class="nc" id="L369">					algebraList.remove(tempRightAlg);										// More cleanup if needed</span>
-<span class="nc" id="L370">					algebraList.trimToSize();</span>
+<span class="nc" id="L397">				monadList.remove(pFrom);						// Cleanup</span>
+<span class="nc" id="L398">				monadList.trimToSize();</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">				if (tLeftAlg != tRightAlg) {</span>
+<span class="nc" id="L400">					algebraList.remove(tRightAlg);				// More cleanup if needed</span>
+<span class="nc" id="L401">					algebraList.trimToSize();</span>
 				}
-<span class="nc" id="L372">			} else {</span>
-<span class="nc" id="L373">				throw new CladosNyadException(this, &quot;Anti-Symmetric Compression requires exact Basis match.&quot;);</span>
+			} else {
+<span class="nc" id="L404">				throw new CladosNyadException(this, &quot;Anti-Symmetric Compression requires exact Basis match.&quot;);</span>
 			}
-		} else {
-<span class="nc" id="L376">			throw new CladosNyadException(this, &quot;Anti-Symmetric Compression out of range error&quot;);</span>
+<span class="nc" id="L406">		} else {</span>
+<span class="nc" id="L407">			throw new CladosNyadException(this, &quot;Anti-Symmetric Compression out of range error&quot;);</span>
 		}	
-<span class="nc" id="L378">	}</span>
+<span class="nc" id="L409">	}</span>
 
 	/**
 	 * Dyad symmetric compression: 1/2 (left right + right left) Monads are placed
@@ -392,36 +423,35 @@ public class Nyad implements Modal {
 	 * &lt;br&gt;&lt;br&gt;
 	 * @param pInto int
 	 * @param pFrom int
-	 * @throws FieldBinaryException This exception is thrown when the scale field
-	 *                              doesn't match the nyad's field.
 	 * @throws CladosNyadException 	This happens with a couple of edge cases involving
 	 * 								list range errors and basis mis-match issues.
 	 */
-	public void compressSymm(int pInto, int pFrom) throws FieldBinaryException, CladosNyadException {
+	public void compressSymm(int pInto, int pFrom) throws CladosNyadException {
+<span class="nc bnc" id="L430" title="All 4 branches missed.">		if (pInto &gt;= 0 &amp; pFrom &gt;=0 </span>
+<span class="nc bnc" id="L431" title="All 2 branches missed.">				&amp; pInto &lt; monadList.size() </span>
+<span class="nc bnc" id="L432" title="All 4 branches missed.">				&amp; pFrom &lt; monadList.size()) { 						// Check for array out of bounds errors.</span>
+<span class="nc" id="L433">			Monad tLeft = monadList.get(pInto);</span>
+<span class="nc" id="L434">			Algebra tLeftAlg = tLeft.getAlgebra();					// Project into this one</span>
+<span class="nc" id="L435">			Monad tRight = monadList.get(pFrom);</span>
+<span class="nc" id="L436">			Algebra tRightAlg = tRight.getAlgebra();				// Keep a temp reference to the old one</span>
 
-<span class="nc bnc" id="L402" title="All 10 branches missed.">		if (pInto &gt;= 0 &amp; pFrom &gt;=0 &amp; pInto &lt; monadList.size() &amp; pFrom &lt; monadList.size()) { // Check for array out of bounds errors.</span>
-<span class="nc" id="L403">			Monad tempLeft = monadList.get(pInto);</span>
-<span class="nc" id="L404">			Algebra tempLeftAlg = tempLeft.getAlgebra();									// Project into this one</span>
-<span class="nc" id="L405">			Monad tempRight = monadList.get(pFrom);</span>
-<span class="nc" id="L406">			Algebra tempRightAlg = tempRight.getAlgebra();									// Keep a temp reference to the old one</span>
+<span class="nc bnc" id="L438" title="All 2 branches missed.">			if (tLeftAlg.getGBasis() == tRightAlg.getGBasis()) {	// Proceed only if Basis is exact match</span>
+<span class="nc" id="L439">				tRight = Nyad.projectOntoAlgebra(tLeft, tRight);	// second Monad is ALTERED HERE!</span>
+<span class="nc" id="L440">				tLeft.multiplySymm(tRight);							// Only now can we do the deed.</span>
 
-<span class="nc bnc" id="L408" title="All 2 branches missed.">			if (tempLeftAlg.getGBasis() == tempRightAlg.getGBasis()) {						// Proceed only if Basis is exact match</span>
-<span class="nc" id="L409">				tempRight = Nyad.projectOntoAlgebra(tempLeft, tempRight);					// second Monad is ALTERED HERE!</span>
-<span class="nc" id="L410">				tempLeft.multiplySymm(tempRight);											// Only now can we do the deed.</span>
-
-<span class="nc" id="L412">				monadList.remove(pFrom);													// Cleanup</span>
-<span class="nc" id="L413">				monadList.trimToSize();</span>
-<span class="nc bnc" id="L414" title="All 2 branches missed.">				if (tempLeftAlg != tempRightAlg) {</span>
-<span class="nc" id="L415">					algebraList.remove(tempRightAlg);										// More cleanup if needed</span>
-<span class="nc" id="L416">					algebraList.trimToSize();</span>
+<span class="nc" id="L442">				monadList.remove(pFrom);							// Cleanup</span>
+<span class="nc" id="L443">				monadList.trimToSize();</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">				if (tLeftAlg != tRightAlg) {</span>
+<span class="nc" id="L445">					algebraList.remove(tRightAlg);					// More cleanup if needed</span>
+<span class="nc" id="L446">					algebraList.trimToSize();</span>
 				}
-<span class="nc" id="L418">			} else {</span>
-<span class="nc" id="L419">				throw new CladosNyadException(this, &quot;Symmetric Compression requires exact Basis match.&quot;);</span>
+			} else {
+<span class="nc" id="L449">				throw new CladosNyadException(this, &quot;Symmetric Compression requires exact Basis match.&quot;);</span>
 			}
-		} else {
-<span class="nc" id="L422">			throw new CladosNyadException(this, &quot;Symmetric Compression out of range error&quot;);</span>
+<span class="nc" id="L451">		} else {</span>
+<span class="nc" id="L452">			throw new CladosNyadException(this, &quot;Symmetric Compression out of range error&quot;);</span>
 		}		
-<span class="nc" id="L424">	}</span>
+<span class="nc" id="L454">	}</span>
 
 	/**
 	 * Create a new monad for this nyad using the prototype field and then append it
@@ -450,47 +480,47 @@ public class Nyad implements Modal {
 							throws 			BadSignatureException, GeneratorRangeException,
 											CladosMonadException, CladosNyadException {
 		//Prepare Cardinal and append to nyad's shared Foot if needed. Re-use where possible.
-<span class="nc" id="L453">		Cardinal tCard = null;</span>
-<span class="nc bnc" id="L454" title="All 2 branches missed.">		if (pCard == null) {								//No unit offered			</span>
-<span class="nc bnc" id="L455" title="All 2 branches missed.">			if (getFoot().getCardinals().size() &gt; 0) 		//Units present in Foot</span>
-<span class="nc" id="L456">				tCard = sharedFoot.getCardinal(0);		//Use the first one</span>
+<span class="nc" id="L483">		Cardinal tCard = null;</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">		if (pCard == null) {								//No unit offered			</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">			if (getFoot().getCardinals().size() &gt; 0) 		//Units present in Foot</span>
+<span class="nc" id="L486">				tCard = sharedFoot.getCardinal(0);		//Use the first one</span>
 			else {											//No units present in Foot
-<span class="nc" id="L458">				tCard = Cardinal.generate(getMode());		//Create default mode unit</span>
-<span class="nc" id="L459">				sharedFoot.appendCardinal(tCard);			//Ensure Foot has default cardinal</span>
+<span class="nc" id="L488">				tCard = Cardinal.generate(getMode());		//Create default mode unit</span>
+<span class="nc" id="L489">				sharedFoot.appendCardinal(tCard);			//Ensure Foot has default cardinal</span>
 			}
-<span class="nc" id="L461">		} else {											//Unit specifically offered</span>
-<span class="nc" id="L462">			Optional&lt;Cardinal&gt; foundThis = getFoot().findCardinal(pCard);	//Find it in Nyad foot</span>
-<span class="nc bnc" id="L463" title="All 2 branches missed.">			if (foundThis.isPresent()) 						//If Cardinal found</span>
-<span class="nc" id="L464">				tCard = foundThis.get();					//re-use it</span>
+		} else {											//Unit specifically offered
+<span class="nc" id="L492">			Optional&lt;Cardinal&gt; foundThis = getFoot().findCardinal(pCard);	//Find it in Nyad foot</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">			if (foundThis.isPresent()) 						//If Cardinal found</span>
+<span class="nc" id="L494">				tCard = foundThis.get();					//re-use it</span>
 			else {											//If not
-<span class="nc" id="L466">				tCard = FBuilder.createCardinal(pCard);		//construct the Cardinal</span>
-<span class="nc" id="L467">				sharedFoot.appendCardinal(tCard);			//and ensure Foot knows about it.</span>
+<span class="nc" id="L496">				tCard = FBuilder.createCardinal(pCard);		//construct the Cardinal</span>
+<span class="nc" id="L497">				sharedFoot.appendCardinal(tCard);			//and ensure Foot knows about it.</span>
 			}
 		}
 		//Prepare algebra for monad if needed. Re-use where possible.
-<span class="nc" id="L471">		Algebra tAlg = null;</span>
-<span class="nc" id="L472">		Optional&lt;Algebra&gt; foundAlg = algebraStream().filter(x -&gt; x.getAlgebraName().equals(pAlgebraName)).findFirst();</span>
-<span class="nc bnc" id="L473" title="All 2 branches missed.">		if(foundAlg.isPresent())							//Algebra found by name</span>
-<span class="nc" id="L474">			tAlg = foundAlg.get();							//and simply referenced</span>
+<span class="nc" id="L501">		Algebra tAlg = null;</span>
+<span class="nc" id="L502">		Optional&lt;Algebra&gt; foundAlg = algebraStream().filter(x -&gt; x.getAlgebraName().equals(pAlgebraName)).findFirst();</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">		if(foundAlg.isPresent())							//Algebra found by name</span>
+<span class="nc" id="L504">			tAlg = foundAlg.get();							//and simply referenced</span>
 		else {											//Have to construct algebra not found
-<span class="nc" id="L476">			Optional&lt;GProduct&gt; foundGP = GCache.INSTANCE.findGProduct(pSig);</span>
-<span class="nc bnc" id="L477" title="All 2 branches missed.">			if (foundGP.isPresent()) 						//GP for new algebra already constructed</span>
-<span class="nc" id="L478">				tAlg = GBuilder.createAlgebraWithFootGP(sharedFoot, foundGP.get(), pAlgebraName);</span>
+<span class="nc" id="L506">			Optional&lt;GProduct&gt; foundGP = GCache.INSTANCE.findGProduct(pSig);</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">			if (foundGP.isPresent()) 						//GP for new algebra already constructed</span>
+<span class="nc" id="L508">				tAlg = GBuilder.createAlgebraWithFootGP(sharedFoot, foundGP.get(), pAlgebraName);</span>
 			else 											//Don't need to hunt basis for re-use
-<span class="nc" id="L480">				tAlg = GBuilder.createAlgebraWithFoot(sharedFoot, pAlgebraName, pSig);			</span>
+<span class="nc" id="L510">				tAlg = GBuilder.createAlgebraWithFoot(sharedFoot, pAlgebraName, pSig);			</span>
 		}
 		//With Algebra and a Cardinal to use, we can construct a viable Scale&lt;ProtoN child&gt; now.
-<span class="nc" id="L483">		Scale&lt;?&gt; tScale = null;</span>
-<span class="nc bnc" id="L484" title="All 5 branches missed.">		switch (mode) {</span>
-<span class="nc" id="L485">			case COMPLEXD -&gt; new Scale&lt;ComplexD&gt;(mode, tAlg.getGBasis(), tCard);</span>
-<span class="nc" id="L486">			case COMPLEXF -&gt; new Scale&lt;ComplexF&gt;(mode, tAlg.getGBasis(), tCard);</span>
-<span class="nc" id="L487">			case REALD -&gt; new Scale&lt;RealD&gt;(mode, tAlg.getGBasis(), tCard);</span>
-<span class="nc" id="L488">			case REALF -&gt; new Scale&lt;RealF&gt;(mode, tAlg.getGBasis(), tCard);</span>
-<span class="nc" id="L489">			default -&gt; throw new IllegalArgumentException(&quot;Unexpected ProtoN child: &quot; + mode);</span>
+<span class="nc" id="L513">		Scale&lt;?&gt; tScale = null;</span>
+<span class="nc bnc" id="L514" title="All 5 branches missed.">		switch (mode) {</span>
+<span class="nc" id="L515">			case COMPLEXD -&gt; new Scale&lt;ComplexD&gt;(mode, tAlg.getGBasis(), tCard);</span>
+<span class="nc" id="L516">			case COMPLEXF -&gt; new Scale&lt;ComplexF&gt;(mode, tAlg.getGBasis(), tCard);</span>
+<span class="nc" id="L517">			case REALD -&gt; new Scale&lt;RealD&gt;(mode, tAlg.getGBasis(), tCard);</span>
+<span class="nc" id="L518">			case REALF -&gt; new Scale&lt;RealF&gt;(mode, tAlg.getGBasis(), tCard);</span>
+<span class="nc" id="L519">			default -&gt; throw new IllegalArgumentException(&quot;Unexpected ProtoN child: &quot; + mode);</span>
 		}
 		//The point was to use GBuilder.createMonadWithAlgebra(Scale&lt;T&gt; pNumbers, Algebra pA, String pName)
-<span class="nc" id="L492">		this.appendMonad(GBuilder.createMonadWithAlgebra(tScale, tAlg, pMonadName));</span>
-<span class="nc" id="L493">		return this;										//All done!</span>
+<span class="nc" id="L522">		this.appendMonad(GBuilder.createMonadWithAlgebra(tScale, tAlg, pMonadName));</span>
+<span class="nc" id="L523">		return this;										//All done!</span>
 	}
 
 	/**
@@ -499,8 +529,8 @@ public class Nyad implements Modal {
 	 * @return Nyad after it has been altered
 	 */
 	public Nyad dualLeft() {
-<span class="nc" id="L502">		monadStream().forEach(tSpot -&gt; tSpot.multiplyByPSLeft());</span>
-<span class="nc" id="L503">		return this;</span>
+<span class="nc" id="L532">		monadStream().forEach(tSpot -&gt; tSpot.multiplyByPSLeft());</span>
+<span class="nc" id="L533">		return this;</span>
 	}
 
 	/**
@@ -509,8 +539,8 @@ public class Nyad implements Modal {
 	 * @return Nyad after it has been altered.
 	 */
 	public Nyad dualRight() {
-<span class="nc" id="L512">		monadStream().forEach(tSpot -&gt; tSpot.multiplyByPSRight());</span>
-<span class="nc" id="L513">		return this;</span>
+<span class="nc" id="L542">		monadStream().forEach(tSpot -&gt; tSpot.multiplyByPSRight());</span>
+<span class="nc" id="L543">		return this;</span>
 	}
 
 	/**
@@ -521,11 +551,11 @@ public class Nyad implements Modal {
 	 * @return int index of the first monad found using the offered algebra. -1 if none are found.
 	 */
 	public int findAlgebra(Algebra pAlg) {
-<span class="fc" id="L524">		Optional&lt;Monad&gt; foundThis = monadInAlgebraStream(pAlg).findFirst();</span>
-<span class="pc bpc" id="L525" title="1 of 2 branches missed.">		if (foundThis.isEmpty())</span>
-<span class="fc" id="L526">			return -1;</span>
+<span class="fc" id="L554">		Optional&lt;Monad&gt; foundThis = monadInAlgebraStream(pAlg).findFirst();</span>
+<span class="pc bpc" id="L555" title="1 of 2 branches missed.">		if (foundThis.isEmpty())</span>
+<span class="fc" id="L556">			return -1;</span>
 		
-<span class="nc" id="L528">		return monadList.indexOf(foundThis.get());</span>
+<span class="nc" id="L558">		return monadList.indexOf(foundThis.get());</span>
 	}
 
 	/**
@@ -536,11 +566,11 @@ public class Nyad implements Modal {
 	 * @return int index of the first monad found. -1 if none are found.
 	 */
 	public int findMonad(Monad pIn) {
-<span class="fc bfc" id="L539" title="All 2 branches covered.">		Optional&lt;Monad&gt; foundThis = monadStream().filter(pM -&gt; pM == pIn).findFirst();</span>
-<span class="fc bfc" id="L540" title="All 2 branches covered.">		if (foundThis.isEmpty())</span>
-<span class="fc" id="L541">			return -1;</span>
+<span class="fc bfc" id="L569" title="All 2 branches covered.">		Optional&lt;Monad&gt; foundThis = monadStream().filter(pM -&gt; pM == pIn).findFirst();</span>
+<span class="fc bfc" id="L570" title="All 2 branches covered.">		if (foundThis.isEmpty())</span>
+<span class="fc" id="L571">			return -1;</span>
 		
-<span class="fc" id="L543">		return monadList.indexOf(foundThis.get());				</span>
+<span class="fc" id="L573">		return monadList.indexOf(foundThis.get());				</span>
 	}
 
 	/**
@@ -550,11 +580,11 @@ public class Nyad implements Modal {
 	 * @return int index of the first monad found to match the name. -1 if nothing found.
 	 */
 	public int findName(String pName) {
-<span class="fc" id="L553">		Optional&lt;Monad&gt; foundThis = monadStream().filter(pM -&gt; pName.equals(pM.getName())).findFirst();</span>
-<span class="fc bfc" id="L554" title="All 2 branches covered.">		if(foundThis.isEmpty())</span>
-<span class="fc" id="L555">			return -1;</span>
+<span class="fc" id="L583">		Optional&lt;Monad&gt; foundThis = monadStream().filter(pM -&gt; pName.equals(pM.getName())).findFirst();</span>
+<span class="fc bfc" id="L584" title="All 2 branches covered.">		if(foundThis.isEmpty())</span>
+<span class="fc" id="L585">			return -1;</span>
 
-<span class="fc" id="L557">		return monadList.indexOf(foundThis.get());</span>
+<span class="fc" id="L587">		return monadList.indexOf(foundThis.get());</span>
 	}
 
 	/**
@@ -566,11 +596,11 @@ public class Nyad implements Modal {
 	 * @return int
 	 */
 	public int findNextAlgebra(Algebra pAlg, int pStart) {
-<span class="fc" id="L569">		Optional&lt;Monad&gt; foundThis = monadStream().skip(pStart).filter(x -&gt; x.getAlgebra().equals(pAlg)).findFirst();</span>
-<span class="pc bpc" id="L570" title="1 of 2 branches missed.">		if (foundThis.isEmpty())</span>
-<span class="nc" id="L571">			return -1;</span>
+<span class="fc" id="L599">		Optional&lt;Monad&gt; foundThis = monadStream().skip(pStart).filter(x -&gt; x.getAlgebra().equals(pAlg)).findFirst();</span>
+<span class="pc bpc" id="L600" title="1 of 2 branches missed.">		if (foundThis.isEmpty())</span>
+<span class="nc" id="L601">			return -1;</span>
 		
-<span class="fc" id="L573">		return monadList.indexOf(foundThis.get());</span>
+<span class="fc" id="L603">		return monadList.indexOf(foundThis.get());</span>
 	}
 
 	/**
@@ -580,9 +610,9 @@ public class Nyad implements Modal {
 	 * @return Algebra
 	 */
 	public Algebra getAlgebraAt(int pj) {
-<span class="nc bnc" id="L583" title="All 6 branches missed.">		if (pj &lt; 0 | pj &gt; algebraList.size())</span>
-<span class="nc" id="L584">			return null;</span>
-<span class="nc" id="L585">		return algebraList.get(pj);</span>
+<span class="nc bnc" id="L613" title="All 6 branches missed.">		if (pj &lt; 0 | pj &gt; algebraList.size())</span>
+<span class="nc" id="L614">			return null;</span>
+<span class="nc" id="L615">		return algebraList.get(pj);</span>
 	}
 
 	/**
@@ -591,12 +621,12 @@ public class Nyad implements Modal {
 	 * @return Foot
 	 */
 	public Foot getFoot() {
-<span class="fc" id="L594">		return sharedFoot;</span>
+<span class="fc" id="L624">		return sharedFoot;</span>
 	}
 
 	@Override
 	public CladosField getMode() {
-<span class="nc" id="L599">		return mode;</span>
+<span class="nc" id="L629">		return mode;</span>
 	}
 
 	/**
@@ -606,9 +636,9 @@ public class Nyad implements Modal {
 	 * @return Monad
 	 */
 	public Monad getMonadAt(int pj) {
-<span class="nc bnc" id="L609" title="All 6 branches missed.">		if (pj &lt; 0 | pj &gt; monadList.size())</span>
-<span class="nc" id="L610">			return null;</span>
-<span class="nc" id="L611">		return monadList.get(pj);</span>
+<span class="nc bnc" id="L639" title="All 6 branches missed.">		if (pj &lt; 0 | pj &gt; monadList.size())</span>
+<span class="nc" id="L640">			return null;</span>
+<span class="nc" id="L641">		return monadList.get(pj);</span>
 	}
 
 	/**
@@ -617,7 +647,7 @@ public class Nyad implements Modal {
 	 * @return String name of the nyad.
 	 */
 	public String getName() {
-<span class="fc" id="L620">		return Name;</span>
+<span class="fc" id="L650">		return Name;</span>
 	}
 
 	/**
@@ -626,7 +656,7 @@ public class Nyad implements Modal {
 	 * @return short
 	 */
 	public int getNyadAOrder() {
-<span class="fc" id="L629">		return algebraList.size();</span>
+<span class="fc" id="L659">		return algebraList.size();</span>
 	}
 
 	/**
@@ -635,7 +665,7 @@ public class Nyad implements Modal {
 	 * @return int
 	 */
 	public int getNyadMOrder() {
-<span class="fc" id="L638">		return monadList.size();</span>
+<span class="fc" id="L668">		return monadList.size();</span>
 	}
 
 	/**
@@ -646,7 +676,7 @@ public class Nyad implements Modal {
 	 * @return boolean
 	 */
 	public boolean hasAlgebra(Algebra pAlg) {
-<span class="fc" id="L649">		return algebraStream().filter(x -&gt; (x.equals(pAlg))).findAny().isPresent();			</span>
+<span class="fc" id="L679">		return algebraStream().filter(x -&gt; (x.equals(pAlg))).findAny().isPresent();			</span>
 	}
 
 	/**
@@ -657,7 +687,7 @@ public class Nyad implements Modal {
 	 * @return boolean True if monad found in the list.
 	 */
 	public boolean hasMonad(Monad pIn) {
-<span class="nc bnc" id="L660" title="All 2 branches missed.">		return monadStream().filter(pM -&gt; pM == pIn).findFirst().isPresent();</span>
+<span class="pc bpc" id="L690" title="1 of 2 branches missed.">		return monadStream().filter(pM -&gt; pM == pIn).findFirst().isPresent();</span>
 	}
 
 	/**
@@ -667,7 +697,7 @@ public class Nyad implements Modal {
 	 * @return boolean
 	 */
 	public boolean hasName(String pName) {
-<span class="nc bnc" id="L670" title="All 2 branches missed.">		return monadStream().filter(x -&gt; x.getName() == pName).findAny().isPresent();		</span>
+<span class="nc bnc" id="L700" title="All 2 branches missed.">		return monadStream().filter(x -&gt; x.getName() == pName).findAny().isPresent();		</span>
 	}
 
 	/**
@@ -679,7 +709,7 @@ public class Nyad implements Modal {
 	 *         in monads in the nyad
 	 */
 	public long howManyAtAlgebra(Algebra pAlg) {
-<span class="fc" id="L682">		return monadInAlgebraStream(pAlg).count();</span>
+<span class="fc" id="L712">		return monadInAlgebraStream(pAlg).count();</span>
 	}
 
 	/**
@@ -695,9 +725,9 @@ public class Nyad implements Modal {
 	 * @return boolean True if nyad's monads are all of the same algebra
 	 */
 	public boolean isComposition() {
-<span class="nc bnc" id="L698" title="All 2 branches missed.">		if (jFlag)</span>
-<span class="nc bnc" id="L699" title="All 2 branches missed.">			return !jFlag;</span>
-<span class="nc" id="L700">		return compositionFlag;</span>
+<span class="nc bnc" id="L728" title="All 2 branches missed.">		if (jFlag)</span>
+<span class="nc bnc" id="L729" title="All 2 branches missed.">			return !jFlag;</span>
+<span class="nc" id="L730">		return compositionFlag;</span>
 	}
 
 	/**
@@ -709,17 +739,16 @@ public class Nyad implements Modal {
 	 *         algebra False if nyad's monads double up on any particular algebra
 	 */
 	public boolean isJuxtaposition() {
-<span class="fc" id="L712">		return jFlag;</span>
+<span class="fc" id="L742">		return jFlag;</span>
 	}
 
 	/**
-	 * If the monads listed within a nyad are NOT all of a different algebra, the jFlag 
-	 * is set to true. If not, it is set to false. This method returns the flag's complement.
+	 * This method returns true when there are more monads than algebras and at least two of each.
 	 * &lt;br&gt;
-	 * @return boolean False if nyad is a juxtaposition. True otherwise.
+	 * @return boolean False if nyad is a juxtaposition or a composition. True otherwise.
 	 */
 	public boolean isMixed() {
-<span class="pc bpc" id="L722" title="1 of 2 branches missed.">		return !jFlag;</span>
+<span class="pc bpc" id="L751" title="2 of 4 branches missed.">		return !jFlag &amp; !compositionFlag;</span>
 	}
 
 	/**
@@ -733,10 +762,10 @@ public class Nyad implements Modal {
 	 * @return boolean returned if all monads (at least one) in the algebra test true for isGrade(max).
 	 */
 	public boolean isPScalarAt(Algebra pAlg) {
-<span class="fc" id="L736">		int maxGrade = pAlg.getGradeCount() - 1;		// find pAlg's max grade</span>
-<span class="fc" id="L737">		final long count1 = howManyAtAlgebra(pAlg);		// this could be zero or all the monads</span>
-<span class="fc" id="L738">		final long count2 = monadInAlgebraStream(pAlg).filter(tM -&gt; Monad.isGrade(tM, maxGrade)).count();</span>
-<span class="pc bpc" id="L739" title="3 of 6 branches missed.">		return (count1 &gt; 0) &amp; (count2 &gt; 0) &amp; (count1 == count2);</span>
+<span class="fc" id="L765">		int maxGrade = pAlg.getGradeCount() - 1;		// find pAlg's max grade</span>
+<span class="fc" id="L766">		final long count1 = howManyAtAlgebra(pAlg);		// this could be zero or all the monads</span>
+<span class="fc" id="L767">		final long count2 = monadInAlgebraStream(pAlg).filter(tM -&gt; Monad.isGrade(tM, maxGrade)).count();</span>
+<span class="pc bpc" id="L768" title="3 of 6 branches missed.">		return (count1 &gt; 0) &amp; (count2 &gt; 0) &amp; (count1 == count2);</span>
 	}
 
 	/**
@@ -755,9 +784,9 @@ public class Nyad implements Modal {
 	 * @return boolean returned if all monads (even none) in the algebra test true for isGrade(0).
 	 */
 	public boolean isScalarAt(Algebra pAlg) {
-<span class="fc" id="L758">		final long count1 = howManyAtAlgebra(pAlg);		// this could be zero or all the monads</span>
-<span class="fc" id="L759">		final long count2 = monadInAlgebraStream(pAlg).filter(tM -&gt; Monad.isGrade(tM, 0)).count();</span>
-<span class="pc bpc" id="L760" title="1 of 2 branches missed.">		return (count1 == count2);</span>
+<span class="fc" id="L787">		final long count1 = howManyAtAlgebra(pAlg);		// this could be zero or all the monads</span>
+<span class="fc" id="L788">		final long count2 = monadInAlgebraStream(pAlg).filter(tM -&gt; Monad.isGrade(tM, 0)).count();</span>
+<span class="pc bpc" id="L789" title="1 of 2 branches missed.">		return (count1 == count2);</span>
 	}
 
 	/**
@@ -767,7 +796,7 @@ public class Nyad implements Modal {
 	 * @return Stream of distinct monads listed in this Nyad.
 	 */
 	public Stream&lt;Monad&gt; monadInAlgebraStream(Algebra pAlg) {
-<span class="fc" id="L770">		return monadList.stream().filter(x -&gt; x.getAlgebra().equals(pAlg));</span>
+<span class="fc" id="L799">		return monadList.stream().filter(x -&gt; x.getAlgebra().equals(pAlg));</span>
 	}
 
 	/**
@@ -777,7 +806,7 @@ public class Nyad implements Modal {
 	 * @return Stream of distinct monads listed in reverse.
 	 */
 	public Stream&lt;Monad&gt; monadReverseStream() {
-<span class="nc" id="L780">		return monadList.reversed().stream();</span>
+<span class="nc" id="L809">		return monadList.reversed().stream();</span>
 	}
 
 	/**
@@ -787,7 +816,7 @@ public class Nyad implements Modal {
 	 * @return Stream of distinct reversed monads.
 	 */
 	public Stream&lt;Monad&gt; monadsReversedStream() {
-<span class="nc" id="L790">		return monadList.stream().map(pM -&gt; pM.reverse());</span>
+<span class="nc" id="L819">		return monadList.stream().map(pM -&gt; pM.reverse());</span>
 	}
 
 	/**
@@ -798,7 +827,7 @@ public class Nyad implements Modal {
 	 * @return Stream of distinct monads listed in this Nyad.
 	 */
 	public Stream&lt;Monad&gt; monadStream() {
-<span class="fc" id="L801">		return monadList.stream();</span>
+<span class="fc" id="L830">		return monadList.stream();</span>
 	}
 
 	/**
@@ -811,12 +840,12 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after alteration of the monad list
 	 */
 	public Nyad pop(int key) {
-<span class="nc" id="L814">		int limit = monadList.size();</span>
-<span class="nc bnc" id="L815" title="All 4 branches missed.">		if (key &gt; 0 &amp;&amp; key &lt; limit) {</span>
-<span class="nc" id="L816">			Monad temp = monadList.remove(key - 1);</span>
-<span class="nc" id="L817">			monadList.add(key, temp);</span>
+<span class="nc" id="L843">		int limit = monadList.size();</span>
+<span class="nc bnc" id="L844" title="All 4 branches missed.">		if (key &gt; 0 &amp;&amp; key &lt; limit) {</span>
+<span class="nc" id="L845">			Monad temp = monadList.remove(key - 1);</span>
+<span class="nc" id="L846">			monadList.add(key, temp);</span>
 		}
-<span class="nc" id="L819">		return this;</span>
+<span class="nc" id="L848">		return this;</span>
 	}
 
 	/**
@@ -826,15 +855,14 @@ public class Nyad implements Modal {
 	 * &lt;br&gt;
 	 * @param key int at which the push is to occur
 	 * @return Nyad this nyad after alteration of the monad list
-	 * @return Nyad
 	 */
 	public Nyad push(int key) {
-<span class="nc" id="L832">		int limit = monadList.size();</span>
-<span class="nc bnc" id="L833" title="All 4 branches missed.">		if (key &gt;= 0 &amp;&amp; key &lt; limit - 1) {</span>
-<span class="nc" id="L834">			Monad temp = monadList.remove(key);</span>
-<span class="nc" id="L835">			monadList.add(key + 1, temp);</span>
+<span class="nc" id="L860">		int limit = monadList.size();</span>
+<span class="nc bnc" id="L861" title="All 4 branches missed.">		if (key &gt;= 0 &amp;&amp; key &lt; limit - 1) {</span>
+<span class="nc" id="L862">			Monad temp = monadList.remove(key);</span>
+<span class="nc" id="L863">			monadList.add(key + 1, temp);</span>
 		}
-<span class="nc" id="L837">		return this;</span>
+<span class="nc" id="L865">		return this;</span>
 	}
 
 	/**
@@ -845,14 +873,14 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after the attempted removal.
 	 */
 	public Nyad removeMonad(int pthisone) {
-<span class="nc bnc" id="L848" title="All 6 branches missed.">		if (pthisone &lt; 0 | pthisone &gt; getNyadMOrder()-1)		// Silently fail if removal is impossible</span>
-<span class="nc" id="L849">			return this;</span>
+<span class="nc bnc" id="L876" title="All 6 branches missed.">		if (pthisone &lt; 0 | pthisone &gt; getNyadMOrder()-1)		// Silently fail if removal is impossible</span>
+<span class="nc" id="L877">			return this;</span>
 
-<span class="nc bnc" id="L851" title="All 2 branches missed.">		if (monadList.remove(pthisone) != null) {</span>
-<span class="nc" id="L852">				monadList.trimToSize();</span>
-<span class="nc" id="L853">				resetAlgebraList();</span>
+<span class="nc bnc" id="L879" title="All 2 branches missed.">		if (monadList.remove(pthisone) != null) {</span>
+<span class="nc" id="L880">				monadList.trimToSize();</span>
+<span class="nc" id="L881">				resetFlags();</span>
 			}
-<span class="nc" id="L855">		return this;</span>
+<span class="nc" id="L883">		return this;</span>
 	}
 
 	/**
@@ -863,32 +891,42 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after the attempted removal.
 	 */
 	public Nyad removeMonad(Monad pM) {
-<span class="pc bpc" id="L866" title="1 of 2 branches missed.">		if (monadList.removeAll(Collections.singleton(pM))) {</span>
-<span class="fc" id="L867">			monadList.trimToSize();</span>
-<span class="fc" id="L868">			resetAlgebraList();</span>
+<span class="pc bpc" id="L894" title="1 of 2 branches missed.">		if (monadList.removeAll(Collections.singleton(pM))) {</span>
+<span class="fc" id="L895">			monadList.trimToSize();</span>
+<span class="fc" id="L896">			resetFlags();</span>
 		}
-<span class="fc" id="L870">		return this;</span>
+<span class="fc" id="L898">		return this;</span>
 	}
 
 	/**
-	 * Nyad Scaling: Pick a monad and scale it by the magnitude provided. Only one
-	 * monad can be scaled within a nyad at a time. Note that a request to scale a
-	 * monad that cannot be found in the list results in no action and no exception.
-	 * The scaling is effectively performed against a 'zero' monad for the algebra
-	 * not represented in the list since much monads can be appended to the list
-	 * without really changing the nature of the nyad.
-	 * &lt;br&gt;
-	 * @param pk   int
+	 * Nyad Scaling: Pick a monad and scale it by the magnitude provided. Only one monad can 
+	 * be scaled within a nyad at a time. Note that a request to scale a monad that cannot be 
+	 * found in the list results in no action and no exception.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pk   int index at which to find the monad
+	 * @param pMag ProtoN child object used to scale the monad. Can't be an actual ProtoN.
+	 * @param &lt;T&gt; ProtoN child object generic type support
+	 * @return Nyad after the monads at the offered index has been scaled
+	 */
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Nyad scale(int pk, T pMag) {
+<span class="pc bpc" id="L912" title="2 of 4 branches missed.">		if (pk &gt;= 0 &amp;&amp; pk &lt; monadList.size())</span>
+<span class="fc" id="L913">			monadList.get(pk).scale(pMag);</span>
+<span class="fc" id="L914">		return this;</span>
+	}
+
+	/**
+	 * Nyad Scaling: Pick an algebra and scale all monads using it. Many monads can be scaled
+	 * at a time. Note that a request to scale monads at an algebra that cannot be found 
+	 * in the list results in no action and no exception.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pAlg Algebra to use as monad stream filter for scaling action.
 	 * @param pMag ProtoN child object
 	 * @param &lt;T&gt; ProtoN child object generic type support
-	 * @throws FieldBinaryException This exception is thrown when the scale field
-	 *                              doesn't match the nyad's field.
-	 * @return Nyad
+	 * @return Nyad after the monads at the offered algebra have been scaled
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Nyad scale(int pk, T pMag) throws FieldBinaryException {
-<span class="pc bpc" id="L889" title="2 of 4 branches missed.">		if (pk &gt;= 0 &amp;&amp; pk &lt; monadList.size())</span>
-<span class="fc" id="L890">			monadList.get(pk).scale(pMag);</span>
-<span class="fc" id="L891">		return this;</span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Nyad scaleAtAlgebra(Algebra pAlg, T pMag) {
+<span class="nc bnc" id="L928" title="All 2 branches missed.">		monadStream().filter(pM -&gt; pM.getAlgebra() == pAlg).forEach(x -&gt; x.scale(pMag));</span>
+<span class="nc" id="L929">		return this;</span>
 	}
 
 	/**
@@ -897,40 +935,10 @@ public class Nyad implements Modal {
 	 * @param name String
 	 */
 	public void setName(String name) {
-<span class="fc" id="L900">		Name = name;</span>
-<span class="fc" id="L901">	}</span>
+<span class="fc" id="L938">		Name = name;</span>
+<span class="fc" id="L939">	}</span>
 
-	/**
-	 * Project the second Monad into the algebra of the first where it is assumed that the two algebras
-	 * share the same basis. In that rare case, the algebra distinctions are merely bookkeeping tricks.
-	 * &lt;br&gt;
-	 * @param pLeft the monad acting as a source of an algebra to project into
-	 * @param pRight the monad to be projected
-	 * @return Monad which has been pressed into the other algebra
-	 */
-	public static Monad projectOntoAlgebra(Monad pLeft, Monad pRight) {
 
-		//Scale&lt;?&gt; tempRightWeights = pRight.getWeights();
-		//Algebra tempLeftAlg = pLeft.getAlgebra();
-		//Basis tempLeftBasis = tempLeftAlg.getGBasis();
-		//Scale&lt;T&gt; newRightScale = new Scale&lt;&gt;(pRight.getMode(), tempLeftBasis, tempRightWeights.getCardinal());
-
-		//tempLeftBasis.bladeStream().forEach(blade -&gt; {
-		//	newRightScale.put(blade, (T) tempRightWeights.get(blade));
-		//	});;
-
-		// Because 'blade' is the same in left and right monads, there is no need to recast the Scale for pRight.
-		// If this is EVER to work with different bases, there must be a map (a frame?) supporting calculation
-		// of linear combination weight from the old basis to use for each blade in the new basis. 
-		
-		// Ken's old connector idea had the bases line up, though. Algebra distinctions were bookkeeping methods.
-		// Truth is... we can probably recover that without nyads by using a dual generator to double a basis size
-		// and place one of the monads in the degenerate extension. Weird, but it might work.
-
-<span class="nc" id="L930">		pRight.setAlgebra(pLeft.getAlgebra());</span>
-
-<span class="nc" id="L932">		return pRight;</span>
-	}
 
 	/**
 	 * Display XML string that represents the Nyad and all its internal details
@@ -940,22 +948,22 @@ public class Nyad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLFullString(Nyad pN, String indent) {
-<span class="pc bpc" id="L943" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L944">			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L945">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
-<span class="fc" id="L946">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L947">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-<span class="fc" id="L948">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L949">		rB.append(indent).append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L950" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
-<span class="fc" id="L951">			rB.append(indent).append(&quot;\t\t&lt;AlgebraName&gt;&quot;).append(point.getAlgebraName()).append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
-<span class="fc" id="L952">		rB.append(indent).append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
-<span class="fc" id="L953">		rB.append(indent).append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L954" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L955">			rB.append(Monad.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L956">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
-<span class="fc" id="L957">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L958">		return rB.toString();</span>
+<span class="pc bpc" id="L951" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L952">			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L953">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L954">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L955">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+<span class="fc" id="L956">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L957">		rB.append(indent).append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L958" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
+<span class="fc" id="L959">			rB.append(indent).append(&quot;\t\t&lt;AlgebraName&gt;&quot;).append(point.getAlgebraName()).append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
+<span class="fc" id="L960">		rB.append(indent).append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
+<span class="fc" id="L961">		rB.append(indent).append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L962" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L963">			rB.append(Monad.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L964">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L965">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L966">		return rB.toString();</span>
 	}
 
 	/**
@@ -966,52 +974,61 @@ public class Nyad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLString(Nyad pN, String indent) {
-<span class="pc bpc" id="L969" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L970">			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L971">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
-<span class="fc" id="L972">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L973">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-<span class="fc" id="L974">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L975">		rB.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L976" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L977">			rB.append(Monad.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L978">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
-<span class="fc" id="L979">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L980">		return rB.toString();</span>
+<span class="pc bpc" id="L977" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L978">			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L979">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L980">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L981">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+<span class="fc" id="L982">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L983">		rB.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L984" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L985">			rB.append(Monad.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L986">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L987">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L988">		return rB.toString();</span>
 	}
 
 	/**
-	 * This method simply resets the internal list of algebras associated with the
-	 * nyad. It sifts through the monad list and builds a list of references to
-	 * unique algebras found along the way.
-	 * &lt;br&gt;
-	 * At the end, this method ALSO sets the strongFlag and oneAlgebra flag.
+	 * This method resets the internal list of algebras associated with the nyad. It streams the monads 
+	 * and copies references to unique algebras found along the way. The juxtapositon and composition 
+	 * flags are reset based on what conditions are found in the monad and algebra lists.
+	 * &lt;br&gt;&lt;br&gt;
+	 * |-------Flags-------|---compositionFlag = True---|---compositionFlag = False---|&lt;br&gt;
+	 * |-------------------|-------algebra # = 0 or 1---|-------------algebra # &gt; 1---|&lt;br&gt;
+	 * |---jFlag = True----|----[Zero or One Monad]-----|----[monad # = algebra #]----|&lt;br&gt;
+	 * |-------------------|----------------------------|-----------------------------|&lt;br&gt;
+	 * |---jFlag = False---|--------[One Algebra]-------|----[monad # &gt; algebra #]----|&lt;br&gt;
+	 * |-------------------|----------------------------|-----------------------------|&lt;br&gt;
 	 */
-	protected void resetAlgebraList() {
-<span class="fc" id="L991">		algebraList.clear();</span>
-<span class="fc" id="L992">		algebraList.ensureCapacity(monadList.size());</span>
-<span class="fc bfc" id="L993" title="All 2 branches covered.">		for (Monad point : monadList)</span>
-<span class="fc bfc" id="L994" title="All 2 branches covered.">			if (!algebraList.contains(point.getAlgebra()))</span>
-<span class="fc" id="L995">				algebraList.add(point.getAlgebra());</span>
-		// 1 &lt;= algebraList.size() &lt;= monadList.size()
-		// AlgebraList is reset to show which algebras are used by monads in this nyad
+	protected void resetFlags() {
+<span class="fc" id="L1004">		algebraList.clear();</span>
+<span class="fc" id="L1005">		algebraList.ensureCapacity(monadList.size());</span>
 
-<span class="fc" id="L999">		Collections.sort(algebraList); // and now that list is sorted by name</span>
-
-<span class="fc bfc" id="L1001" title="All 2 branches covered.">		if (monadList.size() == 1) {</span>
-<span class="fc" id="L1002">			jFlag = true;</span>
-<span class="fc" id="L1003">			compositionFlag = true;</span>
-<span class="fc bfc" id="L1004" title="All 2 branches covered.">		} else if (algebraList.size() == 1) {</span>
-<span class="fc" id="L1005">			jFlag = false;</span>
-<span class="fc" id="L1006">			compositionFlag = true;</span>
-<span class="fc bfc" id="L1007" title="All 2 branches covered.">		} else if (monadList.size() == algebraList.size()) {</span>
-<span class="fc" id="L1008">			jFlag = true;</span>
-<span class="fc" id="L1009">			compositionFlag = false;</span>
-<span class="fc" id="L1010">		} else {// We know monadList.size()&gt;algebraList.size()&gt;1 at this point</span>
-<span class="fc" id="L1011">			jFlag = false;</span>
-<span class="fc" id="L1012">			compositionFlag = false;</span>
+<span class="pc bpc" id="L1007" title="1 of 2 branches missed.">		if (monadList.size() == 0) {							//Empty set edge case</span>
+<span class="nc" id="L1008">			jFlag = true;										</span>
+<span class="nc" id="L1009">			compositionFlag = true;</span>
+<span class="nc" id="L1010">			return;												//and we're done.</span>
 		}
-<span class="fc" id="L1014">	}</span>
+<span class="fc" id="L1012">		monadStream().forEach(m -&gt; {							//At least one monad to process</span>
+<span class="fc bfc" id="L1013" title="All 2 branches covered.">			if (!algebraList.contains(m.getAlgebra()))			//Stash a reference to the algebra if </span>
+<span class="fc" id="L1014">				algebraList.add(m.getAlgebra());				//it isn't already stashed.</span>
+<span class="fc" id="L1015">		});</span>
+		//Collections.sort(algebraList); 						//Can't think of why we should bother sorting the list.
+																//Now we set/reset the state flags.
+<span class="fc bfc" id="L1018" title="All 2 branches covered.">		if (monadList.size() == 1) {							//Singlton nyad edge case is similar to empty set, so...</span>
+<span class="fc" id="L1019">			jFlag = true;										//is a juxtaposition by default</span>
+<span class="fc" id="L1020">			compositionFlag = true;								//and a composition by default.</span>
+<span class="fc bfc" id="L1021" title="All 2 branches covered.">		} else if (algebraList.size() == 1) {					//Multiple monads all sharing an algebra</span>
+<span class="fc" id="L1022">			jFlag = false;										//are not juxtapositions</span>
+<span class="fc" id="L1023">			compositionFlag = true;								//but ARE compositions.</span>
+<span class="fc bfc" id="L1024" title="All 2 branches covered.">		} else if (monadList.size() == algebraList.size()) {	//Multiple monads and just as many algebras</span>
+<span class="fc" id="L1025">			jFlag = true;										//ARE juxtapositions</span>
+<span class="fc" id="L1026">			compositionFlag = false;							//and never compositions.</span>
+		} else {												//Monads outnumber Algebras and more than one of each, so...
+<span class="fc" id="L1028">			jFlag = false;										//it is NOT a juxtaposition</span>
+<span class="fc" id="L1029">			compositionFlag = false;							//and NOT a composition. (Mixed Case)</span>
+		}	
+<span class="fc" id="L1031">	}</span>
 
 	/**
 	 * Set the Foot for the nyad using this method. A Foot merely labels where an
@@ -1020,8 +1037,8 @@ public class Nyad implements Modal {
 	 * @param pF Foot to set for the nyad.
 	 */
 	protected void setFoot(Foot pF) {
-<span class="fc" id="L1023">		sharedFoot = pF;</span>
-<span class="fc" id="L1024">	}</span>
+<span class="fc" id="L1040">		sharedFoot = pF;</span>
+<span class="fc" id="L1041">	}</span>
 
 	/**
 	 * Set the Monad List for this Nyad. A new ArrayList is constructed, but the monads 
@@ -1030,7 +1047,7 @@ public class Nyad implements Modal {
 	 * @param pML ArrayList Contains the list of monads for the nyad
 	 */
 	protected void setMonadList(ArrayList&lt;Monad&gt; pML) {
-<span class="nc bnc" id="L1033" title="All 2 branches missed.">		monadList = (pML == null) ? new ArrayList&lt;Monad&gt;() : new ArrayList&lt;Monad&gt;(pML);</span>
-<span class="nc" id="L1034">	}</span>
+<span class="nc bnc" id="L1050" title="All 2 branches missed.">		monadList = (pML == null) ? new ArrayList&lt;Monad&gt;() : new ArrayList&lt;Monad&gt;(pML);</span>
+<span class="nc" id="L1051">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -484,10 +484,10 @@ public class Monad implements Modal {
 															T pF)
 			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
 <span class="fc" id="L486">		this(	pMonadName, </span>
-<span class="fc" id="L487">				pAlgebraName,</span>
+				pAlgebraName,
 <span class="fc" id="L488">				GBuilder.createFootLike(pFootName, pF), </span>
-<span class="fc" id="L489">				pSig, </span>
-<span class="fc" id="L490">				pF);		//Defer to constructor #4</span>
+				pSig, 
+				pF);		//Defer to constructor #4
 <span class="fc" id="L491">	}</span>
 
 	/**
@@ -511,12 +511,12 @@ public class Monad implements Modal {
 	 *                                 number of generators for the basis is out of
 	 *                                 the supported range. {0, 1, 2, ..., 15}
 	 */
-<span class="fc" id="L514">	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, </span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, 
 															String pAlgebraName,
 															Foot pFoot, 
 															String pSig, 
 															T pF)
-			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+<span class="fc" id="L519">			throws BadSignatureException, CladosMonadException, GeneratorRangeException {</span>
 <span class="fc" id="L520">		setName(pMonadName);</span>
 <span class="fc" id="L521">		setAlgebra(GBuilder.createAlgebraWithFoot(pFoot, pAlgebraName, pSig));</span>
 
@@ -575,10 +575,10 @@ public class Monad implements Modal {
 															String pSpecial)
 			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
 <span class="fc" id="L577">		this(	pMonadName, </span>
-<span class="fc" id="L578">				pAlgebraName, </span>
+				pAlgebraName, 
 <span class="fc" id="L579">				GBuilder.createFootLike(pFootName, pF), </span>
-<span class="fc" id="L580">				pSig, </span>
-<span class="fc" id="L581">				pF);	//Defer to Constructor #4</span>
+				pSig, 
+				pF);	//Defer to Constructor #4
 						// Default ZERO Monad is complete. 
 						// Now handle the special cases.
 <span class="fc bfc" id="L584" title="All 2 branches covered.">		if (MONAD_SPECIAL_CASES.contains(pSpecial)) {</span>
@@ -622,8 +622,8 @@ public class Monad implements Modal {
 <span class="fc" id="L622">							((ComplexF) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
-<span class="fc" id="L625">					}</span>
-				}
+					}
+<span class="fc" id="L626">				}</span>
 				case REALD -&gt; {
 <span class="pc bpc" id="L628" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
@@ -642,8 +642,8 @@ public class Monad implements Modal {
 <span class="fc" id="L642">							((RealD) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
-<span class="fc" id="L645">					}</span>
-				}
+					}
+<span class="fc" id="L646">				}</span>
 				case REALF -&gt; {
 <span class="pc bpc" id="L648" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
@@ -700,8 +700,8 @@ public class Monad implements Modal {
 <span class="fc" id="L700">				GBuilder.createAlgebraWithFootGP(</span>
 <span class="fc" id="L701">										GBuilder.createFoot(pFootName, pScale.getCardinal().getUnit()), </span>
 <span class="fc" id="L702">										GBuilder.createGProduct(Optional.ofNullable(pScale.getBasis()), pSig),</span>
-<span class="fc" id="L703">										pAlgebraName), </span>
-<span class="fc" id="L704">				pScale);				//Defer to constructor #7 safely</span>
+										pAlgebraName), 
+				pScale);				//Defer to constructor #7 safely
 										//because pScale's Basis was used building Algebra.
 <span class="fc" id="L706">	}</span>
 
@@ -721,9 +721,9 @@ public class Monad implements Modal {
 	 *                              involve null coefficients or a coefficient array
 	 *                              of the wrong size.
 	 */
-<span class="fc" id="L724">	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, </span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, 
 															Algebra pAlgebra, 
-															Scale&lt;T&gt; pScale) throws CladosMonadException {
+<span class="fc" id="L726">															Scale&lt;T&gt; pScale) throws CladosMonadException {</span>
 <span class="pc bpc" id="L727" title="1 of 2 branches missed.">		if (pScale.getBasis() != pAlgebra.getGBasis())</span>
 <span class="nc" id="L728">			throw new CladosMonadException(this, &quot;Scale basis must match exactly the basis in Algebra.&quot;);</span>
 
@@ -749,9 +749,9 @@ public class Monad implements Modal {
 <span class="fc" id="L749">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
 			try {										//but their Scales don't realize that and we have
 <span class="fc" id="L751">				scales.get(blade).add(pM.scales.get(blade));</span>
-<span class="pc" id="L752">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
+<span class="nc" id="L752">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
 <span class="nc" id="L753">				throw new IllegalArgumentException(&quot;Can't add when cardinals don't match.&quot;);</span>
-			}
+<span class="fc" id="L754">			}</span>
 <span class="fc" id="L755">		});</span>
 <span class="fc" id="L756">		setGradeKey();</span>
 <span class="fc" id="L757">		return this;</span>
@@ -1111,9 +1111,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1111">										.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1112">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1113">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1114">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1114">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1115">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1116">							}</span>
 							break;
 						}
 						case COMPLEXF -&gt; {
@@ -1123,9 +1123,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1123">										.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1124">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1125">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1126">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1126">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1127">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1128">							}</span>
 							break;
 						}
 						case REALD -&gt; {
@@ -1135,9 +1135,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1135">										.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1136">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1137">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1138">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1138">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1139">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1140">							}</span>
 							break;
 						}
 						case REALF -&gt; {
@@ -1147,9 +1147,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1147">										.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1148">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1149">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1150">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1150">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1151">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1152">							}</span>
 							break;
 						}
 						}
@@ -1160,7 +1160,7 @@ public class Monad implements Modal {
 <span class="fc" id="L1160">					break; // we've processed all grades including scalar.</span>
 <span class="nc" id="L1161">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
-<span class="nc" id="L1163">		} else {</span>
+<span class="fc" id="L1163">		} else {</span>
 <span class="fc" id="L1164">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
 <span class="fc" id="L1165">				int col = tBasis.find(blade) - 1;</span>
 <span class="fc" id="L1166">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
@@ -1176,9 +1176,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1176">									.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1177">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1178">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1179">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1179">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1180">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1181">						}</span>
 						break;
 					}
 					case COMPLEXF -&gt; {
@@ -1188,9 +1188,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1188">									.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1189">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1190">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1191">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1191">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1192">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1193">						}</span>
 						break;
 					}
 					case REALD -&gt; {
@@ -1200,9 +1200,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1200">									.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1201">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1202">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1203">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1203">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1204">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1205">						}</span>
 						break;
 					}
 					case REALF -&gt; {
@@ -1212,9 +1212,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1212">									.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1213">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1214">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1215">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1215">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1216">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1217">						}</span>
 						break;
 					}
 					}
@@ -1281,9 +1281,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1281">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1282">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1283">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1284">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1284">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1285">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1286">							}</span>
 							break;
 						}
 						case COMPLEXF -&gt; {
@@ -1293,9 +1293,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1293">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1294">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1295">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1296">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1296">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1297">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1298">							}</span>
 							break;
 						}
 						case REALD -&gt; {
@@ -1305,9 +1305,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1305">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1306">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1307">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1308">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1308">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1309">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1310">							}</span>
 							break;
 						}
 						case REALF -&gt; {
@@ -1317,9 +1317,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1317">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1318">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1319">								newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1320">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1320">							} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L1321">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-							}
+<span class="fc" id="L1322">							}</span>
 							break;
 						}
 						}
@@ -1330,7 +1330,7 @@ public class Monad implements Modal {
 <span class="fc" id="L1330">					break; // we've processed all grades including scalar.</span>
 <span class="nc" id="L1331">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
-<span class="nc" id="L1333">		} else {</span>
+<span class="fc" id="L1333">		} else {</span>
 <span class="fc" id="L1334">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
 <span class="fc" id="L1335">				int col = tBasis.find(blade) - 1;</span>
 <span class="fc" id="L1336">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
@@ -1346,9 +1346,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1346">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1347">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1348">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1349">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1349">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1350">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1351">						}</span>
 						break;
 					}
 					case COMPLEXF -&gt; {
@@ -1358,9 +1358,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1358">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1359">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1360">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1361">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1361">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1362">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1363">						}</span>
 						break;
 					}
 					case REALD -&gt; {
@@ -1370,9 +1370,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1370">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1371">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1372">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1373">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1373">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1374">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1375">						}</span>
 						break;
 					}
 					case REALF -&gt; {
@@ -1382,9 +1382,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1382">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
 <span class="fc" id="L1383">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1384">							newScales.put(bMult, (T) tAgg);</span>
-<span class="pc" id="L1385">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1385">						} catch (FieldBinaryException ex) {</span>
 <span class="nc" id="L1386">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-						}
+<span class="fc" id="L1387">						}</span>
 						break;
 					}
 					}
@@ -1448,22 +1448,22 @@ public class Monad implements Modal {
 <span class="fc" id="L1448">				ComplexD tMagCD = ((ComplexD) tRev.getWeights().getScalar().invert()); //img part == 0</span>
 <span class="fc" id="L1449">				tMagCD.setReal(Math.sqrt(Math.abs(tMagCD.getReal())));</span>
 <span class="fc" id="L1450">				this.scale(tMagCD);</span>
-			}	
+<span class="fc" id="L1451">			}	</span>
 			case COMPLEXF -&gt; {
 <span class="fc" id="L1453">				ComplexF tMagCF = ((ComplexF) tRev.getWeights().getScalar().invert()); //img part == 0</span>
 <span class="fc" id="L1454">				tMagCF.setReal((float) Math.sqrt(Math.abs(tMagCF.getReal())));</span>
 <span class="fc" id="L1455">				this.scale(tMagCF);		</span>
-			}
+<span class="fc" id="L1456">			}</span>
 			case REALD -&gt; {
 <span class="fc" id="L1458">				RealD tMagRD = ((RealD) tRev.getWeights().getScalar().invert());</span>
 <span class="fc" id="L1459">				tMagRD.setReal(Math.sqrt(Math.abs(tMagRD.getReal())));</span>
 <span class="fc" id="L1460">				this.scale(tMagRD);				</span>
-			}
+<span class="fc" id="L1461">			}</span>
 			case REALF -&gt; {
 <span class="fc" id="L1463">				RealF tMagRF = ((RealF) tRev.getWeights().getScalar().invert());</span>
 <span class="fc" id="L1464">				tMagRF.setReal((float) Math.sqrt(Math.abs(tMagRF.getReal())));</span>
 <span class="fc" id="L1465">				this.scale(tMagRF);</span>
-			}
+<span class="fc" id="L1466">			}</span>
 			default -&gt; {}
 		}
 <span class="fc" id="L1469">		return this;</span>
@@ -1541,7 +1541,7 @@ public class Monad implements Modal {
 <span class="pc bpc" id="L1541" title="3 of 6 branches missed.">		if (ppC.length != getAlgebra().getBladeCount() | ppC.length == 0)</span>
 <span class="nc" id="L1542">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is wrong length&quot;);</span>
 
-		if 	(
+<span class="fc" id="L1544">		if 	(</span>
 <span class="fc bfc" id="L1545" title="All 2 branches covered.">			(ppC[0] instanceof RealF) &amp; (getMode() == CladosField.REALF)</span>
 <span class="fc bfc" id="L1546" title="All 2 branches covered.">		| 	(ppC[0] instanceof RealD) &amp; (getMode() == CladosField.REALD)</span>
 <span class="fc bfc" id="L1547" title="All 2 branches covered.">		| 	(ppC[0] instanceof ComplexF) &amp; (getMode() == CladosField.COMPLEXF)</span>
@@ -1550,7 +1550,7 @@ public class Monad implements Modal {
 		{
 <span class="fc" id="L1551">			scales.setWeightsArray(FListBuilder.copyOf(getMode(), ppC));</span>
 <span class="fc" id="L1552">			setGradeKey();</span>
-<span class="fc" id="L1553">		} </span>
+		} 
 		else 
 <span class="nc" id="L1555">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is different mode.&quot;);</span>
 
@@ -1669,9 +1669,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1669">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
 			try {										//but their Scales don't realize that and we have
 <span class="fc" id="L1671">				scales.get(blade).subtract(pM.scales.get(blade));</span>
-<span class="pc" id="L1672">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
+<span class="nc" id="L1672">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
 <span class="nc" id="L1673">				throw new IllegalArgumentException(&quot;Can't subtract when cardinals don't match.&quot;);</span>
-			}
+<span class="fc" id="L1674">			}</span>
 <span class="fc" id="L1675">		});</span>
 <span class="fc" id="L1676">		setGradeKey();</span>
 <span class="fc" id="L1677">		return this;</span>

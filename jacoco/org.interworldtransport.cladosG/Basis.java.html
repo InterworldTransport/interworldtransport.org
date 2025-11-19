@@ -166,7 +166,7 @@ public final class Basis implements CanonicalBasis {
 <span class="fc" id="L166">			newSet.addAll(set);</span>
 <span class="fc" id="L167">			sets.add(newSet);</span>
 <span class="fc" id="L168">			sets.add(set);</span>
-		}
+<span class="fc" id="L169">		}</span>
 <span class="fc" id="L170">		return sets;</span>
 	}
 
@@ -269,7 +269,7 @@ public final class Basis implements CanonicalBasis {
 <span class="fc" id="L269">			bladeList.add(Blade.createPScalarBlade(Generator.E1));</span>
 <span class="fc" id="L270">			gradeList.add(Integer.valueOf(1));</span>
 <span class="fc" id="L271">			keyIndexMap.put(1L, 2);</span>
-<span class="fc" id="L272">		} else {</span>
+		} else {
 <span class="fc" id="L273">			EnumSet&lt;Generator&gt; offer = EnumSet.range(CladosConstant.GENERATOR_MIN, Generator.get(pGens));</span>
 <span class="fc" id="L274">			TreeSet&lt;Blade&gt; sorted = new TreeSet&lt;&gt;(); // Expects things that have a natural order</span>
 <span class="fc bfc" id="L275" title="All 2 branches covered.">			for (EnumSet&lt;Generator&gt; pG : powerSet(offer))</span>
