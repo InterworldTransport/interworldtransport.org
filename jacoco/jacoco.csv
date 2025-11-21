@@ -9,7 +9,7 @@ Clados,org.interworldtransport.cladosF,FCache,2,110,1,9,0,22,1,16,0,12
 Clados,org.interworldtransport.cladosF,RealD,10,596,18,84,0,104,18,72,0,39
 Clados,org.interworldtransport.cladosF,RealF,10,600,18,84,0,104,18,72,0,39
 Clados,org.interworldtransport.cladosF,Cardinal,2,87,1,11,0,28,1,13,0,8
-Clados,org.interworldtransport.cladosFExceptions,FieldException,3,12,0,0,1,5,1,2,1,2
+Clados,org.interworldtransport.cladosFExceptions,FieldException,0,15,0,0,0,6,0,3,0,3
 Clados,org.interworldtransport.cladosFExceptions,FieldBinaryException,0,11,0,0,0,4,0,2,0,2
 Clados,org.interworldtransport.cladosGExceptions,CladosNyadException,15,0,0,0,6,0,3,0,3,0
 Clados,org.interworldtransport.cladosGExceptions,GeneratorRangeException,0,9,0,0,0,4,0,2,0,2
@@ -19,8 +19,8 @@ Clados,org.interworldtransport.cladosG,Scale,113,1059,16,73,29,191,16,108,0,68
 Clados,org.interworldtransport.cladosG,Blade,17,759,9,63,7,171,9,73,0,46
 Clados,org.interworldtransport.cladosG,Generator,0,190,0,12,0,29,0,13,0,7
 Clados,org.interworldtransport.cladosG,Monad,167,2344,31,161,49,479,31,164,0,78
-Clados,org.interworldtransport.cladosG,Nyad,737,798,121,52,141,131,104,64,27,53
-Clados,org.interworldtransport.cladosG,GCache,4,137,0,10,1,27,1,20,1,15
+Clados,org.interworldtransport.cladosG,Nyad,762,798,125,52,145,131,108,64,29,53
+Clados,org.interworldtransport.cladosG,GCache,10,143,1,11,2,28,2,20,1,15
 Clados,org.interworldtransport.cladosG,Foot,0,222,0,16,0,47,0,23,0,15
 Clados,org.interworldtransport.cladosG,GProduct,2,376,2,28,1,70,2,30,0,16
 Clados,org.interworldtransport.cladosG,CladosConstant,0,32,0,0,0,10,0,1,0,1

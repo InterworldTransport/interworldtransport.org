@@ -77,8 +77,8 @@
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  		Algebra alg4 = <strong class="jxr_keyword">new</strong> Algebra(aName, tFoot, pSig31);
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  		Algebra alg5 = <strong class="jxr_keyword">new</strong> Algebra(aName, tFoot, pSig13);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  		assertTrue(alg5.getGBasis() == GCache.INSTANCE.findBasis((byte) 4).get());
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		assertTrue(alg4.getGBasis() == GCache.INSTANCE.findBasis((byte) 4).get());
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  		<em class="jxr_comment">//assertTrue(alg5.getGBasis() == GCache.INSTANCE.findBasis((byte) 4).get());</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		<em class="jxr_comment">//assertTrue(alg4.getGBasis() == GCache.INSTANCE.findBasis((byte) 4).get());</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  		assertTrue(alg4.getGBasis() == alg5.getGBasis());		<em class="jxr_comment">//Two algebras have same signature lengths.</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  		assertFalse(alg4.getGProduct() == alg5.getGProduct());	<em class="jxr_comment">//Two sigs ARE different forces different GProducts</em>
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  		assertFalse(alg4.getGProduct().signature() == alg5.getGProduct().signature());

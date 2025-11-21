@@ -97,9 +97,12 @@ import java.util.Optional;
 	 *            present.
 	 */
 	public void appendGProduct(GProduct pGP) {
-<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (!listOfGProducts.contains(pGP))</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (!listOfGProducts.contains(pGP)){</span>
 <span class="fc" id="L101">			listOfGProducts.add(pGP);</span>
-<span class="fc" id="L102">	}</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">			if(!listOfBases.contains(pGP.getBasis()))</span>
+<span class="nc" id="L103">				listOfBases.add(pGP.getBasis());</span>
+		}
+<span class="fc" id="L105">	}</span>
 
 	/**
 	 * This is for resetting the cache of basis objects. It should rarely be used
@@ -107,8 +110,8 @@ import java.util.Optional;
 	 * at a time.
 	 */
 	public void clearBases() {
-<span class="fc" id="L110">		listOfBases = new ArrayList&lt;&gt;(1);</span>
-<span class="fc" id="L111">	}</span>
+<span class="fc" id="L113">		listOfBases = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L114">	}</span>
 
 	/**
 	 * This is for resetting the cache of gproduct objects. It should be used sparingly
@@ -116,8 +119,8 @@ import java.util.Optional;
 	 * shouldn't HAVE to be done, but it is faster than removing one at a time.
 	 */
 	public void clearGProducts() {
-<span class="fc" id="L119">		new ArrayList&lt;&gt;(1);</span>
-<span class="fc" id="L120">	}</span>
+<span class="fc" id="L122">		new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L123">	}</span>
 
 	/**
 	 * This method returns an Optional of Basis using the integer number of
@@ -130,7 +133,7 @@ import java.util.Optional;
 	 * @return Optional of Basis matching the number of generators offered.
 	 */
 	public Optional&lt;Basis&gt; findBasis(byte pGen) {
-<span class="fc bfc" id="L133" title="All 2 branches covered.">		return listOfBases.stream().filter(x -&gt; (x.getGradeCount() - 1) == pGen).findFirst();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		return listOfBases.stream().filter(x -&gt; (x.getGradeCount() - 1) == pGen).findFirst();</span>
 	}
 
 	/**
@@ -144,7 +147,7 @@ import java.util.Optional;
 	 * @return Optional of GProduct matching the signature offered.
 	 */
 	public Optional&lt;GProduct&gt; findGProduct(String pSig) {
-<span class="fc" id="L147">		return listOfGProducts.stream().filter(x -&gt; x.signature().equals(pSig)).findFirst();</span>
+<span class="fc" id="L150">		return listOfGProducts.stream().filter(x -&gt; x.signature().equals(pSig)).findFirst();</span>
 	}
 
 	/**
@@ -155,7 +158,7 @@ import java.util.Optional;
 	 * @return byte integer of the size of the cache of basis instances.
 	 */
 	public byte getBasisListSize() {
-<span class="fc" id="L158">		return (byte) listOfBases.size();</span>
+<span class="fc" id="L161">		return (byte) listOfBases.size();</span>
 	}
 
 	/**
@@ -167,7 +170,7 @@ import java.util.Optional;
 	 * @return integer of the size of the cache of basis instances.
 	 */
 	public int getGProductListSize() {
-<span class="nc" id="L170">		return listOfGProducts.size();</span>
+<span class="nc" id="L173">		return listOfGProducts.size();</span>
 	}
 
 	/**
@@ -178,7 +181,7 @@ import java.util.Optional;
 	 * @return boolean TRUE if removal succeed. FALSE otherwise.
 	 */
 	public boolean removeBasis(Basis pB) {
-<span class="fc" id="L181">		return listOfBases.remove(pB);</span>
+<span class="fc" id="L184">		return listOfBases.remove(pB);</span>
 	}
 
 	/**
@@ -199,10 +202,10 @@ import java.util.Optional;
 	 * @return boolean TRUE if removal succeed. FALSE otherwise.
 	 */
 	public boolean removeBasis(byte pGen) {
-<span class="fc" id="L202">		Optional&lt;Basis&gt; B = findBasis(pGen);</span>
-<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (B.isEmpty())</span>
-<span class="fc" id="L204">			return true;</span>
-<span class="fc" id="L205">		return removeBasis(B.get());</span>
+<span class="fc" id="L205">		Optional&lt;Basis&gt; B = findBasis(pGen);</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (B.isEmpty())</span>
+<span class="fc" id="L207">			return true;</span>
+<span class="fc" id="L208">		return removeBasis(B.get());</span>
 	}
 
 	/**
@@ -213,7 +216,7 @@ import java.util.Optional;
 	 * @return boolean TRUE if removal succeed. FALSE otherwise.
 	 */
 	public boolean removeGProduct(GProduct pGP) {
-<span class="fc" id="L216">		return listOfGProducts.remove(pGP);</span>
+<span class="fc" id="L219">		return listOfGProducts.remove(pGP);</span>
 	}
 
 	/**
@@ -234,10 +237,10 @@ import java.util.Optional;
 	 * @return boolean TRUE if removal succeed. FALSE otherwise.
 	 */
 	public boolean removeGProduct(String pSig) {
-<span class="fc" id="L237">		Optional&lt;GProduct&gt; GP = findGProduct(pSig); // This function tries to find the passed signature</span>
-<span class="fc bfc" id="L238" title="All 2 branches covered.">		if (GP.isEmpty())</span>
-<span class="fc" id="L239">			return true;									  // If not found, no worries. It is 'removed'.</span>
-<span class="fc" id="L240">		return removeGProduct(GP.get());</span>
+<span class="fc" id="L240">		Optional&lt;GProduct&gt; GP = findGProduct(pSig); // This function tries to find the passed signature</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">		if (GP.isEmpty())</span>
+<span class="fc" id="L242">			return true;									  // If not found, no worries. It is 'removed'.</span>
+<span class="fc" id="L243">		return removeGProduct(GP.get());</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

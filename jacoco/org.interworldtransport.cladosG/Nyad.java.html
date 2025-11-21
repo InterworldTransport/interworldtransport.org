@@ -840,12 +840,26 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after alteration of the monad list
 	 */
 	public Nyad pop(int key) {
-<span class="nc" id="L843">		int limit = monadList.size();</span>
-<span class="nc bnc" id="L844" title="All 4 branches missed.">		if (key &gt; 0 &amp;&amp; key &lt; limit) {</span>
-<span class="nc" id="L845">			Monad temp = monadList.remove(key - 1);</span>
-<span class="nc" id="L846">			monadList.add(key, temp);</span>
+<span class="nc bnc" id="L843" title="All 4 branches missed.">		if (key &gt;= 1 &amp;&amp; key &lt; monadList.size()) </span>
+<span class="nc" id="L844">			monadList.add(key, monadList.remove(key-1));</span>
+<span class="nc" id="L845">		return this;</span>
+	}
+
+	/**
+	 * This method takes the offered Monad swaps it for the one before it in the stack. 
+	 * &lt;br&gt;
+	 * 1. If the monad isn't there, nothing happens.&lt;br&gt;
+	 * 2. If the monad is at the top of the list, popping up isn't possible, thus nothing happens.&lt;br&gt; 
+	 * &lt;br&gt;
+	 * @param pKey Monad in the list to be popped if possible
+	 * @return Nyad this nyad after alteration of the monad list
+	 */
+	public Nyad popMonad(Monad pKey) {
+<span class="nc bnc" id="L858" title="All 2 branches missed.">		if(monadList.contains(pKey)){</span>
+<span class="nc" id="L859">			int key = monadList.indexOf(pKey);</span>
+<span class="nc" id="L860">			pop(key);</span>
 		}
-<span class="nc" id="L848">		return this;</span>
+<span class="nc" id="L862">		return this;</span>
 	}
 
 	/**
@@ -857,12 +871,26 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after alteration of the monad list
 	 */
 	public Nyad push(int key) {
-<span class="nc" id="L860">		int limit = monadList.size();</span>
-<span class="nc bnc" id="L861" title="All 4 branches missed.">		if (key &gt;= 0 &amp;&amp; key &lt; limit - 1) {</span>
-<span class="nc" id="L862">			Monad temp = monadList.remove(key);</span>
-<span class="nc" id="L863">			monadList.add(key + 1, temp);</span>
+<span class="nc bnc" id="L874" title="All 4 branches missed.">		if (key &gt;= 0 &amp;&amp; key &lt; monadList.size() - 1) </span>
+<span class="nc" id="L875">			monadList.add(key+1, monadList.remove(key));</span>
+<span class="nc" id="L876">		return this;</span>
+	}
+
+	/**
+	  * This method takes the offered Monad and swaps it for the next one lower in the stack.
+	 * &lt;br&gt;
+	 * 1. If the monad isn't there, nothing happens.&lt;br&gt;
+	 * 2. If the monad is at the bottom of the list, pushign down isn't possible, thus nothing happens.&lt;br&gt; 
+	 * &lt;br&gt;
+	 * @param pKey Monad in the list to be pushed if possible
+	 * @return Nyad this nyad after alteration of the monad list
+	 */
+	public Nyad pushMonad(Monad pKey) {
+<span class="nc bnc" id="L889" title="All 2 branches missed.">		if(monadList.contains(pKey)){</span>
+<span class="nc" id="L890">			int key = monadList.indexOf(pKey);</span>
+<span class="nc" id="L891">			push(key);</span>
 		}
-<span class="nc" id="L865">		return this;</span>
+<span class="nc" id="L893">		return this;</span>
 	}
 
 	/**
@@ -873,14 +901,14 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after the attempted removal.
 	 */
 	public Nyad removeMonad(int pthisone) {
-<span class="nc bnc" id="L876" title="All 6 branches missed.">		if (pthisone &lt; 0 | pthisone &gt; getNyadMOrder()-1)		// Silently fail if removal is impossible</span>
-<span class="nc" id="L877">			return this;</span>
+<span class="nc bnc" id="L904" title="All 6 branches missed.">		if (pthisone &lt; 0 | pthisone &gt; getNyadMOrder()-1)		// Silently fail if removal is impossible</span>
+<span class="nc" id="L905">			return this;</span>
 
-<span class="nc bnc" id="L879" title="All 2 branches missed.">		if (monadList.remove(pthisone) != null) {</span>
-<span class="nc" id="L880">				monadList.trimToSize();</span>
-<span class="nc" id="L881">				resetFlags();</span>
+<span class="nc bnc" id="L907" title="All 2 branches missed.">		if (monadList.remove(pthisone) != null) {</span>
+<span class="nc" id="L908">				monadList.trimToSize();</span>
+<span class="nc" id="L909">				resetFlags();</span>
 			}
-<span class="nc" id="L883">		return this;</span>
+<span class="nc" id="L911">		return this;</span>
 	}
 
 	/**
@@ -891,11 +919,11 @@ public class Nyad implements Modal {
 	 * @return Nyad this nyad after the attempted removal.
 	 */
 	public Nyad removeMonad(Monad pM) {
-<span class="pc bpc" id="L894" title="1 of 2 branches missed.">		if (monadList.removeAll(Collections.singleton(pM))) {</span>
-<span class="fc" id="L895">			monadList.trimToSize();</span>
-<span class="fc" id="L896">			resetFlags();</span>
+<span class="pc bpc" id="L922" title="1 of 2 branches missed.">		if (monadList.removeAll(Collections.singleton(pM))) {</span>
+<span class="fc" id="L923">			monadList.trimToSize();</span>
+<span class="fc" id="L924">			resetFlags();</span>
 		}
-<span class="fc" id="L898">		return this;</span>
+<span class="fc" id="L926">		return this;</span>
 	}
 
 	/**
@@ -909,9 +937,9 @@ public class Nyad implements Modal {
 	 * @return Nyad after the monads at the offered index has been scaled
 	 */
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Nyad scale(int pk, T pMag) {
-<span class="pc bpc" id="L912" title="2 of 4 branches missed.">		if (pk &gt;= 0 &amp;&amp; pk &lt; monadList.size())</span>
-<span class="fc" id="L913">			monadList.get(pk).scale(pMag);</span>
-<span class="fc" id="L914">		return this;</span>
+<span class="pc bpc" id="L940" title="2 of 4 branches missed.">		if (pk &gt;= 0 &amp;&amp; pk &lt; monadList.size())</span>
+<span class="fc" id="L941">			monadList.get(pk).scale(pMag);</span>
+<span class="fc" id="L942">		return this;</span>
 	}
 
 	/**
@@ -925,8 +953,8 @@ public class Nyad implements Modal {
 	 * @return Nyad after the monads at the offered algebra have been scaled
 	 */
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Nyad scaleAtAlgebra(Algebra pAlg, T pMag) {
-<span class="nc bnc" id="L928" title="All 2 branches missed.">		monadStream().filter(pM -&gt; pM.getAlgebra() == pAlg).forEach(x -&gt; x.scale(pMag));</span>
-<span class="nc" id="L929">		return this;</span>
+<span class="nc bnc" id="L956" title="All 2 branches missed.">		monadStream().filter(pM -&gt; pM.getAlgebra() == pAlg).forEach(x -&gt; x.scale(pMag));</span>
+<span class="nc" id="L957">		return this;</span>
 	}
 
 	/**
@@ -935,8 +963,8 @@ public class Nyad implements Modal {
 	 * @param name String
 	 */
 	public void setName(String name) {
-<span class="fc" id="L938">		Name = name;</span>
-<span class="fc" id="L939">	}</span>
+<span class="fc" id="L966">		Name = name;</span>
+<span class="fc" id="L967">	}</span>
 
 
 
@@ -948,22 +976,22 @@ public class Nyad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLFullString(Nyad pN, String indent) {
-<span class="pc bpc" id="L951" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L952">			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L953">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
-<span class="fc" id="L954">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L955">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-<span class="fc" id="L956">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L957">		rB.append(indent).append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L958" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
-<span class="fc" id="L959">			rB.append(indent).append(&quot;\t\t&lt;AlgebraName&gt;&quot;).append(point.getAlgebraName()).append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
-<span class="fc" id="L960">		rB.append(indent).append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
-<span class="fc" id="L961">		rB.append(indent).append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L962" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L963">			rB.append(Monad.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L964">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
-<span class="fc" id="L965">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L966">		return rB.toString();</span>
+<span class="pc bpc" id="L979" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L980">			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L981">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L982">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L983">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+<span class="fc" id="L984">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L985">		rB.append(indent).append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L986" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
+<span class="fc" id="L987">			rB.append(indent).append(&quot;\t\t&lt;AlgebraName&gt;&quot;).append(point.getAlgebraName()).append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
+<span class="fc" id="L988">		rB.append(indent).append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
+<span class="fc" id="L989">		rB.append(indent).append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L990" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L991">			rB.append(Monad.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L992">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L993">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L994">		return rB.toString();</span>
 	}
 
 	/**
@@ -974,18 +1002,18 @@ public class Nyad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLString(Nyad pN, String indent) {
-<span class="pc bpc" id="L977" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L978">			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L979">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
-<span class="fc" id="L980">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L981">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-<span class="fc" id="L982">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L983">		rB.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L984" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L985">			rB.append(Monad.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L986">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
-<span class="fc" id="L987">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L988">		return rB.toString();</span>
+<span class="pc bpc" id="L1005" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L1006">			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L1007">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Nyad order=\&quot;&quot;).append(pN.getNyadMOrder()).append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L1008">		rB.append(&quot;algorder=\&quot;&quot;).append(pN.getNyadAOrder()).append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L1009">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pN.getName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+<span class="fc" id="L1010">		rB.append(Foot.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L1011">		rB.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L1012" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L1013">			rB.append(Monad.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L1014">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L1015">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L1016">		return rB.toString();</span>
 	}
 
 	/**
@@ -1001,34 +1029,34 @@ public class Nyad implements Modal {
 	 * |-------------------|----------------------------|-----------------------------|&lt;br&gt;
 	 */
 	protected void resetFlags() {
-<span class="fc" id="L1004">		algebraList.clear();</span>
-<span class="fc" id="L1005">		algebraList.ensureCapacity(monadList.size());</span>
+<span class="fc" id="L1032">		algebraList.clear();</span>
+<span class="fc" id="L1033">		algebraList.ensureCapacity(monadList.size());</span>
 
-<span class="pc bpc" id="L1007" title="1 of 2 branches missed.">		if (monadList.size() == 0) {							//Empty set edge case</span>
-<span class="nc" id="L1008">			jFlag = true;										</span>
-<span class="nc" id="L1009">			compositionFlag = true;</span>
-<span class="nc" id="L1010">			return;												//and we're done.</span>
+<span class="pc bpc" id="L1035" title="1 of 2 branches missed.">		if (monadList.size() == 0) {							//Empty set edge case</span>
+<span class="nc" id="L1036">			jFlag = true;										</span>
+<span class="nc" id="L1037">			compositionFlag = true;</span>
+<span class="nc" id="L1038">			return;												//and we're done.</span>
 		}
-<span class="fc" id="L1012">		monadStream().forEach(m -&gt; {							//At least one monad to process</span>
-<span class="fc bfc" id="L1013" title="All 2 branches covered.">			if (!algebraList.contains(m.getAlgebra()))			//Stash a reference to the algebra if </span>
-<span class="fc" id="L1014">				algebraList.add(m.getAlgebra());				//it isn't already stashed.</span>
-<span class="fc" id="L1015">		});</span>
+<span class="fc" id="L1040">		monadStream().forEach(m -&gt; {							//At least one monad to process</span>
+<span class="fc bfc" id="L1041" title="All 2 branches covered.">			if (!algebraList.contains(m.getAlgebra()))			//Stash a reference to the algebra if </span>
+<span class="fc" id="L1042">				algebraList.add(m.getAlgebra());				//it isn't already stashed.</span>
+<span class="fc" id="L1043">		});</span>
 		//Collections.sort(algebraList); 						//Can't think of why we should bother sorting the list.
 																//Now we set/reset the state flags.
-<span class="fc bfc" id="L1018" title="All 2 branches covered.">		if (monadList.size() == 1) {							//Singlton nyad edge case is similar to empty set, so...</span>
-<span class="fc" id="L1019">			jFlag = true;										//is a juxtaposition by default</span>
-<span class="fc" id="L1020">			compositionFlag = true;								//and a composition by default.</span>
-<span class="fc bfc" id="L1021" title="All 2 branches covered.">		} else if (algebraList.size() == 1) {					//Multiple monads all sharing an algebra</span>
-<span class="fc" id="L1022">			jFlag = false;										//are not juxtapositions</span>
-<span class="fc" id="L1023">			compositionFlag = true;								//but ARE compositions.</span>
-<span class="fc bfc" id="L1024" title="All 2 branches covered.">		} else if (monadList.size() == algebraList.size()) {	//Multiple monads and just as many algebras</span>
-<span class="fc" id="L1025">			jFlag = true;										//ARE juxtapositions</span>
-<span class="fc" id="L1026">			compositionFlag = false;							//and never compositions.</span>
+<span class="fc bfc" id="L1046" title="All 2 branches covered.">		if (monadList.size() == 1) {							//Singlton nyad edge case is similar to empty set, so...</span>
+<span class="fc" id="L1047">			jFlag = true;										//is a juxtaposition by default</span>
+<span class="fc" id="L1048">			compositionFlag = true;								//and a composition by default.</span>
+<span class="fc bfc" id="L1049" title="All 2 branches covered.">		} else if (algebraList.size() == 1) {					//Multiple monads all sharing an algebra</span>
+<span class="fc" id="L1050">			jFlag = false;										//are not juxtapositions</span>
+<span class="fc" id="L1051">			compositionFlag = true;								//but ARE compositions.</span>
+<span class="fc bfc" id="L1052" title="All 2 branches covered.">		} else if (monadList.size() == algebraList.size()) {	//Multiple monads and just as many algebras</span>
+<span class="fc" id="L1053">			jFlag = true;										//ARE juxtapositions</span>
+<span class="fc" id="L1054">			compositionFlag = false;							//and never compositions.</span>
 		} else {												//Monads outnumber Algebras and more than one of each, so...
-<span class="fc" id="L1028">			jFlag = false;										//it is NOT a juxtaposition</span>
-<span class="fc" id="L1029">			compositionFlag = false;							//and NOT a composition. (Mixed Case)</span>
+<span class="fc" id="L1056">			jFlag = false;										//it is NOT a juxtaposition</span>
+<span class="fc" id="L1057">			compositionFlag = false;							//and NOT a composition. (Mixed Case)</span>
 		}	
-<span class="fc" id="L1031">	}</span>
+<span class="fc" id="L1059">	}</span>
 
 	/**
 	 * Set the Foot for the nyad using this method. A Foot merely labels where an
@@ -1037,8 +1065,8 @@ public class Nyad implements Modal {
 	 * @param pF Foot to set for the nyad.
 	 */
 	protected void setFoot(Foot pF) {
-<span class="fc" id="L1040">		sharedFoot = pF;</span>
-<span class="fc" id="L1041">	}</span>
+<span class="fc" id="L1068">		sharedFoot = pF;</span>
+<span class="fc" id="L1069">	}</span>
 
 	/**
 	 * Set the Monad List for this Nyad. A new ArrayList is constructed, but the monads 
@@ -1047,7 +1075,7 @@ public class Nyad implements Modal {
 	 * @param pML ArrayList Contains the list of monads for the nyad
 	 */
 	protected void setMonadList(ArrayList&lt;Monad&gt; pML) {
-<span class="nc bnc" id="L1050" title="All 2 branches missed.">		monadList = (pML == null) ? new ArrayList&lt;Monad&gt;() : new ArrayList&lt;Monad&gt;(pML);</span>
-<span class="nc" id="L1051">	}</span>
+<span class="nc bnc" id="L1078" title="All 2 branches missed.">		monadList = (pML == null) ? new ArrayList&lt;Monad&gt;() : new ArrayList&lt;Monad&gt;(pML);</span>
+<span class="nc" id="L1079">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
