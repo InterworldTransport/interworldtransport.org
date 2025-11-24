@@ -134,12 +134,12 @@ import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public static final &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad pscalarOfMonad(Monad pM) {
-<span class="fc" id="L137">		Scale&lt;T&gt; tempScales = (Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights());</span>
-<span class="fc" id="L138">		tempScales.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1));</span>
-<span class="fc" id="L139">		tempScales.setPScalarWeight((T) FBuilder.createONE(pM.getMode(), pM.getWeights().getCardinal()));</span>
-<span class="fc" id="L140">		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+&quot;-PScalarOf&quot;);</span>
-<span class="fc" id="L141">		returnThis.scales = tempScales;</span>
-<span class="fc" id="L142">		return returnThis;</span>
+<span class="fc" id="L137">		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+&quot;-PScalarOf&quot;);</span>
+<span class="fc" id="L138">		returnThis.scales = ((Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights()))</span>
+<span class="fc" id="L139">										.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1))</span>
+<span class="fc" id="L140">										.setPScalarWeight(FBuilder.createONE(	pM.getMode(), </span>
+<span class="fc" id="L141">																				pM.getWeights().getCardinal()));</span>
+<span class="fc" id="L142">		return returnThis.setGradeKey();</span>
 	}
 
 	/**

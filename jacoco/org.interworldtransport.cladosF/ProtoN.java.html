@@ -172,13 +172,13 @@ public class ProtoN {
 	 * @return boolean
 	 */
 	public static final boolean isTypeMatch(ProtoN pE, ProtoN pF) {
-<span class="fc bfc" id="L175" title="All 4 branches covered.">		if (pE._card == null &amp;&amp; pF._card == null)</span>
+<span class="fc bfc" id="L175" title="All 4 branches covered.">		if (pE.card == null &amp;&amp; pF.card == null)</span>
 <span class="fc" id="L176">			return true;</span>
-<span class="pc bpc" id="L177" title="1 of 4 branches missed.">		if (pE._card != null &amp;&amp; pF._card == null)</span>
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">		if (pE.card != null &amp;&amp; pF.card == null)</span>
 <span class="nc" id="L178">			return false;</span>
-<span class="pc bpc" id="L179" title="1 of 4 branches missed.">		if (pE._card == null &amp;&amp; pF._card != null)</span>
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">		if (pE.card == null &amp;&amp; pF.card != null)</span>
 <span class="fc" id="L180">			return false;</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">		return pE._card.getUnit() == pF._card.getUnit();</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		return pE.card.getUnit() == pF.card.getUnit();</span>
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class ProtoN {
 	 * &lt;br&gt;
 	 * This Cardinal is what gives a proto number a sense of what the number means.
 	 */
-	protected Cardinal _card;
+	protected Cardinal card;
 
 	/**
 	 * Construct a simple ProtoN using the Cardinal offered.
@@ -229,7 +229,7 @@ public class ProtoN {
 	 * @return Cardinal (A cardinal name for a ProtoN)
 	 */
 	public Cardinal getCardinal() {
-<span class="fc" id="L232">		return _card;</span>
+<span class="fc" id="L232">		return card;</span>
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class ProtoN {
 	 * @return Cardinal (A cardinal name for a ProtoN)
 	 */
 	public String getCardinalString() {
-<span class="fc" id="L241">		return _card.getUnit();</span>
+<span class="fc" id="L241">		return card.getUnit();</span>
 	}
 
 	@Override
@@ -260,12 +260,14 @@ public class ProtoN {
 	}
 	
 	/**
-	 * Set method for _card
-	 * &lt;br&gt;
+	 * Set method for the cardinal. Mess with this at your peril. Seriously. Altering
+	 * it after construction leads to a redefining of what the number means and in 
+	 * multivectors it HAS to be done consistently or you'll get reference match failures.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pType Cardinal
 	 */
-	protected void setCardinal(Cardinal pType) {
-<span class="fc" id="L268">		_card = pType;</span>
-<span class="fc" id="L269">	}</span>
+	public void setCardinal(Cardinal pType) {
+<span class="fc" id="L270">		card = pType;</span>
+<span class="fc" id="L271">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

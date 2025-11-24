@@ -180,13 +180,13 @@
 <a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">	 * @return boolean</em>
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> isTypeMatch(<a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> pE, <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> pF) {
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		<strong class="jxr_keyword">if</strong> (pE._card == <strong class="jxr_keyword">null</strong> &amp;&amp; pF._card == <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		<strong class="jxr_keyword">if</strong> (pE.card == <strong class="jxr_keyword">null</strong> &amp;&amp; pF.card == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<strong class="jxr_keyword">if</strong> (pE._card != <strong class="jxr_keyword">null</strong> &amp;&amp; pF._card == <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<strong class="jxr_keyword">if</strong> (pE.card != <strong class="jxr_keyword">null</strong> &amp;&amp; pF.card == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L178" href="#L178">178</a> 			<strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> 		<strong class="jxr_keyword">if</strong> (pE._card == <strong class="jxr_keyword">null</strong> &amp;&amp; pF._card != <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 		<strong class="jxr_keyword">if</strong> (pE.card == <strong class="jxr_keyword">null</strong> &amp;&amp; pF.card != <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> 			<strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 		<strong class="jxr_keyword">return</strong> pE._card.getUnit() == pF._card.getUnit();
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 		<strong class="jxr_keyword">return</strong> pE.card.getUnit() == pF.card.getUnit();
 <a class="jxr_linenumber" name="L182" href="#L182">182</a> 	}
 <a class="jxr_linenumber" name="L183" href="#L183">183</a> 
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 	<em class="jxr_javadoccomment">/**</em>
@@ -196,7 +196,7 @@
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> <em class="jxr_javadoccomment">	 * This Cardinal is what gives a proto number a sense of what the number means.</em>
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 	<strong class="jxr_keyword">protected</strong> <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> _card;
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 	<strong class="jxr_keyword">protected</strong> <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> card;
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">	 * Construct a simple ProtoN using the Cardinal offered.</em>
@@ -237,7 +237,7 @@
 <a class="jxr_linenumber" name="L229" href="#L229">229</a> <em class="jxr_javadoccomment">	 * @return Cardinal (A cardinal name for a ProtoN)</em>
 <a class="jxr_linenumber" name="L230" href="#L230">230</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L231" href="#L231">231</a> 	<strong class="jxr_keyword">public</strong> <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> getCardinal() {
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> 		<strong class="jxr_keyword">return</strong> _card;
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 		<strong class="jxr_keyword">return</strong> card;
 <a class="jxr_linenumber" name="L233" href="#L233">233</a> 	}
 <a class="jxr_linenumber" name="L234" href="#L234">234</a> 
 <a class="jxr_linenumber" name="L235" href="#L235">235</a> 	<em class="jxr_javadoccomment">/**</em>
@@ -246,7 +246,7 @@
 <a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">	 * @return Cardinal (A cardinal name for a ProtoN)</em>
 <a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L240" href="#L240">240</a> 	<strong class="jxr_keyword">public</strong> String getCardinalString() {
-<a class="jxr_linenumber" name="L241" href="#L241">241</a> 		<strong class="jxr_keyword">return</strong> _card.getUnit();
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 		<strong class="jxr_keyword">return</strong> card.getUnit();
 <a class="jxr_linenumber" name="L242" href="#L242">242</a> 	}
 <a class="jxr_linenumber" name="L243" href="#L243">243</a> 
 <a class="jxr_linenumber" name="L244" href="#L244">244</a> 	@Override
@@ -268,14 +268,16 @@
 <a class="jxr_linenumber" name="L260" href="#L260">260</a> 	}
 <a class="jxr_linenumber" name="L261" href="#L261">261</a> 	
 <a class="jxr_linenumber" name="L262" href="#L262">262</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_javadoccomment">	 * Set method for _card</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">	 * @param pType Cardinal</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setCardinal(<a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pType) {
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 		_card = pType;
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	}
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> }
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_javadoccomment">	 * Set method for the cardinal. Mess with this at your peril. Seriously. Altering</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">	 * it after construction leads to a redefining of what the number means and in </em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">	 * multivectors it HAS to be done consistently or you'll get reference match failures.</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">	 * @param pType Cardinal</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setCardinal(<a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pType) {
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 		card = pType;
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 	}
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

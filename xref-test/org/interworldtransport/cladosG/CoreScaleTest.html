@@ -324,10 +324,10 @@
 <a class="jxr_linenumber" name="L316" href="#L316">316</a>         workScaleCF.setCardinal(newCard);
 <a class="jxr_linenumber" name="L317" href="#L317">317</a>         workScaleCD.setCardinal(newCard);
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> 
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>         assertTrue(RealF.isZero(workScaleRF.getScalar()));      <em class="jxr_comment">//Change of units clears the weights.</em>
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>         assertTrue(RealD.isZero(workScaleRD.getScalar()));      <em class="jxr_comment">//Change of units clears the weights.</em>
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>         assertTrue(ComplexF.isZero(workScaleCF.getScalar()));   <em class="jxr_comment">//Change of units clears the weights.</em>
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>         assertTrue(ComplexD.isZero(workScaleCD.getScalar()));   <em class="jxr_comment">//Change of units clears the weights.</em>
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>         assertFalse(RealF.isZero(workScaleRF.getScalar()));      <em class="jxr_comment">//Change of units DOES NOT clear weights.</em>
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>         assertFalse(RealD.isZero(workScaleRD.getScalar()));      <em class="jxr_comment">//Change of units DOES NOT clear weights.</em>
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>         assertFalse(ComplexF.isZero(workScaleCF.getScalar()));   <em class="jxr_comment">//Change of units DOES NOT clear weights.</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>         assertFalse(ComplexD.isZero(workScaleCD.getScalar()));   <em class="jxr_comment">//Change of units DOES NOT clear weights.</em>
 <a class="jxr_linenumber" name="L323" href="#L323">323</a>     }
 <a class="jxr_linenumber" name="L324" href="#L324">324</a>     
 <a class="jxr_linenumber" name="L325" href="#L325">325</a>     @Test

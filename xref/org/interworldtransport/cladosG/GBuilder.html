@@ -142,12 +142,12 @@
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
 <a class="jxr_linenumber" name="L136" href="#L136">136</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; <a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> pscalarOfMonad(<a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> pM) {
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> 		Scale&lt;T&gt; tempScales = (Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights());
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		tempScales.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1));
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 		tempScales.setPScalarWeight((T) FBuilder.createONE(pM.getMode(), pM.getWeights().getCardinal()));
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> 		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+<span class="jxr_string">"-PScalarOf"</span>);
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		returnThis.scales = tempScales;
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 		<strong class="jxr_keyword">return</strong> returnThis;
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+<span class="jxr_string">"-PScalarOf"</span>);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		returnThis.scales = ((Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights()))
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 										.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1))
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 										.setPScalarWeight(FBuilder.createONE(	pM.getMode(), 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 																				pM.getWeights().getCardinal()));
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 		<strong class="jxr_keyword">return</strong> returnThis.setGradeKey();
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> 	}
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> 
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> 	<em class="jxr_javadoccomment">/**</em>
