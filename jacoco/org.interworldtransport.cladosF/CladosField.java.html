@@ -61,7 +61,12 @@ package org.interworldtransport.cladosF;
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L64">	COMPLEXD;</span>
+<span class="fc" id="L64">	COMPLEXD//,</span>
+	/**
+	 * This is a test for extending the enumeration. Curious to see what complains. 8)
+	 */
+	//NADA
+	;
 
 	/**
 	 * Method re-uses the incoming cardinal and constructs a particular ProtoN
@@ -76,17 +81,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final static ProtoN createONE(CladosField pField, Cardinal pCard) {
-<span class="pc bpc" id="L79" title="1 of 5 branches missed.">		switch (pField) {</span>
+<span class="pc bpc" id="L84" title="1 of 5 branches missed.">		switch (pField) {</span>
 		case REALF:
-<span class="fc" id="L81">			return new RealF(pCard, 1f);</span>
+<span class="fc" id="L86">			return new RealF(pCard, 1f);</span>
 		case REALD:
-<span class="fc" id="L83">			return new RealD(pCard, 1d);</span>
+<span class="fc" id="L88">			return new RealD(pCard, 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L85">			return new ComplexF(pCard, 1f, 0f);</span>
+<span class="fc" id="L90">			return new ComplexF(pCard, 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L87">			return new ComplexD(pCard, 1d, 0d);</span>
+<span class="fc" id="L92">			return new ComplexD(pCard, 1d, 0d);</span>
 		default:
-<span class="nc" id="L89">			return null;</span>
+<span class="nc" id="L94">			return new ProtoN(pCard);</span>
 		}
 	}
 
@@ -103,17 +108,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final static ProtoN createZERO(CladosField pField, Cardinal pCard) {
-<span class="pc bpc" id="L106" title="1 of 5 branches missed.">		switch (pField) {</span>
+<span class="pc bpc" id="L111" title="1 of 5 branches missed.">		switch (pField) {</span>
 		case REALF:
-<span class="fc" id="L108">			return new RealF(pCard, 0f);</span>
+<span class="fc" id="L113">			return new RealF(pCard, 0f);</span>
 		case REALD:
-<span class="fc" id="L110">			return new RealD(pCard, 0d);</span>
+<span class="fc" id="L115">			return new RealD(pCard, 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L112">			return new ComplexF(pCard, 0f, 0f);</span>
+<span class="fc" id="L117">			return new ComplexF(pCard, 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L114">			return new ComplexD(pCard, 0d, 0d);</span>
+<span class="fc" id="L119">			return new ComplexD(pCard, 0d, 0d);</span>
 		default:
-<span class="nc" id="L116">			return null;</span>
+<span class="nc" id="L121">			return new ProtoN(pCard);</span>
 		}
 	}
 
@@ -128,17 +133,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createONE(Cardinal pCard) {
-<span class="pc bpc" id="L131" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L136" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L133">			return new RealF(pCard, 1f);</span>
+<span class="fc" id="L138">			return new RealF(pCard, 1f);</span>
 		case REALD:
-<span class="fc" id="L135">			return new RealD(pCard, 1d);</span>
+<span class="fc" id="L140">			return new RealD(pCard, 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L137">			return new ComplexF(pCard, 1f, 0f);</span>
+<span class="fc" id="L142">			return new ComplexF(pCard, 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L139">			return new ComplexD(pCard, 1d, 0d);</span>
+<span class="fc" id="L144">			return new ComplexD(pCard, 1d, 0d);</span>
 		default:
-<span class="nc" id="L141">			return null;</span>
+<span class="nc" id="L146">			return new ProtoN(pCard);</span>
 		}
 	}
 
@@ -153,17 +158,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createONE(ProtoN pDiv) {
-<span class="pc bpc" id="L156" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L161" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L158">			return new RealF(pDiv.getCardinal(), 1f);</span>
+<span class="fc" id="L163">			return new RealF(pDiv.getCardinal(), 1f);</span>
 		case REALD:
-<span class="fc" id="L160">			return new RealD(pDiv.getCardinal(), 1d);</span>
+<span class="fc" id="L165">			return new RealD(pDiv.getCardinal(), 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L162">			return new ComplexF(pDiv.getCardinal(), 1f, 0f);</span>
+<span class="fc" id="L167">			return new ComplexF(pDiv.getCardinal(), 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L164">			return new ComplexD(pDiv.getCardinal(), 1d, 0d);</span>
+<span class="fc" id="L169">			return new ComplexD(pDiv.getCardinal(), 1d, 0d);</span>
 		default:
-<span class="nc" id="L166">			return null;</span>
+<span class="nc" id="L171">			return new ProtoN(pDiv.getCardinal());</span>
 		}
 	}
 
@@ -178,17 +183,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createONE(String pCard) {
-<span class="pc bpc" id="L181" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L186" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L183">			return new RealF(Cardinal.generate(pCard), 1f);</span>
+<span class="fc" id="L188">			return new RealF(Cardinal.generate(pCard), 1f);</span>
 		case REALD:
-<span class="fc" id="L185">			return new RealD(Cardinal.generate(pCard), 1d);</span>
+<span class="fc" id="L190">			return new RealD(Cardinal.generate(pCard), 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L187">			return new ComplexF(Cardinal.generate(pCard), 1f, 0f);</span>
+<span class="fc" id="L192">			return new ComplexF(Cardinal.generate(pCard), 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L189">			return new ComplexD(Cardinal.generate(pCard), 1d, 0d);</span>
+<span class="fc" id="L194">			return new ComplexD(Cardinal.generate(pCard), 1d, 0d);</span>
 		default:
-<span class="nc" id="L191">			return null;</span>
+<span class="nc" id="L196">			return new ProtoN(Cardinal.generate(pCard));</span>
 		}
 	}
 
@@ -203,17 +208,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createZERO(Cardinal pCard) {
-<span class="pc bpc" id="L206" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L211" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L208">			return new RealF(pCard, 0f);</span>
+<span class="fc" id="L213">			return new RealF(pCard, 0f);</span>
 		case REALD:
-<span class="fc" id="L210">			return new RealD(pCard, 0d);</span>
+<span class="fc" id="L215">			return new RealD(pCard, 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L212">			return new ComplexF(pCard, 0f, 0f);</span>
+<span class="fc" id="L217">			return new ComplexF(pCard, 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L214">			return new ComplexD(pCard, 0d, 0d);</span>
+<span class="fc" id="L219">			return new ComplexD(pCard, 0d, 0d);</span>
 		default:
-<span class="nc" id="L216">			return null;</span>
+<span class="nc" id="L221">			return new ProtoN(pCard);</span>
 		}
 	}
 
@@ -228,17 +233,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createZERO(ProtoN pDiv) {
-<span class="pc bpc" id="L231" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L236" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L233">			return new RealF(pDiv.getCardinal(), 0f);</span>
+<span class="fc" id="L238">			return new RealF(pDiv.getCardinal(), 0f);</span>
 		case REALD:
-<span class="fc" id="L235">			return new RealD(pDiv.getCardinal(), 0d);</span>
+<span class="fc" id="L240">			return new RealD(pDiv.getCardinal(), 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L237">			return new ComplexF(pDiv.getCardinal(), 0f, 0f);</span>
+<span class="fc" id="L242">			return new ComplexF(pDiv.getCardinal(), 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L239">			return new ComplexD(pDiv.getCardinal(), 0d, 0d);</span>
+<span class="fc" id="L244">			return new ComplexD(pDiv.getCardinal(), 0d, 0d);</span>
 		default:
-<span class="nc" id="L241">			return null;</span>
+<span class="nc" id="L246">			return new ProtoN(pDiv.getCardinal());</span>
 		}
 	}
 
@@ -253,17 +258,17 @@ package org.interworldtransport.cladosF;
 	 *         it will always be one of the ProtoN children.
 	 */
 	public final ProtoN createZERO(String pCard) {
-<span class="pc bpc" id="L256" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L261" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L258">			return new RealF(Cardinal.generate(pCard), 0f);</span>
+<span class="fc" id="L263">			return new RealF(Cardinal.generate(pCard), 0f);</span>
 		case REALD:
-<span class="fc" id="L260">			return new RealD(Cardinal.generate(pCard), 0d);</span>
+<span class="fc" id="L265">			return new RealD(Cardinal.generate(pCard), 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L262">			return new ComplexF(Cardinal.generate(pCard), 0f, 0f);</span>
+<span class="fc" id="L267">			return new ComplexF(Cardinal.generate(pCard), 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L264">			return new ComplexD(Cardinal.generate(pCard), 0d, 0d);</span>
+<span class="fc" id="L269">			return new ComplexD(Cardinal.generate(pCard), 0d, 0d);</span>
 		default:
-<span class="nc" id="L266">			return null;</span>
+<span class="nc" id="L271">			return new ProtoN(Cardinal.generate(pCard));</span>
 		}
 	}
 }

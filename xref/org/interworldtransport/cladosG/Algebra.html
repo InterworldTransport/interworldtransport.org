@@ -266,163 +266,151 @@
 <a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L259" href="#L259">259</a> 	@Override
 <a class="jxr_linenumber" name="L260" href="#L260">260</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<a name="Algebra" href="../../../org/interworldtransport/cladosG/Algebra.html#Algebra">Algebra</a> pAnother) {
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.name == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 			<strong class="jxr_keyword">if</strong> (pAnother.name == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 				<strong class="jxr_keyword">return</strong> 0;
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 			<strong class="jxr_keyword">else</strong>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> 				<strong class="jxr_keyword">return</strong> +1; <em class="jxr_comment">// A null name is considered larger than a non-null name</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> 		<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (pAnother.name == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 			<strong class="jxr_keyword">return</strong> -1; <em class="jxr_comment">// A null name is considered larger than a non-null name</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 		<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.name.equals(pAnother.name))
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 			<strong class="jxr_keyword">return</strong> 0;
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> 		<strong class="jxr_keyword">else</strong> <em class="jxr_comment">// At this point neither name is null nor are they equal</em>
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> 		{
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> 			<strong class="jxr_keyword">char</strong>[] first = <strong class="jxr_keyword">this</strong>.name.toCharArray();
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> 			<strong class="jxr_keyword">char</strong>[] second = pAnother.name.toCharArray();
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 			<strong class="jxr_keyword">int</strong> loopLimit = (first.length &lt;= second.length) ? first.length : second.length;
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; loopLimit; j++) {
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> 				<strong class="jxr_keyword">if</strong> (first[j] &lt; second[j])
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> 					<strong class="jxr_keyword">return</strong> -1;
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> 				<strong class="jxr_keyword">if</strong> (first[j] &gt; second[j])
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> 					<strong class="jxr_keyword">return</strong> +1;
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 			}
-<a class="jxr_linenumber" name="L281" href="#L281">281</a> 			<em class="jxr_comment">/* We know this.name and pAnother.name are the same up to all characters</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_comment">			*  in the smaller one. We also know they can't be equal.</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_comment">			*/</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 			<strong class="jxr_keyword">if</strong> (first.length &lt; second.length)
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 				<strong class="jxr_keyword">return</strong> -1;
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 			<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">return</strong> +1;
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 		}
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> 	}
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 * Overridden Equals method from Object.</em>
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">	 * This ensures reference quality is the standard.</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">	 * They must literally be the same object to be equal.</em>
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 	@Override
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		<strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 	}
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">	 * This method returns the Algebra's name.</em>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 * @return String</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.name == <strong class="jxr_keyword">null</strong>)						<strong class="jxr_keyword">return</strong> (pAnother.name == <strong class="jxr_keyword">null</strong>) ? 0 : 1; 			<em class="jxr_comment">//Null name is larger than a non-null name</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 		<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (pAnother.name == <strong class="jxr_keyword">null</strong>)				<strong class="jxr_keyword">return</strong> -1;	<em class="jxr_comment">//Null name is larger than a non-null name</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 		<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.name.equals(pAnother.name))	<strong class="jxr_keyword">return</strong> 0;	
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 		<strong class="jxr_keyword">else</strong> {													<em class="jxr_comment">//Neither name is null. Nor are they equal</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 			<strong class="jxr_keyword">char</strong>[] first = <strong class="jxr_keyword">this</strong>.name.toCharArray();
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> 			<strong class="jxr_keyword">char</strong>[] second = pAnother.name.toCharArray();
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 			<strong class="jxr_keyword">int</strong> loopLimit = (first.length &lt;= second.length) ? first.length : second.length;
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; loopLimit; j++) {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 				<strong class="jxr_keyword">if</strong> (first[j] &lt; second[j])			<strong class="jxr_keyword">return</strong> -1;	<em class="jxr_comment">//Character in first name is smaller. Decision done.</em>
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 				<strong class="jxr_keyword">if</strong> (first[j] &gt; second[j])			<strong class="jxr_keyword">return</strong> +1;	<em class="jxr_comment">//Character in second name is smaller. Decision done.</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 			}													<em class="jxr_comment">//No decision. Loop to the next character</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 			<strong class="jxr_keyword">return</strong> (first.length &lt; second.length) ? -1 : +1;	<em class="jxr_comment">//We know the two names are the same up to the characters </em>
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 																<em class="jxr_comment">//in the shorter one. We also know they can't be equal. </em>
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 																<em class="jxr_comment">//So the longer one wins.</em>
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 		}
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 	}
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">	 * Overridden Equals method from Object.</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">	 * This ensures reference equality is the standard. They must literally be the same object to be equal.</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">	 * @return boolean check for reference equality</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 	@Override
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 		<strong class="jxr_keyword">return</strong> (<strong class="jxr_keyword">this</strong> == obj) ? <strong class="jxr_keyword">true</strong> : false;
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 	}
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">	 * This method returns the Algebra's name.</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">	 * @return String name of the algebra</em>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 	<strong class="jxr_keyword">public</strong> String getAlgebraName() {
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 		<strong class="jxr_keyword">return</strong> name;
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 	}
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing the blade count on the canonical basis.</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">	 * A Frame's blade count will be limited at the upper end by this blade count.</em>
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">	 * @return short This is the size of a monad's coefficient array, but more</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">	 *         importantly it is the number of dimensions in the vector space</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 *         represented by the canonical basis.</em>
 <a class="jxr_linenumber" name="L304" href="#L304">304</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 	<strong class="jxr_keyword">public</strong> String getAlgebraName() {
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> 		<strong class="jxr_keyword">return</strong> name;
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getBladeCount() {
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 		<strong class="jxr_keyword">return</strong> gBasis.getBladeCount();
 <a class="jxr_linenumber" name="L307" href="#L307">307</a> 	}
 <a class="jxr_linenumber" name="L308" href="#L308">308</a> 
 <a class="jxr_linenumber" name="L309" href="#L309">309</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing the blade count on the canonical basis.</em>
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">	 * A Frame's blade count will be limited at the upper end by this blade count.</em>
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">	 * @return short This is the size of a monad's coefficient array, but more</em>
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">	 *         importantly it is the number of dimensions in the vector space</em>
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> <em class="jxr_javadoccomment">	 *         represented by the canonical basis.</em>
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getBladeCount() {
-<a class="jxr_linenumber" name="L318" href="#L318">318</a> 		<strong class="jxr_keyword">return</strong> gBasis.getBladeCount();
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 	}
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
-<a class="jxr_linenumber" name="L321" href="#L321">321</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">	 * This method returns a reference to the Foot of the algebra.</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">	 * @return Foot</em>
-<a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L326" href="#L326">326</a> 	<strong class="jxr_keyword">public</strong> <a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> getFoot() {
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> 		<strong class="jxr_keyword">return</strong> foot;
-<a class="jxr_linenumber" name="L328" href="#L328">328</a> 	}
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> 
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">	 * Return the entire basis definition object.</em>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> <em class="jxr_javadoccomment">	 * @return gBasis</em>
-<a class="jxr_linenumber" name="L334" href="#L334">334</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L335" href="#L335">335</a> 	<strong class="jxr_keyword">public</strong> <a name="Basis" href="../../../org/interworldtransport/cladosG/Basis.html#Basis">Basis</a> getGBasis() {
-<a class="jxr_linenumber" name="L336" href="#L336">336</a> 		<strong class="jxr_keyword">return</strong> gBasis;
-<a class="jxr_linenumber" name="L337" href="#L337">337</a> 	}
-<a class="jxr_linenumber" name="L338" href="#L338">338</a> 
-<a class="jxr_linenumber" name="L339" href="#L339">339</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">	 * Return the entire product definition object.</em>
-<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">	 * @return gProduct</em>
-<a class="jxr_linenumber" name="L343" href="#L343">343</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L344" href="#L344">344</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> getGProduct() {
-<a class="jxr_linenumber" name="L345" href="#L345">345</a> 		<strong class="jxr_keyword">return</strong> gProduct;
-<a class="jxr_linenumber" name="L346" href="#L346">346</a> 	}
-<a class="jxr_linenumber" name="L347" href="#L347">347</a> 
-<a class="jxr_linenumber" name="L348" href="#L348">348</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L349" href="#L349">349</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing the grade count on the canonical basis.</em>
-<a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">	 * A Frame's grade count will be limited at the upper end by this grade count.</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">	 * This method returns a reference to the Foot of the algebra.</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">	 * @return Foot</em>
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> 	<strong class="jxr_keyword">public</strong> <a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> getFoot() {
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 		<strong class="jxr_keyword">return</strong> foot;
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 	}
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> <em class="jxr_javadoccomment">	 * Return the entire basis definition object.</em>
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> <em class="jxr_javadoccomment">	 * @return gBasis</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 	<strong class="jxr_keyword">public</strong> <a name="Basis" href="../../../org/interworldtransport/cladosG/Basis.html#Basis">Basis</a> getGBasis() {
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> 		<strong class="jxr_keyword">return</strong> gBasis;
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 	}
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> <em class="jxr_javadoccomment">	 * Return the entire product definition object.</em>
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">	 * @return gProduct</em>
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> getGProduct() {
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 		<strong class="jxr_keyword">return</strong> gProduct;
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 	}
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing the grade count on the canonical basis.</em>
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">	 * A Frame's grade count will be limited at the upper end by this grade count.</em>
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">	 * @return byte This is the length of a monad's grade key. In an algebra with N</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">	 *         generators it will always be N+1.</em>
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> 	<strong class="jxr_keyword">public</strong> byte getGradeCount() {
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> 		<strong class="jxr_keyword">return</strong> (byte) gBasis.getGradeCount();
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 	}
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing where a particular grade starts and</em>
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> <em class="jxr_javadoccomment">	 * ends on the canonical basis. The GProduct is asked instead of the Basis</em>
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">	 * because the basis tracks where they start. GProduct already knows where.</em>
 <a class="jxr_linenumber" name="L351" href="#L351">351</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L352" href="#L352">352</a> <em class="jxr_javadoccomment">	 * @return byte This is the length of a monad's grade key. In an algebra with N</em>
-<a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">	 *         generators it will always be N+1.</em>
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> <em class="jxr_javadoccomment">	 * @param pInd short integer describing the grade to be selected from the basis.</em>
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">	 * @return int[] This is an integer index between 0 and bladeCount inclusive.</em>
 <a class="jxr_linenumber" name="L354" href="#L354">354</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 	<strong class="jxr_keyword">public</strong> byte getGradeCount() {
-<a class="jxr_linenumber" name="L356" href="#L356">356</a> 		<strong class="jxr_keyword">return</strong> (byte) gBasis.getGradeCount();
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong>[] getGradeRange(byte pInd) {
+<a class="jxr_linenumber" name="L356" href="#L356">356</a> 		<strong class="jxr_keyword">return</strong> gProduct.getGradeRange(pInd);
 <a class="jxr_linenumber" name="L357" href="#L357">357</a> 	}
 <a class="jxr_linenumber" name="L358" href="#L358">358</a> 
-<a class="jxr_linenumber" name="L359" href="#L359">359</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L360" href="#L360">360</a> <em class="jxr_javadoccomment">	 * This is a short-hand method providing where a particular grade starts and</em>
-<a class="jxr_linenumber" name="L361" href="#L361">361</a> <em class="jxr_javadoccomment">	 * ends on the canonical basis. The GProduct is asked instead of the Basis</em>
-<a class="jxr_linenumber" name="L362" href="#L362">362</a> <em class="jxr_javadoccomment">	 * because the basis tracks where they start. GProduct already knows where.</em>
-<a class="jxr_linenumber" name="L363" href="#L363">363</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">	 * @param pInd short integer describing the grade to be selected from the basis.</em>
-<a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">	 * @return int[] This is an integer index between 0 and bladeCount inclusive.</em>
-<a class="jxr_linenumber" name="L366" href="#L366">366</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L367" href="#L367">367</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong>[] getGradeRange(byte pInd) {
-<a class="jxr_linenumber" name="L368" href="#L368">368</a> 		<strong class="jxr_keyword">return</strong> gProduct.getGradeRange(pInd);
-<a class="jxr_linenumber" name="L369" href="#L369">369</a> 	}
-<a class="jxr_linenumber" name="L370" href="#L370">370</a> 
-<a class="jxr_linenumber" name="L371" href="#L371">371</a> 	@Override
-<a class="jxr_linenumber" name="L372" href="#L372">372</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> 		<strong class="jxr_keyword">return</strong> uuid.hashCode();
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> 	}
-<a class="jxr_linenumber" name="L375" href="#L375">375</a> 
-<a class="jxr_linenumber" name="L376" href="#L376">376</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">	 * Resetting the algebra name is mildly useful when its purpose in a model</em>
-<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">	 * shifts. Otherwise, it will probably not be used. Once it is set by the</em>
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">	 * constructor, it will probably remain.</em>
-<a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> <em class="jxr_javadoccomment">	 * @param pName String for the Algebra's name.</em>
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L383" href="#L383">383</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAlgebraName(String pName) {
-<a class="jxr_linenumber" name="L384" href="#L384">384</a> 		name = pName;
-<a class="jxr_linenumber" name="L385" href="#L385">385</a> 	}
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> 
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">	 * This method is a little dangerous and should use used only with great</em>
-<a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">	 * caution. Ideally, it would never be used because an algebra is defined</em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a> <em class="jxr_javadoccomment">	 * relative to a tangent point on a sub-manifold. Sometimes, however, one might</em>
-<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">	 * find that two seemingly distinct feet are actually the same. In this limited</em>
-<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">	 * case it should be possible for a model writer to adjust an algebra to point</em>
-<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">	 * at a different foot after construction.</em>
-<a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">	 * @param footPoint Foot for the Algebra to use as its 'tangent' contact point.</em>
-<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L397" href="#L397">397</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFoot(<a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> footPoint) {
-<a class="jxr_linenumber" name="L398" href="#L398">398</a> 		foot = footPoint;
-<a class="jxr_linenumber" name="L399" href="#L399">399</a> 	}
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> 
-<a class="jxr_linenumber" name="L401" href="#L401">401</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">	 * This method is a little dangerous and should use used only with great</em>
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_javadoccomment">	 * caution. Ideally, it would never be used because an algebra is defined</em>
-<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">	 * relative to a tangent point and the coordinates there form both a geometric</em>
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">	 * basis on which a geometric product is defined. Sometimes, however, one might</em>
-<a class="jxr_linenumber" name="L406" href="#L406">406</a> <em class="jxr_javadoccomment">	 * find that two seemingly distinct feet are actually the same. In this limited</em>
-<a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">	 * case it should be possible to adjust an algebra to at a different gProduct</em>
-<a class="jxr_linenumber" name="L408" href="#L408">408</a> <em class="jxr_javadoccomment">	 * after construction.</em>
-<a class="jxr_linenumber" name="L409" href="#L409">409</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L410" href="#L410">410</a> <em class="jxr_javadoccomment">	 * @param pGP GProduct GProduct object for the Algebra to use as its geometric</em>
-<a class="jxr_linenumber" name="L411" href="#L411">411</a> <em class="jxr_javadoccomment">	 *            product operation on the canonical basis.</em>
-<a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> 	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setGProduct(<a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> pGP) {
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> 		gProduct = pGP;
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> 		gBasis = pGP.getBasis();
-<a class="jxr_linenumber" name="L416" href="#L416">416</a> 	}
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> }
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 	@Override
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> 		<strong class="jxr_keyword">return</strong> uuid.hashCode();
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 	}
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
+<a class="jxr_linenumber" name="L364" href="#L364">364</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">	 * Resetting the algebra name is mildly useful when its purpose in a model</em>
+<a class="jxr_linenumber" name="L366" href="#L366">366</a> <em class="jxr_javadoccomment">	 * shifts. Otherwise, it will probably not be used. Once it is set by the</em>
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">	 * constructor, it will probably remain.</em>
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">	 * @param pName String for the Algebra's name.</em>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAlgebraName(String pName) {
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> 		name = pName;
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> 	}
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> 
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">	 * This method is a little dangerous and should use used only with great</em>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">	 * caution. Ideally, it would never be used because an algebra is defined</em>
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">	 * relative to a tangent point on a sub-manifold. Sometimes, however, one might</em>
+<a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">	 * find that two seemingly distinct feet are actually the same. In this limited</em>
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">	 * case it should be possible for a model writer to adjust an algebra to point</em>
+<a class="jxr_linenumber" name="L381" href="#L381">381</a> <em class="jxr_javadoccomment">	 * at a different foot after construction.</em>
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> <em class="jxr_javadoccomment">	 * @param footPoint Foot for the Algebra to use as its 'tangent' contact point.</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFoot(<a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> footPoint) {
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> 		foot = footPoint;
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 	}
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> 
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> <em class="jxr_javadoccomment">	 * This method is a little dangerous and should use used only with great</em>
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">	 * caution. Ideally, it would never be used because an algebra is defined</em>
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">	 * relative to a tangent point and the coordinates there form both a geometric</em>
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">	 * basis on which a geometric product is defined. Sometimes, however, one might</em>
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">	 * find that two seemingly distinct feet are actually the same. In this limited</em>
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">	 * case it should be possible to adjust an algebra to at a different gProduct</em>
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">	 * after construction.</em>
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">	 * @param pGP GProduct GProduct object for the Algebra to use as its geometric</em>
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">	 *            product operation on the canonical basis.</em>
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> 	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setGProduct(<a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> pGP) {
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> 		gProduct = pGP;
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> 		gBasis = pGP.getBasis();
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 	}
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

@@ -27,8 +27,8 @@
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="DegenerateComplexMonadTests" href="../../../org/interworldtransport/cladosG/DegenerateComplexMonadTests.html#DegenerateComplexMonadTests">DegenerateComplexMonadTests</a> {
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>      Cardinal tCard = Cardinal.generate(<span class="jxr_string">"TestMonads"</span>);
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>      String mName = <span class="jxr_string">"Monad-"</span>;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>      Foot pFoot0 = <strong class="jxr_keyword">new</strong> Foot(<span class="jxr_string">"Foot0"</span>, tCard);
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>      Foot pFoot1 = <strong class="jxr_keyword">new</strong> Foot(<span class="jxr_string">"Foot1"</span>, tCard);
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      Foot pFoot0 = <strong class="jxr_keyword">new</strong> Foot(<span class="jxr_string">"Foot0"</span>);
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      Foot pFoot1 = <strong class="jxr_keyword">new</strong> Foot(<span class="jxr_string">"Foot1"</span>);
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  	String aName = <span class="jxr_string">"Motion Algebra"</span>;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  	String aName2 = <span class="jxr_string">"Property Algebra"</span>;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>      String pgasig = <span class="jxr_string">"+++0"</span>;
@@ -252,9 +252,9 @@
 <a class="jxr_linenumber" name="L244" href="#L244">244</a>         assertFalse(tM3.getSparseFlag());   <em class="jxr_comment">//ONE</em>
 <a class="jxr_linenumber" name="L245" href="#L245">245</a> 
 <a class="jxr_linenumber" name="L246" href="#L246">246</a>         <em class="jxr_comment">//System.out.println(Monad.toXMLFullString(tM4, ""));</em>
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>         assertFalse(tM4.getSparseFlag());   <em class="jxr_comment">//Idempotent, but in a small algebra... so half the grades are present.</em>
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         assertFalse(tM5.getSparseFlag());   <em class="jxr_comment">//Nilpotent... so same issue.</em>
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>         assertFalse(tM6.getSparseFlag());   <em class="jxr_comment">//Fake nilpotent in a small algebra...</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>         assertTrue(tM4.getSparseFlag());   <em class="jxr_comment">//Idempotent, but in a small algebra... so half the grades are present.</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         assertTrue(tM5.getSparseFlag());   <em class="jxr_comment">//Nilpotent... so same issue.</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>         assertTrue(tM6.getSparseFlag());   <em class="jxr_comment">//Fake nilpotent in a small algebra...</em>
 <a class="jxr_linenumber" name="L250" href="#L250">250</a> 
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM0)));
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM0)));

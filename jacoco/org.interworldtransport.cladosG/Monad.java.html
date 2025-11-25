@@ -1096,7 +1096,7 @@ public class Monad implements Modal {
 <span class="fc" id="L1096">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
 <span class="fc" id="L1097">						int row = tBasis.find(blade2) - 1;</span>
 <span class="fc" id="L1098">						int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
-<span class="pc bpc" id="L1099" title="1 of 2 branches missed.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc bfc" id="L1099" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
 <span class="fc" id="L1100">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
 <span class="pc bpc" id="L1101" title="1 of 5 branches missed.">						switch (getMode()) {</span>
 						case COMPLEXD -&gt; {
@@ -1151,9 +1151,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1151">					});</span>
 <span class="fc" id="L1152">				});</span>
 <span class="fc" id="L1153">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
-<span class="pc bpc" id="L1154" title="1 of 2 branches missed.">				if (slideKey == 0)</span>
+<span class="fc bfc" id="L1154" title="All 2 branches covered.">				if (slideKey == 0)</span>
 <span class="fc" id="L1155">					break; // we've processed all grades including scalar.</span>
-<span class="nc" id="L1156">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
+<span class="fc" id="L1156">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
 <span class="fc" id="L1158">		} else {</span>
 <span class="fc" id="L1159">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
@@ -1161,7 +1161,7 @@ public class Monad implements Modal {
 <span class="fc" id="L1161">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
 <span class="fc" id="L1162">					int row = tBasis.find(blade2) - 1;</span>
 <span class="fc" id="L1163">					int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
-<span class="fc bfc" id="L1164" title="All 2 branches covered.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="pc bpc" id="L1164" title="1 of 2 branches missed.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
 <span class="fc" id="L1165">					Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
 <span class="pc bpc" id="L1166" title="1 of 5 branches missed.">					switch (getMode()) {</span>
 					case COMPLEXD -&gt; {
@@ -1266,7 +1266,7 @@ public class Monad implements Modal {
 <span class="fc" id="L1266">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
 <span class="fc" id="L1267">						int row = tBasis.find(blade2) - 1;</span>
 <span class="fc" id="L1268">						int treturnBlade = Math.abs(tProd.getResult(col, row)) - 1;		//Recover Cayley table entry as index</span>
-<span class="pc bpc" id="L1269" title="1 of 2 branches missed.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc bfc" id="L1269" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
 <span class="fc" id="L1270">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
 <span class="pc bpc" id="L1271" title="1 of 5 branches missed.">						switch (getMode()) {</span>
 						case COMPLEXD -&gt; {
@@ -1321,9 +1321,9 @@ public class Monad implements Modal {
 <span class="fc" id="L1321">					});</span>
 <span class="fc" id="L1322">				});</span>
 <span class="fc" id="L1323">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
-<span class="pc bpc" id="L1324" title="1 of 2 branches missed.">				if (slideKey == 0)</span>
+<span class="fc bfc" id="L1324" title="All 2 branches covered.">				if (slideKey == 0)</span>
 <span class="fc" id="L1325">					break; // we've processed all grades including scalar.</span>
-<span class="nc" id="L1326">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
+<span class="fc" id="L1326">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
 <span class="fc" id="L1328">		} else {</span>
 <span class="fc" id="L1329">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
@@ -1555,36 +1555,33 @@ public class Monad implements Modal {
 	/**
 	 * Set the grade key for the monad. Never accept an externally provided key. Always recalculate it 
 	 * after any of the unary or binary operations.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * While we are here, we ALSO set the sparseFlag. The nonZero coeff detection loop that fills gradeKey 
 	 * is a grade detector, so if foundGrade is less than or equal to half gradeCount, sparseFlag is set 
 	 * to true and false otherwise.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Use this IF you set one of the weights manually by reaching into the scales.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @return Monad this one after the grade key is set.
 	 */
 	public Monad setGradeKey() {
-<span class="fc" id="L1566">		foundGrades = 0;</span>
-<span class="fc" id="L1567">		gradeKey = 0;</span>
+<span class="fc" id="L1568">		foundGrades = 0;</span>
+<span class="fc" id="L1569">		gradeKey = 0;</span>
 
-<span class="fc" id="L1569">		gradeStream().forEach(grade -&gt; {</span>
-<span class="fc bfc" id="L1570" title="All 2 branches covered.">			if (getAlgebra().getGBasis().bladeOfGradeStream((byte) grade).parallel().anyMatch(</span>
-<span class="fc" id="L1571">															blade -&gt; getWeights().isNotZeroAt(blade))){</span>
-<span class="fc" id="L1572">				foundGrades++;</span>
-<span class="fc" id="L1573">				gradeKey += (long) Math.pow(10, grade);</span>
+<span class="fc" id="L1571">		gradeStream().forEach(grade -&gt; {</span>
+<span class="fc bfc" id="L1572" title="All 2 branches covered.">			if (getAlgebra().getGBasis().bladeOfGradeStream((byte) grade).parallel().anyMatch(</span>
+<span class="fc" id="L1573">															blade -&gt; getWeights().isNotZeroAt(blade))){</span>
+<span class="fc" id="L1574">				foundGrades++;</span>
+<span class="fc" id="L1575">				gradeKey += (long) Math.pow(10, grade);</span>
 			}
-			//if (getAlgebra().getGBasis().bladeOfGradeStream((byte) grade)
-			//		.filter(blade -&gt; getWeights().isNotZeroAt(blade)).parallel().findAny().isPresent()) {
-			//	foundGrades++;
-			//	gradeKey += (long) Math.pow(10, grade);
-			//}
-<span class="fc" id="L1580">		});</span>
+<span class="fc" id="L1577">		});</span>
 
-<span class="fc bfc" id="L1582" title="All 2 branches covered.">		if (gradeKey == 0) {	//Special case for scalars. If no grades detected, scalar it must be.</span>
-<span class="fc" id="L1583">			foundGrades++;</span>
-<span class="fc" id="L1584">			gradeKey++;</span>
+<span class="fc bfc" id="L1579" title="All 2 branches covered.">		if (gradeKey == 0) {	//Special case for scalars. If no grades detected, scalar it must be.</span>
+<span class="fc" id="L1580">			foundGrades++;</span>
+<span class="fc" id="L1581">			gradeKey++;</span>
 		}
-<span class="fc bfc" id="L1586" title="All 2 branches covered.">		sparseFlag = (foundGrades &lt; getAlgebra().getGradeCount() / 2) ? true : false;</span>
-<span class="fc" id="L1587">		return this;</span>
+<span class="fc bfc" id="L1583" title="All 2 branches covered.">		sparseFlag = (foundGrades &lt;= getAlgebra().getGradeCount() / 2) ? true : false;</span>
+<span class="fc" id="L1584">		return this;</span>
 	}
 
 	/**
@@ -1594,8 +1591,8 @@ public class Monad implements Modal {
 	 * @return Monad after setting the name.
 	 */
 	public Monad setName(String pName) {
-<span class="fc" id="L1597">		name = pName;</span>
-<span class="fc" id="L1598">		return this;</span>
+<span class="fc" id="L1594">		name = pName;</span>
+<span class="fc" id="L1595">		return this;</span>
 	}
 
 	/**
@@ -1623,13 +1620,13 @@ public class Monad implements Modal {
 	 *                              doesn't share exactly the same Basis as the one it replaces.
 	 */
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad setScale(Scale&lt;T&gt; pScale) throws CladosMonadException {
-<span class="fc bfc" id="L1626" title="All 2 branches covered.">		if (pScale.getBasis() != scales.getBasis() )</span>
-<span class="fc" id="L1627">			throw new CladosMonadException(this, &quot;Coefficient array offered uses a different basis &quot;);</span>
+<span class="fc bfc" id="L1623" title="All 2 branches covered.">		if (pScale.getBasis() != scales.getBasis() )</span>
+<span class="fc" id="L1624">			throw new CladosMonadException(this, &quot;Coefficient array offered uses a different basis &quot;);</span>
 		
-<span class="fc" id="L1629">		scales = pScale;</span>
-<span class="fc" id="L1630">		setGradeKey();</span>
+<span class="fc" id="L1626">		scales = pScale;</span>
+<span class="fc" id="L1627">		setGradeKey();</span>
 
-<span class="fc" id="L1632">		return this;</span>
+<span class="fc" id="L1629">		return this;</span>
 	}
 
 	/**
@@ -1653,7 +1650,7 @@ public class Monad implements Modal {
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN&gt; T sqMagnitude() {
-<span class="fc" id="L1656">		return (T) scales.modulusSQSum();</span>
+<span class="fc" id="L1653">		return (T) scales.modulusSQSum();</span>
 	}
 
 	/**
@@ -1666,18 +1663,18 @@ public class Monad implements Modal {
 	 * @return Monad returned that has the passed monad subtracted from it.
 	 */
 	public Monad subtract(Monad pM) {
-<span class="fc bfc" id="L1669" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
-<span class="fc" id="L1670">			throw new IllegalArgumentException(&quot;Can't subtract monads without a reference match.&quot;);</span>
+<span class="fc bfc" id="L1666" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
+<span class="fc" id="L1667">			throw new IllegalArgumentException(&quot;Can't subtract monads without a reference match.&quot;);</span>
 
-<span class="fc" id="L1672">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
+<span class="fc" id="L1669">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
 			try {										//but their Scales don't realize that and we have
-<span class="fc" id="L1674">				scales.get(blade).subtract(pM.scales.get(blade));</span>
-<span class="nc" id="L1675">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
-<span class="nc" id="L1676">				throw new IllegalArgumentException(&quot;Can't subtract when cardinals don't match.&quot;);</span>
-<span class="fc" id="L1677">			}</span>
-<span class="fc" id="L1678">		});</span>
-<span class="fc" id="L1679">		setGradeKey();</span>
-<span class="fc" id="L1680">		return this;</span>
+<span class="fc" id="L1671">				scales.get(blade).subtract(pM.scales.get(blade));</span>
+<span class="nc" id="L1672">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
+<span class="nc" id="L1673">				throw new IllegalArgumentException(&quot;Can't subtract when cardinals don't match.&quot;);</span>
+<span class="fc" id="L1674">			}</span>
+<span class="fc" id="L1675">		});</span>
+<span class="fc" id="L1676">		setGradeKey();</span>
+<span class="fc" id="L1677">		return this;</span>
 	}
 
 	/**
@@ -1690,8 +1687,8 @@ public class Monad implements Modal {
 	 * @return Monad after setting the algebra.
 	 */
 	protected Monad setAlgebra(Algebra pA) {
-<span class="fc" id="L1693">		algebra = pA;</span>
-<span class="fc" id="L1694">		return this;</span>
+<span class="fc" id="L1690">		algebra = pA;</span>
+<span class="fc" id="L1691">		return this;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

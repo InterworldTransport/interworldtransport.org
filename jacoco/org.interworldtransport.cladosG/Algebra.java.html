@@ -258,52 +258,40 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 */
 	@Override
 	public int compareTo(Algebra pAnother) {
-<span class="fc bfc" id="L261" title="All 2 branches covered.">		if (this.name == null)</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">			if (pAnother.name == null)</span>
-<span class="fc" id="L263">				return 0;</span>
-			else
-<span class="fc" id="L265">				return +1; // A null name is considered larger than a non-null name</span>
-<span class="fc bfc" id="L266" title="All 2 branches covered.">		else if (pAnother.name == null)</span>
-<span class="fc" id="L267">			return -1; // A null name is considered larger than a non-null name</span>
-<span class="fc bfc" id="L268" title="All 2 branches covered.">		else if (this.name.equals(pAnother.name))</span>
-<span class="fc" id="L269">			return 0;</span>
-		else // At this point neither name is null nor are they equal
-		{
-<span class="fc" id="L272">			char[] first = this.name.toCharArray();</span>
-<span class="fc" id="L273">			char[] second = pAnother.name.toCharArray();</span>
-<span class="fc bfc" id="L274" title="All 2 branches covered.">			int loopLimit = (first.length &lt;= second.length) ? first.length : second.length;</span>
-<span class="pc bfc" id="L275" title="All 2 branches covered.">			for (int j = 0; j &lt; loopLimit; j++) {</span>
-<span class="fc bfc" id="L276" title="All 2 branches covered.">				if (first[j] &lt; second[j])</span>
-<span class="fc" id="L277">					return -1;</span>
-<span class="pc bpc" id="L278" title="1 of 2 branches missed.">				if (first[j] &gt; second[j])</span>
-<span class="fc" id="L279">					return +1;</span>
-			}
-			/* We know this.name and pAnother.name are the same up to all characters
-			*  in the smaller one. We also know they can't be equal.
-			*/
-<span class="pc bpc" id="L284" title="1 of 2 branches missed.">			if (first.length &lt; second.length)</span>
-<span class="nc" id="L285">				return -1;</span>
-<span class="fc" id="L286">			else return +1;</span>
+<span class="fc bfc" id="L261" title="All 4 branches covered.">		if (this.name == null)						return (pAnother.name == null) ? 0 : 1; 			//Null name is larger than a non-null name</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		else if (pAnother.name == null)				return -1;	//Null name is larger than a non-null name</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">		else if (this.name.equals(pAnother.name))	return 0;	</span>
+		else {													//Neither name is null. Nor are they equal
+<span class="fc" id="L265">			char[] first = this.name.toCharArray();</span>
+<span class="fc" id="L266">			char[] second = pAnother.name.toCharArray();</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">			int loopLimit = (first.length &lt;= second.length) ? first.length : second.length;</span>
+<span class="pc bfc" id="L268" title="All 2 branches covered.">			for (int j = 0; j &lt; loopLimit; j++) {</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">				if (first[j] &lt; second[j])			return -1;	//Character in first name is smaller. Decision done.</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">				if (first[j] &gt; second[j])			return +1;	//Character in second name is smaller. Decision done.</span>
+			}													//No decision. Loop to the next character
+
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">			return (first.length &lt; second.length) ? -1 : +1;	//We know the two names are the same up to the characters </span>
+																//in the shorter one. We also know they can't be equal. 
+																//So the longer one wins.
 		}
 	}
 	/**
 	 * Overridden Equals method from Object.
-	 * This ensures reference quality is the standard.
-	 * They must literally be the same object to be equal.
+	 * This ensures reference equality is the standard. They must literally be the same object to be equal.
+	 * @return boolean check for reference equality
 	 */
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L296" title="All 2 branches covered.">		if (this == obj) return true;</span>
-<span class="fc" id="L297">		return false;</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">		return (this == obj) ? true : false;</span>
 	}
 
 	/**
 	 * This method returns the Algebra's name.
 	 * &lt;br&gt;
-	 * @return String
+	 * @return String name of the algebra
 	 */
 	public String getAlgebraName() {
-<span class="fc" id="L306">		return name;</span>
+<span class="fc" id="L294">		return name;</span>
 	}
 
 	/**
@@ -315,7 +303,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *         represented by the canonical basis.
 	 */
 	public int getBladeCount() {
-<span class="fc" id="L318">		return gBasis.getBladeCount();</span>
+<span class="fc" id="L306">		return gBasis.getBladeCount();</span>
 	}
 
 	/**
@@ -324,7 +312,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return Foot
 	 */
 	public Foot getFoot() {
-<span class="fc" id="L327">		return foot;</span>
+<span class="fc" id="L315">		return foot;</span>
 	}
 
 	/**
@@ -333,7 +321,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return gBasis
 	 */
 	public Basis getGBasis() {
-<span class="fc" id="L336">		return gBasis;</span>
+<span class="fc" id="L324">		return gBasis;</span>
 	}
 
 	/**
@@ -342,7 +330,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return gProduct
 	 */
 	public GProduct getGProduct() {
-<span class="fc" id="L345">		return gProduct;</span>
+<span class="fc" id="L333">		return gProduct;</span>
 	}
 
 	/**
@@ -353,7 +341,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *         generators it will always be N+1.
 	 */
 	public byte getGradeCount() {
-<span class="fc" id="L356">		return (byte) gBasis.getGradeCount();</span>
+<span class="fc" id="L344">		return (byte) gBasis.getGradeCount();</span>
 	}
 
 	/**
@@ -365,12 +353,12 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return int[] This is an integer index between 0 and bladeCount inclusive.
 	 */
 	public int[] getGradeRange(byte pInd) {
-<span class="fc" id="L368">		return gProduct.getGradeRange(pInd);</span>
+<span class="fc" id="L356">		return gProduct.getGradeRange(pInd);</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L373">		return uuid.hashCode();</span>
+<span class="fc" id="L361">		return uuid.hashCode();</span>
 	}
 
 	/**
@@ -381,8 +369,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param pName String for the Algebra's name.
 	 */
 	public void setAlgebraName(String pName) {
-<span class="fc" id="L384">		name = pName;</span>
-<span class="fc" id="L385">	}</span>
+<span class="fc" id="L372">		name = pName;</span>
+<span class="fc" id="L373">	}</span>
 
 	/**
 	 * This method is a little dangerous and should use used only with great
@@ -395,8 +383,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param footPoint Foot for the Algebra to use as its 'tangent' contact point.
 	 */
 	public void setFoot(Foot footPoint) {
-<span class="fc" id="L398">		foot = footPoint;</span>
-<span class="fc" id="L399">	}</span>
+<span class="fc" id="L386">		foot = footPoint;</span>
+<span class="fc" id="L387">	}</span>
 
 	/**
 	 * This method is a little dangerous and should use used only with great
@@ -411,8 +399,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *            product operation on the canonical basis.
 	 */
 	protected void setGProduct(GProduct pGP) {
-<span class="fc" id="L414">		gProduct = pGP;</span>
-<span class="fc" id="L415">		gBasis = pGP.getBasis();</span>
-<span class="fc" id="L416">	}</span>
+<span class="fc" id="L402">		gProduct = pGP;</span>
+<span class="fc" id="L403">		gBasis = pGP.getBasis();</span>
+<span class="fc" id="L404">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

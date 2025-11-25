@@ -24,11 +24,12 @@
  */
 package org.interworldtransport.cladosG;
 
-import java.util.ArrayList;
-import java.util.Optional;
+//import java.util.ArrayList;
+//import java.util.Optional;
 
-import org.interworldtransport.cladosF.Cardinal;
+//import org.interworldtransport.cladosF.Cardinal;
 import org.interworldtransport.cladosF.FBuilder;
+import org.interworldtransport.cladosF.FCache;
 import org.interworldtransport.cladosF.ProtoN;
 
 /**
@@ -57,27 +58,9 @@ public final class Foot {
 	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
 	 */
 	public static final Foot buildAsType(String pFootName) {
-<span class="fc" id="L60">		return new Foot(pFootName);</span>
+<span class="fc" id="L61">		return new Foot(pFootName);</span>
 	}
 
-	/**
-	 * This factory build method produces a new Foot using the offered Cardinal. It
-	 * is intend to name an otherwise opaque constructor that creates a new Foot but
-	 * re-uses a Cardinal.
-	 * &lt;br&gt;
-	 * @param pFootName    String name for the new Foot
-	 * @param pNewCardinal Cardinal to re-use for this new Foot
-	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
-	 */
-	public static final Foot buildAsType(String pFootName, Cardinal pNewCardinal) {
-<span class="fc" id="L73">		return new Foot(pFootName, pNewCardinal);</span>
-	}
-
-	/**
-	 * This object defines the type of numbers used by all objects that share this
-	 * footPoint.
-	 */
-	private ArrayList&lt;Cardinal&gt; cardinalList;
 	/**
 	 * This String is the name the footPoint. Think of it as naming the tangent
 	 * point between a flat algebra and the curvy manifold.
@@ -89,24 +72,10 @@ public final class Foot {
 	 * &lt;br&gt;
 	 * @param pName String This string will be the name of the foot point.
 	 */
-<span class="fc" id="L92">	public Foot(String pName) {</span>
-<span class="fc" id="L93">		setFootName(pName);</span>
-<span class="fc" id="L94">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
-<span class="fc" id="L95">		cardinalList.add(FBuilder.createCardinal(pName));</span>
-<span class="fc" id="L96">	}</span>
-
-	/**
-	 * Build the Foot from scratch then put the Cardinal in the internal list.
-	 * &lt;br&gt;
-	 * @param pName String This string will be the name of the foot point.
-	 * @param pFT   Cardinal This object defines the kind of numbers that are
-	 *              meaningful for this foot point
-	 */
-<span class="fc" id="L105">	public Foot(String pName, Cardinal pFT) {</span>
-<span class="fc" id="L106">		setFootName(pName);</span>
-<span class="fc" id="L107">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
-<span class="fc" id="L108">		cardinalList.add(pFT);</span>
-<span class="fc" id="L109">	}</span>
+<span class="fc" id="L75">	public Foot(String pName) {</span>
+<span class="fc" id="L76">		setFootName(pName);</span>
+<span class="fc" id="L77">		FBuilder.createCardinal(pName);</span>
+<span class="fc" id="L78">	}</span>
 
 	/**
 	 * Build the Foot from scratch then put the number's Cardinal in the internal list.
@@ -115,79 +84,10 @@ public final class Foot {
 	 * @param pF    ProtoN This object holds the cardinal that defines the kind of
 	 *              numbers that are meaningful for this foot point
 	 */
-<span class="fc" id="L118">	public Foot(String pName, ProtoN pF) {</span>
-<span class="fc" id="L119">		setFootName(pName);</span>
-<span class="fc" id="L120">		cardinalList = new ArrayList&lt;Cardinal&gt;(1);</span>
-<span class="fc" id="L121">		cardinalList.add(pF.getCardinal());</span>
-<span class="fc" id="L122">	}</span>
-
-	/**
-	 * This method appends a Cardinal to the list of known cardinals for this foot.
-	 * It will silently terminate IF the cardinal is already in the list.
-	 * &lt;br&gt;
-	 * The uniqueness test is done BY OBJECT and not by the cardinal's string name.
-	 * That means visual inspection of the cardinal list could reveal entries that
-	 * appear to be the same. They aren't, though. The cardinalList references
-	 * objects and NOT their string names. To avoid this use CladosFCache.
-	 * &lt;br&gt;
-	 * @param fN Cardinal reference to append to this Foot
-	 */
-	public void appendCardinal(Cardinal fN) {
-<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (cardinalList.contains(fN))</span>
-<span class="fc" id="L137">			return;</span>
-<span class="fc" id="L138">		cardinalList.ensureCapacity(cardinalList.size() + 1);</span>
-<span class="fc" id="L139">		cardinalList.add(fN);</span>
-<span class="fc" id="L140">	}</span>
-
-	/**
-	 * This method looks for the requested cardinal object in the Foot's tracking
-	 * list.
-	 * &lt;br&gt;
-	 * @param pIn Cardinal This is a reference to the Cardinal to be found in the
-	 *            Foot's cardinal list.
-	 * @return int This method looks for the requested Cardinal in the Foot's list
-	 *         and returns the index if it is found. If not, it returns -1.
-	 */
-	public int findCardinal(Cardinal pIn) {
-<span class="fc bfc" id="L152" title="All 2 branches covered.">		if (cardinalList.isEmpty())</span>
-<span class="fc" id="L153">			return -1;</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (cardinalList.contains(pIn))</span>
-<span class="fc" id="L155">			return cardinalList.indexOf(pIn);</span>
-<span class="fc" id="L156">		return -1;</span>
-	}
-
-	/**
-	 * Find a cardinal in the Foot's list if it exists and return it within an Optional.
-	 * &lt;br&gt;
-	 * @param pName String name requested to be found
-	 * @return Optional Cardinal if one is found by the requested name
-	 */
-	public Optional&lt;Cardinal&gt; findCardinal(String pName) {
-<span class="fc" id="L166">		return cardinalList.stream().filter(x -&gt; x.getUnit().equals(pName)).findFirst();</span>
-	}
-
-	/**
-	 * Simple gettor for one of the cardinals associated with this Foot.
-	 * &lt;br&gt;
-	 * Note that an error condition (like indexOutOfBounds) will return null.
-	 * &lt;br&gt;
-	 * @param pIn Integer index of Cardinal in this Foot to retrieve.
-	 * @return Cardinal found at the integer index... or null.
-	 */
-	public Cardinal getCardinal(int pIn) {
-<span class="fc bfc" id="L178" title="All 6 branches covered.">		if (pIn &gt;= 0 &amp; pIn &lt; cardinalList.size())</span>
-<span class="fc" id="L179">			return cardinalList.get(pIn);</span>
-<span class="fc" id="L180">		return null;</span>
-	}
-
-	/**
-	 * Simple gettor for the entire list of cardinals associated with this Foot.
-	 * &lt;br&gt;
-	 * @return ArrayList of Cardinal instances associated with this Foot.
-	 */
-	public ArrayList&lt;Cardinal&gt; getCardinals() {
-<span class="fc" id="L189">		return cardinalList;</span>
-	}
+<span class="fc" id="L87">	public Foot(String pName, ProtoN pF) {</span>
+<span class="fc" id="L88">		setFootName(pName);</span>
+<span class="fc" id="L89">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
+<span class="fc" id="L90">	}</span>
 
 	/**
 	 * Simple gettor of the Foot's name element
@@ -195,23 +95,8 @@ public final class Foot {
 	 * @return String name of the Foot
 	 */
 	public String getFootName() {
-<span class="fc" id="L198">		return footName;</span>
+<span class="fc" id="L98">		return footName;</span>
 	}
-
-	/**
-	 * This method removes a Cardinal from the list of known cardinals for this
-	 * foot. It will silently return IF the cardinal wasn't already on the list.
-	 * &lt;br&gt;
-	 * The uniqueness test is done BY OBJECT and not by the cardinal's string name.
-	 * That means visual inspection of the cardinal list could reveal entries that
-	 * appear to be the same. They aren't, though. The cardinalList references
-	 * objects and NOT their string names. To avoid this use CladosFCache.
-	 * &lt;br&gt;
-	 * @param pCard Cardinal reference to remove to this Foot
-	 */
-	public void removeCardinal(Cardinal pCard) {
-<span class="fc" id="L213">		cardinalList.remove(pCard);</span>
-<span class="fc" id="L214">	}</span>
 
 	/**
 	 * Simple setter of the Foot's name element.
@@ -219,8 +104,8 @@ public final class Foot {
 	 * @param footName String name of the Foot to set here
 	 */
 	public void setFootName(String footName) {
-<span class="fc" id="L222">		this.footName = footName;</span>
-<span class="fc" id="L223">	}</span>
+<span class="fc" id="L107">		this.footName = footName;</span>
+<span class="fc" id="L108">	}</span>
 
 	/**
 	 * This is an exporter of internal details to XML. It exists to bypass certain
@@ -232,18 +117,12 @@ public final class Foot {
 	 * @return String formatted as XML containing information about the Foot
 	 */
 	public final static String toXMLString(Foot pF, String indent) {
-<span class="fc bfc" id="L235" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L236">			indent = &quot;\t\t&quot;;</span>
-<span class="fc" id="L237">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot&gt;\n&quot;);</span>
-<span class="fc" id="L238">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pF.getFootName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-		// -----------------------------------------------------------------------
-<span class="fc" id="L240">		rB.append(indent).append(&quot;\t&lt;Cardinals number=\&quot;&quot;).append(pF.cardinalList.size()).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc bfc" id="L241" title="All 2 branches covered.">		for (Cardinal point : pF.cardinalList)</span>
-<span class="fc" id="L242">			rB.append(indent).append(Cardinal.toXMLString(point, &quot;\t\t&quot;));</span>
-<span class="fc" id="L243">		rB.append(indent).append(&quot;\t&lt;/Cardinals&gt;\n&quot;);</span>
-		// -----------------------------------------------------------------------
-<span class="fc" id="L245">		rB.append(indent).append(&quot;&lt;/Foot&gt;\n&quot;);</span>
-<span class="fc" id="L246">		return rB.toString();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L121">			indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L122">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot&gt;\n&quot;);</span>
+<span class="fc" id="L123">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pF.getFootName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
+<span class="fc" id="L124">		rB.append(indent).append(&quot;&lt;/Foot&gt;\n&quot;);</span>
+<span class="fc" id="L125">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
