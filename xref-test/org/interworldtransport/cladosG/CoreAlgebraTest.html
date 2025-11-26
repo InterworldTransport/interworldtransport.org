@@ -13,7 +13,7 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosF.Cardinal;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosF.RealF;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.BadSignatureException;
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment">//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;</em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeEach;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  
@@ -31,7 +31,7 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  	<strong class="jxr_keyword">protected</strong> Algebra alg3;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  	@BeforeEach
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> BadSignatureException, GeneratorRangeException {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> BadSignatureException {
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  		fType = Cardinal.generate(<span class="jxr_string">"Test:NumberType"</span>);
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  		rNumber = <strong class="jxr_keyword">new</strong> RealF(fType, 0.0f);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  		tFoot = <strong class="jxr_keyword">new</strong> Foot(fName);
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  	}
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  	@Test
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSignatureSimilarityReuse() <strong class="jxr_keyword">throws</strong> BadSignatureException, GeneratorRangeException {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSignatureSimilarityReuse() <strong class="jxr_keyword">throws</strong> BadSignatureException {
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  		Algebra alg4 = <strong class="jxr_keyword">new</strong> Algebra(aName, tFoot, pSig31);
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  		Algebra alg5 = <strong class="jxr_keyword">new</strong> Algebra(aName, tFoot, pSig13);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
@@ -96,7 +96,7 @@
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  	
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>  	@Test
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCompareCores() <strong class="jxr_keyword">throws</strong> BadSignatureException, GeneratorRangeException {
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCompareCores() <strong class="jxr_keyword">throws</strong> BadSignatureException {
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  		Algebra alg4 = <strong class="jxr_keyword">new</strong> Algebra(<span class="jxr_string">"light weight frame"</span>, alg1);
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>  		Algebra alg5 = <strong class="jxr_keyword">new</strong> Algebra(<span class="jxr_string">"medium weight frame"</span>, alg1);
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  		Algebra alg6 = <strong class="jxr_keyword">new</strong> Algebra(aName, fName, pSig31, rNumber);

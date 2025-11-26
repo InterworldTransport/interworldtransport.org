@@ -47,7 +47,7 @@ import org.interworldtransport.cladosFExceptions.FieldBinaryException;
 import org.interworldtransport.cladosFExceptions.FieldException;
 import org.interworldtransport.cladosGExceptions.BadSignatureException;
 import org.interworldtransport.cladosGExceptions.CladosMonadException;
-import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 
 /**
  * A CladosG Monad is better known as a multivector to anyone with experience
@@ -468,7 +468,7 @@ public class Monad implements Modal {
 	 *                                 with the coefficients offered. The issues
 	 *                                 could involve null coefficients or a
 	 *                                 coefficient array of the wrong size.
-	 * @throws GeneratorRangeException This exception is thrown when the integer
+	 * throws GeneratorRangeException This exception is thrown when the integer
 	 *                                 number of generators for the basis is out of
 	 *                                 the supported range. {0, 1, 2, ..., 14}
 	 */
@@ -477,7 +477,7 @@ public class Monad implements Modal {
 															String pFootName, 
 															String pSig, 
 															T pF)
-			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+			throws BadSignatureException, CladosMonadException {
 <span class="fc" id="L481">		this(	pMonadName, </span>
 				pAlgebraName,
 <span class="fc" id="L483">				GBuilder.createFootLike(pFootName, pF), </span>
@@ -502,7 +502,7 @@ public class Monad implements Modal {
 	 *                                 with the coefficients offered. The issues
 	 *                                 could involve null coefficients or a
 	 *                                 coefficient array of the wrong size.
-	 * @throws GeneratorRangeException This exception is thrown when the integer
+	 * throws GeneratorRangeException This exception is thrown when the integer
 	 *                                 number of generators for the basis is out of
 	 *                                 the supported range. {0, 1, 2, ..., 15}
 	 */
@@ -511,7 +511,7 @@ public class Monad implements Modal {
 															Foot pFoot, 
 															String pSig, 
 															T pF)
-<span class="fc" id="L514">			throws BadSignatureException, CladosMonadException, GeneratorRangeException {</span>
+<span class="fc" id="L514">			throws BadSignatureException, CladosMonadException {</span>
 <span class="fc" id="L515">		setName(pMonadName);</span>
 <span class="fc" id="L516">		setAlgebra(GBuilder.createAlgebraWithFoot(pFoot, pAlgebraName, pSig));</span>
 
@@ -558,7 +558,7 @@ public class Monad implements Modal {
 	 *                                 constructor. The issues could involve null
 	 *                                 coefficients or a coefficient array of the
 	 *                                 wrong size.
-	 * @throws GeneratorRangeException This exception is thrown when the integer
+	 * throws GeneratorRangeException This exception is thrown when the integer
 	 *                                 number of generators for the basis is out of
 	 *                                 the supported range. {0, 1, 2, ..., 14}
 	 */
@@ -568,7 +568,7 @@ public class Monad implements Modal {
 															String pSig, 
 															T pF, 
 															String pSpecial)
-			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+			throws BadSignatureException, CladosMonadException {
 <span class="fc" id="L572">		this(	pMonadName, </span>
 				pAlgebraName, 
 <span class="fc" id="L574">				GBuilder.createFootLike(pFootName, pF), </span>
@@ -680,7 +680,7 @@ public class Monad implements Modal {
 	 *                                 with the coefficients offered. The issues
 	 *                                 could involve null coefficients or a
 	 *                                 coefficient array of the wrong size.
-	 * @throws GeneratorRangeException This exception is thrown when the integer
+	 * throws GeneratorRangeException This exception is thrown when the integer
 	 *                                 number of generators for the basis is out of
 	 *                                 the supported range. {0, 1, 2, ..., 15}
 	 */
@@ -689,7 +689,7 @@ public class Monad implements Modal {
 															String pFootName, 
 															String pSig, 
 															Scale&lt;T&gt; pScale)
-			throws BadSignatureException, CladosMonadException, GeneratorRangeException {
+			throws BadSignatureException, CladosMonadException {
 
 <span class="fc" id="L694">		this(	pMonadName, </span>
 <span class="fc" id="L695">				GBuilder.createAlgebraWithFootGP(</span>

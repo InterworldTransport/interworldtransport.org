@@ -18,7 +18,7 @@
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosFExceptions.FieldException;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.BadSignatureException;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.CladosMonadException;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment">//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Assertions;
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeEach;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  	Monad tM10, tM11;
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>      @BeforeEach
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, GeneratorRangeException {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException {
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  		cCF = (ComplexF[]) FListBuilder.COMPLEXF.createONE(tCard, 16); <em class="jxr_comment">//new ComplexF[16];</em>
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  
@@ -309,7 +309,7 @@
 <a class="jxr_linenumber" name="L301" href="#L301">301</a>     }
 <a class="jxr_linenumber" name="L302" href="#L302">302</a> 
 <a class="jxr_linenumber" name="L303" href="#L303">303</a>     @Test
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommunityNormalize() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, GeneratorRangeException, FieldException {
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommunityNormalize() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, FieldException {
 <a class="jxr_linenumber" name="L305" href="#L305">305</a>         cCF = (ComplexF[]) FListBuilder.COMPLEXF.create(tCard, 4); <em class="jxr_comment">//new ComplexF[4];</em>
 <a class="jxr_linenumber" name="L306" href="#L306">306</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i&lt;4; i++){            <em class="jxr_comment">//Modulus will still be one for each weight, but conjugate will matter here.</em>
 <a class="jxr_linenumber" name="L307" href="#L307">307</a>             cCF[i].setImg(1.0f);
@@ -433,7 +433,7 @@
 <a class="jxr_linenumber" name="L425" href="#L425">425</a>     }
 <a class="jxr_linenumber" name="L426" href="#L426">426</a> 
 <a class="jxr_linenumber" name="L427" href="#L427">427</a>     @Test
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testWhatShouldntHappen() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, GeneratorRangeException {
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testWhatShouldntHappen() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException {
 <a class="jxr_linenumber" name="L429" href="#L429">429</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; tM1.add(tM5));
 <a class="jxr_linenumber" name="L430" href="#L430">430</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; tM1.subtract(tM5));
 <a class="jxr_linenumber" name="L431" href="#L431">431</a> 

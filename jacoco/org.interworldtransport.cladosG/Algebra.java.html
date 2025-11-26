@@ -30,7 +30,7 @@ import org.interworldtransport.cladosF.Field;			//Algebras are defined over fiel
 import org.interworldtransport.cladosF.Normalizable;	//Limit on usable fields
 import org.interworldtransport.cladosF.ProtoN;			//Parent class of usable fields
 import org.interworldtransport.cladosGExceptions.BadSignatureException;
-import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 
 /**
  * The algebra object holds all geometric details that support the definition of
@@ -195,11 +195,11 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *                                 requires a signature for the generators. This
 	 *                                 signature string must be parse-able or this
 	 *                                 exception is thrown.
-	 * @throws GeneratorRangeException This exception catches when the supported
+	 * throws GeneratorRangeException This exception catches when the supported
 	 *                                 number of generators is out of range.
 	 */
 	public Algebra(String pNewName, Foot pF, String pSig)
-			throws BadSignatureException, GeneratorRangeException {
+			throws BadSignatureException {
 <span class="fc" id="L203">		this(	pNewName, </span>
 				pF, 
 <span class="fc" id="L205">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
@@ -228,14 +228,14 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *                                 requires a signature for the generators. This
 	 *                                 signature string must be parse-able or this
 	 *                                 exception is thrown.
-	 * @throws GeneratorRangeException This exception catches when the supported
+	 * throws GeneratorRangeException This exception catches when the supported
 	 *                                 number of generators is out of range.
 	 */
 	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt;  Algebra(	String pNewName, 
 																String pFootName, 
 																String pSig, 
 																D pF)
-			throws BadSignatureException, GeneratorRangeException {
+			throws BadSignatureException {
 		
 <span class="fc" id="L240">		this(	pNewName, </span>
 <span class="fc" id="L241">				GBuilder.createFoot(		pFootName, </span>

@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.Optional;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.BadSignatureException;
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.interworldtransport.cladosGExceptions.GeneratorRangeException;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_comment">//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment"> * This class defines a geometric product on an associated basis within a</em>
@@ -107,12 +107,12 @@
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">	 * figures out the rest of what it needs.</em>
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
 <a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_javadoccomment">	 * @param pSig String form of the signature. Looks like "-+++0".</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">	 * @throws GeneratorRangeException Thrown when a Basis fails to form because</em>
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">	 * throws GeneratorRangeException Thrown when a Basis fails to form because</em>
 <a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">	 *                                 some internal call demands a generator not in</em>
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">	 *                                 the supported list.</em>
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">	 * @throws BadSignatureException   Thrown when an invalid signature is found</em>
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a>(String pSig) <strong class="jxr_keyword">throws</strong> BadSignatureException, <a name="GeneratorRangeException" href="../../../org/interworldtransport/cladosGExceptions/GeneratorRangeException.html#GeneratorRangeException">GeneratorRangeException</a> {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a>(String pSig) <strong class="jxr_keyword">throws</strong> <a name="BadSignatureException" href="../../../org/interworldtransport/cladosGExceptions/BadSignatureException.html#BadSignatureException">BadSignatureException</a> {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<strong class="jxr_keyword">this</strong>(Optional.ofNullable(<strong class="jxr_keyword">null</strong>), pSig);
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 	}
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 
@@ -126,12 +126,12 @@
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">	 * @param pSig String form of the signature. Looks like "-+++0".</em>
 <a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">	 * @param pB   Optional Basis to re-use in constructing this product.</em>
-<a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">	 * @throws GeneratorRangeException Thrown when a Basis fails to form because</em>
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">	 * throws GeneratorRangeException Thrown when a Basis fails to form because</em>
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> <em class="jxr_javadoccomment">	 *                                 some internal call demands a generator not in</em>
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> <em class="jxr_javadoccomment">	 *                                 the supported list.</em>
 <a class="jxr_linenumber" name="L124" href="#L124">124</a> <em class="jxr_javadoccomment">	 * @throws BadSignatureException   Thrown when an invalid signature is found</em>
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a>(Optional&lt;Basis&gt; pB, String pSig) <strong class="jxr_keyword">throws</strong> BadSignatureException, <a name="GeneratorRangeException" href="../../../org/interworldtransport/cladosGExceptions/GeneratorRangeException.html#GeneratorRangeException">GeneratorRangeException</a> {
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 	<strong class="jxr_keyword">public</strong> <a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a>(Optional&lt;Basis&gt; pB, String pSig) <strong class="jxr_keyword">throws</strong> <a name="BadSignatureException" href="../../../org/interworldtransport/cladosGExceptions/BadSignatureException.html#BadSignatureException">BadSignatureException</a> {
 <a class="jxr_linenumber" name="L127" href="#L127">127</a> 		<strong class="jxr_keyword">if</strong> (!CliffordProduct.validateSignature(pSig))
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="BadSignatureException" href="../../../org/interworldtransport/cladosGExceptions/BadSignatureException.html#BadSignatureException">BadSignatureException</a>(<strong class="jxr_keyword">this</strong>, <span class="jxr_string">"Valid signature required."</span>);
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> 		<em class="jxr_comment">// ------Init signature</em>
