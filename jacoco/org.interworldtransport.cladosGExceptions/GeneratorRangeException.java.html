@@ -54,24 +54,15 @@ public class GeneratorRangeException extends Exception {
 	protected String SourceMessage;
 
 	/**
-	 * Construct this exception. This exception fabricates a message complaining
-	 * about the expectations of the source.
-	 */
-	//public GeneratorRangeException() {
-	//	super();
-	//	SourceMessage = &quot;Likely blade construction attempt failed.&quot;;
-	//}
-
-	/**
 	 * Construct this exception. This exception must have a message complaining
 	 * about the expectations of the source.
 	 * &lt;br&gt;
 	 * @param pMessage String
 	 */
 	public GeneratorRangeException(String pMessage) {
-<span class="nc" id="L72">		super();</span>
-<span class="nc" id="L73">		SourceMessage = pMessage;</span>
-<span class="nc" id="L74">	}</span>
+<span class="nc" id="L63">		super();</span>
+<span class="nc" id="L64">		SourceMessage = pMessage;</span>
+<span class="nc" id="L65">	}</span>
 
 	/**
 	 * This method delivers a the explanation from the source code that originated
@@ -80,7 +71,7 @@ public class GeneratorRangeException extends Exception {
 	 * @return String
 	 */
 	public String getSourceMessage() {
-<span class="nc" id="L83">		return this.SourceMessage;</span>
+<span class="nc" id="L74">		return this.SourceMessage;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

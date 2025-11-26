@@ -36,7 +36,6 @@ import org.interworldtransport.cladosF.ProtoN;
 import org.interworldtransport.cladosGExceptions.BadSignatureException;
 import org.interworldtransport.cladosGExceptions.CladosMonadException;
 import org.interworldtransport.cladosGExceptions.CladosNyadException;
-//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 
 /**
  * This builder gets basic information and constructs many Clados Geometry objects.
@@ -47,11 +46,11 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
  * @version 2.0
  * @author Dr Alfred W Differ
  */
-<span class="fc" id="L50">public enum GBuilder { // This has an implicit private constructor we won't override.</span>
+<span class="fc" id="L49">public enum GBuilder { // This has an implicit private constructor we won't override.</span>
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L54">	INSTANCE;</span>
+<span class="fc" id="L53">	INSTANCE;</span>
 
 	/**
 	 * Cleans the signature string to ensure it passes the validateSignature() test.
@@ -63,19 +62,19 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return String that has only + or - characters in it.
 	 */
 	public final static String cleanSignature(String pSig) {
-<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (validateSignature(pSig))</span>
-<span class="fc" id="L67">			return pSig;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (validateSignature(pSig))</span>
+<span class="fc" id="L66">			return pSig;</span>
 		else {
-<span class="fc" id="L69">			StringBuffer tSpot = new StringBuffer();</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">			for (char j : pSig.toCharArray())</span>
-<span class="fc bfc" id="L71" title="All 4 branches covered.">				switch (j) {</span>
-<span class="fc" id="L72">				case '+' -&gt; tSpot.append(j); // good character (hyperbolic generator)</span>
-<span class="fc" id="L73">				case '0' -&gt; tSpot.append(j); // good character (dual generator)</span>
-<span class="fc" id="L74">				case '-' -&gt; tSpot.append(j); // good character (imaginary generator)</span>
+<span class="fc" id="L68">			StringBuffer tSpot = new StringBuffer();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			for (char j : pSig.toCharArray())</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">				switch (j) {</span>
+<span class="fc" id="L71">				case '+' -&gt; tSpot.append(j); // good character (hyperbolic generator)</span>
+<span class="fc" id="L72">				case '0' -&gt; tSpot.append(j); // good character (dual generator)</span>
+<span class="fc" id="L73">				case '-' -&gt; tSpot.append(j); // good character (imaginary generator)</span>
 				}
-<span class="fc bfc" id="L76" title="All 2 branches covered.">			if (tSpot.length() &gt; CladosConstant.MAXGRADE)</span>
-<span class="fc" id="L77">				return tSpot.substring(0, CladosConstant.MAXGRADE).toString();</span>
-<span class="fc" id="L78">			return tSpot.toString();</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			if (tSpot.length() &gt; CladosConstant.MAXGRADE)</span>
+<span class="fc" id="L76">				return tSpot.substring(0, CladosConstant.MAXGRADE).toString();</span>
+<span class="fc" id="L77">			return tSpot.toString();</span>
 		}
 	}
 
@@ -87,7 +86,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Algebra
 	 */
 	public final static Algebra copyOfAlgebra(Algebra pA, String pName) {
-<span class="fc" id="L90">		return new Algebra(pName, pA);</span>
+<span class="fc" id="L89">		return new Algebra(pName, pA);</span>
 
 	}
 
@@ -99,7 +98,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot copyOfFoot(Foot pF) {
-<span class="fc" id="L102">		return createFootLike(pF.getFootName());</span>
+<span class="fc" id="L101">		return createFootLike(pF.getFootName());</span>
 	}
 
 	/**
@@ -109,7 +108,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 */
 	public final static Monad copyOfMonad(Monad pM) {
-<span class="fc" id="L112">		return new Monad(pM);</span>
+<span class="fc" id="L111">		return new Monad(pM);</span>
 	}
 
 	/**
@@ -120,7 +119,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 */
 	public final static Monad copyOfMonad(Monad pM, String pName) {
-<span class="fc" id="L123">		return new Monad(pName, pM);</span>
+<span class="fc" id="L122">		return new Monad(pName, pM);</span>
 	}
 
 	/**
@@ -133,7 +132,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	public final static Nyad copyOfNyad(Nyad pN) 
 			throws CladosMonadException, CladosNyadException {
-<span class="fc" id="L136">		return new Nyad(pN);</span>
+<span class="fc" id="L135">		return new Nyad(pN);</span>
 	}
 
 	/**
@@ -147,7 +146,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	public final static Nyad copyOfNyad(Nyad pN, String pName)
 			throws CladosMonadException, CladosNyadException {
-<span class="fc" id="L150">		return new Nyad(pName, pN, true);</span>
+<span class="fc" id="L149">		return new Nyad(pName, pN, true);</span>
 	}
 	/**
 	 * Simple copy method. Offer a Scale, get a copy of it back as far as mapped values go.
@@ -160,7 +159,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 *         in their internal maps.
 	 */
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;T&gt; copyOfScale(Scale&lt;T&gt; pIn) {
-<span class="fc" id="L163">		return new Scale&lt;T&gt;(pIn);</span>
+<span class="fc" id="L162">		return new Scale&lt;T&gt;(pIn);</span>
 	}
 
 	/**
@@ -173,12 +172,10 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Algebra
 	 * @throws BadSignatureException   Thrown by an algebra constructor if the pSig
 	 *                                 parameter is malformed
-	 * throws GeneratorRangeException Thrown by an algebra constructor if the pSig
-	 *                                 parameter is too long
 	 */
 	public final static Algebra createAlgebra(ProtoN pNumber, String pName, String pFTName, String pSig)
 			throws BadSignatureException {
-<span class="fc" id="L181">		return new Algebra(pName, createFoot(pFTName, pNumber.getCardinalString()), pSig);</span>
+<span class="fc" id="L178">		return new Algebra(pName, createFoot(pFTName, pNumber.getCardinalString()), pSig);</span>
 	}
 
 	/**
@@ -189,11 +186,10 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @param pSig  A String for the new algebra's signature.
 	 * @return Algebra
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	public final static Algebra createAlgebraWithFoot(Foot pF, String pName, String pSig)
 			throws BadSignatureException {
-<span class="fc" id="L196">		return new Algebra(pName, pF, pSig);</span>
+<span class="fc" id="L192">		return new Algebra(pName, pF, pSig);</span>
 	}
 
 	/**
@@ -205,7 +201,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Algebra
 	 */
 	public final static Algebra createAlgebraWithFootGP(Foot pF, GProduct pGP, String pName) {
-<span class="fc" id="L208">		return new Algebra(pName, pF, pGP);</span>
+<span class="fc" id="L204">		return new Algebra(pName, pF, pGP);</span>
 	}
 
 	/**
@@ -213,19 +209,15 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * &lt;br&gt;
 	 * @param pGen integer number of generators to use in constructing the basis.
 	 * @return Basis constructed
-	 * throws GeneratorRangeException This can be thrown by the constructors on
-	 *                                 which this method depends. Nothing special in
-	 *                                 this method will throw them, so look to the
-	 *                                 Basis and see why it complains.
 	 */
 	public final static Basis createBasis(byte pGen) {
-<span class="fc" id="L222">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen);</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">		if (tB.isPresent())</span>
-<span class="fc" id="L224">			return tB.get();</span>
+<span class="fc" id="L214">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen);</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (tB.isPresent())</span>
+<span class="fc" id="L216">			return tB.get();</span>
 		else {
-<span class="fc" id="L226">			Basis tSpot = Basis.using(pGen);</span>
-<span class="fc" id="L227">			GCache.INSTANCE.appendBasis(tSpot);</span>
-<span class="fc" id="L228">			return tSpot;</span>
+<span class="fc" id="L218">			Basis tSpot = Basis.using(pGen);</span>
+<span class="fc" id="L219">			GCache.INSTANCE.appendBasis(tSpot);</span>
+<span class="fc" id="L220">			return tSpot;</span>
 		}
 	}
 
@@ -234,19 +226,15 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * &lt;br&gt;
 	 * @param pGen Generator to use in constructing the basis.
 	 * @return Basis constructed
-	 * throws GeneratorRangeException This can be thrown by the constructors on
-	 *                                 which this method depends. Nothing special in
-	 *                                 this method will throw them, so look to the
-	 *                                 Basis and see why it complains.
 	 */
 	public final static Basis createBasis(Generator pGen) {
-<span class="fc" id="L243">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen.ord);</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">		if (tB.isPresent())</span>
-<span class="fc" id="L245">			return tB.get();</span>
+<span class="fc" id="L231">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis(pGen.ord);</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		if (tB.isPresent())</span>
+<span class="fc" id="L233">			return tB.get();</span>
 		else {
-<span class="fc" id="L247">			Basis tSpot = Basis.using(pGen);</span>
-<span class="fc" id="L248">			GCache.INSTANCE.appendBasis(tSpot);</span>
-<span class="fc" id="L249">			return tSpot;</span>
+<span class="fc" id="L235">			Basis tSpot = Basis.using(pGen);</span>
+<span class="fc" id="L236">			GCache.INSTANCE.appendBasis(tSpot);</span>
+<span class="fc" id="L237">			return tSpot;</span>
 		}
 	}
 
@@ -261,8 +249,8 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot createFoot(String pName, String pCardName) {
-<span class="fc" id="L264">		Cardinal.generate(pCardName);</span>
-<span class="fc" id="L265">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L252">		Cardinal.generate(pCardName);</span>
+<span class="fc" id="L253">		return Foot.buildAsType(pName);</span>
 	}
 
 	/**
@@ -273,8 +261,8 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot createFootLike(String pName, Cardinal pCard) {
-<span class="fc" id="L276">		FCache.INSTANCE.appendCardinal(pCard);</span>
-<span class="fc" id="L277">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L264">		FCache.INSTANCE.appendCardinal(pCard);</span>
+<span class="fc" id="L265">		return Foot.buildAsType(pName);</span>
 	}
 
 	/**
@@ -291,7 +279,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot createFootLike(String pName) {
-<span class="fc" id="L294">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L282">		return Foot.buildAsType(pName);</span>
 	}
 
 	/**
@@ -302,8 +290,8 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot createFootLike(String pName, ProtoN pDiv) {
-<span class="fc" id="L305">		FCache.INSTANCE.appendCardinal(pDiv.getCardinal());</span>
-<span class="fc" id="L306">		return createFootLike(pName, pDiv.getCardinal());</span>
+<span class="fc" id="L293">		FCache.INSTANCE.appendCardinal(pDiv.getCardinal());</span>
+<span class="fc" id="L294">		return createFootLike(pName, pDiv.getCardinal());</span>
 	}
 
 	/**
@@ -319,30 +307,26 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @param pB   Basis to re-use in constructing product
 	 * @param pSig String form of the product's signature
 	 * @return GProduct constructed
-	 * throws GeneratorRangeException This can be thrown by the constructors on
-	 *                                 which this method depends. Nothing special in
-	 *                                 this method will throw them, so look to the
-	 *                                 Basis and see why it complains.
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 */
 	public final static GProduct createGProduct(Optional&lt;Basis&gt; pB, String pSig) throws BadSignatureException {
 
-<span class="fc bfc" id="L330" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
-<span class="fc" id="L331">			throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
+<span class="fc bfc" id="L314" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
+<span class="fc" id="L315">			throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
 
-<span class="fc" id="L333">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
-<span class="fc bfc" id="L334" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
-<span class="fc" id="L335">			return tSpot.get();</span>
+<span class="fc" id="L317">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
+<span class="fc" id="L319">			return tSpot.get();</span>
 		
-<span class="fc bfc" id="L337" title="All 2 branches covered.">		if (pB.isPresent()) {</span>
-<span class="fc" id="L338">			GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
-<span class="fc" id="L339">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">		if (pB.isPresent()) {</span>
+<span class="fc" id="L322">			GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
+<span class="fc" id="L323">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
 		} else {
-<span class="fc" id="L341">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
-<span class="fc" id="L342">			GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
+<span class="fc" id="L325">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
+<span class="fc" id="L326">			GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
 		}
 			
-<span class="fc" id="L345">		return tSpot.get();</span>
+<span class="fc" id="L329">		return tSpot.get();</span>
 		
 	}
 
@@ -356,33 +340,29 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * &lt;br&gt;
 	 * @param pSig String form of the product's signature
 	 * @return GProduct constructed
-	 * throws GeneratorRangeException This can be thrown by the constructors on
-	 *                                 which this method depends. Nothing special in
-	 *                                 this method will throw them, so look to the
-	 *                                 Basis and see why it complains.
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 */
 	public final static GProduct createGProduct(String pSig) throws BadSignatureException {
-<span class="fc bfc" id="L366" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
-<span class="fc" id="L367">				throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
+<span class="fc bfc" id="L346" title="All 2 branches covered.">		if (!GBuilder.validateSignature(pSig))</span>
+<span class="fc" id="L347">				throw new BadSignatureException(null, &quot;Asked to create a GProduct using: &quot;+pSig);</span>
 		
-<span class="fc" id="L369">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
-<span class="fc bfc" id="L370" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
-<span class="fc" id="L371">			return tSpot.get(); // GProduct already created. return it.</span>
+<span class="fc" id="L349">		Optional&lt;GProduct&gt; tSpot = GCache.INSTANCE.findGProduct(pSig);</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">		if (tSpot.isPresent())</span>
+<span class="fc" id="L351">			return tSpot.get(); // GProduct already created. return it.</span>
 		
 		// Create a new GProduct, but might still find a cached Basis.
-<span class="fc" id="L374">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis((byte) pSig.length());</span>
+<span class="fc" id="L354">		Optional&lt;Basis&gt; tB = GCache.INSTANCE.findBasis((byte) pSig.length());</span>
 		GProduct tSpot2;
-<span class="fc bfc" id="L376" title="All 2 branches covered.">		if (tB.isPresent()){</span>
-<span class="fc" id="L377">			tSpot2 = new GProduct(tB, pSig);</span>
-<span class="fc" id="L378">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">		if (tB.isPresent()){</span>
+<span class="fc" id="L357">			tSpot2 = new GProduct(tB, pSig);</span>
+<span class="fc" id="L358">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
 		}
 		else {
-<span class="fc" id="L381">			tSpot2 = new GProduct(pSig);</span>
-<span class="fc" id="L382">			GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
-<span class="fc" id="L383">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
+<span class="fc" id="L361">			tSpot2 = new GProduct(pSig);</span>
+<span class="fc" id="L362">			GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
+<span class="fc" id="L363">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
 		}
-<span class="fc" id="L385">		return tSpot2;</span>
+<span class="fc" id="L365">		return tSpot2;</span>
 		
 	}
 
@@ -401,13 +381,12 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException    Thrown for a general monad constructor error
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadSpecial(ProtoN pNumber,
 			String pName, String pAName, String pFoot, String pSig, String pSpecial)
 			throws BadSignatureException, CladosMonadException {
-<span class="fc" id="L410">		return new Monad(pName, pAName, pFoot, pSig, (T) pNumber, pSpecial);</span>
+<span class="fc" id="L389">		return new Monad(pName, pAName, pFoot, pSig, (T) pNumber, pSpecial);</span>
 	}
 
 	/**
@@ -420,17 +399,16 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException    Thrown for a general monad constructor error
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithAlgebra(	Scale&lt;T&gt; pNumbers,
 																								Algebra pA, 
 																								String pName)
 			throws BadSignatureException, CladosMonadException{
-<span class="pc bpc" id="L429" title="1 of 2 branches missed.">		if (pA.getGBasis() != pNumbers.getBasis()) </span>
-<span class="nc" id="L430">			throw new CladosMonadException(	null, </span>
+<span class="pc bpc" id="L407" title="1 of 2 branches missed.">		if (pA.getGBasis() != pNumbers.getBasis()) </span>
+<span class="nc" id="L408">			throw new CladosMonadException(	null, </span>
 											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);
 		
-<span class="fc" id="L433">		return new Monad(pName, pA, pNumbers);</span>
+<span class="fc" id="L411">		return new Monad(pName, pA, pNumbers);</span>
 	}
 
 	/**
@@ -446,15 +424,14 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException    Thrown for a general monad constructor error
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithCoeffs(Scale&lt;T&gt; pNumbers,
 			String pName, String pAName, String pFoot, String pSig)
 			throws BadSignatureException, CladosMonadException {
 		
-<span class="fc" id="L455">		return new Monad(	pName, 		//A String</span>
-<span class="fc" id="L456">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
-<span class="fc" id="L457">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
+<span class="fc" id="L432">		return new Monad(	pName, 		//A String</span>
+<span class="fc" id="L433">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
+<span class="fc" id="L434">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
 													pName),
 							pNumbers);	//A Scale object use for weights AND the basis
 	}
@@ -472,7 +449,6 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException    Thrown for a general monad constructor error
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadWithFoot(	ProtoN pNumber,
@@ -481,7 +457,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 																								String pAName, 
 																								String pSig)
 			throws BadSignatureException, CladosMonadException {
-<span class="fc" id="L484">		return new Monad(pName, pAName, pFt, pSig, (T) pNumber);</span>
+<span class="fc" id="L460">		return new Monad(pName, pAName, pFt, pSig, (T) pNumber);</span>
 	}
 
 	/**
@@ -498,7 +474,6 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return Monad (Cast this as the concrete monad to be used)
 	 * @throws BadSignatureException   Thrown if the pSig parameter is malformed
 	 * @throws CladosMonadException    Thrown for a general monad constructor error
-	 * throws GeneratorRangeException Thrown if the pSig parameter is too long
 	 */
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad createMonadZero(	T pNumber, 
 																							String pName,
@@ -506,7 +481,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 																							String pFoot, 
 																							String pSig)
 			throws BadSignatureException, CladosMonadException {
-<span class="fc" id="L509">		return new Monad(pName, pAName, pFoot, pSig, pNumber);</span>
+<span class="fc" id="L484">		return new Monad(pName, pAName, pFoot, pSig, pNumber);</span>
 	}
 
 	/**
@@ -520,7 +495,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	public final static Nyad createNyadUsingMonad(Monad pM, String pName) 
 			throws CladosNyadException, CladosMonadException {
-<span class="fc" id="L523">		return new Nyad(pName, pM, false);</span>
+<span class="fc" id="L498">		return new Nyad(pName, pM, false);</span>
 	}
 
 	/**
@@ -534,7 +509,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	public final static Nyad createNyadWithMonadCopy(Monad pM, String pName)
 			throws CladosMonadException, CladosNyadException {
-<span class="fc" id="L537">		return new Nyad(pName, pM, true);</span>
+<span class="fc" id="L512">		return new Nyad(pName, pM, true);</span>
 	}
 
 	/**
@@ -550,7 +525,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	public final static Nyad duplicateNyadReference(Nyad pN, String pName)
 			throws CladosMonadException, CladosNyadException {
-<span class="fc" id="L553">		return new Nyad(pName, pN, false);</span>
+<span class="fc" id="L528">		return new Nyad(pName, pN, false);</span>
 	}
 
 	/**
@@ -566,7 +541,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;T&gt; createScale(	CladosField pMode, 
 																						Basis pB, 
 																						Cardinal pCard){
-<span class="fc" id="L569">		return new Scale&lt;T&gt;(pMode, pB, pCard);</span>
+<span class="fc" id="L544">		return new Scale&lt;T&gt;(pMode, pB, pCard);</span>
 	}
 
 	/**
@@ -580,12 +555,12 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad pscalarOfMonad(Monad pM) {
-<span class="fc" id="L583">		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+&quot;-PScalarOf&quot;);</span>
-<span class="fc" id="L584">		returnThis.scales = ((Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights()))</span>
-<span class="fc" id="L585">										.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1))</span>
-<span class="fc" id="L586">										.setPScalarWeight(FBuilder.createONE(	pM.getMode(), </span>
-<span class="fc" id="L587">																				pM.getWeights().getCardinal()));</span>
-<span class="fc" id="L588">		return returnThis.setGradeKey();</span>
+<span class="fc" id="L558">		Monad returnThis = GBuilder.copyOfMonad(pM, pM.getName()+&quot;-PScalarOf&quot;);</span>
+<span class="fc" id="L559">		returnThis.scales = ((Scale&lt;T&gt;) GBuilder.copyOfScale(pM.getWeights()))</span>
+<span class="fc" id="L560">										.zeroAllButGrade((byte) (pM.getAlgebra().getGradeCount() - 1))</span>
+<span class="fc" id="L561">										.setPScalarWeight(FBuilder.createONE(	pM.getMode(), </span>
+<span class="fc" id="L562">																				pM.getWeights().getCardinal()));</span>
+<span class="fc" id="L563">		return returnThis.setGradeKey();</span>
 	}
 
 	/**
@@ -599,7 +574,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 * @return TRUE if integer is in the supported range. FALSE otherwise.
 	 */
 	public final static boolean validateBasisSize(byte pGen) {
-<span class="fc" id="L602">		return CanonicalBasis.validateSize(pGen);</span>
+<span class="fc" id="L577">		return CanonicalBasis.validateSize(pGen);</span>
 	}
 
 	/**
@@ -614,7 +589,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 	 *         FALSE otherwise.
 	 */
 	public final static boolean validateSignature(String pSig) {
-<span class="fc" id="L617">		return CliffordProduct.validateSignature(pSig);</span>
+<span class="fc" id="L592">		return CliffordProduct.validateSignature(pSig);</span>
 	}
 
 	private GBuilder() {

@@ -27,7 +27,6 @@ package org.interworldtransport.cladosG;
 import java.util.Optional;
 
 import org.interworldtransport.cladosGExceptions.BadSignatureException;
-//import org.interworldtransport.cladosGExceptions.GeneratorRangeException;
 
 /**
  * This class defines a geometric product on an associated basis within a
@@ -99,14 +98,11 @@ public class GProduct implements CliffordProduct {
 	 * figures out the rest of what it needs.
 	 * &lt;br&gt;
 	 * @param pSig String form of the signature. Looks like &quot;-+++0&quot;.
-	 * throws GeneratorRangeException Thrown when a Basis fails to form because
-	 *                                 some internal call demands a generator not in
-	 *                                 the supported list.
 	 * @throws BadSignatureException   Thrown when an invalid signature is found
 	 */
 	public GProduct(String pSig) throws BadSignatureException {
-<span class="fc" id="L108">		this(Optional.ofNullable(null), pSig);</span>
-<span class="fc" id="L109">	}</span>
+<span class="fc" id="L104">		this(Optional.ofNullable(null), pSig);</span>
+<span class="fc" id="L105">	}</span>
 
 	/**
 	 * A re-use constructor of GProduct with signature and Basis passed in. It
@@ -118,42 +114,39 @@ public class GProduct implements CliffordProduct {
 	 * &lt;br&gt;
 	 * @param pSig String form of the signature. Looks like &quot;-+++0&quot;.
 	 * @param pB   Optional Basis to re-use in constructing this product.
-	 * throws GeneratorRangeException Thrown when a Basis fails to form because
-	 *                                 some internal call demands a generator not in
-	 *                                 the supported list.
 	 * @throws BadSignatureException   Thrown when an invalid signature is found
 	 */
-<span class="fc" id="L126">	public GProduct(Optional&lt;Basis&gt; pB, String pSig) throws BadSignatureException {</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (!CliffordProduct.validateSignature(pSig))</span>
-<span class="fc" id="L128">			throw new BadSignatureException(this, &quot;Valid signature required.&quot;);</span>
+<span class="fc" id="L119">	public GProduct(Optional&lt;Basis&gt; pB, String pSig) throws BadSignatureException {</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (!CliffordProduct.validateSignature(pSig))</span>
+<span class="fc" id="L121">			throw new BadSignatureException(this, &quot;Valid signature required.&quot;);</span>
 		// ------Init signature
-<span class="fc bfc" id="L130" title="All 2 branches covered.">		nSignature = (pSig.length() == 0) ? new byte[1] : new byte[pSig.length()];</span>
-<span class="fc" id="L131">		int m = 0;</span>
-<span class="fc bfc" id="L132" title="All 2 branches covered.">		for (char b : pSig.toCharArray()) {</span>
-<span class="pc bpc" id="L133" title="1 of 4 branches missed.">			switch (b) {</span>
-<span class="fc" id="L134">			case '+' -&gt; nSignature[m] = 1;</span>
-<span class="fc" id="L135">			case '0' -&gt; nSignature[m] = 0;</span>
-<span class="fc" id="L136">			case '-' -&gt; nSignature[m] = -1;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		nSignature = (pSig.length() == 0) ? new byte[1] : new byte[pSig.length()];</span>
+<span class="fc" id="L124">		int m = 0;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		for (char b : pSig.toCharArray()) {</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">			switch (b) {</span>
+<span class="fc" id="L127">			case '+' -&gt; nSignature[m] = 1;</span>
+<span class="fc" id="L128">			case '0' -&gt; nSignature[m] = 0;</span>
+<span class="fc" id="L129">			case '-' -&gt; nSignature[m] = -1;</span>
 			}
-<span class="fc" id="L138">			m++;</span>
+<span class="fc" id="L131">			m++;</span>
 		}
-<span class="fc" id="L140">		signature = pSig;</span>
+<span class="fc" id="L133">		signature = pSig;</span>
 		// ------Get Basis
-<span class="fc bfc" id="L142" title="All 2 branches covered.">		canonBasis = (pB.isPresent()) ? pB.get() : GBuilder.createBasis((byte) pSig.length());</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		canonBasis = (pB.isPresent()) ? pB.get() : GBuilder.createBasis((byte) pSig.length());</span>
 		// ------Build Product Table
-<span class="fc" id="L144">		result = new int[getBladeCount()][getBladeCount()];</span>
-<span class="fc" id="L145">		canonBasis.bladeStream().parallel().forEach(bladeLeft -&gt; {</span>
-<span class="fc" id="L146">			int row = canonBasis.find(bladeLeft) - 1;</span>
-<span class="fc" id="L147">			canonBasis.bladeStream().forEach(bladeRight -&gt; {</span>
-<span class="fc" id="L148">				int col = canonBasis.find(bladeRight) - 1;</span>
-<span class="fc" id="L149">				Blade bMult = BladeDuet.simplify(bladeLeft, bladeRight, nSignature);</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">				result[row][col] = ((int) bMult.sign() != 0) ? </span>
-<span class="fc" id="L151">							(int) bMult.sign() * (int) canonBasis.find(bMult)</span>
+<span class="fc" id="L137">		result = new int[getBladeCount()][getBladeCount()];</span>
+<span class="fc" id="L138">		canonBasis.bladeStream().parallel().forEach(bladeLeft -&gt; {</span>
+<span class="fc" id="L139">			int row = canonBasis.find(bladeLeft) - 1;</span>
+<span class="fc" id="L140">			canonBasis.bladeStream().forEach(bladeRight -&gt; {</span>
+<span class="fc" id="L141">				int col = canonBasis.find(bladeRight) - 1;</span>
+<span class="fc" id="L142">				Blade bMult = BladeDuet.simplify(bladeLeft, bladeRight, nSignature);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				result[row][col] = ((int) bMult.sign() != 0) ? </span>
+<span class="fc" id="L144">							(int) bMult.sign() * (int) canonBasis.find(bMult)</span>
 							: 
-<span class="fc" id="L153">							0;		//This case happens when the two blades share a generator that is degenerate.</span>
-<span class="fc" id="L154">			});</span>
-<span class="fc" id="L155">		});</span>
-<span class="fc" id="L156">	}</span>
+<span class="fc" id="L146">							0;		//This case happens when the two blades share a generator that is degenerate.</span>
+<span class="fc" id="L147">			});</span>
+<span class="fc" id="L148">		});</span>
+<span class="fc" id="L149">	}</span>
 
 	/**
 	 * Return a measure of whether blades pj and pk anticommute. Return a 1 if they
@@ -165,7 +158,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getACommuteSign(int pRow, int pCol) {
-<span class="fc bfc" id="L168" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 0 : 1;</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 0 : 1;</span>
 	}
 
 	/**
@@ -175,7 +168,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final Basis getBasis() {
-<span class="fc" id="L178">		return canonBasis;</span>
+<span class="fc" id="L171">		return canonBasis;</span>
 	}
 
 	/**
@@ -185,7 +178,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getBladeCount() {
-<span class="fc" id="L188">		return canonBasis.getBladeCount();</span>
+<span class="fc" id="L181">		return canonBasis.getBladeCount();</span>
 	}
 
 	/**
@@ -198,7 +191,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getCommuteSign(int pRow, int pCol) {
-<span class="fc bfc" id="L201" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 1 : 0;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 1 : 0;</span>
 	}
 
 	/**
@@ -208,7 +201,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final byte getGradeCount() {
-<span class="fc" id="L211">		return canonBasis.getGradeCount();</span>
+<span class="fc" id="L204">		return canonBasis.getGradeCount();</span>
 	}
 
 	/**
@@ -222,20 +215,20 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int[] getGradeRange(byte pGrade) {
-<span class="fc" id="L225">		int[] tR = new int[2];</span>
-<span class="fc" id="L226">		tR[0] = (int) canonBasis.getGradeStart(pGrade);</span>
-<span class="fc bfc" id="L227" title="All 2 branches covered.">		tR[1] = (int) ((pGrade == canonBasis.getGradeCount() - 1) // is this MaxGrade? If so, top=bottom</span>
-<span class="fc" id="L228">				? tR[0]</span>
-<span class="fc" id="L229">				: (canonBasis.getGradeStart((byte) (pGrade + 1)) - 1));</span>
-<span class="fc" id="L230">		return tR;</span>
+<span class="fc" id="L218">		int[] tR = new int[2];</span>
+<span class="fc" id="L219">		tR[0] = (int) canonBasis.getGradeStart(pGrade);</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		tR[1] = (int) ((pGrade == canonBasis.getGradeCount() - 1) // is this MaxGrade? If so, top=bottom</span>
+<span class="fc" id="L221">				? tR[0]</span>
+<span class="fc" id="L222">				: (canonBasis.getGradeStart((byte) (pGrade + 1)) - 1));</span>
+<span class="fc" id="L223">		return tR;</span>
 	}
 
 	@Override
 	public final int[] getPScalarRange() {
-<span class="fc" id="L235">		int[] tR = new int[2];</span>
-<span class="fc" id="L236">		tR[0] = canonBasis.getPScalarStart();</span>
-<span class="fc" id="L237">		tR[1] = tR[0];</span>
-<span class="fc" id="L238">		return tR;</span>
+<span class="fc" id="L228">		int[] tR = new int[2];</span>
+<span class="fc" id="L229">		tR[0] = canonBasis.getPScalarStart();</span>
+<span class="fc" id="L230">		tR[1] = tR[0];</span>
+<span class="fc" id="L231">		return tR;</span>
 	}
 
 	/**
@@ -245,7 +238,7 @@ public class GProduct implements CliffordProduct {
 	 * @return int[][]
 	 */
 	public final int[] getResult(int pRow) {
-<span class="fc" id="L248">		return result[pRow];</span>
+<span class="fc" id="L241">		return result[pRow];</span>
 	}
 
 	/**
@@ -257,7 +250,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getResult(int pRow, int pCol) {
-<span class="fc" id="L260">		return result[pRow][pCol];</span>
+<span class="fc" id="L253">		return result[pRow][pCol];</span>
 	}
 
 	/**
@@ -269,7 +262,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getSign(int pRow, int pCol) {
-<span class="fc bfc" id="L272" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
+<span class="fc bfc" id="L265" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
 	}
 
 	/**
@@ -280,7 +273,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final String signature() {
-<span class="fc" id="L283">		return signature;</span>
+<span class="fc" id="L276">		return signature;</span>
 	}
 
 	/**
@@ -292,33 +285,33 @@ public class GProduct implements CliffordProduct {
 	 * @return String This is the XML string export of an object.
 	 */
 	public final static String toXMLString(GProduct pG, String indent) {
-<span class="pc bpc" id="L295" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L296">			indent = &quot;\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L297">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L298">		rB.append(indent)</span>
-<span class="fc" id="L299">			.append(&quot;\t&lt;Signature&gt;&quot;)</span>
-<span class="fc" id="L300">			.append(pG.signature())</span>
-<span class="fc" id="L301">			.append(&quot;&lt;/Signature&gt;\n&quot;);</span>
-<span class="fc" id="L302">		rB.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L303">		rB.append(indent)</span>
-<span class="fc" id="L304">			.append(&quot;\t&lt;ProductTable rows=\&quot;&quot;)</span>
-<span class="fc" id="L305">			.append(pG.getBladeCount())</span>
-<span class="fc" id="L306">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L307" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) // Appending rows</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L289">			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L290">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L291">		rB.append(indent)</span>
+<span class="fc" id="L292">			.append(&quot;\t&lt;Signature&gt;&quot;)</span>
+<span class="fc" id="L293">			.append(pG.signature())</span>
+<span class="fc" id="L294">			.append(&quot;&lt;/Signature&gt;\n&quot;);</span>
+<span class="fc" id="L295">		rB.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L296">		rB.append(indent)</span>
+<span class="fc" id="L297">			.append(&quot;\t&lt;ProductTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L298">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L299">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) // Appending rows</span>
 		{
-<span class="fc" id="L309">			rB.append(indent)</span>
-<span class="fc" id="L310">				.append(&quot;\t\t&lt;row number=\&quot;&quot;)</span>
-<span class="fc" id="L311">				.append(k)</span>
-<span class="fc" id="L312">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
-<span class="fc bfc" id="L313" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
-<span class="fc" id="L314">				rB.append(pG.getResult(k, m))</span>
-<span class="fc" id="L315">				.append(&quot;,&quot;);</span>
-<span class="fc" id="L316">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L317">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L302">			rB.append(indent)</span>
+<span class="fc" id="L303">				.append(&quot;\t\t&lt;row number=\&quot;&quot;)</span>
+<span class="fc" id="L304">				.append(k)</span>
+<span class="fc" id="L305">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L307">				rB.append(pG.getResult(k, m))</span>
+<span class="fc" id="L308">				.append(&quot;,&quot;);</span>
+<span class="fc" id="L309">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L310">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		}
-<span class="fc" id="L319">		rB.append(indent + &quot;\t&lt;/ProductTable&gt;\n&quot;);</span>
-<span class="fc" id="L320">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L321">		return rB.toString();</span>
+<span class="fc" id="L312">		rB.append(indent + &quot;\t&lt;/ProductTable&gt;\n&quot;);</span>
+<span class="fc" id="L313">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L314">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
