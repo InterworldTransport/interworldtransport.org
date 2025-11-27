@@ -151,7 +151,7 @@ public class Nyad implements Modal {
 <span class="fc" id="L151">					pT.monadInAlgebraStream(y).anyMatch(pTm -&gt; 	// Pick a monad in pT using the algebra and find anyMatch of</span>
 <span class="fc" id="L152">						pN.monadInAlgebraStream(y).anyMatch(pNm -&gt; 		// Pick a monad in pN using the algebra and find anyMatch of</span>
 <span class="pc bpc" id="L153" title="1 of 2 branches missed.">							Monad.isUnitMatch(pNm, pTm) | !pN.has(y)		// The two monads being unit matches or pT's being a dangler</span>
-								)));
+<span class="fc" id="L154">								)));</span>
 													// Any monad in pN not chosen for a check is a known dangler. No need to check it.
 													// Any unit match for monads sharing an algebra suffices, so two nyads with 
 													// two monads in the same algebra with different units will pass weak matching
@@ -344,12 +344,12 @@ public class Nyad implements Modal {
 <span class="fc bfc" id="L344" title="All 2 branches covered.">		if (pCopy)</span>
 <span class="fc" id="L345">			pN.monadStream().forEach(x -&gt; {</span>
 <span class="fc" id="L346">				try {appendACopy(x);} </span>
-<span class="pc" id="L347">				catch (CladosNyadException e) {new IllegalArgumentException(&quot;Nyad copied changed during construction.&quot;);}</span>
+<span class="nc" id="L347">				catch (CladosNyadException e) {new IllegalArgumentException(&quot;Nyad copied changed during construction.&quot;);}</span>
 <span class="fc" id="L348">			});</span>
 		else 
 <span class="fc" id="L350">			pN.monadStream().forEach(x -&gt; {</span>
 <span class="fc" id="L351">				try {append(x);} </span>
-<span class="pc" id="L352">				catch (CladosNyadException e) {new IllegalArgumentException(&quot;Nyad reused changed during construction.&quot;);}</span>
+<span class="nc" id="L352">				catch (CladosNyadException e) {new IllegalArgumentException(&quot;Nyad reused changed during construction.&quot;);}</span>
 <span class="fc" id="L353">			});</span>
 <span class="fc" id="L354">	}</span>
 
@@ -1065,7 +1065,7 @@ public class Nyad implements Modal {
 <span class="fc bfc" id="L1065" title="All 2 branches covered.">		} else if (monadList.size() == algebraList.size()) {	//Multiple monads and just as many algebras</span>
 <span class="fc" id="L1066">			jFlag = true;										//ARE juxtapositions</span>
 <span class="fc" id="L1067">			compositionFlag = false;							//and never compositions.</span>
-		} else {												//Monads outnumber Algebras and more than one of each, so...
+<span class="fc" id="L1068">		} else {												//Monads outnumber Algebras and more than one of each, so...</span>
 <span class="fc" id="L1069">			jFlag = false;										//it is NOT a juxtaposition</span>
 <span class="fc" id="L1070">			compositionFlag = false;							//and NOT a composition. (Mixed Case)</span>
 		}

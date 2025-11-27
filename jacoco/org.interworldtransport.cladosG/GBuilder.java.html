@@ -321,7 +321,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 <span class="fc bfc" id="L321" title="All 2 branches covered.">		if (pB.isPresent()) {</span>
 <span class="fc" id="L322">			GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
 <span class="fc" id="L323">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
-		} else {
+<span class="fc" id="L324">		} else {</span>
 <span class="fc" id="L325">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
 <span class="fc" id="L326">			GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
 		}
@@ -356,7 +356,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 <span class="fc bfc" id="L356" title="All 2 branches covered.">		if (tB.isPresent()){</span>
 <span class="fc" id="L357">			tSpot2 = new GProduct(tB, pSig);</span>
 <span class="fc" id="L358">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
-		}
+<span class="fc" id="L359">		}</span>
 		else {
 <span class="fc" id="L361">			tSpot2 = new GProduct(pSig);</span>
 <span class="fc" id="L362">			GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
@@ -406,7 +406,7 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 			throws BadSignatureException, CladosMonadException{
 <span class="pc bpc" id="L407" title="1 of 2 branches missed.">		if (pA.getGBasis() != pNumbers.getBasis()) </span>
 <span class="nc" id="L408">			throw new CladosMonadException(	null, </span>
-											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);
+<span class="nc" id="L409">											&quot;Monad construction fails when Scale and Algebra bases aren't identical.&quot;);</span>
 		
 <span class="fc" id="L411">		return new Monad(pName, pA, pNumbers);</span>
 	}
@@ -432,8 +432,8 @@ import org.interworldtransport.cladosGExceptions.CladosNyadException;
 <span class="fc" id="L432">		return new Monad(	pName, 		//A String</span>
 <span class="fc" id="L433">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
 <span class="fc" id="L434">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
-													pName),
-							pNumbers);	//A Scale object use for weights AND the basis
+<span class="fc" id="L435">													pName),</span>
+<span class="fc" id="L436">							pNumbers);	//A Scale object use for weights AND the basis</span>
 	}
 
 	/**

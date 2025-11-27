@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scale.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Scale.java</span></div><h1>Scale.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scale.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Scale.java</span></div><h1>Scale.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
  * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
  * ------------------------------------------------------------------------ &lt;br&gt;
  * ---org.interworldtransport.cladosF.Scale&lt;br&gt;
@@ -466,9 +466,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L466">				weightsStream().forEach(div -&gt; {</span>
 					try {
 <span class="fc" id="L468">						tR.add(RealF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L469">					} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L469">					} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L470">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L471">					}</span>
+					}
 <span class="fc" id="L472">				});</span>
 <span class="fc" id="L473">				return tR;</span>
 			}
@@ -477,9 +477,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L477">				weightsStream().forEach(div -&gt; {</span>
 					try {
 <span class="fc" id="L479">						tR.add(RealD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L480">					} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L480">					} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L481">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L482">					}</span>
+					}
 <span class="fc" id="L483">				});</span>
 <span class="fc" id="L484">				return tR;</span>
 			}
@@ -488,9 +488,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L488">				weightsStream().forEach(div -&gt; {</span>
 					try {
 <span class="fc" id="L490">						tR.add(ComplexF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L491">					} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L491">					} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L492">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L493">					}</span>
+					}
 <span class="fc" id="L494">				});</span>
 <span class="fc" id="L495">				return tR;</span>
 			}
@@ -499,9 +499,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L499">				weightsStream().forEach(div -&gt; {</span>
 					try {
 <span class="fc" id="L501">						tR.add(ComplexD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L502">					} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L502">					} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L503">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L504">					}</span>
+					}
 <span class="fc" id="L505">				});</span>
 <span class="fc" id="L506">				return tR;</span>
 			}
@@ -547,9 +547,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L547">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
 				try {
 <span class="fc" id="L549">					tR.add(RealF.newONE(this.getCardinal()).scale(div.modulus()));</span>
-<span class="nc" id="L550">				} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L550">				} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L551">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L552">				}</span>
+				}
 <span class="fc" id="L553">			});</span>
 <span class="fc" id="L554">			return (D) tR;</span>
 		}
@@ -558,9 +558,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L558">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
 				try {
 <span class="fc" id="L560">					tR.add(RealD.newONE(this.getCardinal()).scale(div.modulus()));</span>
-<span class="nc" id="L561">				} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L561">				} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L562">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L563">				}</span>
+				}
 <span class="fc" id="L564">			});</span>
 <span class="fc" id="L565">			return (D) tR;</span>
 		}
@@ -569,9 +569,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L569">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
 				try {
 <span class="fc" id="L571">					tR.add(ComplexF.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
-<span class="nc" id="L572">				} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L572">				} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L573">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L574">				}</span>
+				}
 <span class="fc" id="L575">			});</span>
 <span class="fc" id="L576">			return (D) tR;</span>
 		}
@@ -580,9 +580,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L580">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
 				try {
 <span class="fc" id="L582">					tR.add(ComplexD.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
-<span class="nc" id="L583">				} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L583">				} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L584">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L585">				}</span>
+				}
 <span class="fc" id="L586">			});</span>
 <span class="fc" id="L587">			return (D) tR;</span>
 		}
@@ -682,9 +682,9 @@ import org.interworldtransport.cladosFExceptions.FieldException;
 <span class="fc" id="L682">			this.weightsParallelStream().forEach(div -&gt; {</span>
 				try {
 <span class="fc" id="L684">					div.multiply(pIn);</span>
-<span class="nc" id="L685">				} catch (FieldBinaryException e) {</span>
+<span class="pc" id="L685">				} catch (FieldBinaryException e) {</span>
 <span class="nc" id="L686">					throw new IllegalArgumentException(&quot;Can't scale with mismatched cardinal or mode.&quot;);</span>
-<span class="fc" id="L687">				}</span>
+				}
 <span class="fc" id="L688">			});</span>
 		}
 <span class="fc" id="L690">		return this;</span>
