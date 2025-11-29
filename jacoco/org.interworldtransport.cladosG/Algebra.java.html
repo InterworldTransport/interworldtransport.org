@@ -84,15 +84,19 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return String formatted as XML containing information about the Algebra
 	 */
 	public final static String toXMLString(Algebra pA, String indent) {
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L88">			indent = &quot;\t\t\t\t&quot;;</span>
-<span class="fc" id="L89">		StringBuilder rB = new StringBuilder(indent).append(&quot;&lt;Algebra UUID=\&quot;&quot;).append(pA.uuid).append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L90">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pA.getAlgebraName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-		// -----------------------------------------------------------------------
-<span class="fc" id="L92">		rB.append(Foot.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L93">		rB.append(GProduct.toXMLString(pA.getGProduct(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L94">		rB.append(indent).append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
-<span class="fc" id="L95">		return rB.toString();</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t&quot;;</span>
+<span class="fc" id="L88">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Algebra name=\&quot;&quot;);</span>
+<span class="fc" id="L89">		rB	.append(pA.getAName())</span>
+<span class="fc" id="L90">			.append(&quot;\&quot; UUID=\&quot;&quot;)</span>
+<span class="fc" id="L91">			.append(pA.uuid)</span>
+<span class="fc" id="L92">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+		
+<span class="fc" id="L94">		rB	.append(Foot.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));			//Algebra owns a reference to a Foot</span>
+<span class="fc" id="L95">		rB	.append(GProduct.toXMLString(pA.getGP(), indent + &quot;\t&quot;));	//Algebra owns a reference to a GP</span>
+		
+<span class="fc" id="L97">		rB	.append(indent)</span>
+<span class="fc" id="L98">			.append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
+<span class="fc" id="L99">		return rB.toString();</span>
 	}
 
 	/**
@@ -139,15 +143,15 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param pNewName 	This is the Algebra's name
 	 * @param pA 		This is the other Algebra to copy.
 	 */
-<span class="fc" id="L142">	public Algebra(String pNewName, Algebra pA) {</span>
-<span class="fc" id="L143">		setAlgebraName(pNewName);</span>
-<span class="fc" id="L144">		setFoot(pA.getFoot());							//RE-USE of Foot</span>
-<span class="fc" id="L145">		setGProduct(pA.getGProduct());					//RE-USE of GP</span>
-<span class="fc" id="L146">		gBasis = pA.getGProduct().getBasis();			//RE-USE of Basis</span>
-<span class="fc" id="L147">		uuid = UUID.randomUUID().toString();</span>
-<span class="fc" id="L148">		GCache.INSTANCE.appendBasis(gBasis);</span>
-<span class="fc" id="L149">		GCache.INSTANCE.appendGProduct(gProduct);</span>
-<span class="fc" id="L150">	}</span>
+<span class="fc" id="L146">	public Algebra(String pNewName, Algebra pA) {</span>
+<span class="fc" id="L147">		setAName(pNewName);</span>
+<span class="fc" id="L148">		setFoot(pA.getFoot());							//RE-USE of Foot</span>
+<span class="fc" id="L149">		setGP(pA.getGP());					//RE-USE of GP</span>
+<span class="fc" id="L150">		gBasis = pA.getGP().getBasis();			//RE-USE of Basis</span>
+<span class="fc" id="L151">		uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L152">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L153">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L154">	}</span>
 
 	/**
 	 * This is the constructor that assumes a Foot and GProduct have been
@@ -165,15 +169,15 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param pF    	This is the foot being offered for reference
 	 * @param pGP   	This is the geometric product being offered for reference
 	 */
-<span class="fc" id="L168">	public Algebra(String pNewName, Foot pF, GProduct pGP) {</span>
-<span class="fc" id="L169">		setAlgebraName(pNewName);</span>
-<span class="fc" id="L170">		setFoot(pF);</span>
-<span class="fc" id="L171">		setGProduct(pGP);							//RE-USE of GP</span>
-<span class="fc" id="L172">		gBasis = pGP.getBasis();					//RE-USE of Basis</span>
-<span class="fc" id="L173">		uuid = UUID.randomUUID().toString();</span>
-<span class="fc" id="L174">		GCache.INSTANCE.appendBasis(gBasis);</span>
-<span class="fc" id="L175">		GCache.INSTANCE.appendGProduct(gProduct);</span>
-<span class="fc" id="L176">	}</span>
+<span class="fc" id="L172">	public Algebra(String pNewName, Foot pF, GProduct pGP) {</span>
+<span class="fc" id="L173">		setAName(pNewName);</span>
+<span class="fc" id="L174">		setFoot(pF);</span>
+<span class="fc" id="L175">		setGP(pGP);							//RE-USE of GP</span>
+<span class="fc" id="L176">		gBasis = pGP.getBasis();					//RE-USE of Basis</span>
+<span class="fc" id="L177">		uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L178">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L179">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L180">	}</span>
 	
 	/**
 	 * This is the constructor that assumes a Foot has been instantiated. 
@@ -197,13 +201,13 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 */
 	public Algebra(String pNewName, Foot pF, String pSig)
 			throws BadSignatureException {
-<span class="fc" id="L200">		this(	pNewName, </span>
-<span class="fc" id="L201">				pF, </span>
-<span class="fc" id="L202">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-<span class="fc" id="L203">											pSig));</span>
-<span class="fc" id="L204">		GCache.INSTANCE.appendBasis(gBasis);</span>
-<span class="fc" id="L205">		GCache.INSTANCE.appendGProduct(gProduct);</span>
-<span class="fc" id="L206">	}</span>
+<span class="fc" id="L204">		this(	pNewName, </span>
+				pF, 
+<span class="fc" id="L206">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
+											pSig));
+<span class="fc" id="L208">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L209">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L210">	}</span>
 
 	/**
 	 * This is the raw constructor that assumes only the number type has been
@@ -232,14 +236,14 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 																D pF)
 			throws BadSignatureException {
 		
-<span class="fc" id="L235">		this(	pNewName, </span>
-<span class="fc" id="L236">				GBuilder.createFoot(		pFootName, </span>
-<span class="fc" id="L237">											pF.getCardinalString()),</span>
-<span class="fc" id="L238">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-<span class="fc" id="L239">											pSig));</span>
-<span class="fc" id="L240">		GCache.INSTANCE.appendBasis(gBasis);</span>
-<span class="fc" id="L241">		GCache.INSTANCE.appendGProduct(gProduct);</span>
-<span class="fc" id="L242">	}</span>
+<span class="fc" id="L239">		this(	pNewName, </span>
+<span class="fc" id="L240">				GBuilder.createFoot(		pFootName, </span>
+<span class="fc" id="L241">											pF.getCardinalString()),</span>
+<span class="fc" id="L242">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
+											pSig));
+<span class="fc" id="L244">		GCache.INSTANCE.appendBasis(gBasis);</span>
+<span class="fc" id="L245">		GCache.INSTANCE.appendGProduct(gProduct);</span>
+<span class="fc" id="L246">	}</span>
 
 	/**
 	 * This method is present to enable sorting of lists of algebras. It isn't
@@ -253,19 +257,19 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 */
 	@Override
 	public int compareTo(Algebra pAnother) {
-<span class="fc bfc" id="L256" title="All 4 branches covered.">		if (this.name == null)						return (pAnother.name == null) ? 0 : 1; 			//Null name is larger than a non-null name</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">		else if (pAnother.name == null)				return -1;	//Null name is larger than a non-null name</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">		else if (this.name.equals(pAnother.name))	return 0;	</span>
+<span class="fc bfc" id="L260" title="All 4 branches covered.">		if (this.name == null)						return (pAnother.name == null) ? 0 : 1; 			//Null name is larger than a non-null name</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">		else if (pAnother.name == null)				return -1;	//Null name is larger than a non-null name</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		else if (this.name.equals(pAnother.name))	return 0;	</span>
 		else {													//Neither name is null. Nor are they equal
-<span class="fc" id="L260">			char[] first = this.name.toCharArray();</span>
-<span class="fc" id="L261">			char[] second = pAnother.name.toCharArray();</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">			int loopLimit = (first.length &lt;= second.length) ? first.length : second.length;</span>
-<span class="pc bfc" id="L263" title="All 2 branches covered.">			for (int j = 0; j &lt; loopLimit; j++) {</span>
-<span class="fc bfc" id="L264" title="All 2 branches covered.">				if (first[j] &lt; second[j])			return -1;	//Character in first name is smaller. Decision done.</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">				if (first[j] &gt; second[j])			return +1;	//Character in second name is smaller. Decision done.</span>
+<span class="fc" id="L264">			char[] first = this.name.toCharArray();</span>
+<span class="fc" id="L265">			char[] second = pAnother.name.toCharArray();</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">			int loopLimit = (first.length &lt;= second.length) ? first.length : second.length;</span>
+<span class="pc bfc" id="L267" title="All 2 branches covered.">			for (int j = 0; j &lt; loopLimit; j++) {</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">				if (first[j] &lt; second[j])			return -1;	//Character in first name is smaller. Decision done.</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">				if (first[j] &gt; second[j])			return +1;	//Character in second name is smaller. Decision done.</span>
 			}													//No decision. Loop to the next character
 
-<span class="pc bpc" id="L268" title="1 of 2 branches missed.">			return (first.length &lt; second.length) ? -1 : +1;	//We know the two names are the same up to the characters </span>
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">			return (first.length &lt; second.length) ? -1 : +1;	//We know the two names are the same up to the characters </span>
 																//in the shorter one. We also know they can't be equal. 
 																//So the longer one wins.
 		}
@@ -277,7 +281,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L280" title="All 2 branches covered.">		return (this == obj) ? true : false;</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">		return (this == obj) ? true : false;</span>
 	}
 
 	/**
@@ -285,8 +289,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * &lt;br&gt;
 	 * @return String name of the algebra
 	 */
-	public String getAlgebraName() {
-<span class="fc" id="L289">		return name;</span>
+	public String getAName() {
+<span class="fc" id="L293">		return name;</span>
 	}
 
 	/**
@@ -298,7 +302,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *         represented by the canonical basis.
 	 */
 	public int getBladeCount() {
-<span class="fc" id="L301">		return gBasis.getBladeCount();</span>
+<span class="fc" id="L305">		return gBasis.getBladeCount();</span>
 	}
 
 	/**
@@ -307,7 +311,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return Foot
 	 */
 	public Foot getFoot() {
-<span class="fc" id="L310">		return foot;</span>
+<span class="fc" id="L314">		return foot;</span>
 	}
 
 	/**
@@ -315,8 +319,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * &lt;br&gt;
 	 * @return gBasis
 	 */
-	public Basis getGBasis() {
-<span class="fc" id="L319">		return gBasis;</span>
+	public Basis getBasis() {
+<span class="fc" id="L323">		return gBasis;</span>
 	}
 
 	/**
@@ -324,8 +328,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * &lt;br&gt;
 	 * @return gProduct
 	 */
-	public GProduct getGProduct() {
-<span class="fc" id="L328">		return gProduct;</span>
+	public GProduct getGP() {
+<span class="fc" id="L332">		return gProduct;</span>
 	}
 
 	/**
@@ -336,7 +340,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 *         generators it will always be N+1.
 	 */
 	public byte getGradeCount() {
-<span class="fc" id="L339">		return (byte) gBasis.getGradeCount();</span>
+<span class="fc" id="L343">		return (byte) gBasis.getGradeCount();</span>
 	}
 
 	/**
@@ -348,12 +352,12 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @return int[] This is an integer index between 0 and bladeCount inclusive.
 	 */
 	public int[] getGradeRange(byte pInd) {
-<span class="fc" id="L351">		return gProduct.getGradeRange(pInd);</span>
+<span class="fc" id="L355">		return gProduct.getGradeRange(pInd);</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L356">		return uuid.hashCode();</span>
+<span class="fc" id="L360">		return uuid.hashCode();</span>
 	}
 
 	/**
@@ -363,9 +367,9 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * &lt;br&gt;
 	 * @param pName String for the Algebra's name.
 	 */
-	public void setAlgebraName(String pName) {
-<span class="fc" id="L367">		name = pName;</span>
-<span class="fc" id="L368">	}</span>
+	public void setAName(String pName) {
+<span class="fc" id="L371">		name = pName;</span>
+<span class="fc" id="L372">	}</span>
 
 	/**
 	 * This method is a little dangerous and should use used only with great
@@ -378,8 +382,8 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param footPoint Foot for the Algebra to use as its 'tangent' contact point.
 	 */
 	public void setFoot(Foot footPoint) {
-<span class="fc" id="L381">		foot = footPoint;</span>
-<span class="fc" id="L382">	}</span>
+<span class="fc" id="L385">		foot = footPoint;</span>
+<span class="fc" id="L386">	}</span>
 
 	/**
 	 * This method is a little dangerous and should use used only with great
@@ -393,9 +397,9 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * @param pGP GProduct GProduct object for the Algebra to use as its geometric
 	 *            product operation on the canonical basis.
 	 */
-	protected void setGProduct(GProduct pGP) {
-<span class="fc" id="L397">		gProduct = pGP;</span>
-<span class="fc" id="L398">		gBasis = pGP.getBasis();</span>
-<span class="fc" id="L399">	}</span>
+	protected void setGP(GProduct pGP) {
+<span class="fc" id="L401">		gProduct = pGP;</span>
+<span class="fc" id="L402">		gBasis = pGP.getBasis();</span>
+<span class="fc" id="L403">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

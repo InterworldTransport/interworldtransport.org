@@ -262,66 +262,87 @@
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> 	}
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> 
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">	 * Return the sign of an element in the geometric multiplication result table.</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">	 * @param pRow int</em>
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">	 * @param pCol int</em>
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">	 * @return int</em>
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 	@Override
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> getSign(<strong class="jxr_keyword">int</strong> pRow, <strong class="jxr_keyword">int</strong> pCol) {
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> 		<strong class="jxr_keyword">return</strong> (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> 	}
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_javadoccomment">	 * Return the signature of the generating geometry. This lists the squares of the</em>
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> <em class="jxr_javadoccomment">	 * generators in their numeric order.</em>
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">	 * @return String</em>
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	@Override
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String signature() {
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> 		<strong class="jxr_keyword">return</strong> signature;
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> 	}
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">	 * This method produces a printable and parseable string that represents the</em>
-<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">	 * Basis in a human readable form.</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">	 * @param pG A geometric product to be exported to XML</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">	 * @param indent A string to use for XML element intentation. Not required.</em>
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> <em class="jxr_javadoccomment">	 * @return String This is the XML string export of an object.</em>
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> pG, String indent) {
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> 		<strong class="jxr_keyword">if</strong> (indent == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> 			indent = <span class="jxr_string">"\t\t\t\t\t"</span>;
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent + <span class="jxr_string">"&lt;GProduct&gt;\n"</span>);
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 			.append(<span class="jxr_string">"\t&lt;Signature&gt;"</span>)
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 			.append(pG.signature())
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 			.append(<span class="jxr_string">"&lt;/Signature&gt;\n"</span>);
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 		rB.append(Basis.toXMLString(pG.getBasis(), indent + <span class="jxr_string">"\t"</span>));
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 			.append(<span class="jxr_string">"\t&lt;ProductTable rows=\&quot;"</span>)
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 			.append(pG.getBladeCount())
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 			.append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt; pG.getBladeCount(); k++) <em class="jxr_comment">// Appending rows</em>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> 		{
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 			rB.append(indent)
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> 				.append(<span class="jxr_string">"\t\t&lt;row number=\&quot;"</span>)
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 				.append(k)
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 				.append(<span class="jxr_string">"\&quot; cells=\&quot;"</span>);
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> 			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = 0; m &lt; pG.getBladeCount(); m++)
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> 				rB.append(pG.getResult(k, m))
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> 				.append(<span class="jxr_string">","</span>);
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> 			rB.deleteCharAt(rB.length() - 1);
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> 			rB.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 		}
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> 		rB.append(indent + <span class="jxr_string">"\t&lt;/ProductTable&gt;\n"</span>);
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> 		rB.append(indent + <span class="jxr_string">"&lt;/GProduct&gt;\n"</span>);
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> 	}
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> }
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">	 * This method takes two blades, finds their index values in the basis, and then retrieves</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">	 * the index value of their product from the Cayley table. With the result index, it return the </em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">	 * basis blade at that location.</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">	 * One could just multiply the two blades using BladeDuet.simplify() and get the blade returned.</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_javadoccomment">	 * That's how the Cayley table was constructed in the first place.</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">	 * @param pRow 	Blade acting as the row entry for the Cayley table result</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">	 * @param pCol	Blade acting as the column entry for the Cayley table result</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">	 * @return Blade representing the result found in the Cayley table. If none found, null is returned.</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> getResult(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pRow, <a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pCol) {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 		<strong class="jxr_keyword">int</strong> tRow = canonBasis.find(pRow) - 1;
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 		<strong class="jxr_keyword">int</strong> tCol = canonBasis.find(pCol) - 1;
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 		
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 		<strong class="jxr_keyword">if</strong> (canonBasis.validateBladeIndex(tRow) &amp; canonBasis.validateBladeIndex(tCol))
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 			<strong class="jxr_keyword">return</strong> canonBasis.getSingleBlade(Math.abs(getResult(tRow, tCol))-1);			
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	}
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">	 * Return the sign of an element in the geometric multiplication result table.</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">	 * @param pRow int</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">	 * @param pCol int</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">	 * @return int</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 	@Override
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> getSign(<strong class="jxr_keyword">int</strong> pRow, <strong class="jxr_keyword">int</strong> pCol) {
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 		<strong class="jxr_keyword">return</strong> (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 	}
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 * Return the signature of the generating geometry. This lists the squares of the</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">	 * generators in their numeric order.</em>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">	 * @return String</em>
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 	@Override
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String signature() {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		<strong class="jxr_keyword">return</strong> signature;
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 	}
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">	 * This method produces a printable and parseable string that represents the</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">	 * Basis in a human readable form.</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> <em class="jxr_javadoccomment">	 * @param pG A geometric product to be exported to XML</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> <em class="jxr_javadoccomment">	 * @param indent A string to use for XML element intentation. Not required.</em>
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">	 * @return String This is the XML string export of an object.</em>
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="GProduct" href="../../../org/interworldtransport/cladosG/GProduct.html#GProduct">GProduct</a> pG, String indent) {
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 		<strong class="jxr_keyword">if</strong> (indent == <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 			indent = <span class="jxr_string">"\t\t\t\t\t"</span>;
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent + <span class="jxr_string">"&lt;GProduct&gt;\n"</span>);
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 			.append(<span class="jxr_string">"\t&lt;Signature&gt;"</span>)
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> 			.append(pG.signature())
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 			.append(<span class="jxr_string">"&lt;/Signature&gt;\n"</span>);
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 		rB.append(Basis.toXMLString(pG.getBasis(), indent + <span class="jxr_string">"\t"</span>));
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 			.append(<span class="jxr_string">"\t&lt;ProductTable rows=\&quot;"</span>)
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 			.append(pG.getBladeCount())
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 			.append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt; pG.getBladeCount(); k++) <em class="jxr_comment">// Appending rows</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> 		{
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 			rB.append(indent)
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> 				.append(<span class="jxr_string">"\t\t&lt;row number=\&quot;"</span>)
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 				.append(k)
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 				.append(<span class="jxr_string">"\&quot; cells=\&quot;"</span>);
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = 0; m &lt; pG.getBladeCount(); m++)
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> 				rB.append(pG.getResult(k, m))
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 				.append(<span class="jxr_string">","</span>);
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 			rB.deleteCharAt(rB.length() - 1);
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> 			rB.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 		}
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 		rB.append(indent + <span class="jxr_string">"\t&lt;/ProductTable&gt;\n"</span>);
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 		rB.append(indent + <span class="jxr_string">"&lt;/GProduct&gt;\n"</span>);
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 	}
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

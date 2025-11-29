@@ -258,7 +258,7 @@
 <a class="jxr_linenumber" name="L250" href="#L250">250</a> 		@Test
 <a class="jxr_linenumber" name="L251" href="#L251">251</a> 		<strong class="jxr_keyword">void</strong> testNEqualsDefaults() <strong class="jxr_keyword">throws</strong> CladosNyadException, BadSignatureException, CladosMonadException {
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> 			Foot overHere = GBuilder.createFootLike(<span class="jxr_string">"over here"</span>, speed);
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGProduct(), <span class="jxr_string">"A new one"</span>);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGP(), <span class="jxr_string">"A new one"</span>);
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> 			Monad newMotion = GBuilder.createMonadWithAlgebra(motion.getWeights(), newOne, <span class="jxr_string">"A New monad"</span>);
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> 
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> 			Nyad thing3 = GBuilder.createNyadUsingMonad(newMotion, <span class="jxr_string">""</span>);	
@@ -288,7 +288,7 @@
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> 		@Test 
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> 		<strong class="jxr_keyword">void</strong> testStrongReferenceMatchDefaults() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, CladosNyadException {
 <a class="jxr_linenumber" name="L282" href="#L282">282</a> 			Foot overHere = GBuilder.createFootLike(<span class="jxr_string">"over here"</span>, speed);
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGProduct(), <span class="jxr_string">"A new one"</span>);
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGP(), <span class="jxr_string">"A new one"</span>);
 <a class="jxr_linenumber" name="L284" href="#L284">284</a> 			Monad newMotion = GBuilder.createMonadWithAlgebra(motion.getWeights(), newOne, <span class="jxr_string">"A New monad"</span>);
 <a class="jxr_linenumber" name="L285" href="#L285">285</a> 																									<em class="jxr_comment">//newMotion has a different algebra AND foot than motion</em>
 <a class="jxr_linenumber" name="L286" href="#L286">286</a> 			Nyad thing3 = GBuilder.createNyadUsingMonad(newMotion, <span class="jxr_string">""</span>);				<em class="jxr_comment">//testable nyad</em>
@@ -325,7 +325,7 @@
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> 		@Test 
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> 		<strong class="jxr_keyword">void</strong> testWeakReferenceMatchDefaults() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, CladosNyadException {
 <a class="jxr_linenumber" name="L319" href="#L319">319</a> 			Foot overHere = GBuilder.createFootLike(<span class="jxr_string">"over here"</span>, speed);
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGProduct(), <span class="jxr_string">"A new one"</span>);
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGP(), <span class="jxr_string">"A new one"</span>);
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 			Monad newMotion = GBuilder.createMonadWithAlgebra(motion.getWeights(), newOne, <span class="jxr_string">"A New monad"</span>);
 <a class="jxr_linenumber" name="L322" href="#L322">322</a> 																									<em class="jxr_comment">//newMotion has a different algebra AND foot than motion</em>
 <a class="jxr_linenumber" name="L323" href="#L323">323</a> 			Nyad thing3 = GBuilder.createNyadUsingMonad(newMotion, <span class="jxr_string">""</span>);				<em class="jxr_comment">//testable nyad</em>
@@ -508,7 +508,7 @@
 <a class="jxr_linenumber" name="L500" href="#L500">500</a> 		@Test
 <a class="jxr_linenumber" name="L501" href="#L501">501</a> 		<strong class="jxr_keyword">void</strong> testAppendWrongFoot() <strong class="jxr_keyword">throws</strong> BadSignatureException, CladosMonadException, CladosNyadException {
 <a class="jxr_linenumber" name="L502" href="#L502">502</a> 			Foot overHere = GBuilder.createFootLike(<span class="jxr_string">"over here"</span>, speed);
-<a class="jxr_linenumber" name="L503" href="#L503">503</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGProduct(), <span class="jxr_string">"A new one"</span>);
+<a class="jxr_linenumber" name="L503" href="#L503">503</a> 			Algebra newOne = GBuilder.createAlgebraWithFootGP(overHere, motion.getAlgebra().getGP(), <span class="jxr_string">"A new one"</span>);
 <a class="jxr_linenumber" name="L504" href="#L504">504</a> 			Monad newMotion = GBuilder.createMonadWithAlgebra(motion.getWeights(), newOne, <span class="jxr_string">"A New monad"</span>);
 <a class="jxr_linenumber" name="L505" href="#L505">505</a> 																									<em class="jxr_comment">//newMotion has a different algebra AND foot than motion</em>
 <a class="jxr_linenumber" name="L506" href="#L506">506</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.append(newMotion));	<em class="jxr_comment">//Should glitch on the attempt</em>

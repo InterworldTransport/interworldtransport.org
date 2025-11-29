@@ -527,10 +527,12 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * Set the real numeric value
 	 * &lt;br&gt;
 	 * @param preal float
+	 * @return RealF this number
 	 */
-	public void setReal(float preal) {
-<span class="fc" id="L532">		vals[0] = preal;</span>
-<span class="fc" id="L533">	}</span>
+	public RealF setReal(float preal) {
+<span class="fc" id="L533">		vals[0] = preal;</span>
+<span class="fc" id="L534">		return this;</span>
+	}
 
 	/**
 	 * This method subtracts real numbers and changes this object to be the result.
@@ -542,12 +544,12 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF subtract(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L545" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || RealF.isNaN(this) || RealF.isNaN((RealF) pF)</span>
-<span class="pc bpc" id="L546" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
-<span class="fc" id="L547">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L547" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || RealF.isNaN(this) || RealF.isNaN((RealF) pF)</span>
+<span class="pc bpc" id="L548" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
+<span class="fc" id="L549">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L549">		setReal(getReal() - ((RealF) pF).getReal());</span>
-<span class="fc" id="L550">		return this;</span>
+<span class="fc" id="L551">		setReal(getReal() - ((RealF) pF).getReal());</span>
+<span class="fc" id="L552">		return this;</span>
 	}
 
 	/**
@@ -557,7 +559,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L560">		return (getReal() + &quot;FR&quot;);</span>
+<span class="fc" id="L562">		return (getReal() + &quot;FR&quot;);</span>
 	}
 
 	/**
@@ -567,7 +569,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(RealF pN) {
-<span class="fc" id="L570">		return (&quot;&lt;RealF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; realvalue=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
+<span class="fc" id="L572">		return (&quot;&lt;RealF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; realvalue=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

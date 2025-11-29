@@ -117,12 +117,11 @@ public final class Foot {
 	 * @return String formatted as XML containing information about the Foot
 	 */
 	public final static String toXMLString(Foot pF, String indent) {
-<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L121">			indent = &quot;\t\t&quot;;</span>
-<span class="fc" id="L122">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot&gt;\n&quot;);</span>
-<span class="fc" id="L123">		rB.append(indent).append(&quot;\t&lt;Name&gt;&quot;).append(pF.getFootName()).append(&quot;&lt;/Name&gt;\n&quot;);</span>
-<span class="fc" id="L124">		rB.append(indent).append(&quot;&lt;/Foot&gt;\n&quot;);</span>
-<span class="fc" id="L125">		return rB.toString();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L121">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
+<span class="fc" id="L122">		rB	.append(pF.getFootName())</span>
+<span class="fc" id="L123">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L124">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

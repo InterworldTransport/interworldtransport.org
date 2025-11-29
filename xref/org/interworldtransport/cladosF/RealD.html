@@ -536,49 +536,51 @@
 <a class="jxr_linenumber" name="L528" href="#L528">528</a> <em class="jxr_javadoccomment">	 * Set the real numeric value</em>
 <a class="jxr_linenumber" name="L529" href="#L529">529</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
 <a class="jxr_linenumber" name="L530" href="#L530">530</a> <em class="jxr_javadoccomment">	 * @param preal double</em>
-<a class="jxr_linenumber" name="L531" href="#L531">531</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L532" href="#L532">532</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setReal(<strong class="jxr_keyword">double</strong> preal) {
-<a class="jxr_linenumber" name="L533" href="#L533">533</a> 		vals[0] = preal;
-<a class="jxr_linenumber" name="L534" href="#L534">534</a> 	}
-<a class="jxr_linenumber" name="L535" href="#L535">535</a> 
-<a class="jxr_linenumber" name="L536" href="#L536">536</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L537" href="#L537">537</a> <em class="jxr_javadoccomment">	 * This method subtracts real numbers and changes this object to be the result.</em>
-<a class="jxr_linenumber" name="L538" href="#L538">538</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L539" href="#L539">539</a> <em class="jxr_javadoccomment">	 * @param pF Field</em>
-<a class="jxr_linenumber" name="L540" href="#L540">540</a> <em class="jxr_javadoccomment">	 * @throws FieldBinaryException This exception occurs when field mismatches</em>
-<a class="jxr_linenumber" name="L541" href="#L541">541</a> <em class="jxr_javadoccomment">	 *                              happen</em>
-<a class="jxr_linenumber" name="L542" href="#L542">542</a> <em class="jxr_javadoccomment">	 * @return RealD</em>
-<a class="jxr_linenumber" name="L543" href="#L543">543</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L544" href="#L544">544</a> 	@Override
-<a class="jxr_linenumber" name="L545" href="#L545">545</a> 	<strong class="jxr_keyword">public</strong> <a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a> subtract(<a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> pF) <strong class="jxr_keyword">throws</strong> <a name="FieldBinaryException" href="../../../org/interworldtransport/cladosFExceptions/FieldBinaryException.html#FieldBinaryException">FieldBinaryException</a> {
-<a class="jxr_linenumber" name="L546" href="#L546">546</a> 		<strong class="jxr_keyword">if</strong> (!ProtoN.isTypeMatch(<strong class="jxr_keyword">this</strong>, (<a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a>) pF) || RealD.isNaN(<strong class="jxr_keyword">this</strong>) || RealD.isNaN((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF)
-<a class="jxr_linenumber" name="L547" href="#L547">547</a> 				|| RealD.isInfinite(<strong class="jxr_keyword">this</strong>) || RealD.isInfinite((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF))
-<a class="jxr_linenumber" name="L548" href="#L548">548</a> 			<strong class="jxr_keyword">throw</strong> (<strong class="jxr_keyword">new</strong> <a name="FieldBinaryException" href="../../../org/interworldtransport/cladosFExceptions/FieldBinaryException.html#FieldBinaryException">FieldBinaryException</a>(<strong class="jxr_keyword">this</strong>, <span class="jxr_string">"Subtraction failed type match or size test"</span>, (<a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a>) pF));
-<a class="jxr_linenumber" name="L549" href="#L549">549</a> 
-<a class="jxr_linenumber" name="L550" href="#L550">550</a> 		setReal(getReal() - ((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF).getReal());
-<a class="jxr_linenumber" name="L551" href="#L551">551</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L552" href="#L552">552</a> 	}
-<a class="jxr_linenumber" name="L553" href="#L553">553</a> 
-<a class="jxr_linenumber" name="L554" href="#L554">554</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L555" href="#L555">555</a> <em class="jxr_javadoccomment">	 * Return a string representation of the real value.</em>
-<a class="jxr_linenumber" name="L556" href="#L556">556</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L557" href="#L557">557</a> <em class="jxr_javadoccomment">	 * @return String</em>
-<a class="jxr_linenumber" name="L558" href="#L558">558</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L559" href="#L559">559</a> 	@Override
-<a class="jxr_linenumber" name="L560" href="#L560">560</a> 	<strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="L561" href="#L561">561</a> 		<strong class="jxr_keyword">return</strong> (getReal() + <span class="jxr_string">"DR"</span>);
-<a class="jxr_linenumber" name="L562" href="#L562">562</a> 	}
-<a class="jxr_linenumber" name="L563" href="#L563">563</a> 
-<a class="jxr_linenumber" name="L564" href="#L564">564</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L565" href="#L565">565</a> <em class="jxr_javadoccomment">	 * Return a string representation of the real value.</em>
-<a class="jxr_linenumber" name="L566" href="#L566">566</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L567" href="#L567">567</a> <em class="jxr_javadoccomment">	 * @param pN RealD to be exported as XML.</em>
-<a class="jxr_linenumber" name="L568" href="#L568">568</a> <em class="jxr_javadoccomment">	 * @return String</em>
-<a class="jxr_linenumber" name="L569" href="#L569">569</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L570" href="#L570">570</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a> pN) {
-<a class="jxr_linenumber" name="L571" href="#L571">571</a> 		<strong class="jxr_keyword">return</strong> (<span class="jxr_string">"&lt;RealD cardinal=\&quot;"</span> + pN.getCardinalString() + <span class="jxr_string">"\&quot; realvalue=\&quot;"</span> + pN.getReal() + <span class="jxr_string">"\&quot; /&gt;"</span>);
-<a class="jxr_linenumber" name="L572" href="#L572">572</a> 	}
-<a class="jxr_linenumber" name="L573" href="#L573">573</a> }
+<a class="jxr_linenumber" name="L531" href="#L531">531</a> <em class="jxr_javadoccomment">	 * @return RealD this number</em>
+<a class="jxr_linenumber" name="L532" href="#L532">532</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L533" href="#L533">533</a> 	<strong class="jxr_keyword">public</strong> <a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a> setReal(<strong class="jxr_keyword">double</strong> preal) {
+<a class="jxr_linenumber" name="L534" href="#L534">534</a> 		vals[0] = preal;
+<a class="jxr_linenumber" name="L535" href="#L535">535</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L536" href="#L536">536</a> 	}
+<a class="jxr_linenumber" name="L537" href="#L537">537</a> 
+<a class="jxr_linenumber" name="L538" href="#L538">538</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L539" href="#L539">539</a> <em class="jxr_javadoccomment">	 * This method subtracts real numbers and changes this object to be the result.</em>
+<a class="jxr_linenumber" name="L540" href="#L540">540</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L541" href="#L541">541</a> <em class="jxr_javadoccomment">	 * @param pF Field</em>
+<a class="jxr_linenumber" name="L542" href="#L542">542</a> <em class="jxr_javadoccomment">	 * @throws FieldBinaryException This exception occurs when field mismatches</em>
+<a class="jxr_linenumber" name="L543" href="#L543">543</a> <em class="jxr_javadoccomment">	 *                              happen</em>
+<a class="jxr_linenumber" name="L544" href="#L544">544</a> <em class="jxr_javadoccomment">	 * @return RealD</em>
+<a class="jxr_linenumber" name="L545" href="#L545">545</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L546" href="#L546">546</a> 	@Override
+<a class="jxr_linenumber" name="L547" href="#L547">547</a> 	<strong class="jxr_keyword">public</strong> <a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a> subtract(<a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> pF) <strong class="jxr_keyword">throws</strong> <a name="FieldBinaryException" href="../../../org/interworldtransport/cladosFExceptions/FieldBinaryException.html#FieldBinaryException">FieldBinaryException</a> {
+<a class="jxr_linenumber" name="L548" href="#L548">548</a> 		<strong class="jxr_keyword">if</strong> (!ProtoN.isTypeMatch(<strong class="jxr_keyword">this</strong>, (<a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a>) pF) || RealD.isNaN(<strong class="jxr_keyword">this</strong>) || RealD.isNaN((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF)
+<a class="jxr_linenumber" name="L549" href="#L549">549</a> 				|| RealD.isInfinite(<strong class="jxr_keyword">this</strong>) || RealD.isInfinite((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF))
+<a class="jxr_linenumber" name="L550" href="#L550">550</a> 			<strong class="jxr_keyword">throw</strong> (<strong class="jxr_keyword">new</strong> <a name="FieldBinaryException" href="../../../org/interworldtransport/cladosFExceptions/FieldBinaryException.html#FieldBinaryException">FieldBinaryException</a>(<strong class="jxr_keyword">this</strong>, <span class="jxr_string">"Subtraction failed type match or size test"</span>, (<a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a>) pF));
+<a class="jxr_linenumber" name="L551" href="#L551">551</a> 
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> 		setReal(getReal() - ((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pF).getReal());
+<a class="jxr_linenumber" name="L553" href="#L553">553</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L554" href="#L554">554</a> 	}
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> 
+<a class="jxr_linenumber" name="L556" href="#L556">556</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L557" href="#L557">557</a> <em class="jxr_javadoccomment">	 * Return a string representation of the real value.</em>
+<a class="jxr_linenumber" name="L558" href="#L558">558</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L559" href="#L559">559</a> <em class="jxr_javadoccomment">	 * @return String</em>
+<a class="jxr_linenumber" name="L560" href="#L560">560</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L561" href="#L561">561</a> 	@Override
+<a class="jxr_linenumber" name="L562" href="#L562">562</a> 	<strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="L563" href="#L563">563</a> 		<strong class="jxr_keyword">return</strong> (getReal() + <span class="jxr_string">"DR"</span>);
+<a class="jxr_linenumber" name="L564" href="#L564">564</a> 	}
+<a class="jxr_linenumber" name="L565" href="#L565">565</a> 
+<a class="jxr_linenumber" name="L566" href="#L566">566</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L567" href="#L567">567</a> <em class="jxr_javadoccomment">	 * Return a string representation of the real value.</em>
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L569" href="#L569">569</a> <em class="jxr_javadoccomment">	 * @param pN RealD to be exported as XML.</em>
+<a class="jxr_linenumber" name="L570" href="#L570">570</a> <em class="jxr_javadoccomment">	 * @return String</em>
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L572" href="#L572">572</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a> pN) {
+<a class="jxr_linenumber" name="L573" href="#L573">573</a> 		<strong class="jxr_keyword">return</strong> (<span class="jxr_string">"&lt;RealD cardinal=\&quot;"</span> + pN.getCardinalString() + <span class="jxr_string">"\&quot; realvalue=\&quot;"</span> + pN.getReal() + <span class="jxr_string">"\&quot; /&gt;"</span>);
+<a class="jxr_linenumber" name="L574" href="#L574">574</a> 	}
+<a class="jxr_linenumber" name="L575" href="#L575">575</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

@@ -254,6 +254,27 @@ public class GProduct implements CliffordProduct {
 	}
 
 	/**
+	 * This method takes two blades, finds their index values in the basis, and then retrieves
+	 * the index value of their product from the Cayley table. With the result index, it return the 
+	 * basis blade at that location.
+	 * &lt;br&gt;&lt;br&gt;
+	 * One could just multiply the two blades using BladeDuet.simplify() and get the blade returned.
+	 * That's how the Cayley table was constructed in the first place.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pRow 	Blade acting as the row entry for the Cayley table result
+	 * @param pCol	Blade acting as the column entry for the Cayley table result
+	 * @return Blade representing the result found in the Cayley table. If none found, null is returned.
+	 */
+	public final Blade getResult(Blade pRow, Blade pCol) {
+<span class="fc" id="L269">		int tRow = canonBasis.find(pRow) - 1;</span>
+<span class="fc" id="L270">		int tCol = canonBasis.find(pCol) - 1;</span>
+		
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">		if (canonBasis.validateBladeIndex(tRow) &amp; canonBasis.validateBladeIndex(tCol))</span>
+<span class="fc" id="L273">			return canonBasis.getSingleBlade(Math.abs(getResult(tRow, tCol))-1);			</span>
+<span class="nc" id="L274">		return null;</span>
+	}
+
+	/**
 	 * Return the sign of an element in the geometric multiplication result table.
 	 * &lt;br&gt;
 	 * @param pRow int
@@ -262,7 +283,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final int getSign(int pRow, int pCol) {
-<span class="fc bfc" id="L265" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
+<span class="fc bfc" id="L286" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
 	}
 
 	/**
@@ -273,7 +294,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final String signature() {
-<span class="fc" id="L276">		return signature;</span>
+<span class="fc" id="L297">		return signature;</span>
 	}
 
 	/**
@@ -285,33 +306,33 @@ public class GProduct implements CliffordProduct {
 	 * @return String This is the XML string export of an object.
 	 */
 	public final static String toXMLString(GProduct pG, String indent) {
-<span class="pc bpc" id="L288" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L289">			indent = &quot;\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L290">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L291">		rB.append(indent)</span>
-<span class="fc" id="L292">			.append(&quot;\t&lt;Signature&gt;&quot;)</span>
-<span class="fc" id="L293">			.append(pG.signature())</span>
-<span class="fc" id="L294">			.append(&quot;&lt;/Signature&gt;\n&quot;);</span>
-<span class="fc" id="L295">		rB.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L296">		rB.append(indent)</span>
-<span class="fc" id="L297">			.append(&quot;\t&lt;ProductTable rows=\&quot;&quot;)</span>
-<span class="fc" id="L298">			.append(pG.getBladeCount())</span>
-<span class="fc" id="L299">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L300" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) // Appending rows</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">		if (indent == null)</span>
+<span class="nc" id="L310">			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L311">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L312">		rB.append(indent)</span>
+<span class="fc" id="L313">			.append(&quot;\t&lt;Signature&gt;&quot;)</span>
+<span class="fc" id="L314">			.append(pG.signature())</span>
+<span class="fc" id="L315">			.append(&quot;&lt;/Signature&gt;\n&quot;);</span>
+<span class="fc" id="L316">		rB.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L317">		rB.append(indent)</span>
+<span class="fc" id="L318">			.append(&quot;\t&lt;ProductTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L319">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L320">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) // Appending rows</span>
 		{
-<span class="fc" id="L302">			rB.append(indent)</span>
-<span class="fc" id="L303">				.append(&quot;\t\t&lt;row number=\&quot;&quot;)</span>
-<span class="fc" id="L304">				.append(k)</span>
-<span class="fc" id="L305">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
-<span class="fc" id="L307">				rB.append(pG.getResult(k, m))</span>
-<span class="fc" id="L308">				.append(&quot;,&quot;);</span>
-<span class="fc" id="L309">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L310">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L323">			rB.append(indent)</span>
+<span class="fc" id="L324">				.append(&quot;\t\t&lt;row number=\&quot;&quot;)</span>
+<span class="fc" id="L325">				.append(k)</span>
+<span class="fc" id="L326">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L328">				rB.append(pG.getResult(k, m))</span>
+<span class="fc" id="L329">				.append(&quot;,&quot;);</span>
+<span class="fc" id="L330">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L331">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		}
-<span class="fc" id="L312">		rB.append(indent + &quot;\t&lt;/ProductTable&gt;\n&quot;);</span>
-<span class="fc" id="L313">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L314">		return rB.toString();</span>
+<span class="fc" id="L333">		rB.append(indent + &quot;\t&lt;/ProductTable&gt;\n&quot;);</span>
+<span class="fc" id="L334">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L335">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

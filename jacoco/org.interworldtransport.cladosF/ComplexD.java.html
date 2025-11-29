@@ -605,19 +605,23 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * Set the imaginary numeric value
 	 * &lt;br&gt;
 	 * @param pimg double
+	 * @return ComplexD this number
 	 */
-	public void setImg(double pimg) {
-<span class="fc" id="L610">		vals[1] = pimg;</span>
-<span class="fc" id="L611">	}</span>
+	public ComplexD setImg(double pimg) {
+<span class="fc" id="L611">		vals[1] = pimg;</span>
+<span class="fc" id="L612">		return this;</span>
+	}
 
 	/**
 	 * Set the real numeric value
 	 * &lt;br&gt;
 	 * @param preal double
+	 * @return ComplexD this number
 	 */
-	public void setReal(double preal) {
-<span class="fc" id="L619">		vals[0] = preal;</span>
-<span class="fc" id="L620">	}</span>
+	public ComplexD setReal(double preal) {
+<span class="fc" id="L622">		vals[0] = preal;</span>
+<span class="fc" id="L623">		return this;</span>
+	}
 
 	/**
 	 * This method subtracts real numbers and changes this object to be the result.
@@ -629,13 +633,13 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD subtract(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L632" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
-<span class="pc bpc" id="L633" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
-<span class="fc" id="L634">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L636" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
+<span class="pc bpc" id="L637" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
+<span class="fc" id="L638">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 		
-<span class="fc" id="L636">		setReal(getReal() - ((ComplexD) pF).getReal());</span>
-<span class="fc" id="L637">		setImg(getImg() - ((ComplexD) pF).getImg());</span>
-<span class="fc" id="L638">		return this;</span>
+<span class="fc" id="L640">		setReal(getReal() - ((ComplexD) pF).getReal());</span>
+<span class="fc" id="L641">		setImg(getImg() - ((ComplexD) pF).getImg());</span>
+<span class="fc" id="L642">		return this;</span>
 	}
 
 	/**
@@ -645,7 +649,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L648">		return (getReal() + &quot;DR, &quot; + getImg() + &quot;DI&quot;);</span>
+<span class="fc" id="L652">		return (getReal() + &quot;DR, &quot; + getImg() + &quot;DI&quot;);</span>
 	}
 
 	/**
@@ -655,8 +659,8 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(ComplexD pN) {
-<span class="fc" id="L658">		return (&quot;&lt;ComplexD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; realvalue=\&quot;&quot; + pN.getReal() + &quot;\&quot; imgvalue=\&quot;&quot;</span>
-<span class="fc" id="L659">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
+<span class="fc" id="L662">		return (&quot;&lt;ComplexD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; realvalue=\&quot;&quot; + pN.getReal() + &quot;\&quot; imgvalue=\&quot;&quot;</span>
+<span class="fc" id="L663">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
