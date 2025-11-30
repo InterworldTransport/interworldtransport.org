@@ -26,57 +26,43 @@ package org.interworldtransport.cladosGExceptions;
 
 import org.interworldtransport.cladosG.Monad;
 /**
- * This class is designed to be the top of the CladosG exception family.  
- * All instances of descendants are assumed to originate from geometric objects
- * with unhandled problems.  Common elements from each exception class
- * are found here.
+ * This class is for exceptions with a known monad as a source. 
  * &lt;br&gt;&lt;br&gt;
- * @version 1.0
+ * @version 2.0
  * @author Dr Alfred W Differ
  *
  */
-public class CladosMonadException extends Exception 
-{
-	private static final long serialVersionUID = 5625258738212165533L;
+public class CladosMonadException extends CladosException {
+
 /**
  * The source Monad is the originator of the Exception.
  */
-    private Monad  Source;
-/**
- * The source message is the reason given by the originating Monad for the exception.
- */
-    private String  SourceMessage;
+    private Monad  sourceMonad;
 /**
  * This method is the main constructor of all Clados Exceptions.
  * It needs only a source Monad and message.
- * @param pSource
- * 				Monad
- * @param pMessage	
- * 				String
+ * @param pSource   Monad
+ * @param pMessage	String
  */
-    public CladosMonadException(Monad pSource, String pMessage)
-    {
-<span class="fc" id="L59">    	super();</span>
-<span class="fc" id="L60">    	SourceMessage=pMessage;</span>
-<span class="fc" id="L61">    	Source=pSource;</span>
-<span class="fc" id="L62">    }</span>
+    public CladosMonadException(Monad pSource, String pMessage) {
+<span class="fc" id="L48">    	super(pMessage);</span>
+<span class="fc" id="L49">    	sourceMonad=pSource;</span>
+<span class="fc" id="L50">    }</span>
 /**
  * This method delivers a reference to the Monad that originated the Exception
  * 
  * @return Monad
  */
-    public Monad  getSourceMonad()
-    {
-<span class="fc" id="L70">    	return Source;</span>
+    public Monad  getSourceMonad() {
+<span class="fc" id="L57">    	return sourceMonad;</span>
     }
 /**
  * This method delivers a the explanation from the Monad that originated the Exception
  * 
  * @return String
  */
-    public String  getSourceMessage() 
-    {
-<span class="fc" id="L79">    	return SourceMessage;</span>
+    public String  getSourceMessage()  {
+<span class="fc" id="L65">    	return super.getSourceMessage();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

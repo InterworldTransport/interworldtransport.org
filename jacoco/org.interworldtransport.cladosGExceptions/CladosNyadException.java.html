@@ -31,22 +31,15 @@ import org.interworldtransport.cladosG.Nyad;
  * instances of descendants are assumed to originate from geometric objects with
  * unhandled problems. Common elements from each exception class are found here.
  * &lt;br&gt;&lt;br&gt;
- * @version 1.0
+ * @version 2.0
  * @author Dr Alfred W Differ
  * 
  */
-public class CladosNyadException extends Exception
-{
-	private static final long serialVersionUID = 8525503660269803527L;
+public class CladosNyadException extends CladosException {
 	/**
 	 * The source NyadRealD is the originator of the Exception.
 	 */
-	private Nyad	Source;
-	/**
-	 * The source message is the reason given by the originating NyadRealD for
-	 * the exception.
-	 */
-	private String			SourceMessage;
+	private Nyad	sourceNyad;
 
 	/**
 	 * This method is the main constructor of all Clados Exceptions. It needs
@@ -55,12 +48,10 @@ public class CladosNyadException extends Exception
 	 * @param pSource Nyad
 	 * @param pMessage String
 	 */
-	public CladosNyadException(Nyad pSource, String pMessage)
-	{
-<span class="fc" id="L60">		super();</span>
-<span class="fc" id="L61">		SourceMessage = pMessage;</span>
-<span class="fc" id="L62">		Source = pSource;</span>
-<span class="fc" id="L63">	}</span>
+	public CladosNyadException(Nyad pSource, String pMessage) {
+<span class="fc" id="L52">		super(pMessage);</span>
+<span class="fc" id="L53">		sourceNyad = pSource;</span>
+<span class="fc" id="L54">	}</span>
 
 	/**
 	 * This method delivers a reference to the NyadRealD that originated the
@@ -68,9 +59,8 @@ public class CladosNyadException extends Exception
 	 * &lt;br&gt;
 	 * @return Nyad
 	 */
-	public Nyad getSourceNyad()
-	{
-<span class="fc" id="L73">		return Source;</span>
+	public Nyad getSourceNyad() {
+<span class="fc" id="L63">		return sourceNyad;</span>
 	}
 
 	/**
@@ -79,9 +69,8 @@ public class CladosNyadException extends Exception
 	 * &lt;br&gt;
 	 * @return String
 	 */
-	public String getSourceMessage()
-	{
-<span class="fc" id="L84">		return SourceMessage;</span>
+	public String getSourceMessage() {
+<span class="fc" id="L73">		return super.getSourceMessage();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

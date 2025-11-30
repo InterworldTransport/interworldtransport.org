@@ -480,13 +480,18 @@ public final class Basis implements CanonicalBasis {
 	}
 
 	@Override
+	public boolean hasBlade(Blade pB) {
+<span class="nc" id="L484">		return keyIndexMap.containsKey(pB.key());</span>
+	}
+
+	@Override
 	public int hashCode() {
-<span class="fc" id="L484">		return (int) getGradeCount();</span>
+<span class="fc" id="L489">		return (int) getGradeCount();</span>
 	}
 
 	@Override
 	public LongStream keyStream() {
-<span class="fc" id="L489">		return bladeList.stream().mapToLong(blade -&gt; blade.key());</span>
+<span class="fc" id="L494">		return bladeList.stream().mapToLong(blade -&gt; blade.key());</span>
 	}
 
 	/**
@@ -500,46 +505,46 @@ public final class Basis implements CanonicalBasis {
 	 * @return String
 	 */
 	public static String toXMLString(Basis pB, String indent) {
-<span class="fc bfc" id="L503" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L504">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L505">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis&gt;\n&quot;);</span>
+<span class="fc bfc" id="L508" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L509">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L510">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L507">		rB.append(indent)</span>
-<span class="fc" id="L508">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
-<span class="fc" id="L509">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L510" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.gradeCount - 2; k++) // loop to get all but the highest grade</span>
-<span class="fc" id="L511">			rB.append(indent)</span>
-<span class="fc" id="L512">				.append(&quot;\t\t&lt;Grade number=\&quot;&quot;)</span>
-<span class="fc" id="L513">				.append(k)</span>
-<span class="fc" id="L514">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L515">				.append(pB.gradeList.get(k))</span>
-<span class="fc" id="L516">				.append(&quot;-&quot;)</span>
-<span class="fc" id="L517">				.append((pB.gradeList.get(k + 1) - 1))</span>
-<span class="fc" id="L518">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L512">		rB.append(indent)</span>
+<span class="fc" id="L513">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
+<span class="fc" id="L514">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L515" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.gradeCount - 2; k++) // loop to get all but the highest grade</span>
+<span class="fc" id="L516">			rB.append(indent)</span>
+<span class="fc" id="L517">				.append(&quot;\t\t&lt;Grade number=\&quot;&quot;)</span>
+<span class="fc" id="L518">				.append(k)</span>
+<span class="fc" id="L519">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L520">				.append(pB.gradeList.get(k))</span>
+<span class="fc" id="L521">				.append(&quot;-&quot;)</span>
+<span class="fc" id="L522">				.append((pB.gradeList.get(k + 1) - 1))</span>
+<span class="fc" id="L523">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		// Handle last grade separate. There is no k+1 index for the largest grade
-<span class="fc" id="L520">		rB.append(indent)</span>
-<span class="fc" id="L521">			.append(&quot;\t\t&lt;Grade number=\&quot;&quot;)</span>
-<span class="fc" id="L522">			.append((pB.getGradeCount() - 1))</span>
-<span class="fc" id="L523">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L524">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
-<span class="fc" id="L525">			.append(&quot;-&quot;)</span>
-<span class="fc" id="L526">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
-<span class="fc" id="L527">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L528">		rB.append(indent)</span>
-<span class="fc" id="L529">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
+<span class="fc" id="L525">		rB.append(indent)</span>
+<span class="fc" id="L526">			.append(&quot;\t\t&lt;Grade number=\&quot;&quot;)</span>
+<span class="fc" id="L527">			.append((pB.getGradeCount() - 1))</span>
+<span class="fc" id="L528">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L529">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
+<span class="fc" id="L530">			.append(&quot;-&quot;)</span>
+<span class="fc" id="L531">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
+<span class="fc" id="L532">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L533">		rB.append(indent)</span>
+<span class="fc" id="L534">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L531">		rB.append(indent)</span>
-<span class="fc" id="L532">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
-<span class="fc" id="L533">			.append(pB.getBladeCount())</span>
-<span class="fc" id="L534">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L535" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
-<span class="fc" id="L536">			rB.append(Blade.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L537">		rB.append(indent)</span>
-<span class="fc" id="L538">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
+<span class="fc" id="L536">		rB.append(indent)</span>
+<span class="fc" id="L537">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
+<span class="fc" id="L538">			.append(pB.getBladeCount())</span>
+<span class="fc" id="L539">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L540" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
+<span class="fc" id="L541">			rB.append(Blade.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L542">		rB.append(indent)</span>
+<span class="fc" id="L543">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L540">		rB.append(indent)</span>
-<span class="fc" id="L541">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
-<span class="fc" id="L542">		return rB.toString();</span>
+<span class="fc" id="L545">		rB.append(indent)</span>
+<span class="fc" id="L546">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
+<span class="fc" id="L547">		return rB.toString();</span>
 	}
 
 	/**
@@ -552,7 +557,7 @@ public final class Basis implements CanonicalBasis {
 	 */
 	@Override
 	public final boolean validateBladeIndex(int pIn) {
-<span class="fc bfc" id="L555" title="All 4 branches covered.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());</span>
+<span class="fc bfc" id="L560" title="All 4 branches covered.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());</span>
 	}
 
 	/**
@@ -565,7 +570,7 @@ public final class Basis implements CanonicalBasis {
 	 */
 	@Override
 	public final boolean validateGradeIndex(int pIn) {
-<span class="pc bpc" id="L568" title="1 of 4 branches missed.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());</span>
+<span class="pc bpc" id="L573" title="1 of 4 branches missed.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());</span>
 	}
 
 }

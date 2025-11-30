@@ -33,6 +33,7 @@ import static org.interworldtransport.cladosG.CladosConstant.*;
 import org.interworldtransport.cladosF.FBuilder;		//Number builder
 import org.interworldtransport.cladosF.FListBuilder;	//List of numbers builder
 import org.interworldtransport.cladosF.CladosField;		//Numeric modes enumerated
+import static org.interworldtransport.cladosF.CladosField.*;
 import org.interworldtransport.cladosF.ComplexD;		//Complex doubles
 import org.interworldtransport.cladosF.ComplexF;		//Complex floats
 import org.interworldtransport.cladosF.RealD;			//Real doubles
@@ -43,10 +44,8 @@ import org.interworldtransport.cladosF.Normalizable;	//Contract for modulus cons
 														//Numbers obeying both contracts
 														//are used as monad weights.
 
-import org.interworldtransport.cladosFExceptions.FieldBinaryException;
-import org.interworldtransport.cladosFExceptions.FieldException;
-import org.interworldtransport.cladosGExceptions.BadSignatureException;
-import org.interworldtransport.cladosGExceptions.CladosMonadException;
+import org.interworldtransport.cladosFExceptions.*;
+import org.interworldtransport.cladosGExceptions.*;
 
 /**
  * A CladosG Monad is better known as a multivector to anyone with experience
@@ -131,12 +130,12 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public static boolean hasGrade(Monad pM, int pGrade) {
-<span class="fc bfc" id="L134" title="All 6 branches covered.">		if (pM.getGradeKey() == 1 &amp; pGrade == 0) 	//Monads have scalar parts</span>
-<span class="fc" id="L135">			return true;							//if they have no other parts</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (((long) (pM.getGradeKey()) / ((long) Math.pow(10, pGrade))) % 2 == 1)</span>
-<span class="fc" id="L137">			return true;</span>
+<span class="fc bfc" id="L133" title="All 6 branches covered.">		if (pM.getGradeKey() == 1 &amp; pGrade == 0) 	//Monads have scalar parts</span>
+<span class="fc" id="L134">			return true;							//if they have no other parts</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (((long) (pM.getGradeKey()) / ((long) Math.pow(10, pGrade))) % 2 == 1)</span>
+<span class="fc" id="L136">			return true;</span>
 
-<span class="fc" id="L139">		return false;</span>
+<span class="fc" id="L138">		return false;</span>
 	}
 
 	/**
@@ -151,10 +150,10 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public static boolean isGrade(Monad pM, int pGrade) {
-<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (Math.pow(10, pGrade) == pM.getGradeKey())</span>
-<span class="fc" id="L155">			return true;</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (Math.pow(10, pGrade) == pM.getGradeKey())</span>
+<span class="fc" id="L154">			return true;</span>
 
-<span class="fc" id="L157">		return false;</span>
+<span class="fc" id="L156">		return false;</span>
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public static boolean isGZero(Monad pM) {
-<span class="fc bfc" id="L167" title="All 2 branches covered.">		return (pM.getGradeKey() == 1 &amp; pM.getWeights().isScalarZero());</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		return (pM.getGradeKey() == 1 &amp; pM.getWeights().isScalarZero());</span>
 	}
 
 	/**
@@ -174,9 +173,9 @@ public class Monad implements Modal {
 	 * @param pM Monad
 	 */
 	public static boolean isIdempotent(Monad pM) {
-<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (isGZero(pM))</span>
-<span class="fc" id="L178">			return true;</span>
-<span class="fc" id="L179">		return (GBuilder.copyOfMonad(pM)).multiplyLeft(pM).isGEqual(pM);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (isGZero(pM))</span>
+<span class="fc" id="L177">			return true;</span>
+<span class="fc" id="L178">		return (GBuilder.copyOfMonad(pM)).multiplyLeft(pM).isGEqual(pM);</span>
 	}
 
 	/**
@@ -209,23 +208,22 @@ public class Monad implements Modal {
 	 * @throws FieldException This exception is thrown when the method can't copy
 	 *                        the field used by the monad to be checked.
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; boolean isScaledIdempotent(Monad pM)
 			throws FieldException {
-<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (isIdempotent(pM))</span>
-<span class="fc" id="L216">			return true;</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">		else if (Monad.isNilpotent(pM, 2))</span>
-<span class="fc" id="L218">			return false;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">		if (isIdempotent(pM))</span>
+<span class="fc" id="L214">			return true;</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		else if (Monad.isNilpotent(pM, 2))</span>
+<span class="fc" id="L216">			return false;</span>
 
-<span class="fc" id="L220">		Monad check1 = GBuilder.copyOfMonad(pM);</span>
-<span class="fc" id="L221">		check1.multiplyLeft(check1);</span>
-<span class="fc" id="L222">		Optional&lt;Blade&gt; first = check1.bladeStream().filter(blade -&gt; </span>
-<span class="fc" id="L223">									check1.getWeights().isNotZeroAt(blade)).sequential().findFirst();</span>
-<span class="pc bpc" id="L224" title="1 of 2 branches missed.">		if (first.isPresent())</span>
-<span class="fc" id="L225">			return isIdempotent(GBuilder.copyOfMonad(pM)</span>
-<span class="fc" id="L226">									.scale((T) FBuilder.copyOf(check1.getWeights().get(first.get()))</span>
-<span class="fc" id="L227">										.invert()));</span>
-<span class="nc" id="L228">		return false;</span>
+<span class="fc" id="L218">		Monad check1 = GBuilder.copyOfMonad(pM);</span>
+<span class="fc" id="L219">		check1.multiplyLeft(check1);</span>
+<span class="fc" id="L220">		Optional&lt;Blade&gt; first = check1.bladeStream().filter(blade -&gt; </span>
+<span class="fc" id="L221">									check1.getWeights().isNotZeroAt(blade)).sequential().findFirst();</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">		if (first.isPresent())</span>
+<span class="fc" id="L223">			return isIdempotent(GBuilder.copyOfMonad(pM)</span>
+<span class="fc" id="L224">									.scale((T) FBuilder.copyOf(check1.getWeights().get(first.get()))</span>
+<span class="fc" id="L225">										.invert()));</span>
+<span class="nc" id="L226">		return false;</span>
 	}
 
 	/**
@@ -236,16 +234,16 @@ public class Monad implements Modal {
 	 * @param pPower int The integer power to test
 	 */
 	public static boolean isNilpotent(Monad pM, int pPower) {
-<span class="fc bfc" id="L239" title="All 2 branches covered.">		if (isGZero(pM))</span>
-<span class="fc" id="L240">			return true;</span>
-<span class="fc" id="L241">		Monad check1 = GBuilder.copyOfMonad(pM);</span>
-<span class="fc bfc" id="L242" title="All 2 branches covered.">		while (pPower &gt; 1) {</span>
-<span class="fc" id="L243">			check1.multiplyLeft(pM);</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">			if (isGZero(check1))</span>
-<span class="fc" id="L245">				return true;</span>
-<span class="fc" id="L246">			pPower--;</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (isGZero(pM))</span>
+<span class="fc" id="L238">			return true;</span>
+<span class="fc" id="L239">		Monad check1 = GBuilder.copyOfMonad(pM);</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">		while (pPower &gt; 1) {</span>
+<span class="fc" id="L241">			check1.multiplyLeft(pM);</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">			if (isGZero(check1))</span>
+<span class="fc" id="L243">				return true;</span>
+<span class="fc" id="L244">			pPower--;</span>
 		}
-<span class="fc" id="L248">		return false;</span>
+<span class="fc" id="L246">		return false;</span>
 	}
 
 	/**
@@ -258,13 +256,13 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public static boolean isMultiGrade(Monad pM) {
-<span class="pc bpc" id="L261" title="1 of 2 branches missed.">		if (pM.getGradeKey() == 0)	//Special case should never happen, </span>
-<span class="nc" id="L262">			return false;			//but if it does it is fatal.</span>
-<span class="fc" id="L263">		float temp = (float) Math.log10(pM.getGradeKey());</span>
-<span class="fc bfc" id="L264" title="All 2 branches covered.">		if (Math.floor(temp) == temp)	//This avoids precision trap?</span>
-<span class="fc" id="L265">			return false;</span>
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">		if (pM.getGradeKey() == 0)	//Special case should never happen, </span>
+<span class="nc" id="L260">			return false;			//but if it does it is fatal.</span>
+<span class="fc" id="L261">		float temp = (float) Math.log10(pM.getGradeKey());</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		if (Math.floor(temp) == temp)	//This avoids precision trap?</span>
+<span class="fc" id="L263">			return false;</span>
 
-<span class="fc" id="L267">		return true;</span>
+<span class="fc" id="L265">		return true;</span>
 	}
 
 	/**
@@ -279,10 +277,10 @@ public class Monad implements Modal {
 	 */
 	public static boolean isReferenceMatch(Monad pM, Monad pN) {
 		
-<span class="fc bfc" id="L282" title="All 2 branches covered.">		if (pM.getAlgebra() != pN.getAlgebra())		// The algebras must be the same object to match.</span>
-<span class="fc" id="L283">			return false;							// If they are not, this test fails.</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">		if (pM.getAlgebra() != pN.getAlgebra())		// The algebras must be the same object to match.</span>
+<span class="fc" id="L281">			return false;							// If they are not, this test fails.</span>
 
-<span class="fc" id="L285">		return Monad.isUnitMatch(pM, pN);			// The weights might share different cardinals or modes.</span>
+<span class="fc" id="L283">		return Monad.isUnitMatch(pM, pN);			// The weights might share different cardinals or modes.</span>
 													// If so, we'd be comparing apples to oranges.
 	}
 
@@ -295,12 +293,12 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public static boolean isUniGrade(Monad pM) {
-<span class="pc bpc" id="L298" title="1 of 2 branches missed.">		if (pM.getGradeKey() == 0)		return false;	//Edge case shouldn't happen, but if it does it is fatal.</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">		if (pM.getGradeKey() == 0)		return false;	//Edge case shouldn't happen, but if it does it is fatal.</span>
 
-<span class="fc" id="L300">		float temp = (float) Math.log10(pM.getGradeKey());</span>
-<span class="fc bfc" id="L301" title="All 2 branches covered.">		if (Math.floor(temp) == temp)	return true;	//This avoids precision trap?</span>
+<span class="fc" id="L298">		float temp = (float) Math.log10(pM.getGradeKey());</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">		if (Math.floor(temp) == temp)	return true;	//This avoids precision trap?</span>
 
-<span class="fc" id="L303">		return false;</span>
+<span class="fc" id="L301">		return false;</span>
 	}
 
 	/**
@@ -313,11 +311,11 @@ public class Monad implements Modal {
 	 * @return boolean True if they pass cardinal/unit match test
 	 */
 	public static boolean isUnitMatch(Monad pM, Monad pN) {
-<span class="pc bpc" id="L316" title="1 of 2 branches missed.">		if (pM.getMode() != pN.getMode() )			</span>
-<span class="nc" id="L317">			return false;							// Modes must match to avoid FieldBinaryExceptions elsewhere.</span>
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">		if (pM.getMode() != pN.getMode() )			</span>
+<span class="nc" id="L315">			return false;							// Modes must match to avoid FieldBinaryExceptions elsewhere.</span>
 													// If they don't, this test fails.
 
-<span class="fc" id="L320">		return pM.getWeights().getCardinal().equals(pN.getWeights().getCardinal());</span>
+<span class="fc" id="L318">		return pM.getWeights().getCardinal().equals(pN.getWeights().getCardinal());</span>
 													// The weights might share different cardinals.
 													// If so, we'd be comparing apples to oranges elsewhere.
 
@@ -333,20 +331,20 @@ public class Monad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLFullString(Monad pM, String indent) {
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
-<span class="fc" id="L337">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
-<span class="fc" id="L338">		rB.append(&quot;name=\&quot;&quot;)</span>
-<span class="fc" id="L339">			.append(pM.getName())</span>
-<span class="fc" id="L340">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
-<span class="fc" id="L341">			.append(pM.getGradeKey())</span>
-<span class="fc" id="L342">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
-<span class="fc" id="L343">			.append(pM.getSparseFlag())</span>
-<span class="fc" id="L344">			.append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L345">		rB.append(Algebra.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L346">		rB.append(indent)</span>
-<span class="fc" id="L347">			.append(Scale.toXMLString(pM.scales, &quot;\t&quot;));</span>
-<span class="fc" id="L348">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
-<span class="fc" id="L349">		return rB.toString();</span>
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L335">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L336">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L337">			.append(pM.getName())</span>
+<span class="fc" id="L338">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L339">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L340">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L341">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L342">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L343">		rB.append(Algebra.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L344">		rB.append(indent)</span>
+<span class="fc" id="L345">			.append(Scale.toXMLString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L346">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L347">		return rB.toString();</span>
 	}
 
 	/**
@@ -357,21 +355,21 @@ public class Monad implements Modal {
 	 * @return String
 	 */
 	public final static String toXMLString(Monad pM, String indent) {
-<span class="pc bpc" id="L360" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
-<span class="fc" id="L361">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
-<span class="fc" id="L362">		rB.append(&quot;name=\&quot;&quot;)</span>
-<span class="fc" id="L363">			.append(pM.getName())</span>
-<span class="fc" id="L364">			.append(&quot;\&quot; algebra=\&quot;&quot;)</span>
-<span class="fc" id="L365">			.append(pM.getAlgebra().getAName())</span>
-<span class="fc" id="L366">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
-<span class="fc" id="L367">			.append(pM.getGradeKey())</span>
-<span class="fc" id="L368">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
-<span class="fc" id="L369">			.append(pM.getSparseFlag())</span>
-<span class="fc" id="L370">			.append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L371">		rB.append(indent)</span>
-<span class="fc" id="L372">			.append(Scale.toXMLString(pM.scales, &quot;\t&quot;));</span>
-<span class="fc" id="L373">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
-<span class="fc" id="L374">		return rB.toString();</span>
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L359">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L360">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L361">			.append(pM.getName())</span>
+<span class="fc" id="L362">			.append(&quot;\&quot; algebra=\&quot;&quot;)</span>
+<span class="fc" id="L363">			.append(pM.getAlgebra().getAName())</span>
+<span class="fc" id="L364">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L365">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L366">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L367">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L368">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L369">		rB.append(indent)</span>
+<span class="fc" id="L370">			.append(Scale.toXMLString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L371">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L372">		return rB.toString();</span>
 	}
 
 	/**
@@ -408,44 +406,40 @@ public class Monad implements Modal {
 	 * coefficients and is directed to multiply grade by grade instead of using the
 	 * generic algorithm.
 	 */
-<span class="fc" id="L411">	protected boolean sparseFlag = true;</span>
+<span class="fc" id="L409">	protected boolean sparseFlag = true;</span>
 
 	/**
 	 * Simple copy constructor of Monad. Passed Monad will be copied in all details.
 	 * This contructor is used most often to get around operations that alter a
 	 * Monad when the developer does not wish it to be altered.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt; CladosF number is a ProtoN child that implemnts Field and
-	 *            Normalizable.
-	 * @param pM  Monad
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pM  Monad to be copied
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L423">	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(Monad pM) {</span>
-<span class="fc" id="L424">		setName(pM.getName());</span>
-<span class="fc" id="L425">		setAlgebra(pM.getAlgebra());</span>
-<span class="fc" id="L426">		scales = new Scale&lt;T&gt;((Scale&lt;T&gt;) pM.getWeights());</span>
-<span class="fc" id="L427">		setGradeKey();</span>
-<span class="fc" id="L428">	}</span>
+<span class="fc" id="L418">	public Monad(Monad pM) {</span>
+<span class="fc" id="L419">		setName(pM.getName());</span>
+<span class="fc" id="L420">		setAlgebra(pM.getAlgebra());</span>
+<span class="fc" id="L421">		scales = new Scale&lt;&gt;((Scale&lt;?&gt;) pM.getWeights());</span>
+<span class="fc" id="L422">		setGradeKey();</span>
+<span class="fc" id="L423">	}</span>
 
 	/**
 	 * Main copy constructor of Monad. Passed Monad will be copied in all details
 	 * except its name. This constructor is used most often as a starting point to
 	 * generate new Monads based on an old one.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pName String
 	 * @param pM    Monad
 	 */
 	public Monad(String pName, Monad pM) {
-<span class="fc" id="L439">		this(pM);			//Defer to constructor #1</span>
-<span class="fc" id="L440">		setName(pName);</span>
-<span class="fc" id="L441">	}</span>
+<span class="fc" id="L434">		this(pM);			//Defer to constructor #1</span>
+<span class="fc" id="L435">		setName(pName);</span>
+<span class="fc" id="L436">	}</span>
 
 	/**
 	 * Special constructor of Monad with most information passed in. This one will
 	 * create the default 'Zero' Monad.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt;          CladosF number is a ProtoN child that implemnts
-	 *                     Field and Normalizable.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param &lt;T&gt;          CladosF number is a ProtoN child that implemnts Field and Normalizable.
 	 * @param pMonadName   String
 	 * @param pAlgebraName String
 	 * @param pFootName    String
@@ -464,19 +458,18 @@ public class Monad implements Modal {
 															String pSig, 
 															T pF)
 			throws BadSignatureException, CladosMonadException {
-<span class="fc" id="L467">		this(	pMonadName, </span>
+<span class="fc" id="L461">		this(	pMonadName, </span>
 				pAlgebraName,
-<span class="fc" id="L469">				GBuilder.createFootLike(pFootName, pF), </span>
+<span class="fc" id="L463">				GBuilder.createFootLike(pFootName, pF), </span>
 				pSig, 
 				pF);		//Defer to constructor #4
-<span class="fc" id="L472">	}</span>
+<span class="fc" id="L466">	}</span>
 
 	/**
 	 * Special constructor of Monad with most information passed in. This one will
 	 * create a default 'Zero' Monad while re-using the Foot of another.
 	 * &lt;br&gt;
-	 * @param &lt;T&gt;          CladosF number is a ProtoN child that implemnts
-	 *                     Field and Normalizable.
+	 * @param &lt;T&gt;          CladosF number is a ProtoN child that implemnts Field and Normalizable.
 	 * @param pMonadName   String
 	 * @param pAlgebraName String
 	 * @param pFoot        Foot
@@ -494,31 +487,31 @@ public class Monad implements Modal {
 															Foot pFoot, 
 															String pSig, 
 															T pF)
-<span class="fc" id="L497">			throws BadSignatureException, CladosMonadException {</span>
-<span class="fc" id="L498">		setName(pMonadName);</span>
-<span class="fc" id="L499">		setAlgebra(GBuilder.createAlgebraWithFoot(pFoot, pAlgebraName, pSig));</span>
+<span class="fc" id="L490">			throws BadSignatureException, CladosMonadException {</span>
+<span class="fc" id="L491">		setName(pMonadName);</span>
+<span class="fc" id="L492">		setAlgebra(GBuilder.createAlgebraWithFoot(pFoot, pAlgebraName, pSig));</span>
 
-<span class="pc bpc" id="L501" title="1 of 5 branches missed.">		switch (pF.getClass().getCanonicalName()){</span>
+<span class="pc bpc" id="L494" title="1 of 5 branches missed.">		switch (pF.getClass().getCanonicalName()){</span>
 			case &quot;org.interworldtransport.cladosF.RealF&quot; -&gt; {
-<span class="fc" id="L503">				scales = new Scale&lt;RealF&gt;(CladosField.REALF, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
-<span class="fc" id="L504">				break;</span>
+<span class="fc" id="L496">				scales = new Scale&lt;RealF&gt;(REALF, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
+<span class="fc" id="L497">				break;</span>
 			}
 			case &quot;org.interworldtransport.cladosF.RealD&quot; -&gt; {
-<span class="fc" id="L507">				scales = new Scale&lt;RealD&gt;(CladosField.REALD, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
-<span class="fc" id="L508">				break;</span>
+<span class="fc" id="L500">				scales = new Scale&lt;RealD&gt;(REALD, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
+<span class="fc" id="L501">				break;</span>
 			}
 			case &quot;org.interworldtransport.cladosF.ComplexF&quot; -&gt; {
-<span class="fc" id="L511">				scales = new Scale&lt;ComplexF&gt;(CladosField.COMPLEXF, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
-<span class="fc" id="L512">				break;</span>
+<span class="fc" id="L504">				scales = new Scale&lt;ComplexF&gt;(COMPLEXF, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
+<span class="fc" id="L505">				break;</span>
 			}
 			case &quot;org.interworldtransport.cladosF.ComplexD&quot; -&gt; {
-<span class="fc" id="L515">				scales = new Scale&lt;ComplexD&gt;(CladosField.COMPLEXD, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
-<span class="fc" id="L516">				break;</span>
+<span class="fc" id="L508">				scales = new Scale&lt;ComplexD&gt;(COMPLEXD, this.getAlgebra().getBasis(), pF.getCardinal()).zeroAll();</span>
+<span class="fc" id="L509">				break;</span>
 			}
-<span class="nc" id="L518">			default -&gt; throw new IllegalArgumentException(&quot;Offered Number must be a child of CladosF/ProtoN&quot;);</span>
+<span class="nc" id="L511">			default -&gt; throw new IllegalArgumentException(&quot;Offered Number must be a child of CladosF/ProtoN&quot;);</span>
 		}
-<span class="fc" id="L520">		setGradeKey();</span>
-<span class="fc" id="L521">	}</span>
+<span class="fc" id="L513">		setGradeKey();</span>
+<span class="fc" id="L514">	}</span>
 
 	/**
 	 * Special constructor of Monad with most information passed in. 'Special Case'
@@ -548,106 +541,104 @@ public class Monad implements Modal {
 															T pF, 
 															String pSpecial)
 			throws BadSignatureException, CladosMonadException {
-<span class="fc" id="L551">		this(	pMonadName, </span>
+<span class="fc" id="L544">		this(	pMonadName, </span>
 				pAlgebraName, 
-<span class="fc" id="L553">				GBuilder.createFootLike(pFootName, pF), </span>
+<span class="fc" id="L546">				GBuilder.createFootLike(pFootName, pF), </span>
 				pSig, 
 				pF);	//Defer to Constructor #4
 						// Default ZERO Monad is complete. 
 						// Now handle the special cases.
-<span class="fc bfc" id="L558" title="All 2 branches covered.">		if (MONAD_SPECIAL_CASES.contains(pSpecial)) {</span>
-<span class="pc bpc" id="L559" title="1 of 5 branches missed.">			switch (getMode()) {</span>
+<span class="fc bfc" id="L551" title="All 2 branches covered.">		if (MONAD_SPECIAL_CASES.contains(pSpecial)) {</span>
+<span class="pc bpc" id="L552" title="1 of 5 branches missed.">			switch (getMode()) {</span>
 				case COMPLEXD -&gt; {
-<span class="pc bpc" id="L561" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
+<span class="pc bpc" id="L554" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
-<span class="fc" id="L563">							((ComplexD) scales.getScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L564">							break;</span>
+<span class="fc" id="L556">							((ComplexD) scales.getScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L557">							break;</span>
 						}
 						case &quot;Unit -Scalar&quot; -&gt; {
-<span class="fc" id="L567">							((ComplexD) scales.getScalar()).setReal(MINUS_ONE_F);</span>
-<span class="fc" id="L568">							break;</span>
+<span class="fc" id="L560">							((ComplexD) scales.getScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L561">							break;</span>
 						}
 						case &quot;Unit PScalar&quot; -&gt; {
-<span class="fc" id="L571">							((ComplexD) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L572">							break;</span>
+<span class="fc" id="L564">							((ComplexD) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L565">							break;</span>
 						}
 						case &quot;Unit -PScalar&quot; -&gt; {
-<span class="fc" id="L575">							((ComplexD) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L568">							((ComplexD) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
 					}
-<span class="fc" id="L579">					break;</span>
+<span class="fc" id="L572">					break;</span>
 				}
 				case COMPLEXF -&gt; {
-<span class="pc bpc" id="L582" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
+<span class="pc bpc" id="L575" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
-<span class="fc" id="L584">							((ComplexF) scales.getScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L585">							break;</span>
+<span class="fc" id="L577">							((ComplexF) scales.getScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L578">							break;</span>
 						}
 						case &quot;Unit -Scalar&quot; -&gt; {
-<span class="fc" id="L588">							((ComplexF) scales.getScalar()).setReal(MINUS_ONE_F);</span>
-<span class="fc" id="L589">							break;</span>
+<span class="fc" id="L581">							((ComplexF) scales.getScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L582">							break;</span>
 						}
 						case &quot;Unit PScalar&quot; -&gt; {
-<span class="fc" id="L592">							((ComplexF) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L593">							break;</span>
+<span class="fc" id="L585">							((ComplexF) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L586">							break;</span>
 						}
 						case &quot;Unit -PScalar&quot; -&gt; {
-<span class="fc" id="L596">							((ComplexF) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L589">							((ComplexF) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
 					}
-<span class="fc" id="L600">				}</span>
+<span class="fc" id="L593">				}</span>
 				case REALD -&gt; {
-<span class="pc bpc" id="L602" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
+<span class="pc bpc" id="L595" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
-<span class="fc" id="L604">							((RealD) scales.getScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L605">							break;</span>
+<span class="fc" id="L597">							((RealD) scales.getScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L598">							break;</span>
 						}
 						case &quot;Unit -Scalar&quot; -&gt; {
-<span class="fc" id="L608">							((RealD) scales.getScalar()).setReal(MINUS_ONE_F);</span>
-<span class="fc" id="L609">							break;</span>
+<span class="fc" id="L601">							((RealD) scales.getScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L602">							break;</span>
 						}
 						case &quot;Unit PScalar&quot; -&gt; {
-<span class="fc" id="L612">							((RealD) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L613">							break;</span>
+<span class="fc" id="L605">							((RealD) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L606">							break;</span>
 						}
 						case &quot;Unit -PScalar&quot; -&gt; {
-<span class="fc" id="L616">							((RealD) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L609">							((RealD) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
 					}
-<span class="fc" id="L620">				}</span>
+<span class="fc" id="L613">				}</span>
 				case REALF -&gt; {
-<span class="pc bpc" id="L622" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
+<span class="pc bpc" id="L615" title="1 of 5 branches missed.">					switch (pSpecial) {</span>
 						case &quot;Unit Scalar&quot; -&gt; {
-<span class="fc" id="L624">							((RealF) scales.getScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L625">							break;</span>
+<span class="fc" id="L617">							((RealF) scales.getScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L618">							break;</span>
 						}
 						case &quot;Unit -Scalar&quot; -&gt; {
-<span class="fc" id="L628">							((RealF) scales.getScalar()).setReal(MINUS_ONE_F);</span>
-<span class="fc" id="L629">							break;</span>
+<span class="fc" id="L621">							((RealF) scales.getScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L622">							break;</span>
 						}
 						case &quot;Unit PScalar&quot; -&gt; {
-<span class="fc" id="L632">							((RealF) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
-<span class="fc" id="L633">							break;</span>
+<span class="fc" id="L625">							((RealF) scales.getPScalar()).setReal(PLUS_ONE_F);</span>
+<span class="fc" id="L626">							break;</span>
 						}
 						case &quot;Unit -PScalar&quot; -&gt; {
-<span class="fc" id="L636">							((RealF) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
+<span class="fc" id="L629">							((RealF) scales.getPScalar()).setReal(MINUS_ONE_F);</span>
 							break;
 						}
 					}
 				}
 			}
 		} // failure to find matching special case defaults to ZERO monad by doing nothing.
-<span class="fc" id="L643">		setGradeKey();</span>
-<span class="fc" id="L644">	}</span>
+<span class="fc" id="L636">		setGradeKey();</span>
+<span class="fc" id="L637">	}</span>
 
 	/**
 	 * Main constructor of Monad with all information passed in.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt;          CladosF number is a ProtoN child that implemnts
-	 *                     Field and Normalizable.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pMonadName   String
 	 * @param pAlgebraName String
 	 * @param pFootName    String
@@ -660,30 +651,24 @@ public class Monad implements Modal {
 	 *                                 could involve null coefficients or a
 	 *                                 coefficient array of the wrong size.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, 
-															String pAlgebraName,
-															String pFootName, 
-															String pSig, 
-															Scale&lt;T&gt; pScale)
-			throws BadSignatureException, CladosMonadException {
+	public Monad(String pMonadName, String pAlgebraName, String pFootName,  String pSig, Scale&lt;?&gt; pScale)
+			throws BadSignatureException, CladosException {
 
-<span class="fc" id="L670">		this(	pMonadName, </span>
-<span class="fc" id="L671">				GBuilder.createAlgebraWithFootGP(</span>
-<span class="fc" id="L672">										GBuilder.createFoot(pFootName, pScale.getCardinal().getUnit()), </span>
-<span class="fc" id="L673">										GBuilder.createGProduct(Optional.ofNullable(pScale.getBasis()), pSig),</span>
+<span class="fc" id="L657">		this(	pMonadName, </span>
+<span class="fc" id="L658">				GBuilder.createAlgebraWithFootGP(</span>
+<span class="fc" id="L659">										GBuilder.createFoot(pFootName, pScale.getCardinal().getUnit()), </span>
+<span class="fc" id="L660">										GBuilder.createGProduct(Optional.ofNullable(pScale.getBasis()), pSig),</span>
 										pAlgebraName), 
 				pScale);				//Defer to constructor #7 safely
 										//because pScale's Basis was used building Algebra.
-<span class="fc" id="L677">	}</span>
+<span class="fc" id="L664">	}</span>
 
 	/**
 	 * Main constructor of Monad with pre-constructed objects not already part of another Monad.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * This one is very important to GBuilder for ensuring reference matches occur correctly, but it
 	 * does reject construction if the bases in Algebra and Scale do not match.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt;        CladosF number is a ProtoN child that implemnts Field
-	 *                   and Normalizable.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pMonadName String
 	 * @param pAlgebra   Algebra
 	 * @param pScale     Scale of CladosF numbers
@@ -692,17 +677,15 @@ public class Monad implements Modal {
 	 *                              involve null coefficients or a coefficient array
 	 *                              of the wrong size.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad(	String pMonadName, 
-															Algebra pAlgebra, 
-<span class="fc" id="L697">															Scale&lt;T&gt; pScale) throws CladosMonadException {</span>
-<span class="pc bpc" id="L698" title="1 of 2 branches missed.">		if (pScale.getBasis() != pAlgebra.getBasis())</span>
-<span class="nc" id="L699">			throw new CladosMonadException(this, &quot;Scale basis must match exactly the basis in Algebra.&quot;);</span>
+<span class="fc" id="L680">	public Monad(String pMonadName, Algebra pAlgebra, Scale&lt;?&gt; pScale) throws CladosException {</span>
+<span class="pc bpc" id="L681" title="1 of 2 branches missed.">		if (pScale.getBasis() != pAlgebra.getBasis())</span>
+<span class="nc" id="L682">			throw new CladosException(&quot;Scale basis must match exactly the basis in Algebra.&quot;);</span>
 
-<span class="fc" id="L701">		setName(pMonadName);</span>
-<span class="fc" id="L702">		setAlgebra(pAlgebra);</span>
-<span class="fc" id="L703">		scales = new Scale&lt;T&gt;(pScale);</span>
-<span class="fc" id="L704">		setGradeKey();</span>
-<span class="fc" id="L705">	}</span>
+<span class="fc" id="L684">		setName(pMonadName);</span>
+<span class="fc" id="L685">		setAlgebra(pAlgebra);</span>
+<span class="fc" id="L686">		scales = new Scale&lt;&gt;(pScale);</span>
+<span class="fc" id="L687">		setGradeKey();</span>
+<span class="fc" id="L688">	}</span>
 
 	/**
 	 * Monad Subtraction: (this + pM) The two monads must be reference matches and use the same ProtoN 
@@ -714,18 +697,18 @@ public class Monad implements Modal {
 	 * @return Monad that is the result of the addition operation
 	 */
 	public Monad add(Monad pM) {
-<span class="fc bfc" id="L717" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
-<span class="fc" id="L718">			throw new IllegalArgumentException(&quot;Can't add monads when Algebras or Cardinals don't match.&quot;);</span>
+<span class="fc bfc" id="L700" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
+<span class="fc" id="L701">			throw new IllegalArgumentException(&quot;Can't add monads when Algebras or Cardinals don't match.&quot;);</span>
 
-<span class="fc" id="L720">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
+<span class="fc" id="L703">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
 			try {										//but their Scales don't realize that and we have
-<span class="fc" id="L722">				scales.get(blade).add(pM.scales.get(blade));</span>
-<span class="nc" id="L723">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
-<span class="nc" id="L724">				throw new IllegalArgumentException(&quot;Can't add when cardinals don't match.&quot;);</span>
-<span class="fc" id="L725">			}</span>
-<span class="fc" id="L726">		});</span>
-<span class="fc" id="L727">		setGradeKey();</span>
-<span class="fc" id="L728">		return this;</span>
+<span class="fc" id="L705">				scales.get(blade).add(pM.scales.get(blade));</span>
+<span class="nc" id="L706">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
+<span class="nc" id="L707">				throw new IllegalArgumentException(&quot;Can't add when cardinals don't match.&quot;);</span>
+<span class="fc" id="L708">			}</span>
+<span class="fc" id="L709">		});</span>
+<span class="fc" id="L710">		setGradeKey();</span>
+<span class="fc" id="L711">		return this;</span>
 	}
 
 	/**
@@ -734,7 +717,7 @@ public class Monad implements Modal {
 	 * @return Stream of Blades in the underlying Basis
 	 */
 	public Stream&lt;Blade&gt; bladeStream() {
-<span class="fc" id="L737">		return algebra.getBasis().bladeStream();</span>
+<span class="fc" id="L720">		return algebra.getBasis().bladeStream();</span>
 	}
 
 	/**
@@ -743,38 +726,36 @@ public class Monad implements Modal {
 	 * @return Monad after operation.
 	 */
 	public Monad conjugate() {
-<span class="fc" id="L746">		scales.conjugateNumbers();</span>
-<span class="fc" id="L747">		return this;</span>
+<span class="fc" id="L729">		scales.conjugateNumbers();</span>
+<span class="fc" id="L730">		return this;</span>
 	}
 
 	/**
 	 * The Monad is turned into its Dual with left side multiplication by pscalar.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * In metrics where one or more of the generators squares to zero, this isn't really
 	 * a dual operation.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt; CladosF number is a ProtoN child that implemnts Field and Normalizable.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Monad after operation.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad multiplyByPSLeft() {	
-<span class="fc" id="L760">		this.multiplyLeft(GBuilder.pscalarOfMonad(this));</span>
-<span class="fc" id="L761">		setGradeKey();</span>
-<span class="fc" id="L762">		return this;</span>
+	public Monad multiplyByPSLeft() {	
+<span class="fc" id="L742">		this.multiplyLeft(GBuilder.pscalarOfMonad(this));</span>
+<span class="fc" id="L743">		setGradeKey();</span>
+<span class="fc" id="L744">		return this;</span>
 	}
 
 	/**
 	 * The Monad is turned into its Dual with right side multiplication by pscalar.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * In metrics where one or more of the generators squares to zero, this isn't really
 	 * a dual operation.
-	 * &lt;br&gt;
-	 * @param &lt;T&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Monad after operation.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad multiplyByPSRight() {
-<span class="fc" id="L775">		this.multiplyRight(GBuilder.pscalarOfMonad(this));</span>
-<span class="fc" id="L776">		setGradeKey();</span>
-<span class="fc" id="L777">		return this;</span>
+	public Monad multiplyByPSRight() {
+<span class="fc" id="L756">		this.multiplyRight(GBuilder.pscalarOfMonad(this));</span>
+<span class="fc" id="L757">		setGradeKey();</span>
+<span class="fc" id="L758">		return this;</span>
 	}
 
 	/**
@@ -783,7 +764,7 @@ public class Monad implements Modal {
 	 * @return Algebra
 	 */
 	public Algebra getAlgebra() {
-<span class="fc" id="L786">		return algebra;</span>
+<span class="fc" id="L767">		return algebra;</span>
 	}
 
 	/**
@@ -806,9 +787,8 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt; ProtoN number from CladosF without the interfaces this time.
 	 * @return ProtoN[]
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
-	public &lt;T extends ProtoN&gt; T[] getCoeff() {
-<span class="fc" id="L811">		return (T[]) scales.getNumbers();</span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T[] getCoeff() {
+<span class="fc" id="L791">		return (T[]) scales.getNumbers();</span>
 	}
 
 	/**
@@ -833,11 +813,10 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt; ProtoN number from CladosF without the interfaces this time.
 	 * @return ProtoN
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T getCoeff(int i) {
-<span class="fc bfc" id="L838" title="All 6 branches covered.">		if (i &gt;= 0 &amp; i &lt; getAlgebra().getBladeCount())</span>
-<span class="fc" id="L839">			return (T) scales.getNumbers()[i];</span>
-<span class="fc" id="L840">		return null;</span>
+<span class="fc bfc" id="L817" title="All 2 branches covered.">		if (getAlgebra().getBasis().validateBladeIndex(i))</span>
+<span class="fc" id="L818">			return (T) scales.getNumbers()[i];</span>
+<span class="fc" id="L819">		return null;</span>
 	}
 
 	/**
@@ -846,7 +825,7 @@ public class Monad implements Modal {
 	 * @return long
 	 */
 	public long getGradeKey() {
-<span class="fc" id="L849">		return gradeKey;</span>
+<span class="fc" id="L828">		return gradeKey;</span>
 	}
 
 	/**
@@ -857,7 +836,7 @@ public class Monad implements Modal {
 	 */
 	@Override
 	public CladosField getMode() {
-<span class="fc" id="L860">		return scales.getMode();</span>
+<span class="fc" id="L839">		return scales.getMode();</span>
 	}
 
 	/**
@@ -866,17 +845,16 @@ public class Monad implements Modal {
 	 * @return String Contains the name of the Monad.
 	 */
 	public String getName() {
-<span class="fc" id="L869">		return name;</span>
+<span class="fc" id="L848">		return name;</span>
 	}
 
 	/**
 	 * This method returns the map relating basis blades to coefficients.
 	 * &lt;br&gt;
-	 * @return Scale of Blades and ProtoN children. This is the 'coefficients'
-	 *         object.
+	 * @return Scale of Blades and ProtoN children. This is the 'coefficients' object.
 	 */
-	public Scale&lt;? extends ProtoN&gt; getWeights() {
-<span class="fc" id="L879">		return scales;</span>
+	public Scale&lt;?&gt; getWeights() {
+<span class="fc" id="L857">		return scales;</span>
 	}
 
 	/**
@@ -886,7 +864,7 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public boolean getSparseFlag() {
-<span class="fc" id="L889">		return sparseFlag;</span>
+<span class="fc" id="L867">		return sparseFlag;</span>
 	}
 
 	/**
@@ -896,11 +874,11 @@ public class Monad implements Modal {
 	 * @return Monad but in practice it will always be a child of MonadAbtract
 	 */
 	public Monad gradePart(byte pGrade) {
-<span class="fc bfc" id="L899" title="All 6 branches covered.">		if (pGrade &gt;= getAlgebra().getGradeCount() | pGrade &lt; 0)</span>
-<span class="fc" id="L900">			return this;</span>
-<span class="fc" id="L901">		scales.zeroAllButGrade(pGrade);</span>
-<span class="fc" id="L902">		setGradeKey();</span>
-<span class="fc" id="L903">		return this;</span>
+<span class="fc bfc" id="L877" title="All 6 branches covered.">		if (pGrade &gt;= getAlgebra().getGradeCount() | pGrade &lt; 0)</span>
+<span class="fc" id="L878">			return this;</span>
+<span class="fc" id="L879">		scales.zeroAllButGrade(pGrade);</span>
+<span class="fc" id="L880">		setGradeKey();</span>
+<span class="fc" id="L881">		return this;</span>
 	}
 
 	/**
@@ -910,7 +888,7 @@ public class Monad implements Modal {
 	 * @return Integer stream ranging through all the grades of the algebra
 	 */
 	public IntStream gradeStream() {
-<span class="fc" id="L913">		return IntStream.range(0, getAlgebra().getGradeCount());</span>
+<span class="fc" id="L891">		return IntStream.range(0, getAlgebra().getGradeCount());</span>
 	}
 
 	/**
@@ -920,11 +898,11 @@ public class Monad implements Modal {
 	 * @return Monad but in practice it will always be a child of MonadAbtract
 	 */
 	public Monad gradeSuppress(byte pGrade) {
-<span class="fc bfc" id="L923" title="All 6 branches covered.">		if (pGrade &lt; 0 | pGrade &gt;= getAlgebra().getGradeCount())</span>
-<span class="fc" id="L924">			return this;</span>
-<span class="fc" id="L925">		scales.zeroAtGrade(pGrade);</span>
-<span class="fc" id="L926">		setGradeKey();</span>
-<span class="fc" id="L927">		return this;</span>
+<span class="fc bfc" id="L901" title="All 6 branches covered.">		if (pGrade &lt; 0 | pGrade &gt;= getAlgebra().getGradeCount())</span>
+<span class="fc" id="L902">			return this;</span>
+<span class="fc" id="L903">		scales.zeroAtGrade(pGrade);</span>
+<span class="fc" id="L904">		setGradeKey();</span>
+<span class="fc" id="L905">		return this;</span>
 	}
 
 	/**
@@ -933,8 +911,8 @@ public class Monad implements Modal {
 	 * @return Monad after the main involution is complete.
 	 */
 	public Monad mainInvolution() {
-<span class="fc" id="L936">		scales.conjugateShirokov(1);</span>
-<span class="fc" id="L937">		return this;</span>
+<span class="fc" id="L914">		scales.conjugateShirokov(1);</span>
+<span class="fc" id="L915">		return this;</span>
 	}
 
 	/**
@@ -951,18 +929,18 @@ public class Monad implements Modal {
 	 * @return boolean
 	 */
 	public boolean isGEqual(Monad pM) {
-<span class="fc bfc" id="L954" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
-<span class="fc" id="L955">			return false;</span>
-<span class="pc bpc" id="L956" title="1 of 5 branches missed.">		switch (getMode()) {</span>
-<span class="fc" id="L957">			case COMPLEXD : return bladeStream().allMatch(blade -&gt; </span>
-<span class="fc" id="L958">							ComplexD.isEqual((ComplexD) scales.get(blade), (ComplexD) pM.scales.get(blade)));</span>
-<span class="fc" id="L959">			case COMPLEXF : return bladeStream().allMatch(blade -&gt; </span>
-<span class="fc" id="L960">							ComplexF.isEqual((ComplexF) scales.get(blade), (ComplexF) pM.scales.get(blade)));</span>
-<span class="fc" id="L961">			case REALD : return bladeStream().allMatch(blade -&gt; </span>
-<span class="fc" id="L962">							RealD.isEqual((RealD) scales.get(blade), (RealD) pM.scales.get(blade)));</span>
-<span class="fc" id="L963">			case REALF : return bladeStream().allMatch(blade -&gt; </span>
-<span class="fc" id="L964">							RealF.isEqual((RealF) scales.get(blade), (RealF) pM.scales.get(blade)));</span>
-<span class="nc" id="L965">			default : return false;</span>
+<span class="fc bfc" id="L932" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
+<span class="fc" id="L933">			return false;</span>
+<span class="pc bpc" id="L934" title="1 of 5 branches missed.">		switch (getMode()) {</span>
+<span class="fc" id="L935">			case COMPLEXD : return bladeStream().allMatch(blade -&gt; </span>
+<span class="fc" id="L936">							ComplexD.isEqual((ComplexD) scales.get(blade), (ComplexD) pM.scales.get(blade)));</span>
+<span class="fc" id="L937">			case COMPLEXF : return bladeStream().allMatch(blade -&gt; </span>
+<span class="fc" id="L938">							ComplexF.isEqual((ComplexF) scales.get(blade), (ComplexF) pM.scales.get(blade)));</span>
+<span class="fc" id="L939">			case REALD : return bladeStream().allMatch(blade -&gt; </span>
+<span class="fc" id="L940">							RealD.isEqual((RealD) scales.get(blade), (RealD) pM.scales.get(blade)));</span>
+<span class="fc" id="L941">			case REALF : return bladeStream().allMatch(blade -&gt; </span>
+<span class="fc" id="L942">							RealF.isEqual((RealF) scales.get(blade), (RealF) pM.scales.get(blade)));</span>
+<span class="nc" id="L943">			default : return false;</span>
 		
 		}
 	}
@@ -987,9 +965,8 @@ public class Monad implements Modal {
 	 *            time.
 	 * @return ProtoN but in practice it is always a child of ProtoN
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
-	public &lt;T extends ProtoN &amp; Field&gt; T magnitude() {
-<span class="fc" id="L992">		return (T) scales.modulusSum();</span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T magnitude() {
+<span class="fc" id="L969">		return (T) scales.modulusSum();</span>
 	}
 
 	/**
@@ -1001,30 +978,30 @@ public class Monad implements Modal {
 	 * @return Monad
 	 */
 	public Monad multiplyAntisymm(Monad pM) {
-<span class="fc bfc" id="L1004" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM))</span>
-<span class="fc" id="L1005">			throw new IllegalArgumentException(&quot;Symm multiply fails reference match.&quot;);</span>
-<span class="fc" id="L1006">		Monad halfTwoRight = (GBuilder.copyOfMonad(this)).multiplyRight(pM);</span>
-<span class="fc" id="L1007">		(this.multiplyLeft(pM)).subtract(halfTwoRight);</span>
-<span class="pc bpc" id="L1008" title="1 of 5 branches missed.">		switch (getMode()) {</span>
+<span class="fc bfc" id="L981" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM))</span>
+<span class="fc" id="L982">			throw new IllegalArgumentException(&quot;Symm multiply fails reference match.&quot;);</span>
+<span class="fc" id="L983">		Monad halfTwoRight = (GBuilder.copyOfMonad(this)).multiplyRight(pM);</span>
+<span class="fc" id="L984">		(this.multiplyLeft(pM)).subtract(halfTwoRight);</span>
+<span class="pc bpc" id="L985" title="1 of 5 branches missed.">		switch (getMode()) {</span>
 			case COMPLEXD -&gt; {
-<span class="fc" id="L1010">				scale(ComplexD.newONE(scales.getCardinal()).scale(BY2_D));</span>
-<span class="fc" id="L1011">				break;</span>
+<span class="fc" id="L987">				scale(ComplexD.newONE(scales.getCardinal()).scale(BY2_D));</span>
+<span class="fc" id="L988">				break;</span>
 			}
 			case COMPLEXF -&gt; {
-<span class="fc" id="L1014">				scale( ComplexF.newONE(scales.getCardinal()).scale(BY2_F));</span>
-<span class="fc" id="L1015">				break;</span>
+<span class="fc" id="L991">				scale( ComplexF.newONE(scales.getCardinal()).scale(BY2_F));</span>
+<span class="fc" id="L992">				break;</span>
 			}
 			case REALD -&gt; {
-<span class="fc" id="L1018">				scale((RealD.newONE(scales.getCardinal()).scale(BY2_D)));</span>
-<span class="fc" id="L1019">				break;</span>
+<span class="fc" id="L995">				scale((RealD.newONE(scales.getCardinal()).scale(BY2_D)));</span>
+<span class="fc" id="L996">				break;</span>
 			}
 			case REALF -&gt; {
-<span class="fc" id="L1022">				scale((RealF.newONE(scales.getCardinal()).scale(BY2_F)));</span>
+<span class="fc" id="L999">				scale((RealF.newONE(scales.getCardinal()).scale(BY2_F)));</span>
 				break;
 			}
 		}
-<span class="fc" id="L1026">		setGradeKey();</span>
-<span class="fc" id="L1027">		return this;</span>
+<span class="fc" id="L1003">		setGradeKey();</span>
+<span class="fc" id="L1004">		return this;</span>
 	}
 
 	/**
@@ -1055,30 +1032,53 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt; ProtoN number from CladosF with all interfaces this time.
 	 * @return Monad
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad multiplyLeft(Monad pM) {
-<span class="fc bfc" id="L1060" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
-<span class="fc" id="L1061">			throw new IllegalArgumentException(&quot;Left multiply fails reference match.&quot;);</span>
-<span class="fc" id="L1062">		GProduct tProd = getAlgebra().getGP();</span>
-<span class="fc" id="L1063">		Basis tBasis = getAlgebra().getBasis();</span>
+<span class="fc bfc" id="L1036" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
+<span class="fc" id="L1037">			throw new IllegalArgumentException(&quot;Left multiply fails reference match.&quot;);</span>
+<span class="fc" id="L1038">		GProduct tProd = getAlgebra().getGP();</span>
+<span class="fc" id="L1039">		Basis tBasis = getAlgebra().getBasis();</span>
 
-<span class="fc" id="L1065">		Scale&lt;T&gt; newScales = new Scale&lt;T&gt;(getMode(), tBasis, scales.getCardinal()).zeroAll();</span>
-<span class="fc bfc" id="L1066" title="All 2 branches covered.">		if (sparseFlag) {</span>
-<span class="fc" id="L1067">			long slideKey = gradeKey;</span>
-<span class="fc" id="L1068">			byte logKey = (byte) Math.log10(slideKey); // logKey is the highest grade with non-zero blades</span>
-<span class="pc bpc" id="L1069" title="1 of 2 branches missed.">			while (logKey &gt;= 0) {</span>
-<span class="fc" id="L1070">				tBasis.bladeOfGradeStream(logKey).filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
-<span class="fc" id="L1071">					int col = tBasis.find(blade) - 1;</span>
-<span class="fc" id="L1072">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
-<span class="fc" id="L1073">						int row = tBasis.find(blade2) - 1;</span>
-<span class="fc" id="L1074">						int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
-<span class="fc bfc" id="L1075" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
-<span class="fc" id="L1076">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
-<span class="pc bpc" id="L1077" title="1 of 5 branches missed.">						switch (getMode()) {</span>
+<span class="fc" id="L1041">		Scale&lt;T&gt; newScales = new Scale&lt;T&gt;(getMode(), tBasis, scales.getCardinal()).zeroAll();</span>
+<span class="fc bfc" id="L1042" title="All 2 branches covered.">		if (sparseFlag) {</span>
+<span class="fc" id="L1043">			long slideKey = gradeKey;</span>
+<span class="fc" id="L1044">			byte logKey = (byte) Math.log10(slideKey); // logKey is the highest grade with non-zero blades</span>
+<span class="pc bpc" id="L1045" title="1 of 2 branches missed.">			while (logKey &gt;= 0) {</span>
+<span class="fc" id="L1046">				tBasis.bladeOfGradeStream(logKey).filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
+<span class="fc" id="L1047">					int col = tBasis.find(blade) - 1;</span>
+<span class="fc" id="L1048">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
+<span class="fc" id="L1049">						int row = tBasis.find(blade2) - 1;</span>
+<span class="fc" id="L1050">						int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
+<span class="fc bfc" id="L1051" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc" id="L1052">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
+<span class="pc bpc" id="L1053" title="1 of 5 branches missed.">						switch (getMode()) {</span>
 						case COMPLEXD -&gt; {
 							try {
-<span class="fc" id="L1080">								ComplexD tAgg = ComplexD</span>
-<span class="fc" id="L1081">										.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1056">								ComplexD tAgg = ComplexD</span>
+<span class="fc" id="L1057">										.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1058">										.scale(Double.valueOf(tProd.getSign(row, col)))</span>
+<span class="fc" id="L1059">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1060">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1061">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1062">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1063">							}</span>
+							break;
+						}
+						case COMPLEXF -&gt; {
+							try {
+<span class="fc" id="L1068">								ComplexF tAgg = ComplexF</span>
+<span class="fc" id="L1069">										.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1070">										.scale(Float.valueOf(tProd.getSign(row, col)))</span>
+<span class="fc" id="L1071">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1072">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1073">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1074">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1075">							}</span>
+							break;
+						}
+						case REALD -&gt; {
+							try {
+<span class="fc" id="L1080">								RealD tAgg = RealD</span>
+<span class="fc" id="L1081">										.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
 <span class="fc" id="L1082">										.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1083">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1084">								newScales.put(bMult, (T) tAgg);</span>
@@ -1087,10 +1087,10 @@ public class Monad implements Modal {
 <span class="fc" id="L1087">							}</span>
 							break;
 						}
-						case COMPLEXF -&gt; {
+						case REALF -&gt; {
 							try {
-<span class="fc" id="L1092">								ComplexF tAgg = ComplexF</span>
-<span class="fc" id="L1093">										.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1092">								RealF tAgg = RealF</span>
+<span class="fc" id="L1093">										.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
 <span class="fc" id="L1094">										.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1095">										.add(newScales.get(bMult));</span>
 <span class="fc" id="L1096">								newScales.put(bMult, (T) tAgg);</span>
@@ -1099,51 +1099,51 @@ public class Monad implements Modal {
 <span class="fc" id="L1099">							}</span>
 							break;
 						}
-						case REALD -&gt; {
-							try {
-<span class="fc" id="L1104">								RealD tAgg = RealD</span>
-<span class="fc" id="L1105">										.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1106">										.scale(Double.valueOf(tProd.getSign(row, col)))</span>
-<span class="fc" id="L1107">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1108">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1109">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1110">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1111">							}</span>
-							break;
 						}
-						case REALF -&gt; {
-							try {
-<span class="fc" id="L1116">								RealF tAgg = RealF</span>
-<span class="fc" id="L1117">										.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1118">										.scale(Float.valueOf(tProd.getSign(row, col)))</span>
-<span class="fc" id="L1119">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1120">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1121">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1122">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1123">							}</span>
-							break;
-						}
-						}
-<span class="fc" id="L1127">					});</span>
-<span class="fc" id="L1128">				});</span>
-<span class="fc" id="L1129">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
-<span class="fc bfc" id="L1130" title="All 2 branches covered.">				if (slideKey == 0)</span>
-<span class="fc" id="L1131">					break; // we've processed all grades including scalar.</span>
-<span class="fc" id="L1132">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
+<span class="fc" id="L1103">					});</span>
+<span class="fc" id="L1104">				});</span>
+<span class="fc" id="L1105">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
+<span class="fc bfc" id="L1106" title="All 2 branches covered.">				if (slideKey == 0)</span>
+<span class="fc" id="L1107">					break; // we've processed all grades including scalar.</span>
+<span class="fc" id="L1108">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
-<span class="fc" id="L1134">		} else {</span>
-<span class="fc" id="L1135">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
-<span class="fc" id="L1136">				int col = tBasis.find(blade) - 1;</span>
-<span class="fc" id="L1137">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
-<span class="fc" id="L1138">					int row = tBasis.find(blade2) - 1;</span>
-<span class="fc" id="L1139">					int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
-<span class="pc bpc" id="L1140" title="1 of 2 branches missed.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
-<span class="fc" id="L1141">					Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
-<span class="pc bpc" id="L1142" title="1 of 5 branches missed.">					switch (getMode()) {</span>
+<span class="fc" id="L1110">		} else {</span>
+<span class="fc" id="L1111">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
+<span class="fc" id="L1112">				int col = tBasis.find(blade) - 1;</span>
+<span class="fc" id="L1113">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
+<span class="fc" id="L1114">					int row = tBasis.find(blade2) - 1;</span>
+<span class="fc" id="L1115">					int treturnBlade = Math.abs(tProd.getResult(row, col)) - 1;		//Recover Cayley table entry as index</span>
+<span class="pc bpc" id="L1116" title="1 of 2 branches missed.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc" id="L1117">					Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
+<span class="pc bpc" id="L1118" title="1 of 5 branches missed.">					switch (getMode()) {</span>
 					case COMPLEXD -&gt; {
 						try {
-<span class="fc" id="L1145">							ComplexD tAgg = ComplexD</span>
-<span class="fc" id="L1146">									.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1121">							ComplexD tAgg = ComplexD</span>
+<span class="fc" id="L1122">									.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1123">									.scale(Double.valueOf(tProd.getSign(row, col)))</span>
+<span class="fc" id="L1124">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1125">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1126">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1127">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1128">						}</span>
+						break;
+					}
+					case COMPLEXF -&gt; {
+						try {
+<span class="fc" id="L1133">							ComplexF tAgg = ComplexF</span>
+<span class="fc" id="L1134">									.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1135">									.scale(Float.valueOf(tProd.getSign(row, col)))</span>
+<span class="fc" id="L1136">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1137">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1138">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1139">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1140">						}</span>
+						break;
+					}
+					case REALD -&gt; {
+						try {
+<span class="fc" id="L1145">							RealD tAgg = RealD</span>
+<span class="fc" id="L1146">									.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
 <span class="fc" id="L1147">									.scale(Double.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1148">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1149">							newScales.put(bMult, (T) tAgg);</span>
@@ -1152,10 +1152,10 @@ public class Monad implements Modal {
 <span class="fc" id="L1152">						}</span>
 						break;
 					}
-					case COMPLEXF -&gt; {
+					case REALF -&gt; {
 						try {
-<span class="fc" id="L1157">							ComplexF tAgg = ComplexF</span>
-<span class="fc" id="L1158">									.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1157">							RealF tAgg = RealF</span>
+<span class="fc" id="L1158">									.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
 <span class="fc" id="L1159">									.scale(Float.valueOf(tProd.getSign(row, col)))</span>
 <span class="fc" id="L1160">									.add(newScales.get(bMult));</span>
 <span class="fc" id="L1161">							newScales.put(bMult, (T) tAgg);</span>
@@ -1164,37 +1164,13 @@ public class Monad implements Modal {
 <span class="fc" id="L1164">						}</span>
 						break;
 					}
-					case REALD -&gt; {
-						try {
-<span class="fc" id="L1169">							RealD tAgg = RealD</span>
-<span class="fc" id="L1170">									.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1171">									.scale(Double.valueOf(tProd.getSign(row, col)))</span>
-<span class="fc" id="L1172">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1173">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1174">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1175">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1176">						}</span>
-						break;
 					}
-					case REALF -&gt; {
-						try {
-<span class="fc" id="L1181">							RealF tAgg = RealF</span>
-<span class="fc" id="L1182">									.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1183">									.scale(Float.valueOf(tProd.getSign(row, col)))</span>
-<span class="fc" id="L1184">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1185">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1186">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1187">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1188">						}</span>
-						break;
-					}
-					}
-<span class="fc" id="L1192">				});</span>
-<span class="fc" id="L1193">			});</span>
+<span class="fc" id="L1168">				});</span>
+<span class="fc" id="L1169">			});</span>
 		}
-<span class="fc" id="L1195">		scales = newScales;</span>
-<span class="fc" id="L1196">		setGradeKey();</span>
-<span class="fc" id="L1197">		return this;</span>
+<span class="fc" id="L1171">		scales = newScales;</span>
+<span class="fc" id="L1172">		setGradeKey();</span>
+<span class="fc" id="L1173">		return this;</span>
 	}
 
 	/**
@@ -1225,146 +1201,145 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt; ProtoN number from CladosF with all interfaces this time.
 	 * @return Monad
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad multiplyRight(Monad pM) {
-<span class="fc bfc" id="L1230" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM)) // Don't try if not a reference match</span>
-<span class="fc" id="L1231">			throw new IllegalArgumentException(&quot;Right multiply fails reference match.&quot;);</span>
-<span class="fc" id="L1232">		GProduct tProd = getAlgebra().getGP();</span>
-<span class="fc" id="L1233">		Basis tBasis = getAlgebra().getBasis();</span>
+<span class="fc bfc" id="L1205" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM)) // Don't try if not a reference match</span>
+<span class="fc" id="L1206">			throw new IllegalArgumentException(&quot;Right multiply fails reference match.&quot;);</span>
+<span class="fc" id="L1207">		GProduct tProd = getAlgebra().getGP();</span>
+<span class="fc" id="L1208">		Basis tBasis = getAlgebra().getBasis();</span>
 
-<span class="fc" id="L1235">		Scale&lt;T&gt; newScales = new Scale&lt;T&gt;(getMode(), tBasis, scales.getCardinal()).zeroAll();</span>
-<span class="fc bfc" id="L1236" title="All 2 branches covered.">		if (sparseFlag) {</span>
-<span class="fc" id="L1237">			long slideKey = gradeKey;</span>
-<span class="fc" id="L1238">			byte logKey = (byte) Math.log10(slideKey); // logKey is the highest grade with non-zero blades</span>
-<span class="pc bpc" id="L1239" title="1 of 2 branches missed.">			while (logKey &gt;= 0) {</span>
-<span class="fc" id="L1240">				tBasis.bladeOfGradeStream(logKey).filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
-<span class="fc" id="L1241">					int col = tBasis.find(blade) - 1;</span>
-<span class="fc" id="L1242">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
-<span class="fc" id="L1243">						int row = tBasis.find(blade2) - 1;</span>
-<span class="fc" id="L1244">						int treturnBlade = Math.abs(tProd.getResult(col, row)) - 1;		//Recover Cayley table entry as index</span>
-<span class="fc bfc" id="L1245" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
-<span class="fc" id="L1246">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
-<span class="pc bpc" id="L1247" title="1 of 5 branches missed.">						switch (getMode()) {</span>
+<span class="fc" id="L1210">		Scale&lt;T&gt; newScales = new Scale&lt;T&gt;(getMode(), tBasis, scales.getCardinal()).zeroAll();</span>
+<span class="fc bfc" id="L1211" title="All 2 branches covered.">		if (sparseFlag) {</span>
+<span class="fc" id="L1212">			long slideKey = gradeKey;</span>
+<span class="fc" id="L1213">			byte logKey = (byte) Math.log10(slideKey); // logKey is the highest grade with non-zero blades</span>
+<span class="pc bpc" id="L1214" title="1 of 2 branches missed.">			while (logKey &gt;= 0) {</span>
+<span class="fc" id="L1215">				tBasis.bladeOfGradeStream(logKey).filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
+<span class="fc" id="L1216">					int col = tBasis.find(blade) - 1;</span>
+<span class="fc" id="L1217">					pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
+<span class="fc" id="L1218">						int row = tBasis.find(blade2) - 1;</span>
+<span class="fc" id="L1219">						int treturnBlade = Math.abs(tProd.getResult(col, row)) - 1;		//Recover Cayley table entry as index</span>
+<span class="fc bfc" id="L1220" title="All 2 branches covered.">						if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc" id="L1221">						Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
+<span class="pc bpc" id="L1222" title="1 of 5 branches missed.">						switch (getMode()) {</span>
 						case COMPLEXD -&gt; {
 							try {
-<span class="fc" id="L1250">								ComplexD tAgg = ComplexD</span>
-<span class="fc" id="L1251">										.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1252">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1253">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1254">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1255">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1256">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1257">							}</span>
+<span class="fc" id="L1225">								ComplexD tAgg = ComplexD</span>
+<span class="fc" id="L1226">										.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1227">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1228">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1229">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1230">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1231">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1232">							}</span>
 							break;
 						}
 						case COMPLEXF -&gt; {
 							try {
-<span class="fc" id="L1262">								ComplexF tAgg = ComplexF</span>
-<span class="fc" id="L1263">										.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1264">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1265">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1266">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1267">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1268">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1269">							}</span>
+<span class="fc" id="L1237">								ComplexF tAgg = ComplexF</span>
+<span class="fc" id="L1238">										.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1239">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1240">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1241">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1242">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1243">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1244">							}</span>
 							break;
 						}
 						case REALD -&gt; {
 							try {
-<span class="fc" id="L1274">								RealD tAgg = RealD</span>
-<span class="fc" id="L1275">										.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1276">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1277">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1278">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1279">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1280">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1281">							}</span>
+<span class="fc" id="L1249">								RealD tAgg = RealD</span>
+<span class="fc" id="L1250">										.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1251">										.scale(Double.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1252">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1253">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1254">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1255">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1256">							}</span>
 							break;
 						}
 						case REALF -&gt; {
 							try {
-<span class="fc" id="L1286">								RealF tAgg = RealF</span>
-<span class="fc" id="L1287">										.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1288">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1289">										.add(newScales.get(bMult));</span>
-<span class="fc" id="L1290">								newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1291">							} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L1292">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1293">							}</span>
+<span class="fc" id="L1261">								RealF tAgg = RealF</span>
+<span class="fc" id="L1262">										.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1263">										.scale(Float.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1264">										.add(newScales.get(bMult));</span>
+<span class="fc" id="L1265">								newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1266">							} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L1267">								throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1268">							}</span>
 							break;
 						}
 						}
-<span class="fc" id="L1297">					});</span>
-<span class="fc" id="L1298">				});</span>
-<span class="fc" id="L1299">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
-<span class="fc bfc" id="L1300" title="All 2 branches covered.">				if (slideKey == 0)</span>
-<span class="fc" id="L1301">					break; // we've processed all grades including scalar.</span>
-<span class="fc" id="L1302">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
+<span class="fc" id="L1272">					});</span>
+<span class="fc" id="L1273">				});</span>
+<span class="fc" id="L1274">				slideKey -= Math.pow(10, logKey); // Subtract 10^logKey marking grade as done.</span>
+<span class="fc bfc" id="L1275" title="All 2 branches covered.">				if (slideKey == 0)</span>
+<span class="fc" id="L1276">					break; // we've processed all grades including scalar.</span>
+<span class="fc" id="L1277">				logKey = (byte) Math.log10(slideKey); // if zero it will be the last in loop</span>
 			} // while loop completion -&gt; all grades in 'this' processed
-<span class="fc" id="L1304">		} else {</span>
-<span class="fc" id="L1305">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
-<span class="fc" id="L1306">				int col = tBasis.find(blade) - 1;</span>
-<span class="fc" id="L1307">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
-<span class="fc" id="L1308">					int row = tBasis.find(blade2) - 1;</span>
-<span class="fc" id="L1309">					int treturnBlade = Math.abs(tProd.getResult(col, row)) - 1;		//Recover Cayley table entry as index</span>
-<span class="fc bfc" id="L1310" title="All 2 branches covered.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
-<span class="fc" id="L1311">					Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
-<span class="pc bpc" id="L1312" title="1 of 5 branches missed.">					switch (getMode()) {</span>
+<span class="fc" id="L1279">		} else {</span>
+<span class="fc" id="L1280">			bladeStream().filter(blade -&gt; getWeights().isNotZeroAt(blade)).forEach(blade -&gt; {</span>
+<span class="fc" id="L1281">				int col = tBasis.find(blade) - 1;</span>
+<span class="fc" id="L1282">				pM.bladeStream().filter(blade2 -&gt; pM.getWeights().isNotZeroAt(blade2)).parallel().forEach(blade2 -&gt; {</span>
+<span class="fc" id="L1283">					int row = tBasis.find(blade2) - 1;</span>
+<span class="fc" id="L1284">					int treturnBlade = Math.abs(tProd.getResult(col, row)) - 1;		//Recover Cayley table entry as index</span>
+<span class="fc bfc" id="L1285" title="All 2 branches covered.">					if (treturnBlade == -1) treturnBlade = 0;						//If it is -1 set it to scalar</span>
+<span class="fc" id="L1286">					Blade bMult = tBasis.getSingleBlade(treturnBlade);</span>
+<span class="pc bpc" id="L1287" title="1 of 5 branches missed.">					switch (getMode()) {</span>
 					case COMPLEXD -&gt; {
 						try {
-<span class="fc" id="L1315">							ComplexD tAgg = ComplexD</span>
-<span class="fc" id="L1316">									.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1317">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1318">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1319">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1320">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1321">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1322">						}</span>
+<span class="fc" id="L1290">							ComplexD tAgg = ComplexD</span>
+<span class="fc" id="L1291">									.multiply((ComplexD) getWeights().get(blade), (ComplexD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1292">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1293">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1294">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1295">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1296">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1297">						}</span>
 						break;
 					}
 					case COMPLEXF -&gt; {
 						try {
-<span class="fc" id="L1327">							ComplexF tAgg = ComplexF</span>
-<span class="fc" id="L1328">									.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1329">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1330">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1331">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1332">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1333">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1334">						}</span>
+<span class="fc" id="L1302">							ComplexF tAgg = ComplexF</span>
+<span class="fc" id="L1303">									.multiply((ComplexF) getWeights().get(blade), (ComplexF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1304">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1305">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1306">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1307">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1308">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1309">						}</span>
 						break;
 					}
 					case REALD -&gt; {
 						try {
-<span class="fc" id="L1339">							RealD tAgg = RealD</span>
-<span class="fc" id="L1340">									.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1341">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1342">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1343">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1344">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1345">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1346">						}</span>
+<span class="fc" id="L1314">							RealD tAgg = RealD</span>
+<span class="fc" id="L1315">									.multiply((RealD) getWeights().get(blade), (RealD) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1316">									.scale(Double.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1317">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1318">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1319">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1320">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1321">						}</span>
 						break;
 					}
 					case REALF -&gt; {
 						try {
-<span class="fc" id="L1351">							RealF tAgg = RealF</span>
-<span class="fc" id="L1352">									.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
-<span class="fc" id="L1353">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
-<span class="fc" id="L1354">									.add(newScales.get(bMult));</span>
-<span class="fc" id="L1355">							newScales.put(bMult, (T) tAgg);</span>
-<span class="nc" id="L1356">						} catch (FieldBinaryException ex) {</span>
-<span class="nc" id="L1357">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
-<span class="fc" id="L1358">						}</span>
+<span class="fc" id="L1326">							RealF tAgg = RealF</span>
+<span class="fc" id="L1327">									.multiply((RealF) getWeights().get(blade), (RealF) pM.getWeights().get(blade2))</span>
+<span class="fc" id="L1328">									.scale(Float.valueOf(tProd.getSign(col, row)))</span>
+<span class="fc" id="L1329">									.add(newScales.get(bMult));</span>
+<span class="fc" id="L1330">							newScales.put(bMult, (T) tAgg);</span>
+<span class="nc" id="L1331">						} catch (FieldBinaryException ex) {</span>
+<span class="nc" id="L1332">							throw new IllegalArgumentException(&quot;Left multiply fails ProtoN reference match.&quot;);</span>
+<span class="fc" id="L1333">						}</span>
 						break;
 					}
 					}
-<span class="fc" id="L1362">				});</span>
-<span class="fc" id="L1363">			});</span>
+<span class="fc" id="L1337">				});</span>
+<span class="fc" id="L1338">			});</span>
 		}
-<span class="fc" id="L1365">		scales = newScales;</span>
-<span class="fc" id="L1366">		setGradeKey();</span>
-<span class="fc" id="L1367">		return this;</span>
+<span class="fc" id="L1340">		scales = newScales;</span>
+<span class="fc" id="L1341">		setGradeKey();</span>
+<span class="fc" id="L1342">		return this;</span>
 	}
 
 	/**
@@ -1376,31 +1351,31 @@ public class Monad implements Modal {
 	 * @return Monad
 	 */
 	public Monad multiplySymm(Monad pM) {
-<span class="fc bfc" id="L1379" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM))</span>
-<span class="fc" id="L1380">			throw new IllegalArgumentException(&quot;Symm multiply fails reference match.&quot;);</span>
-<span class="fc" id="L1381">		Monad halfTwoRight = (GBuilder.copyOfMonad(this)).multiplyRight(pM);</span>
-<span class="fc" id="L1382">		(this.multiplyLeft(pM)).add(halfTwoRight);</span>
+<span class="fc bfc" id="L1354" title="All 2 branches covered.">		if (!isReferenceMatch(this, pM))</span>
+<span class="fc" id="L1355">			throw new IllegalArgumentException(&quot;Symm multiply fails reference match.&quot;);</span>
+<span class="fc" id="L1356">		Monad halfTwoRight = (GBuilder.copyOfMonad(this)).multiplyRight(pM);</span>
+<span class="fc" id="L1357">		(this.multiplyLeft(pM)).add(halfTwoRight);</span>
 
-<span class="pc bpc" id="L1384" title="1 of 5 branches missed.">		switch (getMode()) {</span>
+<span class="pc bpc" id="L1359" title="1 of 5 branches missed.">		switch (getMode()) {</span>
 			case COMPLEXD -&gt; {
-<span class="fc" id="L1386">				scale(ComplexD.newONE(scales.getCardinal()).scale(BY2_D));</span>
-<span class="fc" id="L1387">				break;</span>
+<span class="fc" id="L1361">				scale(ComplexD.newONE(scales.getCardinal()).scale(BY2_D));</span>
+<span class="fc" id="L1362">				break;</span>
 			}
 			case COMPLEXF -&gt; {
-<span class="fc" id="L1390">				scale(ComplexF.newONE(scales.getCardinal()).scale(BY2_F));</span>
-<span class="fc" id="L1391">				break;</span>
+<span class="fc" id="L1365">				scale(ComplexF.newONE(scales.getCardinal()).scale(BY2_F));</span>
+<span class="fc" id="L1366">				break;</span>
 			}
 			case REALD -&gt; {
-<span class="fc" id="L1394">				scale(RealD.newONE(scales.getCardinal()).scale(BY2_D));</span>
-<span class="fc" id="L1395">				break;</span>
+<span class="fc" id="L1369">				scale(RealD.newONE(scales.getCardinal()).scale(BY2_D));</span>
+<span class="fc" id="L1370">				break;</span>
 			}
 			case REALF -&gt; {
-<span class="fc" id="L1398">				scale(RealF.newONE(scales.getCardinal()).scale(BY2_F));</span>
+<span class="fc" id="L1373">				scale(RealF.newONE(scales.getCardinal()).scale(BY2_F));</span>
 				break;
 			}
 		}
-<span class="fc" id="L1402">		setGradeKey();</span>
-<span class="fc" id="L1403">		return this;</span>
+<span class="fc" id="L1377">		setGradeKey();</span>
+<span class="fc" id="L1378">		return this;</span>
 	}
 
 	/**
@@ -1410,34 +1385,34 @@ public class Monad implements Modal {
 	 * 							The object throwing it is one of the ProtoN children in Scale
 	 */
 	public Monad normalize() throws FieldException {
-<span class="fc" id="L1413">		Monad tRev = (GBuilder.copyOfMonad(this)).reverse().conjugate();//This is GP reversal and complex conjugation.								</span>
-<span class="fc" id="L1414">		(tRev.multiplyRight(this)).gradePart((byte) 0); 					//The scalar part will be real.</span>
+<span class="fc" id="L1388">		Monad tRev = (GBuilder.copyOfMonad(this)).reverse().conjugate();//This is GP reversal and complex conjugation.								</span>
+<span class="fc" id="L1389">		(tRev.multiplyRight(this)).gradePart((byte) 0); 					//The scalar part will be real.</span>
 
-<span class="pc bpc" id="L1416" title="1 of 5 branches missed.">		switch (getMode()) {</span>
+<span class="pc bpc" id="L1391" title="1 of 5 branches missed.">		switch (getMode()) {</span>
 			case COMPLEXD -&gt; {
-<span class="fc" id="L1418">				ComplexD tMagCD = ((ComplexD) tRev.getWeights().getScalar().invert()); //img part == 0</span>
-<span class="fc" id="L1419">				tMagCD.setReal(Math.sqrt(Math.abs(tMagCD.getReal())));</span>
-<span class="fc" id="L1420">				this.scale(tMagCD);</span>
-<span class="fc" id="L1421">			}	</span>
+<span class="fc" id="L1393">				ComplexD tMagCD = ((ComplexD) tRev.getWeights().getScalar().invert()); //img part == 0</span>
+<span class="fc" id="L1394">				tMagCD.setReal(Math.sqrt(Math.abs(tMagCD.getReal())));</span>
+<span class="fc" id="L1395">				this.scale(tMagCD);</span>
+<span class="fc" id="L1396">			}	</span>
 			case COMPLEXF -&gt; {
-<span class="fc" id="L1423">				ComplexF tMagCF = ((ComplexF) tRev.getWeights().getScalar().invert()); //img part == 0</span>
-<span class="fc" id="L1424">				tMagCF.setReal((float) Math.sqrt(Math.abs(tMagCF.getReal())));</span>
-<span class="fc" id="L1425">				this.scale(tMagCF);	</span>
-<span class="fc" id="L1426">			}</span>
+<span class="fc" id="L1398">				ComplexF tMagCF = ((ComplexF) tRev.getWeights().getScalar().invert()); //img part == 0</span>
+<span class="fc" id="L1399">				tMagCF.setReal((float) Math.sqrt(Math.abs(tMagCF.getReal())));</span>
+<span class="fc" id="L1400">				this.scale(tMagCF);	</span>
+<span class="fc" id="L1401">			}</span>
 			case REALD -&gt; {
-<span class="fc" id="L1428">				RealD tMagRD = ((RealD) tRev.getWeights().getScalar().invert());</span>
-<span class="fc" id="L1429">				tMagRD.setReal(Math.sqrt(Math.abs(tMagRD.getReal())));</span>
-<span class="fc" id="L1430">				this.scale(tMagRD);		</span>
-<span class="fc" id="L1431">			}</span>
+<span class="fc" id="L1403">				RealD tMagRD = ((RealD) tRev.getWeights().getScalar().invert());</span>
+<span class="fc" id="L1404">				tMagRD.setReal(Math.sqrt(Math.abs(tMagRD.getReal())));</span>
+<span class="fc" id="L1405">				this.scale(tMagRD);		</span>
+<span class="fc" id="L1406">			}</span>
 			case REALF -&gt; {
-<span class="fc" id="L1433">				RealF tMagRF = ((RealF) tRev.getWeights().getScalar().invert());</span>
-<span class="fc" id="L1434">				tMagRF.setReal((float) Math.sqrt(Math.abs(tMagRF.getReal())));</span>
-<span class="fc" id="L1435">				this.scale(tMagRF);</span>
-<span class="fc" id="L1436">			}</span>
+<span class="fc" id="L1408">				RealF tMagRF = ((RealF) tRev.getWeights().getScalar().invert());</span>
+<span class="fc" id="L1409">				tMagRF.setReal((float) Math.sqrt(Math.abs(tMagRF.getReal())));</span>
+<span class="fc" id="L1410">				this.scale(tMagRF);</span>
+<span class="fc" id="L1411">			}</span>
 			default -&gt; {}
 		}
-<span class="fc" id="L1439">		setGradeKey();</span>
-<span class="fc" id="L1440">		return this;</span>
+<span class="fc" id="L1414">		setGradeKey();</span>
+<span class="fc" id="L1415">		return this;</span>
 	}
 
 	/**
@@ -1451,8 +1426,8 @@ public class Monad implements Modal {
 	 * 						  is the Scale on behalf of one of its entries.
 	 */
 	public Monad normalizeOnVS() throws FieldException {
-<span class="fc" id="L1454">		scales.normalize();</span>
-<span class="fc" id="L1455">		return this;</span>
+<span class="fc" id="L1429">		scales.normalize();</span>
+<span class="fc" id="L1430">		return this;</span>
 	}
 
 	/**
@@ -1464,8 +1439,8 @@ public class Monad implements Modal {
 	 * @return Monad returns itself when done to support streaming operations.
 	 */
 	public Monad reverse() {
-<span class="fc" id="L1467">		scales.conjugateShirokov(2);</span>
-<span class="fc" id="L1468">		return this;</span>
+<span class="fc" id="L1442">		scales.conjugateShirokov(2);</span>
+<span class="fc" id="L1443">		return this;</span>
 	}
 
 	/**
@@ -1487,9 +1462,9 @@ public class Monad implements Modal {
 	 * @return Monad after the scaling is complete.
 	 */
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad scale(T pScale) {
-<span class="fc" id="L1490">		scales.scale(pScale);</span>
-<span class="fc" id="L1491">		setGradeKey();</span>
-<span class="fc" id="L1492">		return this;</span>
+<span class="fc" id="L1465">		scales.scale(pScale);</span>
+<span class="fc" id="L1466">		setGradeKey();</span>
+<span class="fc" id="L1467">		return this;</span>
 	}
 
 	/**
@@ -1505,27 +1480,26 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt;  ProtoN number from CladosF with all interfaces this time.
 	 * @param ppC ProtoN child array for weights
 	 * @return Monad after setting the coefficients to the offered array.
-	 * @throws CladosMonadException This exception is thrown when the array offered
-	 *                              for coordinates is of the wrong length.
+	 * @throws CladosException gets thrown when the coefficient array is not suitable.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad setCoeff(T[] ppC) throws CladosMonadException {
-<span class="pc bpc" id="L1512" title="3 of 6 branches missed.">		if (ppC.length != getAlgebra().getBladeCount() | ppC.length == 0)</span>
-<span class="nc" id="L1513">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is wrong length&quot;);</span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad setCoeff(T[] ppC) throws CladosException {
+<span class="pc bpc" id="L1486" title="3 of 6 branches missed.">		if (ppC.length != getAlgebra().getBladeCount() | ppC.length == 0)</span>
+<span class="nc" id="L1487">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is wrong length&quot;);</span>
 
-<span class="fc" id="L1515">		if 	(</span>
-<span class="fc bfc" id="L1516" title="All 2 branches covered.">			(ppC[0] instanceof RealF) &amp; (getMode() == CladosField.REALF)</span>
-<span class="fc bfc" id="L1517" title="All 2 branches covered.">		| 	(ppC[0] instanceof RealD) &amp; (getMode() == CladosField.REALD)</span>
-<span class="fc bfc" id="L1518" title="All 2 branches covered.">		| 	(ppC[0] instanceof ComplexF) &amp; (getMode() == CladosField.COMPLEXF)</span>
-<span class="pc bpc" id="L1519" title="1 of 4 branches missed.">		| 	(ppC[0] instanceof ComplexD) &amp; (getMode() == CladosField.COMPLEXD)</span>
+<span class="fc" id="L1489">		if 	(</span>
+<span class="fc bfc" id="L1490" title="All 2 branches covered.">			(ppC[0] instanceof RealF) &amp; (getMode() == REALF)</span>
+<span class="fc bfc" id="L1491" title="All 2 branches covered.">		| 	(ppC[0] instanceof RealD) &amp; (getMode() == REALD)</span>
+<span class="fc bfc" id="L1492" title="All 2 branches covered.">		| 	(ppC[0] instanceof ComplexF) &amp; (getMode() == COMPLEXF)</span>
+<span class="pc bpc" id="L1493" title="1 of 4 branches missed.">		| 	(ppC[0] instanceof ComplexD) &amp; (getMode() == COMPLEXD)</span>
 			)
 		{
-<span class="fc" id="L1522">			scales.setWeightsArray(FListBuilder.copyOf(getMode(), ppC));</span>
-<span class="fc" id="L1523">			setGradeKey();</span>
+<span class="fc" id="L1496">			scales.setNumbers(FListBuilder.copyOf(getMode(), ppC));</span>
+<span class="fc" id="L1497">			setGradeKey();</span>
 		} 
 		else 
-<span class="nc" id="L1526">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is different mode.&quot;);</span>
+<span class="nc" id="L1500">			throw new CladosMonadException(this, &quot;Coefficient array passed for coefficient copy is different mode.&quot;);</span>
 
-<span class="fc" id="L1528">		return this;</span>
+<span class="fc" id="L1502">		return this;</span>
 	}
 
 	/**
@@ -1541,23 +1515,23 @@ public class Monad implements Modal {
 	 * @return Monad this one after the grade key is set.
 	 */
 	public Monad setGradeKey() {
-<span class="fc" id="L1544">		foundGrades = 0;</span>
-<span class="fc" id="L1545">		gradeKey = 0;</span>
+<span class="fc" id="L1518">		foundGrades = 0;</span>
+<span class="fc" id="L1519">		gradeKey = 0;</span>
 
-<span class="fc" id="L1547">		gradeStream().forEach(grade -&gt; {</span>
-<span class="fc bfc" id="L1548" title="All 2 branches covered.">			if (getAlgebra().getBasis().bladeOfGradeStream((byte) grade).parallel().anyMatch(</span>
-<span class="fc" id="L1549">															blade -&gt; getWeights().isNotZeroAt(blade))){</span>
-<span class="fc" id="L1550">				foundGrades++;</span>
-<span class="fc" id="L1551">				gradeKey += (long) Math.pow(10, grade);</span>
+<span class="fc" id="L1521">		gradeStream().forEach(grade -&gt; {</span>
+<span class="fc bfc" id="L1522" title="All 2 branches covered.">			if (getAlgebra().getBasis().bladeOfGradeStream((byte) grade).parallel().anyMatch(</span>
+<span class="fc" id="L1523">															blade -&gt; getWeights().isNotZeroAt(blade))){</span>
+<span class="fc" id="L1524">				foundGrades++;</span>
+<span class="fc" id="L1525">				gradeKey += (long) Math.pow(10, grade);</span>
 			}
-<span class="fc" id="L1553">		});</span>
+<span class="fc" id="L1527">		});</span>
 
-<span class="fc bfc" id="L1555" title="All 2 branches covered.">		if (gradeKey == 0) {	//Special case for scalars. If no grades detected, scalar it must be.</span>
-<span class="fc" id="L1556">			foundGrades++;</span>
-<span class="fc" id="L1557">			gradeKey++;</span>
+<span class="fc bfc" id="L1529" title="All 2 branches covered.">		if (gradeKey == 0) {	//Special case for scalars. If no grades detected, scalar it must be.</span>
+<span class="fc" id="L1530">			foundGrades++;</span>
+<span class="fc" id="L1531">			gradeKey++;</span>
 		}
-<span class="fc bfc" id="L1559" title="All 2 branches covered.">		sparseFlag = (foundGrades &lt;= getAlgebra().getGradeCount() / 2) ? true : false;</span>
-<span class="fc" id="L1560">		return this;</span>
+<span class="fc bfc" id="L1533" title="All 2 branches covered.">		sparseFlag = (foundGrades &lt;= getAlgebra().getGradeCount() / 2) ? true : false;</span>
+<span class="fc" id="L1534">		return this;</span>
 	}
 
 	/**
@@ -1567,8 +1541,8 @@ public class Monad implements Modal {
 	 * @return Monad after setting the name.
 	 */
 	public Monad setName(String pName) {
-<span class="fc" id="L1570">		name = pName;</span>
-<span class="fc" id="L1571">		return this;</span>
+<span class="fc" id="L1544">		name = pName;</span>
+<span class="fc" id="L1545">		return this;</span>
 	}
 
 	/**
@@ -1589,20 +1563,19 @@ public class Monad implements Modal {
 	 * old references might linger enabling unexpected opportunities to edit weights.
 	 * Caution is advised when this method is used while frequent reuse occurs.
 	 * &lt;br&gt;
-	 * @param &lt;T&gt;  ProtoN number from CladosF with all interfaces this time.
 	 * @param pScale The Scale to change to... constructed on the same Basis as the current Scale
 	 * @return Monad after setting the coefficients to the offered array.
 	 * @throws CladosMonadException This exception is thrown when the scale offered
 	 *                              doesn't share exactly the same Basis as the one it replaces.
 	 */
-	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Monad setScale(Scale&lt;T&gt; pScale) throws CladosMonadException {
-<span class="fc bfc" id="L1599" title="All 2 branches covered.">		if (pScale.getBasis() != scales.getBasis() )</span>
-<span class="fc" id="L1600">			throw new CladosMonadException(this, &quot;Coefficient array offered uses a different basis &quot;);</span>
+	public Monad setScale(Scale&lt;?&gt; pScale) throws CladosMonadException {
+<span class="fc bfc" id="L1572" title="All 2 branches covered.">		if (pScale.getBasis() != scales.getBasis())</span>
+<span class="fc" id="L1573">			throw new CladosMonadException(this, &quot;Coefficient array offered uses a different basis &quot;);</span>
 		
-<span class="fc" id="L1602">		scales = pScale;</span>
-<span class="fc" id="L1603">		setGradeKey();</span>
+<span class="fc" id="L1575">		scales = pScale;</span>
+<span class="fc" id="L1576">		setGradeKey();</span>
 
-<span class="fc" id="L1605">		return this;</span>
+<span class="fc" id="L1578">		return this;</span>
 	}
 
 	/**
@@ -1624,9 +1597,8 @@ public class Monad implements Modal {
 	 * @param &lt;T&gt; ProtoN number from CladosF without the interfaces this time.
 	 * @return ProtoN but in practice it is always a child of ProtoN
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
-	public &lt;T extends ProtoN&gt; T sqMagnitude() {
-<span class="fc" id="L1629">		return (T) scales.modulusSQSum();</span>
+	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T sqMagnitude() {
+<span class="fc" id="L1601">		return (T) scales.modulusSQSum();</span>
 	}
 
 	/**
@@ -1639,18 +1611,18 @@ public class Monad implements Modal {
 	 * @return Monad returned that has the passed monad subtracted from it.
 	 */
 	public Monad subtract(Monad pM) {
-<span class="fc bfc" id="L1642" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
-<span class="fc" id="L1643">			throw new IllegalArgumentException(&quot;Can't subtract monads without a reference match.&quot;);</span>
+<span class="fc bfc" id="L1614" title="All 2 branches covered.">		if (!Monad.isReferenceMatch(this, pM))</span>
+<span class="fc" id="L1615">			throw new IllegalArgumentException(&quot;Can't subtract monads without a reference match.&quot;);</span>
 
-<span class="fc" id="L1645">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
+<span class="fc" id="L1617">		bladeStream().parallel().forEach(blade -&gt; {		//Monads are reference matches now</span>
 			try {										//but their Scales don't realize that and we have
-<span class="fc" id="L1647">				scales.get(blade).subtract(pM.scales.get(blade));</span>
-<span class="nc" id="L1648">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
-<span class="nc" id="L1649">				throw new IllegalArgumentException(&quot;Can't subtract when cardinals don't match.&quot;);</span>
-<span class="fc" id="L1650">			}</span>
-<span class="fc" id="L1651">		});</span>
-<span class="fc" id="L1652">		setGradeKey();</span>
-<span class="fc" id="L1653">		return this;</span>
+<span class="fc" id="L1619">				scales.get(blade).subtract(pM.scales.get(blade));</span>
+<span class="nc" id="L1620">			} catch (FieldBinaryException e) {			//to check again because weights are mutable.</span>
+<span class="nc" id="L1621">				throw new IllegalArgumentException(&quot;Can't subtract when cardinals don't match.&quot;);</span>
+<span class="fc" id="L1622">			}</span>
+<span class="fc" id="L1623">		});</span>
+<span class="fc" id="L1624">		setGradeKey();</span>
+<span class="fc" id="L1625">		return this;</span>
 	}
 
 	/**
@@ -1663,8 +1635,8 @@ public class Monad implements Modal {
 	 * @return Monad after setting the algebra.
 	 */
 	protected Monad setAlgebra(Algebra pA) {
-<span class="fc" id="L1666">		algebra = pA;</span>
-<span class="fc" id="L1667">		return this;</span>
+<span class="fc" id="L1638">		algebra = pA;</span>
+<span class="fc" id="L1639">		return this;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

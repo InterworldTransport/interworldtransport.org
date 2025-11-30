@@ -150,35 +150,34 @@ import java.util.List;
 	 * @return List of ProtoN children Newly constructed copies of incoming
 	 *         numbers
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field&gt; List&lt;T&gt; copyListOf(List&lt;T&gt; pDV) {
-<span class="pc bpc" id="L155" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L154" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L157">			RealF[] tSpot = new RealF[pDV.size()];</span>
-<span class="fc bfc" id="L158" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
-<span class="fc" id="L159">				tSpot[j] = FBuilder.copyOf((RealF) pDV.get(j));</span>
-<span class="fc" id="L160">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L156">			RealF[] tSpot = new RealF[pDV.size()];</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
+<span class="fc" id="L158">				tSpot[j] = FBuilder.copyOf((RealF) pDV.get(j));</span>
+<span class="fc" id="L159">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L163">			RealD[] tSpot = new RealD[pDV.size()];</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
-<span class="fc" id="L165">				tSpot[j] = FBuilder.copyOf((RealD) pDV.get(j));</span>
-<span class="fc" id="L166">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L162">			RealD[] tSpot = new RealD[pDV.size()];</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
+<span class="fc" id="L164">				tSpot[j] = FBuilder.copyOf((RealD) pDV.get(j));</span>
+<span class="fc" id="L165">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L169">			ComplexF[] tSpot = new ComplexF[pDV.size()];</span>
-<span class="fc bfc" id="L170" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
-<span class="fc" id="L171">				tSpot[j] = FBuilder.copyOf((ComplexF) pDV.get(j));</span>
-<span class="fc" id="L172">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L168">			ComplexF[] tSpot = new ComplexF[pDV.size()];</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
+<span class="fc" id="L170">				tSpot[j] = FBuilder.copyOf((ComplexF) pDV.get(j));</span>
+<span class="fc" id="L171">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L175">			ComplexD[] tSpot = new ComplexD[pDV.size()];</span>
-<span class="fc bfc" id="L176" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
-<span class="fc" id="L177">				tSpot[j] = FBuilder.copyOf((ComplexD) pDV.get(j));</span>
-<span class="fc" id="L178">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L174">			ComplexD[] tSpot = new ComplexD[pDV.size()];</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.size(); j++)</span>
+<span class="fc" id="L176">				tSpot[j] = FBuilder.copyOf((ComplexD) pDV.get(j));</span>
+<span class="fc" id="L177">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L181">			return null;</span>
+<span class="nc" id="L180">			return null;</span>
 		}
 		}
 	}
@@ -209,35 +208,34 @@ import java.util.List;
 	 * @param &lt;T&gt; ProtoN number from CladosF with all number interfaces.
 	 * @return ProtoN[] Newly constructed copies of incoming numbers
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T[] copyOf(T[] pDV) {
-<span class="pc bpc" id="L214" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L212" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L216">			T[] tSpot = (T[]) new RealF[pDV.length];</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
-<span class="fc" id="L218">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
-<span class="fc" id="L219">			return tSpot;</span>
+<span class="fc" id="L214">			T[] tSpot = (T[]) new RealF[pDV.length];</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
+<span class="fc" id="L216">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
+<span class="fc" id="L217">			return tSpot;</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L222">			T[] tSpot = (T[]) new RealD[pDV.length];</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
-<span class="fc" id="L224">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
-<span class="fc" id="L225">			return tSpot;</span>
+<span class="fc" id="L220">			T[] tSpot = (T[]) new RealD[pDV.length];</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
+<span class="fc" id="L222">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
+<span class="fc" id="L223">			return tSpot;</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L228">			T[] tSpot = (T[]) new ComplexF[pDV.length];</span>
-<span class="fc bfc" id="L229" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
-<span class="fc" id="L230">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
-<span class="fc" id="L231">			return tSpot;</span>
+<span class="fc" id="L226">			T[] tSpot = (T[]) new ComplexF[pDV.length];</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
+<span class="fc" id="L228">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
+<span class="fc" id="L229">			return tSpot;</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L234">			T[] tSpot = (T[]) new ComplexD[pDV.length];</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
-<span class="fc" id="L236">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
-<span class="fc" id="L237">			return tSpot;</span>
+<span class="fc" id="L232">			T[] tSpot = (T[]) new ComplexD[pDV.length];</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">			for (int j = 0; j &lt; pDV.length; j++)</span>
+<span class="fc" id="L234">				tSpot[j] = FBuilder.copyOf((T) pDV[j]);</span>
+<span class="fc" id="L235">			return tSpot;</span>
 		}
 		default -&gt; {
-<span class="nc" id="L240">			return null;</span>
+<span class="nc" id="L238">			return null;</span>
 		}
 		}
 	}
@@ -252,36 +250,36 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ZEROS using incoming cardinal.
 	 */
 	public ProtoN[] create(Cardinal pCard, int pSize) {
-<span class="pc bpc" id="L255" title="1 of 2 branches missed.">		if (pCard != null) {</span>
-<span class="fc" id="L256">			FCache.INSTANCE.appendCardinal(pCard); // Just in case</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">		if (pCard != null) {</span>
+<span class="fc" id="L254">			FCache.INSTANCE.appendCardinal(pCard); // Just in case</span>
 		}
-<span class="pc bpc" id="L258" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L256" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L260">			RealF[] tSpot = new RealF[pSize];</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L262">				tSpot[j] = (RealF) FBuilder.REALF.createZERO(pCard);</span>
-<span class="fc" id="L263">			return tSpot;</span>
+<span class="fc" id="L258">			RealF[] tSpot = new RealF[pSize];</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L260">				tSpot[j] = (RealF) FBuilder.REALF.createZERO(pCard);</span>
+<span class="fc" id="L261">			return tSpot;</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L266">			RealD[] tSpot = new RealD[pSize];</span>
-<span class="fc bfc" id="L267" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L268">				tSpot[j] = (RealD) FBuilder.REALD.createZERO(pCard);</span>
-<span class="fc" id="L269">			return tSpot;</span>
+<span class="fc" id="L264">			RealD[] tSpot = new RealD[pSize];</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L266">				tSpot[j] = (RealD) FBuilder.REALD.createZERO(pCard);</span>
+<span class="fc" id="L267">			return tSpot;</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L272">			ComplexF[] tSpot = new ComplexF[pSize];</span>
-<span class="fc bfc" id="L273" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L274">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createZERO(pCard);</span>
-<span class="fc" id="L275">			return tSpot;</span>
+<span class="fc" id="L270">			ComplexF[] tSpot = new ComplexF[pSize];</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L272">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createZERO(pCard);</span>
+<span class="fc" id="L273">			return tSpot;</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L278">			ComplexD[] tSpot = new ComplexD[pSize];</span>
-<span class="fc bfc" id="L279" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L280">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createZERO(pCard);</span>
-<span class="fc" id="L281">			return tSpot;</span>
+<span class="fc" id="L276">			ComplexD[] tSpot = new ComplexD[pSize];</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L278">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createZERO(pCard);</span>
+<span class="fc" id="L279">			return tSpot;</span>
 		}
 		default -&gt; {
-<span class="nc" id="L284">			return null;</span>
+<span class="nc" id="L282">			return null;</span>
 		}
 		}
 	}
@@ -295,21 +293,21 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ZEROS with default cardinals.
 	 */
 	public ProtoN[] create(int pSize) {
-<span class="pc bpc" id="L298" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L296" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L300">			return create(Cardinal.generate(CladosField.REALF), pSize);</span>
+<span class="fc" id="L298">			return create(Cardinal.generate(CladosField.REALF), pSize);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L303">			return create(Cardinal.generate(CladosField.REALD), pSize);</span>
+<span class="fc" id="L301">			return create(Cardinal.generate(CladosField.REALD), pSize);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L306">			return create(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
+<span class="fc" id="L304">			return create(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L309">			return create(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
+<span class="fc" id="L307">			return create(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L312">			return null;</span>
+<span class="nc" id="L310">			return null;</span>
 		}
 		}
 	}
@@ -326,9 +324,9 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ZEROS with default cardinals.
 	 */
 	public ProtoN[] create(String pS, int pSize) {
-<span class="fc" id="L329">		Cardinal def = Cardinal.generate(pS);</span>
-<span class="fc" id="L330">		FCache.INSTANCE.appendCardinal(def);</span>
-<span class="fc" id="L331">		return create(def, pSize);</span>
+<span class="fc" id="L327">		Cardinal def = Cardinal.generate(pS);</span>
+<span class="fc" id="L328">		FCache.INSTANCE.appendCardinal(def);</span>
+<span class="fc" id="L329">		return create(def, pSize);</span>
 	}
 
 	/**
@@ -357,38 +355,37 @@ import java.util.List;
 	 * @param &lt;T&gt; ProtoN number from CladosF with Field interface.
 	 * @return List of ProtoN children set to ZERO using incoming cardinal.
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;T extends ProtoN &amp; Field&gt; List&lt;T&gt; createListOf(Cardinal pCard, int pSize) {
-<span class="pc bpc" id="L362" title="1 of 2 branches missed.">		if (pCard != null) {</span>
-<span class="fc" id="L363">			FCache.INSTANCE.appendCardinal(pCard); //Just in case.</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">		if (pCard != null) {</span>
+<span class="fc" id="L360">			FCache.INSTANCE.appendCardinal(pCard); //Just in case.</span>
 		}
-<span class="pc bpc" id="L365" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L362" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L367">			RealF[] tSpot = new RealF[pSize];</span>
-<span class="fc bfc" id="L368" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L369">				tSpot[j] = (RealF) FBuilder.REALF.createZERO(pCard);</span>
-<span class="fc" id="L370">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L364">			RealF[] tSpot = new RealF[pSize];</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L366">				tSpot[j] = (RealF) FBuilder.REALF.createZERO(pCard);</span>
+<span class="fc" id="L367">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L373">			RealD[] tSpot = new RealD[pSize];</span>
-<span class="fc bfc" id="L374" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L375">				tSpot[j] = (RealD) FBuilder.REALD.createZERO(pCard);</span>
-<span class="fc" id="L376">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L370">			RealD[] tSpot = new RealD[pSize];</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L372">				tSpot[j] = (RealD) FBuilder.REALD.createZERO(pCard);</span>
+<span class="fc" id="L373">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L379">			ComplexF[] tSpot = new ComplexF[pSize];</span>
-<span class="fc bfc" id="L380" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L381">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createZERO(pCard);</span>
-<span class="fc" id="L382">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L376">			ComplexF[] tSpot = new ComplexF[pSize];</span>
+<span class="fc bfc" id="L377" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L378">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createZERO(pCard);</span>
+<span class="fc" id="L379">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L385">			ComplexD[] tSpot = new ComplexD[pSize];</span>
-<span class="fc bfc" id="L386" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L387">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createZERO(pCard);</span>
-<span class="fc" id="L388">			return (List&lt;T&gt;) List.of(tSpot);</span>
+<span class="fc" id="L382">			ComplexD[] tSpot = new ComplexD[pSize];</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L384">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createZERO(pCard);</span>
+<span class="fc" id="L385">			return (List&lt;T&gt;) List.of(tSpot);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L391">			return null;</span>
+<span class="nc" id="L388">			return null;</span>
 		}
 		}
 	}
@@ -404,21 +401,21 @@ import java.util.List;
 	 * @return List of ProtoN children as ZEROS with default cardinals.
 	 */
 	public &lt;T extends ProtoN &amp; Field&gt; List&lt;T&gt; createListOf(int pSize) {
-<span class="pc bpc" id="L407" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L404" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L409">			return REALF.createListOf(Cardinal.generate(CladosField.REALF), pSize);</span>
+<span class="fc" id="L406">			return REALF.createListOf(Cardinal.generate(CladosField.REALF), pSize);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L412">			return REALD.createListOf(Cardinal.generate(CladosField.REALD), pSize);</span>
+<span class="fc" id="L409">			return REALD.createListOf(Cardinal.generate(CladosField.REALD), pSize);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L415">			return COMPLEXF.createListOf(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
+<span class="fc" id="L412">			return COMPLEXF.createListOf(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L418">			return COMPLEXD.createListOf(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
+<span class="fc" id="L415">			return COMPLEXD.createListOf(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L421">			return null;</span>
+<span class="nc" id="L418">			return null;</span>
 		}
 		}
 	}
@@ -435,7 +432,7 @@ import java.util.List;
 	 * @return List of ProtoN children as ZEROS with default cardinals.
 	 */
 	public &lt;T extends ProtoN &amp; Field&gt; List&lt;T&gt; createListOf(String pS, int pSize) {
-<span class="fc" id="L438">			return createListOf(Cardinal.generate(pS), pSize);		</span>
+<span class="fc" id="L435">			return createListOf(Cardinal.generate(pS), pSize);		</span>
 	}
 
 	/**
@@ -448,36 +445,36 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ONEs using incoming cardinal.
 	 */
 	public ProtoN[] createONE(Cardinal pCard, int pSize) {
-<span class="pc bpc" id="L451" title="1 of 2 branches missed.">		if (pCard != null) {</span>
-<span class="fc" id="L452">			FCache.INSTANCE.appendCardinal(pCard); // Just in case</span>
+<span class="pc bpc" id="L448" title="1 of 2 branches missed.">		if (pCard != null) {</span>
+<span class="fc" id="L449">			FCache.INSTANCE.appendCardinal(pCard); // Just in case</span>
 		}
-<span class="pc bpc" id="L454" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L451" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L456">			RealF[] tSpot = new RealF[pSize];</span>
-<span class="fc bfc" id="L457" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L458">				tSpot[j] = (RealF) FBuilder.REALF.createONE(pCard);</span>
-<span class="fc" id="L459">			return tSpot;</span>
+<span class="fc" id="L453">			RealF[] tSpot = new RealF[pSize];</span>
+<span class="fc bfc" id="L454" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L455">				tSpot[j] = (RealF) FBuilder.REALF.createONE(pCard);</span>
+<span class="fc" id="L456">			return tSpot;</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L462">			RealD[] tSpot = new RealD[pSize];</span>
-<span class="fc bfc" id="L463" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L464">				tSpot[j] = (RealD) FBuilder.REALD.createONE(pCard);</span>
-<span class="fc" id="L465">			return tSpot;</span>
+<span class="fc" id="L459">			RealD[] tSpot = new RealD[pSize];</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L461">				tSpot[j] = (RealD) FBuilder.REALD.createONE(pCard);</span>
+<span class="fc" id="L462">			return tSpot;</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L468">			ComplexF[] tSpot = new ComplexF[pSize];</span>
-<span class="fc bfc" id="L469" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L470">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createONE(pCard);</span>
-<span class="fc" id="L471">			return tSpot;</span>
+<span class="fc" id="L465">			ComplexF[] tSpot = new ComplexF[pSize];</span>
+<span class="fc bfc" id="L466" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L467">				tSpot[j] = (ComplexF) FBuilder.COMPLEXF.createONE(pCard);</span>
+<span class="fc" id="L468">			return tSpot;</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L474">			ComplexD[] tSpot = new ComplexD[pSize];</span>
-<span class="fc bfc" id="L475" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
-<span class="fc" id="L476">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createONE(pCard);</span>
-<span class="fc" id="L477">			return tSpot;</span>
+<span class="fc" id="L471">			ComplexD[] tSpot = new ComplexD[pSize];</span>
+<span class="fc bfc" id="L472" title="All 2 branches covered.">			for (int j = 0; j &lt; pSize; j++)</span>
+<span class="fc" id="L473">				tSpot[j] = (ComplexD) FBuilder.COMPLEXD.createONE(pCard);</span>
+<span class="fc" id="L474">			return tSpot;</span>
 		}
 		default -&gt; {
-<span class="nc" id="L480">			return null;</span>
+<span class="nc" id="L477">			return null;</span>
 		}
 		}
 	}
@@ -491,21 +488,21 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ONEs using incoming cardinal.
 	 */
 	public ProtoN[] createONE(int pSize) {
-<span class="pc bpc" id="L494" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L491" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L496">			return createONE(Cardinal.generate(CladosField.REALF), pSize);</span>
+<span class="fc" id="L493">			return createONE(Cardinal.generate(CladosField.REALF), pSize);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L499">			return createONE(Cardinal.generate(CladosField.REALD), pSize);</span>
+<span class="fc" id="L496">			return createONE(Cardinal.generate(CladosField.REALD), pSize);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L502">			return createONE(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
+<span class="fc" id="L499">			return createONE(Cardinal.generate(CladosField.COMPLEXF), pSize);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L505">			return createONE(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
+<span class="fc" id="L502">			return createONE(Cardinal.generate(CladosField.COMPLEXD), pSize);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L508">			return null;</span>
+<span class="nc" id="L505">			return null;</span>
 		}
 		}
 	}
@@ -522,9 +519,9 @@ import java.util.List;
 	 * @return ProtoN[] Newly constructed ONEs using incoming cardinal.
 	 */
 	public ProtoN[] createONE(String pS, int pSize) {
-<span class="fc" id="L525">		Cardinal def = Cardinal.generate(pS);</span>
-<span class="fc" id="L526">		FCache.INSTANCE.appendCardinal(def);</span>
-<span class="fc" id="L527">		return createONE(def, pSize);</span>
+<span class="fc" id="L522">		Cardinal def = Cardinal.generate(pS);</span>
+<span class="fc" id="L523">		FCache.INSTANCE.appendCardinal(def);</span>
+<span class="fc" id="L524">		return createONE(def, pSize);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

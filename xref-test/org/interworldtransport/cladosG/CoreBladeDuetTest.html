@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  		assertTrue(BladeDuet.toXMLString(bduet).compareTo(regString) == 0); <em class="jxr_comment">// should match exactly</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  		
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  		Blade together = BladeDuet.simplify(maxSize1, maxSize2, bigsig);
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		regString =<span class="jxr_string">"&lt;Blade key=\&quot;920735923817967\&quot; bitKey=\&quot;0b111111111111100\&quot; sign=\&quot;-1\&quot; generators=\&quot;E3,E4,E5,E6,E7,E8,E9,EA,EB,EC,ED,EE,EF\&quot; /&gt;\n"</span>;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		regString =<span class="jxr_string">"&lt;Blade key=\&quot;920735923817967\&quot; bitKey=\&quot;0b111111111111100\&quot; generators=\&quot;E3,E4,E5,E6,E7,E8,E9,EA,EB,EC,ED,EE,EF\&quot; /&gt;\n"</span>;
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  		assertTrue(Blade.toXMLString(together, <span class="jxr_string">""</span>).compareTo(regString) == 0); <em class="jxr_comment">// should match exactly</em>
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  	}
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  }

@@ -110,16 +110,11 @@ public final class Cardinal {
 
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (this == obj)</span>
-<span class="fc" id="L114">			return true;</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">		if (obj == null)</span>
-<span class="fc" id="L116">			return false;</span>
-<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (getClass() != obj.getClass())</span>
-<span class="fc" id="L118">			return false;</span>
-<span class="fc" id="L119">		Cardinal other = (Cardinal) obj;</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (!this.getUnit().equals(other.getUnit()))</span>
-<span class="fc" id="L121">			return false;</span>
-<span class="fc" id="L122">		return true;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (this == obj)										return true;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		if (obj == null)										return false;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		if (getClass() != obj.getClass())						return false;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		if (!this.getUnit().equals(((Cardinal)obj).getUnit()))	return false;</span>
+<span class="fc" id="L117">																return true;</span>
 	}
 
 	/**
@@ -128,15 +123,15 @@ public final class Cardinal {
 	 * @return String This string names the 'unit type' represented by the Cardinal
 	 */
 	public String getUnit() {
-<span class="fc" id="L131">		return unit;</span>
+<span class="fc" id="L126">		return unit;</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L136">		final int prime = 31;</span>
-<span class="fc" id="L137">		int result = 1;</span>
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		result = prime * result + ((unit == null) ? 0 : unit.hashCode());</span>
-<span class="fc" id="L139">		return result;</span>
+<span class="fc" id="L131">		final int prime = 31;</span>
+<span class="fc" id="L132">		int result = 1;</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">		result = prime * result + ((unit == null) ? 0 : unit.hashCode());</span>
+<span class="fc" id="L134">		return result;</span>
 	}
 
 	/**
@@ -147,9 +142,8 @@ public final class Cardinal {
 	 * @return String XML compatible sub-unit for code relying on export-able Cardinals.
 	 */
 	public final static String toXMLString(Cardinal pCard, String indent) {
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="fc" id="L151">			indent =&quot;&quot;;</span>
-<span class="fc" id="L152">		return (indent + &quot;&lt;Cardinal unit=\&quot;&quot; + pCard.unit + &quot;\&quot; /&gt;\n&quot;);</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">		if (indent == null)			indent =&quot;&quot;;</span>
+<span class="fc" id="L146">		return (indent + &quot;&lt;Cardinal unit=\&quot;&quot; + pCard.unit + &quot;\&quot; /&gt;\n&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

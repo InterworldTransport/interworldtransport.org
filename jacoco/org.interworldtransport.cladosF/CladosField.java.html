@@ -25,43 +25,41 @@
 package org.interworldtransport.cladosF;
 
 /**
- * DivFields currently come in four varieties. RealF, RealD, ComplexF, ComplexD
- * To facilitate a Builder class we would give basic information and construct
- * any of them. This would be supported by an enumeration type that can't be
- * ProtoN itself because ProtoN is subclassed to make the four field
- * classes.
+ * ProtoN currently come in four varieties. RealF, RealD, ComplexF, ComplexD. This enumeration
+ * ensures other classes can know what ProtoN children are supported. Adjustments here
+ * (for example... adding in quaternions) will cause all dependent classes to complain at 
+ * compile time that their switch statements are incomplete. This class also facilitates clados 
+ * builder classes in a way that ProtoN children can't do directly. ProtoN children are subclassed 
+ * while builders are also enumerations.
  * &lt;br&gt;&lt;br&gt;
- * This enum doubles up a bit as a builder. Each of its instances rely on the
- * shared static methods and have a few instance methods of their own that
- * 'switch' on their identity to determine what gets built and returned.
+ * This enumeration also doubles up as a small builder. Each of its instances can call methods 
+ * for creating ones and zeroes of the right ProtoN child type with the offered input. 
+ * They 'switch' on their identity to determine what gets returned. While these ARE instance
+ * methods, the instances themselves have NO INTERNAL STATE to change unlike some of the other
+ * clados builders.
  * &lt;br&gt;&lt;br&gt;
- * This enumeration has non-static methods for each instance, but they don't
- * cause a state change. CladosField HAS NO INTERNAL STATE to change unlike the
- * Builder in the same package.
+ * NOTE the methods capable of creating Cardinals DO CACHE THEM.
  * &lt;br&gt;&lt;br&gt;
- * NOTE that the methods capable of creating Cardinals in this enumeration do
- * NOT cache them. Similar methods in FBuilder DO cache them.
- * &lt;br&gt;&lt;br&gt;
- * @version 1.0
+ * @version 2.0
  * @author Dr Alfred W Differ
  */
-<span class="fc" id="L48">public enum CladosField {</span>
+<span class="fc" id="L46">public enum CladosField {</span>
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L52">	REALF,</span>
+<span class="fc" id="L50">	REALF,</span>
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L56">	REALD,</span>
+<span class="fc" id="L54">	REALD,</span>
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L60">	COMPLEXF,</span>
+<span class="fc" id="L58">	COMPLEXF,</span>
 	/**
 	 * There is an implicit private constructor for this, but we won't override it.
 	 */
-<span class="fc" id="L64">	COMPLEXD//,</span>
+<span class="fc" id="L62">	COMPLEXD//,</span>
 	/**
 	 * This is a test for extending the enumeration. Curious to see what complains. 8)
 	 */
@@ -70,80 +68,26 @@ package org.interworldtransport.cladosF;
 
 	/**
 	 * Method re-uses the incoming cardinal and constructs a particular ProtoN
-	 * child object using the CladosField hint.
-	 * &lt;br&gt;
-	 * Number created has a real value of ONE.
-	 * &lt;br&gt;
-	 * @param pField CladosField enumeration to be used as description of ProtoN
-	 *               child to be created.
-	 * @param pCard  Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
-	 */
-	public final static ProtoN createONE(CladosField pField, Cardinal pCard) {
-<span class="pc bpc" id="L84" title="1 of 5 branches missed.">		switch (pField) {</span>
-		case REALF:
-<span class="fc" id="L86">			return new RealF(pCard, 1f);</span>
-		case REALD:
-<span class="fc" id="L88">			return new RealD(pCard, 1d);</span>
-		case COMPLEXF:
-<span class="fc" id="L90">			return new ComplexF(pCard, 1f, 0f);</span>
-		case COMPLEXD:
-<span class="fc" id="L92">			return new ComplexD(pCard, 1d, 0d);</span>
-		default:
-<span class="nc" id="L94">			return new ProtoN(pCard);</span>
-		}
-	}
-
-	/**
-	 * Method re-uses the incoming cardinal and constructs a particular ProtoN
-	 * child object using the CladosField hint.
-	 * &lt;br&gt;
-	 * Number created has a real value of ZERO.
-	 * &lt;br&gt;
-	 * @param pField CladosField enumeration to be used as description of ProtoN
-	 *               child to be created.
-	 * @param pCard  Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
-	 */
-	public final static ProtoN createZERO(CladosField pField, Cardinal pCard) {
-<span class="pc bpc" id="L111" title="1 of 5 branches missed.">		switch (pField) {</span>
-		case REALF:
-<span class="fc" id="L113">			return new RealF(pCard, 0f);</span>
-		case REALD:
-<span class="fc" id="L115">			return new RealD(pCard, 0d);</span>
-		case COMPLEXF:
-<span class="fc" id="L117">			return new ComplexF(pCard, 0f, 0f);</span>
-		case COMPLEXD:
-<span class="fc" id="L119">			return new ComplexD(pCard, 0d, 0d);</span>
-		default:
-<span class="nc" id="L121">			return new ProtoN(pCard);</span>
-		}
-	}
-
-	/**
-	 * Method re-uses the incoming cardinal and constructs a particular ProtoN
 	 * child object using this CladosField enumeration as the hint.
 	 * &lt;br&gt;
 	 * Number created has a real value of ONE.
 	 * &lt;br&gt;
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
 	 * @param pCard Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @return D child of ProtoN newly constructed 'one'.
 	 */
-	public final ProtoN createONE(Cardinal pCard) {
-<span class="pc bpc" id="L136" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(Cardinal pCard) {
+<span class="pc bpc" id="L80" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L138">			return new RealF(pCard, 1f);</span>
+<span class="fc" id="L82">			return (D) new RealF(pCard, 1f);</span>
 		case REALD:
-<span class="fc" id="L140">			return new RealD(pCard, 1d);</span>
+<span class="fc" id="L84">			return (D) new RealD(pCard, 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L142">			return new ComplexF(pCard, 1f, 0f);</span>
+<span class="fc" id="L86">			return (D) new ComplexF(pCard, 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L144">			return new ComplexD(pCard, 1d, 0d);</span>
+<span class="fc" id="L88">			return (D) new ComplexD(pCard, 1d, 0d);</span>
 		default:
-<span class="nc" id="L146">			return new ProtoN(pCard);</span>
+<span class="nc" id="L90">			return (D) new ProtoN(pCard);</span>
 		}
 	}
 
@@ -153,47 +97,47 @@ package org.interworldtransport.cladosF;
 	 * &lt;br&gt;
 	 * Number created has a real value of ONE.
 	 * &lt;br&gt;
-	 * @param pDiv Source of the Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
+	 * @param pNumber Source of the Cardinal to be re-used.
+	 * @return D child of ProtoN newly constructed 'one'.
 	 */
-	public final ProtoN createONE(ProtoN pDiv) {
-<span class="pc bpc" id="L161" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(ProtoN pNumber) {
+<span class="pc bpc" id="L105" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L163">			return new RealF(pDiv.getCardinal(), 1f);</span>
+<span class="fc" id="L107">			return (D) new RealF(pNumber.getCardinal(), 1f);</span>
 		case REALD:
-<span class="fc" id="L165">			return new RealD(pDiv.getCardinal(), 1d);</span>
+<span class="fc" id="L109">			return (D) new RealD(pNumber.getCardinal(), 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L167">			return new ComplexF(pDiv.getCardinal(), 1f, 0f);</span>
+<span class="fc" id="L111">			return (D) new ComplexF(pNumber.getCardinal(), 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L169">			return new ComplexD(pDiv.getCardinal(), 1d, 0d);</span>
+<span class="fc" id="L113">			return (D) new ComplexD(pNumber.getCardinal(), 1d, 0d);</span>
 		default:
-<span class="nc" id="L171">			return new ProtoN(pDiv.getCardinal());</span>
+<span class="nc" id="L115">			return (D) new ProtoN(pNumber.getCardinal());</span>
 		}
 	}
 
 	/**
-	 * Method re-uses the incoming cardinal and constructs a particular ProtoN
+	 * Method constructs a cardinal and constructs a particular ProtoN
 	 * child object using this CladosField enumeration as the hint.
 	 * &lt;br&gt;
 	 * Number created has a real value of ONE.
 	 * &lt;br&gt;
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
 	 * @param pCard String name of the Cardinal to be created.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @return D child of ProtoN newly constructed 'one'.
 	 */
-	public final ProtoN createONE(String pCard) {
-<span class="pc bpc" id="L186" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(String pCard) {
+<span class="pc bpc" id="L130" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L188">			return new RealF(Cardinal.generate(pCard), 1f);</span>
+<span class="fc" id="L132">			return (D) new RealF(Cardinal.generate(pCard), 1f);</span>
 		case REALD:
-<span class="fc" id="L190">			return new RealD(Cardinal.generate(pCard), 1d);</span>
+<span class="fc" id="L134">			return (D) new RealD(Cardinal.generate(pCard), 1d);</span>
 		case COMPLEXF:
-<span class="fc" id="L192">			return new ComplexF(Cardinal.generate(pCard), 1f, 0f);</span>
+<span class="fc" id="L136">			return (D) new ComplexF(Cardinal.generate(pCard), 1f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L194">			return new ComplexD(Cardinal.generate(pCard), 1d, 0d);</span>
+<span class="fc" id="L138">			return (D) new ComplexD(Cardinal.generate(pCard), 1d, 0d);</span>
 		default:
-<span class="nc" id="L196">			return new ProtoN(Cardinal.generate(pCard));</span>
+<span class="nc" id="L140">			return (D) new ProtoN(Cardinal.generate(pCard));</span>
 		}
 	}
 
@@ -203,22 +147,22 @@ package org.interworldtransport.cladosF;
 	 * &lt;br&gt;
 	 * Number created has a real value of ZERO.
 	 * &lt;br&gt;
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
 	 * @param pCard Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @return D child of ProtoN newly constructed 'zero'.
 	 */
-	public final ProtoN createZERO(Cardinal pCard) {
-<span class="pc bpc" id="L211" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(Cardinal pCard) {
+<span class="pc bpc" id="L155" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L213">			return new RealF(pCard, 0f);</span>
+<span class="fc" id="L157">			return (D) new RealF(pCard, 0f);</span>
 		case REALD:
-<span class="fc" id="L215">			return new RealD(pCard, 0d);</span>
+<span class="fc" id="L159">			return (D) new RealD(pCard, 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L217">			return new ComplexF(pCard, 0f, 0f);</span>
+<span class="fc" id="L161">			return (D) new ComplexF(pCard, 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L219">			return new ComplexD(pCard, 0d, 0d);</span>
+<span class="fc" id="L163">			return (D) new ComplexD(pCard, 0d, 0d);</span>
 		default:
-<span class="nc" id="L221">			return new ProtoN(pCard);</span>
+<span class="nc" id="L165">			return (D) new ProtoN(pCard);</span>
 		}
 	}
 
@@ -228,22 +172,22 @@ package org.interworldtransport.cladosF;
 	 * &lt;br&gt;
 	 * Number created has a real value of ZERO.
 	 * &lt;br&gt;
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
 	 * @param pDiv Source of the Cardinal to be re-used.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @return D child of ProtoN newly constructed 'zero'.
 	 */
-	public final ProtoN createZERO(ProtoN pDiv) {
-<span class="pc bpc" id="L236" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(ProtoN pDiv) {
+<span class="pc bpc" id="L180" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L238">			return new RealF(pDiv.getCardinal(), 0f);</span>
+<span class="fc" id="L182">			return (D) new RealF(pDiv.getCardinal(), 0f);</span>
 		case REALD:
-<span class="fc" id="L240">			return new RealD(pDiv.getCardinal(), 0d);</span>
+<span class="fc" id="L184">			return (D) new RealD(pDiv.getCardinal(), 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L242">			return new ComplexF(pDiv.getCardinal(), 0f, 0f);</span>
+<span class="fc" id="L186">			return (D) new ComplexF(pDiv.getCardinal(), 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L244">			return new ComplexD(pDiv.getCardinal(), 0d, 0d);</span>
+<span class="fc" id="L188">			return (D) new ComplexD(pDiv.getCardinal(), 0d, 0d);</span>
 		default:
-<span class="nc" id="L246">			return new ProtoN(pDiv.getCardinal());</span>
+<span class="nc" id="L190">			return (D) new ProtoN(pDiv.getCardinal());</span>
 		}
 	}
 
@@ -253,22 +197,22 @@ package org.interworldtransport.cladosF;
 	 * &lt;br&gt;
 	 * Number created has a real value of ZERO.
 	 * &lt;br&gt;
+	 * @param &lt;D&gt; a ProtoN subclass generic reference
 	 * @param pCard String name of the Cardinal to be created.
-	 * @return ProtoN Newly constructed 'zero' number returned as a ProtoN, but
-	 *         it will always be one of the ProtoN children.
+	 * @return D child of ProtoN newly constructed 'zero'.
 	 */
-	public final ProtoN createZERO(String pCard) {
-<span class="pc bpc" id="L261" title="1 of 5 branches missed.">		switch (this) {</span>
+	public final &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(String pCard) {
+<span class="pc bpc" id="L205" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF:
-<span class="fc" id="L263">			return new RealF(Cardinal.generate(pCard), 0f);</span>
+<span class="fc" id="L207">			return (D) new RealF(Cardinal.generate(pCard), 0f);</span>
 		case REALD:
-<span class="fc" id="L265">			return new RealD(Cardinal.generate(pCard), 0d);</span>
+<span class="fc" id="L209">			return (D) new RealD(Cardinal.generate(pCard), 0d);</span>
 		case COMPLEXF:
-<span class="fc" id="L267">			return new ComplexF(Cardinal.generate(pCard), 0f, 0f);</span>
+<span class="fc" id="L211">			return (D) new ComplexF(Cardinal.generate(pCard), 0f, 0f);</span>
 		case COMPLEXD:
-<span class="fc" id="L269">			return new ComplexD(Cardinal.generate(pCard), 0d, 0d);</span>
+<span class="fc" id="L213">			return (D) new ComplexD(Cardinal.generate(pCard), 0d, 0d);</span>
 		default:
-<span class="nc" id="L271">			return new ProtoN(Cardinal.generate(pCard));</span>
+<span class="nc" id="L215">			return (D) new ProtoN(Cardinal.generate(pCard));</span>
 		}
 	}
 }

@@ -488,95 +488,100 @@
 <a class="jxr_linenumber" name="L480" href="#L480">480</a> 	}
 <a class="jxr_linenumber" name="L481" href="#L481">481</a> 
 <a class="jxr_linenumber" name="L482" href="#L482">482</a> 	@Override
-<a class="jxr_linenumber" name="L483" href="#L483">483</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="L484" href="#L484">484</a> 		<strong class="jxr_keyword">return</strong> (<strong class="jxr_keyword">int</strong>) getGradeCount();
+<a class="jxr_linenumber" name="L483" href="#L483">483</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasBlade(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 		<strong class="jxr_keyword">return</strong> keyIndexMap.containsKey(pB.key());
 <a class="jxr_linenumber" name="L485" href="#L485">485</a> 	}
 <a class="jxr_linenumber" name="L486" href="#L486">486</a> 
 <a class="jxr_linenumber" name="L487" href="#L487">487</a> 	@Override
-<a class="jxr_linenumber" name="L488" href="#L488">488</a> 	<strong class="jxr_keyword">public</strong> LongStream keyStream() {
-<a class="jxr_linenumber" name="L489" href="#L489">489</a> 		<strong class="jxr_keyword">return</strong> bladeList.stream().mapToLong(blade -&gt; blade.key());
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="L489" href="#L489">489</a> 		<strong class="jxr_keyword">return</strong> (<strong class="jxr_keyword">int</strong>) getGradeCount();
 <a class="jxr_linenumber" name="L490" href="#L490">490</a> 	}
 <a class="jxr_linenumber" name="L491" href="#L491">491</a> 
-<a class="jxr_linenumber" name="L492" href="#L492">492</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L493" href="#L493">493</a> <em class="jxr_javadoccomment">	 * This method produces a printable and parseable string that represents the</em>
-<a class="jxr_linenumber" name="L494" href="#L494">494</a> <em class="jxr_javadoccomment">	 * Basis in a human readable form. return String</em>
-<a class="jxr_linenumber" name="L495" href="#L495">495</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L496" href="#L496">496</a> <em class="jxr_javadoccomment">	 * @param pB The Basis to export as XML</em>
-<a class="jxr_linenumber" name="L497" href="#L497">497</a> <em class="jxr_javadoccomment">	 * @param indent String of 'tab' characters that help space the output correctly</em>
-<a class="jxr_linenumber" name="L498" href="#L498">498</a> <em class="jxr_javadoccomment">	 *               visually. It's not actually necessary except for human</em>
-<a class="jxr_linenumber" name="L499" href="#L499">499</a> <em class="jxr_javadoccomment">	 *               readability of the output.</em>
-<a class="jxr_linenumber" name="L500" href="#L500">500</a> <em class="jxr_javadoccomment">	 * @return String</em>
-<a class="jxr_linenumber" name="L501" href="#L501">501</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L502" href="#L502">502</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="Basis" href="../../../org/interworldtransport/cladosG/Basis.html#Basis">Basis</a> pB, String indent) {
-<a class="jxr_linenumber" name="L503" href="#L503">503</a> 		<strong class="jxr_keyword">if</strong> (indent == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L504" href="#L504">504</a> 			indent = <span class="jxr_string">"\t\t\t\t\t\t"</span>;
-<a class="jxr_linenumber" name="L505" href="#L505">505</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent + <span class="jxr_string">"&lt;Basis&gt;\n"</span>);
-<a class="jxr_linenumber" name="L506" href="#L506">506</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="L507" href="#L507">507</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L508" href="#L508">508</a> 			.append(<span class="jxr_string">"\t&lt;Grades count=\&quot;"</span>)
-<a class="jxr_linenumber" name="L509" href="#L509">509</a> 			.append(pB.getGradeCount() + <span class="jxr_string">"\&quot;&gt;\n"</span>);
-<a class="jxr_linenumber" name="L510" href="#L510">510</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt;= pB.gradeCount - 2; k++) <em class="jxr_comment">// loop to get all but the highest grade</em>
-<a class="jxr_linenumber" name="L511" href="#L511">511</a> 			rB.append(indent)
-<a class="jxr_linenumber" name="L512" href="#L512">512</a> 				.append(<span class="jxr_string">"\t\t&lt;Grade number=\&quot;"</span>)
-<a class="jxr_linenumber" name="L513" href="#L513">513</a> 				.append(k)
-<a class="jxr_linenumber" name="L514" href="#L514">514</a> 				.append(<span class="jxr_string">"\&quot; range=\&quot;"</span>)
-<a class="jxr_linenumber" name="L515" href="#L515">515</a> 				.append(pB.gradeList.get(k))
-<a class="jxr_linenumber" name="L516" href="#L516">516</a> 				.append(<span class="jxr_string">"-"</span>)
-<a class="jxr_linenumber" name="L517" href="#L517">517</a> 				.append((pB.gradeList.get(k + 1) - 1))
-<a class="jxr_linenumber" name="L518" href="#L518">518</a> 				.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
-<a class="jxr_linenumber" name="L519" href="#L519">519</a> 		<em class="jxr_comment">// Handle last grade separate. There is no k+1 index for the largest grade</em>
-<a class="jxr_linenumber" name="L520" href="#L520">520</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L521" href="#L521">521</a> 			.append(<span class="jxr_string">"\t\t&lt;Grade number=\&quot;"</span>)
-<a class="jxr_linenumber" name="L522" href="#L522">522</a> 			.append((pB.getGradeCount() - 1))
-<a class="jxr_linenumber" name="L523" href="#L523">523</a> 			.append(<span class="jxr_string">"\&quot; range=\&quot;"</span>)
-<a class="jxr_linenumber" name="L524" href="#L524">524</a> 			.append(pB.gradeList.get(pB.gradeCount - 1))
-<a class="jxr_linenumber" name="L525" href="#L525">525</a> 			.append(<span class="jxr_string">"-"</span>)
-<a class="jxr_linenumber" name="L526" href="#L526">526</a> 			.append(pB.gradeList.get(pB.gradeCount - 1))
-<a class="jxr_linenumber" name="L527" href="#L527">527</a> 			.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
-<a class="jxr_linenumber" name="L528" href="#L528">528</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L529" href="#L529">529</a> 			.append(<span class="jxr_string">"\t&lt;/Grades&gt;\n"</span>);
-<a class="jxr_linenumber" name="L530" href="#L530">530</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="L531" href="#L531">531</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L532" href="#L532">532</a> 			.append(<span class="jxr_string">"\t&lt;Blades count=\&quot;"</span>)
-<a class="jxr_linenumber" name="L533" href="#L533">533</a> 			.append(pB.getBladeCount())
-<a class="jxr_linenumber" name="L534" href="#L534">534</a> 			.append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
-<a class="jxr_linenumber" name="L535" href="#L535">535</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt; pB.bladeList.size(); k++) <em class="jxr_comment">// Appending blades</em>
-<a class="jxr_linenumber" name="L536" href="#L536">536</a> 			rB.append(Blade.toXMLString(pB.bladeList.get(k), indent + <span class="jxr_string">"\t\t"</span>));
-<a class="jxr_linenumber" name="L537" href="#L537">537</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L538" href="#L538">538</a> 			.append(<span class="jxr_string">"\t&lt;/Blades&gt;\n"</span>);
-<a class="jxr_linenumber" name="L539" href="#L539">539</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="L540" href="#L540">540</a> 		rB.append(indent)
-<a class="jxr_linenumber" name="L541" href="#L541">541</a> 			.append(<span class="jxr_string">"&lt;/Basis&gt;\n"</span>);
-<a class="jxr_linenumber" name="L542" href="#L542">542</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
-<a class="jxr_linenumber" name="L543" href="#L543">543</a> 	}
-<a class="jxr_linenumber" name="L544" href="#L544">544</a> 
-<a class="jxr_linenumber" name="L545" href="#L545">545</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L546" href="#L546">546</a> <em class="jxr_javadoccomment">	 * This is a validator detects blade out of range issues. If one tries to name a</em>
-<a class="jxr_linenumber" name="L547" href="#L547">547</a> <em class="jxr_javadoccomment">	 * blade by its index, it is always possible for the offered integer to be out</em>
-<a class="jxr_linenumber" name="L548" href="#L548">548</a> <em class="jxr_javadoccomment">	 * of range.</em>
-<a class="jxr_linenumber" name="L549" href="#L549">549</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L550" href="#L550">550</a> <em class="jxr_javadoccomment">	 * @param pIn Short representing the integer index of the blade</em>
-<a class="jxr_linenumber" name="L551" href="#L551">551</a> <em class="jxr_javadoccomment">	 * @return boolean True if parameter in the supported range [0, bladeCount]</em>
-<a class="jxr_linenumber" name="L552" href="#L552">552</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L553" href="#L553">553</a> 	@Override
-<a class="jxr_linenumber" name="L554" href="#L554">554</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> validateBladeIndex(<strong class="jxr_keyword">int</strong> pIn) {
-<a class="jxr_linenumber" name="L555" href="#L555">555</a> 		<strong class="jxr_keyword">return</strong> (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());
-<a class="jxr_linenumber" name="L556" href="#L556">556</a> 	}
-<a class="jxr_linenumber" name="L557" href="#L557">557</a> 
-<a class="jxr_linenumber" name="L558" href="#L558">558</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L559" href="#L559">559</a> <em class="jxr_javadoccomment">	 * This is a validator detects grade out of range issues. If one tries to name a</em>
-<a class="jxr_linenumber" name="L560" href="#L560">560</a> <em class="jxr_javadoccomment">	 * grade by its index, it is always possible for the offered integer to be out</em>
-<a class="jxr_linenumber" name="L561" href="#L561">561</a> <em class="jxr_javadoccomment">	 * of range.</em>
-<a class="jxr_linenumber" name="L562" href="#L562">562</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L563" href="#L563">563</a> <em class="jxr_javadoccomment">	 * @param pIn int representing the integer index of the grade</em>
-<a class="jxr_linenumber" name="L564" href="#L564">564</a> <em class="jxr_javadoccomment">	 * @return boolean True if parameter in the supported range [0, bladeCount]</em>
-<a class="jxr_linenumber" name="L565" href="#L565">565</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L566" href="#L566">566</a> 	@Override
-<a class="jxr_linenumber" name="L567" href="#L567">567</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> validateGradeIndex(<strong class="jxr_keyword">int</strong> pIn) {
-<a class="jxr_linenumber" name="L568" href="#L568">568</a> 		<strong class="jxr_keyword">return</strong> (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());
-<a class="jxr_linenumber" name="L569" href="#L569">569</a> 	}
-<a class="jxr_linenumber" name="L570" href="#L570">570</a> 
-<a class="jxr_linenumber" name="L571" href="#L571">571</a> }
+<a class="jxr_linenumber" name="L492" href="#L492">492</a> 	@Override
+<a class="jxr_linenumber" name="L493" href="#L493">493</a> 	<strong class="jxr_keyword">public</strong> LongStream keyStream() {
+<a class="jxr_linenumber" name="L494" href="#L494">494</a> 		<strong class="jxr_keyword">return</strong> bladeList.stream().mapToLong(blade -&gt; blade.key());
+<a class="jxr_linenumber" name="L495" href="#L495">495</a> 	}
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 
+<a class="jxr_linenumber" name="L497" href="#L497">497</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L498" href="#L498">498</a> <em class="jxr_javadoccomment">	 * This method produces a printable and parseable string that represents the</em>
+<a class="jxr_linenumber" name="L499" href="#L499">499</a> <em class="jxr_javadoccomment">	 * Basis in a human readable form. return String</em>
+<a class="jxr_linenumber" name="L500" href="#L500">500</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L501" href="#L501">501</a> <em class="jxr_javadoccomment">	 * @param pB The Basis to export as XML</em>
+<a class="jxr_linenumber" name="L502" href="#L502">502</a> <em class="jxr_javadoccomment">	 * @param indent String of 'tab' characters that help space the output correctly</em>
+<a class="jxr_linenumber" name="L503" href="#L503">503</a> <em class="jxr_javadoccomment">	 *               visually. It's not actually necessary except for human</em>
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> <em class="jxr_javadoccomment">	 *               readability of the output.</em>
+<a class="jxr_linenumber" name="L505" href="#L505">505</a> <em class="jxr_javadoccomment">	 * @return String</em>
+<a class="jxr_linenumber" name="L506" href="#L506">506</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L507" href="#L507">507</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String toXMLString(<a name="Basis" href="../../../org/interworldtransport/cladosG/Basis.html#Basis">Basis</a> pB, String indent) {
+<a class="jxr_linenumber" name="L508" href="#L508">508</a> 		<strong class="jxr_keyword">if</strong> (indent == <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L509" href="#L509">509</a> 			indent = <span class="jxr_string">"\t\t\t\t\t\t"</span>;
+<a class="jxr_linenumber" name="L510" href="#L510">510</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent + <span class="jxr_string">"&lt;Basis&gt;\n"</span>);
+<a class="jxr_linenumber" name="L511" href="#L511">511</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="L512" href="#L512">512</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L513" href="#L513">513</a> 			.append(<span class="jxr_string">"\t&lt;Grades count=\&quot;"</span>)
+<a class="jxr_linenumber" name="L514" href="#L514">514</a> 			.append(pB.getGradeCount() + <span class="jxr_string">"\&quot;&gt;\n"</span>);
+<a class="jxr_linenumber" name="L515" href="#L515">515</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt;= pB.gradeCount - 2; k++) <em class="jxr_comment">// loop to get all but the highest grade</em>
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> 			rB.append(indent)
+<a class="jxr_linenumber" name="L517" href="#L517">517</a> 				.append(<span class="jxr_string">"\t\t&lt;Grade number=\&quot;"</span>)
+<a class="jxr_linenumber" name="L518" href="#L518">518</a> 				.append(k)
+<a class="jxr_linenumber" name="L519" href="#L519">519</a> 				.append(<span class="jxr_string">"\&quot; range=\&quot;"</span>)
+<a class="jxr_linenumber" name="L520" href="#L520">520</a> 				.append(pB.gradeList.get(k))
+<a class="jxr_linenumber" name="L521" href="#L521">521</a> 				.append(<span class="jxr_string">"-"</span>)
+<a class="jxr_linenumber" name="L522" href="#L522">522</a> 				.append((pB.gradeList.get(k + 1) - 1))
+<a class="jxr_linenumber" name="L523" href="#L523">523</a> 				.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
+<a class="jxr_linenumber" name="L524" href="#L524">524</a> 		<em class="jxr_comment">// Handle last grade separate. There is no k+1 index for the largest grade</em>
+<a class="jxr_linenumber" name="L525" href="#L525">525</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L526" href="#L526">526</a> 			.append(<span class="jxr_string">"\t\t&lt;Grade number=\&quot;"</span>)
+<a class="jxr_linenumber" name="L527" href="#L527">527</a> 			.append((pB.getGradeCount() - 1))
+<a class="jxr_linenumber" name="L528" href="#L528">528</a> 			.append(<span class="jxr_string">"\&quot; range=\&quot;"</span>)
+<a class="jxr_linenumber" name="L529" href="#L529">529</a> 			.append(pB.gradeList.get(pB.gradeCount - 1))
+<a class="jxr_linenumber" name="L530" href="#L530">530</a> 			.append(<span class="jxr_string">"-"</span>)
+<a class="jxr_linenumber" name="L531" href="#L531">531</a> 			.append(pB.gradeList.get(pB.gradeCount - 1))
+<a class="jxr_linenumber" name="L532" href="#L532">532</a> 			.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
+<a class="jxr_linenumber" name="L533" href="#L533">533</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L534" href="#L534">534</a> 			.append(<span class="jxr_string">"\t&lt;/Grades&gt;\n"</span>);
+<a class="jxr_linenumber" name="L535" href="#L535">535</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="L536" href="#L536">536</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L537" href="#L537">537</a> 			.append(<span class="jxr_string">"\t&lt;Blades count=\&quot;"</span>)
+<a class="jxr_linenumber" name="L538" href="#L538">538</a> 			.append(pB.getBladeCount())
+<a class="jxr_linenumber" name="L539" href="#L539">539</a> 			.append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
+<a class="jxr_linenumber" name="L540" href="#L540">540</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> k = 0; k &lt; pB.bladeList.size(); k++) <em class="jxr_comment">// Appending blades</em>
+<a class="jxr_linenumber" name="L541" href="#L541">541</a> 			rB.append(Blade.toXMLString(pB.bladeList.get(k), indent + <span class="jxr_string">"\t\t"</span>));
+<a class="jxr_linenumber" name="L542" href="#L542">542</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L543" href="#L543">543</a> 			.append(<span class="jxr_string">"\t&lt;/Blades&gt;\n"</span>);
+<a class="jxr_linenumber" name="L544" href="#L544">544</a> 		<em class="jxr_comment">// ------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="L545" href="#L545">545</a> 		rB.append(indent)
+<a class="jxr_linenumber" name="L546" href="#L546">546</a> 			.append(<span class="jxr_string">"&lt;/Basis&gt;\n"</span>);
+<a class="jxr_linenumber" name="L547" href="#L547">547</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
+<a class="jxr_linenumber" name="L548" href="#L548">548</a> 	}
+<a class="jxr_linenumber" name="L549" href="#L549">549</a> 
+<a class="jxr_linenumber" name="L550" href="#L550">550</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L551" href="#L551">551</a> <em class="jxr_javadoccomment">	 * This is a validator detects blade out of range issues. If one tries to name a</em>
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> <em class="jxr_javadoccomment">	 * blade by its index, it is always possible for the offered integer to be out</em>
+<a class="jxr_linenumber" name="L553" href="#L553">553</a> <em class="jxr_javadoccomment">	 * of range.</em>
+<a class="jxr_linenumber" name="L554" href="#L554">554</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> <em class="jxr_javadoccomment">	 * @param pIn Short representing the integer index of the blade</em>
+<a class="jxr_linenumber" name="L556" href="#L556">556</a> <em class="jxr_javadoccomment">	 * @return boolean True if parameter in the supported range [0, bladeCount]</em>
+<a class="jxr_linenumber" name="L557" href="#L557">557</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L558" href="#L558">558</a> 	@Override
+<a class="jxr_linenumber" name="L559" href="#L559">559</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> validateBladeIndex(<strong class="jxr_keyword">int</strong> pIn) {
+<a class="jxr_linenumber" name="L560" href="#L560">560</a> 		<strong class="jxr_keyword">return</strong> (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());
+<a class="jxr_linenumber" name="L561" href="#L561">561</a> 	}
+<a class="jxr_linenumber" name="L562" href="#L562">562</a> 
+<a class="jxr_linenumber" name="L563" href="#L563">563</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L564" href="#L564">564</a> <em class="jxr_javadoccomment">	 * This is a validator detects grade out of range issues. If one tries to name a</em>
+<a class="jxr_linenumber" name="L565" href="#L565">565</a> <em class="jxr_javadoccomment">	 * grade by its index, it is always possible for the offered integer to be out</em>
+<a class="jxr_linenumber" name="L566" href="#L566">566</a> <em class="jxr_javadoccomment">	 * of range.</em>
+<a class="jxr_linenumber" name="L567" href="#L567">567</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> <em class="jxr_javadoccomment">	 * @param pIn int representing the integer index of the grade</em>
+<a class="jxr_linenumber" name="L569" href="#L569">569</a> <em class="jxr_javadoccomment">	 * @return boolean True if parameter in the supported range [0, bladeCount]</em>
+<a class="jxr_linenumber" name="L570" href="#L570">570</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> 	@Override
+<a class="jxr_linenumber" name="L572" href="#L572">572</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> validateGradeIndex(<strong class="jxr_keyword">int</strong> pIn) {
+<a class="jxr_linenumber" name="L573" href="#L573">573</a> 		<strong class="jxr_keyword">return</strong> (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());
+<a class="jxr_linenumber" name="L574" href="#L574">574</a> 	}
+<a class="jxr_linenumber" name="L575" href="#L575">575</a> 
+<a class="jxr_linenumber" name="L576" href="#L576">576</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

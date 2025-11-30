@@ -47,19 +47,19 @@ import java.util.Optional;
 	/**
 	 * The implicit private constructor IS NOT overridden.
 	 */
-<span class="fc" id="L50">	COMPLEXD,</span>
+<span class="fc" id="L50">	REALF,</span>
 	/**
 	 * The implicit private constructor IS NOT overridden.
 	 */
-<span class="fc" id="L54">	COMPLEXF,</span>
+<span class="fc" id="L54">	REALD,</span>
 	/**
 	 * The implicit private constructor IS NOT overridden.
 	 */
-<span class="fc" id="L58">	REALD,</span>
+<span class="fc" id="L58">	COMPLEXF,</span>
 	/**
 	 * The implicit private constructor IS NOT overridden.
 	 */
-<span class="fc" id="L62">	REALF;</span>
+<span class="fc" id="L62">	COMPLEXD;</span>
 
 	/**
 	 * Method creates a new Cardinal using the string provided IF one by that name
@@ -160,18 +160,17 @@ import java.util.Optional;
 	 *             interfaces too.
 	 * @return ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public final static &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; T copyOf(T pDiv) {
-<span class="fc bfc" id="L165" title="All 2 branches covered.">		if (pDiv instanceof RealF) {</span>
-<span class="fc" id="L166">			return (T) new RealF(pDiv.getCardinal(), ((RealF) pDiv).getReal());</span>
-<span class="fc bfc" id="L167" title="All 2 branches covered.">		} else if (pDiv instanceof RealD) {</span>
-<span class="fc" id="L168">			return (T) new RealD(pDiv.getCardinal(), ((RealD) pDiv).getReal());</span>
-<span class="fc bfc" id="L169" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexF) {</span>
-<span class="fc" id="L170">			return (T) new ComplexF(pDiv.getCardinal(), ((ComplexF) pDiv).getReal(), ((ComplexF) pDiv).getImg());</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexD) {</span>
-<span class="fc" id="L172">			return (T) new ComplexD(pDiv.getCardinal(), ((ComplexD) pDiv).getReal(), ((ComplexD) pDiv).getImg());</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">		if (pDiv instanceof RealF) {</span>
+<span class="fc" id="L165">			return (T) new RealF(pDiv.getCardinal(), ((RealF) pDiv).getReal());</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		} else if (pDiv instanceof RealD) {</span>
+<span class="fc" id="L167">			return (T) new RealD(pDiv.getCardinal(), ((RealD) pDiv).getReal());</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexF) {</span>
+<span class="fc" id="L169">			return (T) new ComplexF(pDiv.getCardinal(), ((ComplexF) pDiv).getReal(), ((ComplexF) pDiv).getImg());</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		} else if (pDiv instanceof ComplexD) {</span>
+<span class="fc" id="L171">			return (T) new ComplexD(pDiv.getCardinal(), ((ComplexD) pDiv).getReal(), ((ComplexD) pDiv).getImg());</span>
 		} else {
-<span class="fc" id="L174">			return null;</span>
+<span class="fc" id="L173">			return null;</span>
 		}
 	}
 
@@ -185,15 +184,14 @@ import java.util.Optional;
 	 * @param pS String name for the associated Cardinal
 	 * @return  ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(String pS) {
-<span class="fc" id="L190">		Cardinal toCache = createCardinal(pS);</span>
-<span class="pc bpc" id="L191" title="1 of 5 branches missed.">		switch (this) {</span>
-<span class="fc" id="L192">			case REALF : return (D) RealF.newONE(toCache);</span>
-<span class="fc" id="L193">			case REALD : return (D) RealD.newONE(toCache);</span>
-<span class="fc" id="L194">			case COMPLEXF : return (D) ComplexF.newONE(toCache);</span>
-<span class="fc" id="L195">			case COMPLEXD :	return (D) ComplexD.newONE(toCache);</span>
-<span class="nc" id="L196">		default : return null;</span>
+<span class="fc" id="L188">		Cardinal toCache = createCardinal(pS);</span>
+<span class="pc bpc" id="L189" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L190">			case REALF : return (D) RealF.newONE(toCache);</span>
+<span class="fc" id="L191">			case REALD : return (D) RealD.newONE(toCache);</span>
+<span class="fc" id="L192">			case COMPLEXF : return (D) ComplexF.newONE(toCache);</span>
+<span class="fc" id="L193">			case COMPLEXD :	return (D) ComplexD.newONE(toCache);</span>
+<span class="nc" id="L194">		default : return null;</span>
 		}
 	}
 
@@ -207,14 +205,13 @@ import java.util.Optional;
 	 * @param pCard Cardinal to use in construction
 	 * @return ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createONE(Cardinal pCard) {
-<span class="pc bpc" id="L212" title="1 of 5 branches missed.">		switch (this) {</span>
-<span class="fc" id="L213">			case REALF : return (D) RealF.newONE(pCard);</span>
-<span class="fc" id="L214">			case REALD : return (D) RealD.newONE(pCard);</span>
-<span class="fc" id="L215">			case COMPLEXF : return (D) ComplexF.newONE(pCard);</span>
-<span class="fc" id="L216">			case COMPLEXD :	return (D) ComplexD.newONE(pCard);</span>
-<span class="nc" id="L217">			default : return null;</span>
+<span class="pc bpc" id="L209" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L210">			case REALF : return (D) RealF.newONE(pCard);</span>
+<span class="fc" id="L211">			case REALD : return (D) RealD.newONE(pCard);</span>
+<span class="fc" id="L212">			case COMPLEXF : return (D) ComplexF.newONE(pCard);</span>
+<span class="fc" id="L213">			case COMPLEXD :	return (D) ComplexD.newONE(pCard);</span>
+<span class="nc" id="L214">			default : return null;</span>
 		}
 	}
 
@@ -226,27 +223,26 @@ import java.util.Optional;
 	 * @param &lt;D&gt;  ProtoN child number to create. Includes the Field and Normalizable interfaces too.
 	 * @return ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO() {
-<span class="pc bpc" id="L231" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L227" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L233">			Cardinal toCache = createCardinal(CladosField.REALF.name());</span>
-<span class="fc" id="L234">			return (D) RealF.newZERO(toCache);</span>
+<span class="fc" id="L229">			Cardinal toCache = createCardinal(CladosField.REALF.name());</span>
+<span class="fc" id="L230">			return (D) RealF.newZERO(toCache);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L237">			Cardinal toCache = createCardinal(CladosField.REALD.name());</span>
-<span class="fc" id="L238">			return (D) RealD.newZERO(toCache);</span>
+<span class="fc" id="L233">			Cardinal toCache = createCardinal(CladosField.REALD.name());</span>
+<span class="fc" id="L234">			return (D) RealD.newZERO(toCache);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L241">			Cardinal toCache = createCardinal(CladosField.COMPLEXF.name());</span>
-<span class="fc" id="L242">			return (D) ComplexF.newZERO(toCache);</span>
+<span class="fc" id="L237">			Cardinal toCache = createCardinal(CladosField.COMPLEXF.name());</span>
+<span class="fc" id="L238">			return (D) ComplexF.newZERO(toCache);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L245">			Cardinal toCache = createCardinal(CladosField.COMPLEXD.name());</span>
-<span class="fc" id="L246">			return (D) ComplexD.newZERO(toCache);</span>
+<span class="fc" id="L241">			Cardinal toCache = createCardinal(CladosField.COMPLEXD.name());</span>
+<span class="fc" id="L242">			return (D) ComplexD.newZERO(toCache);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L249">			return null;</span>
+<span class="nc" id="L245">			return null;</span>
 		}
 		}
 	}
@@ -261,27 +257,26 @@ import java.util.Optional;
 	 * @param pCard Cardinal to be re-used.
 	 * @return ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; D createZERO(Cardinal pCard) {
-<span class="pc bpc" id="L266" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="pc bpc" id="L261" title="1 of 5 branches missed.">		switch (this) {</span>
 		case REALF -&gt; {
-<span class="fc" id="L268">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
-<span class="fc" id="L269">			return (D) RealF.newZERO(pCard);</span>
+<span class="fc" id="L263">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L264">			return (D) RealF.newZERO(pCard);</span>
 		}
 		case REALD -&gt; {
-<span class="fc" id="L272">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
-<span class="fc" id="L273">			return (D) RealD.newZERO(pCard);</span>
+<span class="fc" id="L267">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L268">			return (D) RealD.newZERO(pCard);</span>
 		}
 		case COMPLEXF -&gt; {
-<span class="fc" id="L276">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
-<span class="fc" id="L277">			return (D) ComplexF.newZERO(pCard);</span>
+<span class="fc" id="L271">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L272">			return (D) ComplexF.newZERO(pCard);</span>
 		}
 		case COMPLEXD -&gt; {
-<span class="fc" id="L280">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
-<span class="fc" id="L281">			return (D) ComplexD.newZERO(pCard);</span>
+<span class="fc" id="L275">			FCache.INSTANCE.appendCardinal(pCard); // just in case.</span>
+<span class="fc" id="L276">			return (D) ComplexD.newZERO(pCard);</span>
 		}
 		default -&gt; {
-<span class="nc" id="L284">			return null;</span>
+<span class="nc" id="L279">			return null;</span>
 		}
 		}
 	}
@@ -296,15 +291,14 @@ import java.util.Optional;
 	 * @param &lt;D&gt; ProtoN child number with the Field interface too.
 	 * @return ProtoN child number created
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
 	public &lt;D extends ProtoN &amp; Field&gt; D createZERO(String pS) {
-<span class="fc" id="L301">		Cardinal toCache = createCardinal(pS);</span>
-<span class="pc bpc" id="L302" title="1 of 5 branches missed.">		switch (this) {</span>
-<span class="fc" id="L303">			case REALF : return (D) RealF.newZERO(toCache);</span>
-<span class="fc" id="L304">			case REALD : return (D) RealD.newZERO(toCache);</span>
-<span class="fc" id="L305">			case COMPLEXF : return (D) ComplexF.newZERO(toCache);</span>
-<span class="fc" id="L306">			case COMPLEXD : return (D) ComplexD.newZERO(toCache);</span>
-<span class="nc" id="L307">			default : return null;</span>
+<span class="fc" id="L295">		Cardinal toCache = createCardinal(pS);</span>
+<span class="pc bpc" id="L296" title="1 of 5 branches missed.">		switch (this) {</span>
+<span class="fc" id="L297">			case REALF : return (D) RealF.newZERO(toCache);</span>
+<span class="fc" id="L298">			case REALD : return (D) RealD.newZERO(toCache);</span>
+<span class="fc" id="L299">			case COMPLEXF : return (D) ComplexF.newZERO(toCache);</span>
+<span class="fc" id="L300">			case COMPLEXD : return (D) ComplexD.newZERO(toCache);</span>
+<span class="nc" id="L301">			default : return null;</span>
 		}
 	}
 }
