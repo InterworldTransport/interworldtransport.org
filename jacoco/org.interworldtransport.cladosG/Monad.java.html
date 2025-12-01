@@ -342,7 +342,7 @@ public class Monad implements Modal {
 <span class="fc" id="L342">			.append(&quot;\&quot; &gt;\n&quot;);</span>
 <span class="fc" id="L343">		rB.append(Algebra.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
 <span class="fc" id="L344">		rB.append(indent)</span>
-<span class="fc" id="L345">			.append(Scale.toXMLString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L345">			.append(Scale.toXMLFullString(pM.scales, &quot;\t&quot;));</span>
 <span class="fc" id="L346">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
 <span class="fc" id="L347">		return rB.toString();</span>
 	}

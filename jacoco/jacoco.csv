@@ -15,7 +15,7 @@ Clados,org.interworldtransport.cladosGExceptions,CladosNyadException,0,13,0,0,0,
 Clados,org.interworldtransport.cladosGExceptions,CladosException,0,9,0,0,0,4,0,2,0,2
 Clados,org.interworldtransport.cladosGExceptions,BadSignatureException,0,13,0,0,0,5,0,3,0,3
 Clados,org.interworldtransport.cladosGExceptions,CladosMonadException,0,13,0,0,0,5,0,3,0,3
-Clados,org.interworldtransport.cladosG,Scale,167,1360,33,141,36,222,30,143,0,73
+Clados,org.interworldtransport.cladosG,Scale,167,1507,34,147,36,256,31,149,0,75
 Clados,org.interworldtransport.cladosG,Blade,13,659,7,51,2,139,7,65,0,43
 Clados,org.interworldtransport.cladosG,Generator,0,183,0,12,0,28,0,13,0,7
 Clados,org.interworldtransport.cladosG,Monad,150,2372,28,160,44,474,28,165,0,78

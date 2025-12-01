@@ -734,329 +734,381 @@
 <a class="jxr_linenumber" name="L726" href="#L726">726</a> 	}
 <a class="jxr_linenumber" name="L727" href="#L727">727</a> 
 <a class="jxr_linenumber" name="L728" href="#L728">728</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L729" href="#L729">729</a> <em class="jxr_javadoccomment">	 * This is an exporter of internal details to XML. It exists to bypass certain</em>
-<a class="jxr_linenumber" name="L730" href="#L730">730</a> <em class="jxr_javadoccomment">	 * security concerns related to Java serialization of objects.</em>
-<a class="jxr_linenumber" name="L731" href="#L731">731</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L732" href="#L732">732</a> <em class="jxr_javadoccomment">	 * @param pS The Scale oject to be output as XML</em>
-<a class="jxr_linenumber" name="L733" href="#L733">733</a> <em class="jxr_javadoccomment">	 * @param indent String of 'tab' characters to get spacing right for human</em>
-<a class="jxr_linenumber" name="L734" href="#L734">734</a> <em class="jxr_javadoccomment">	 *               readable XML output.</em>
-<a class="jxr_linenumber" name="L735" href="#L735">735</a> <em class="jxr_javadoccomment">	 * @return String formatted as XML containing information about the Algebra</em>
-<a class="jxr_linenumber" name="L736" href="#L736">736</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L737" href="#L737">737</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(Scale&lt;?&gt; pS, String indent) {
-<a class="jxr_linenumber" name="L738" href="#L738">738</a> 
-<a class="jxr_linenumber" name="L739" href="#L739">739</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent).append(<span class="jxr_string">"&lt;Scales mode=\&quot;"</span>+pS.getMode()+<span class="jxr_string">"\&quot; pans=\&quot;"</span>).append(pS.map.size()).append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
+<a class="jxr_linenumber" name="L729" href="#L729">729</a> <em class="jxr_javadoccomment">	 * This is a short exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.</em>
+<a class="jxr_linenumber" name="L730" href="#L730">730</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L731" href="#L731">731</a> <em class="jxr_javadoccomment">	 * @param pS The Scale oject to be output as XML</em>
+<a class="jxr_linenumber" name="L732" href="#L732">732</a> <em class="jxr_javadoccomment">	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.</em>
+<a class="jxr_linenumber" name="L733" href="#L733">733</a> <em class="jxr_javadoccomment">	 * @return String formatted as XML containing information about the Scale</em>
+<a class="jxr_linenumber" name="L734" href="#L734">734</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L735" href="#L735">735</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLString(Scale&lt;?&gt; pS, String indent) {
+<a class="jxr_linenumber" name="L736" href="#L736">736</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent);		
+<a class="jxr_linenumber" name="L737" href="#L737">737</a> 		rB	.append(<span class="jxr_string">"&lt;Scales mode=\&quot;"</span>+pS.getMode()+<span class="jxr_string">"\&quot; "</span>);
+<a class="jxr_linenumber" name="L738" href="#L738">738</a> 		rB	.append(<span class="jxr_string">"pans=\&quot;"</span>+pS.map.size()+<span class="jxr_string">"\&quot; "</span>)
+<a class="jxr_linenumber" name="L739" href="#L739">739</a> 			.append(<span class="jxr_string">"cardinal="</span>+pS.getCardinal().getUnit()+<span class="jxr_string">"\&quot;&gt;\n"</span>);
 <a class="jxr_linenumber" name="L740" href="#L740">740</a> 
 <a class="jxr_linenumber" name="L741" href="#L741">741</a> 		pS.gBasis.bladeStream().forEach(blade -&gt; {
-<a class="jxr_linenumber" name="L742" href="#L742">742</a> 			rB.append(indent).append(<span class="jxr_string">"\t\t\t&lt;Pair&gt;\n"</span>);
-<a class="jxr_linenumber" name="L743" href="#L743">743</a> 			rB.append(indent).append(Blade.toXMLString(blade, <span class="jxr_string">"\t\t\t\t"</span>));
-<a class="jxr_linenumber" name="L744" href="#L744">744</a> 			<strong class="jxr_keyword">switch</strong> (pS.getMode()){
-<a class="jxr_linenumber" name="L745" href="#L745">745</a> 				<strong class="jxr_keyword">case</strong> COMPLEXD -&gt; {rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ComplexD.toXMLString((<a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
-<a class="jxr_linenumber" name="L746" href="#L746">746</a> 				<strong class="jxr_keyword">case</strong> COMPLEXF -&gt; {rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ComplexF.toXMLString((<a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
-<a class="jxr_linenumber" name="L747" href="#L747">747</a> 				<strong class="jxr_keyword">case</strong> REALD -&gt; 	{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(RealD.toXMLString((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
-<a class="jxr_linenumber" name="L748" href="#L748">748</a> 				<strong class="jxr_keyword">case</strong> REALF -&gt; 	{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(RealF.toXMLString((<a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
-<a class="jxr_linenumber" name="L749" href="#L749">749</a> 				<strong class="jxr_keyword">default</strong> -&gt; 		{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ProtoN.toXMLString(pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
-<a class="jxr_linenumber" name="L750" href="#L750">750</a> 			}	
-<a class="jxr_linenumber" name="L751" href="#L751">751</a> 			rB.append(indent).append(<span class="jxr_string">"\t\t\t&lt;/Pair&gt;\n"</span>);
-<a class="jxr_linenumber" name="L752" href="#L752">752</a> 		});
-<a class="jxr_linenumber" name="L753" href="#L753">753</a> 
-<a class="jxr_linenumber" name="L754" href="#L754">754</a> 		rB.append(indent).append(<span class="jxr_string">"\t\t&lt;/Scales&gt;\n"</span>);
-<a class="jxr_linenumber" name="L755" href="#L755">755</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
-<a class="jxr_linenumber" name="L756" href="#L756">756</a> 	}
-<a class="jxr_linenumber" name="L757" href="#L757">757</a> 
-<a class="jxr_linenumber" name="L758" href="#L758">758</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L759" href="#L759">759</a> <em class="jxr_javadoccomment">	 * This is a simple gettor method, but it is most likly to be used to establish</em>
-<a class="jxr_linenumber" name="L760" href="#L760">760</a> <em class="jxr_javadoccomment">	 * a stream of blades, values, or both from the internal map of this object. The</em>
-<a class="jxr_linenumber" name="L761" href="#L761">761</a> <em class="jxr_javadoccomment">	 * map's keys are all blades from the object's basis. The map won't contain just</em>
-<a class="jxr_linenumber" name="L762" href="#L762">762</a> <em class="jxr_javadoccomment">	 * a few blades as keys, though. It will contain every blade as a key paired to</em>
-<a class="jxr_linenumber" name="L763" href="#L763">763</a> <em class="jxr_javadoccomment">	 * some unique CladosF number.</em>
-<a class="jxr_linenumber" name="L764" href="#L764">764</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L765" href="#L765">765</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers (and</em>
-<a class="jxr_linenumber" name="L766" href="#L766">766</a> <em class="jxr_javadoccomment">	 * ProtoN itself though that would be useless) there is a cast to a</em>
-<a class="jxr_linenumber" name="L767" href="#L767">767</a> <em class="jxr_javadoccomment">	 * 'generic' type before insertion into the map. This would normally cause</em>
-<a class="jxr_linenumber" name="L768" href="#L768">768</a> <em class="jxr_javadoccomment">	 * warnings by the compiler since the generic named in the internal map IS a</em>
-<a class="jxr_linenumber" name="L769" href="#L769">769</a> <em class="jxr_javadoccomment">	 * ProtoN child AND casting an unchecked type could fail at runtime.</em>
-<a class="jxr_linenumber" name="L770" href="#L770">770</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L771" href="#L771">771</a> <em class="jxr_javadoccomment">	 * That won't happen here when CladosF builders are used. They can't build</em>
-<a class="jxr_linenumber" name="L772" href="#L772">772</a> <em class="jxr_javadoccomment">	 * anything that is NOT a ProtoN child. They can't even build a</em>
-<a class="jxr_linenumber" name="L773" href="#L773">773</a> <em class="jxr_javadoccomment">	 * ProtoN instance directly. Therefore, only children can arrive as the</em>
-<a class="jxr_linenumber" name="L774" href="#L774">774</a> <em class="jxr_javadoccomment">	 * value parameter of the 'put' function. Thus, there is no danger of a failed</em>
-<a class="jxr_linenumber" name="L775" href="#L775">775</a> <em class="jxr_javadoccomment">	 * cast operation... until someone creates a new ProtoN child class and</em>
-<a class="jxr_linenumber" name="L776" href="#L776">776</a> <em class="jxr_javadoccomment">	 * fails to update all builders.</em>
-<a class="jxr_linenumber" name="L777" href="#L777">777</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L778" href="#L778">778</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field</em>
-<a class="jxr_linenumber" name="L779" href="#L779">779</a> <em class="jxr_javadoccomment">	 *            AND Normalizable.</em>
-<a class="jxr_linenumber" name="L780" href="#L780">780</a> <em class="jxr_javadoccomment">	 * @return deliver the internal coefficients as the internal map.</em>
-<a class="jxr_linenumber" name="L781" href="#L781">781</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L782" href="#L782">782</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Map&lt;Blade, T&gt; getMap() {
-<a class="jxr_linenumber" name="L783" href="#L783">783</a> 		<strong class="jxr_keyword">return</strong> (Map&lt;Blade, T&gt;) map;
-<a class="jxr_linenumber" name="L784" href="#L784">784</a> 	}
-<a class="jxr_linenumber" name="L785" href="#L785">785</a> 
-<a class="jxr_linenumber" name="L786" href="#L786">786</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L787" href="#L787">787</a> <em class="jxr_javadoccomment">	 * The settor method supporting Unitized interface that isn't actually in the</em>
-<a class="jxr_linenumber" name="L788" href="#L788">788</a> <em class="jxr_javadoccomment">	 * interface. If the cardinal to be set is different from the one already present,</em>
-<a class="jxr_linenumber" name="L789" href="#L789">789</a> <em class="jxr_javadoccomment">	 * the weights are cleared out and set to zero. If the cardinal is the same one,</em>
-<a class="jxr_linenumber" name="L790" href="#L790">790</a> <em class="jxr_javadoccomment">	 * nothing is done and this Scale is returned.</em>
-<a class="jxr_linenumber" name="L791" href="#L791">791</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L792" href="#L792">792</a> <em class="jxr_javadoccomment">	 * Once a Cardinal is set, it basically can't be removed. It can be changed, but</em>
-<a class="jxr_linenumber" name="L793" href="#L793">793</a> <em class="jxr_javadoccomment">	 * not eliminated entirely.</em>
-<a class="jxr_linenumber" name="L794" href="#L794">794</a> <em class="jxr_javadoccomment">	 * @param pCard CladosField element to set as the mode.</em>
-<a class="jxr_linenumber" name="L795" href="#L795">795</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
-<a class="jxr_linenumber" name="L796" href="#L796">796</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L797" href="#L797">797</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setCardinal(<a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pCard) {
-<a class="jxr_linenumber" name="L798" href="#L798">798</a> 		<strong class="jxr_keyword">if</strong> (card != pCard &amp; pCard != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L799" href="#L799">799</a> 			weightsParallelStream().forEach(x -&gt; x.setCardinal(pCard));
-<a class="jxr_linenumber" name="L800" href="#L800">800</a> 			card = pCard;
-<a class="jxr_linenumber" name="L801" href="#L801">801</a> 		}
-<a class="jxr_linenumber" name="L802" href="#L802">802</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L803" href="#L803">803</a> 	}
-<a class="jxr_linenumber" name="L804" href="#L804">804</a> 
-<a class="jxr_linenumber" name="L805" href="#L805">805</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L806" href="#L806">806</a> <em class="jxr_javadoccomment">	 * This method just sets the pscalar weight with a number that should satisfy type matches. If it</em>
-<a class="jxr_linenumber" name="L807" href="#L807">807</a> <em class="jxr_javadoccomment">	 * does not get past the type match check, nothing is done to change any weights. If it fails the mode</em>
-<a class="jxr_linenumber" name="L808" href="#L808">808</a> <em class="jxr_javadoccomment">	 * check, an IllegalArgumentException is thrown.</em>
-<a class="jxr_linenumber" name="L809" href="#L809">809</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L810" href="#L810">810</a> <em class="jxr_javadoccomment">	 * The offered number IS USED DIRECTLY. NO COPY IS CREATED!</em>
-<a class="jxr_linenumber" name="L811" href="#L811">811</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L812" href="#L812">812</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.</em>
-<a class="jxr_linenumber" name="L813" href="#L813">813</a> <em class="jxr_javadoccomment">	 * @param pIn D is a child of ProtoN to use as the pscalar weight.</em>
-<a class="jxr_linenumber" name="L814" href="#L814">814</a> <em class="jxr_javadoccomment">	 * @return Scale of numbers for use in streaming operations if desired.</em>
-<a class="jxr_linenumber" name="L815" href="#L815">815</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L816" href="#L816">816</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setPScalar(T pIn) {
-<a class="jxr_linenumber" name="L817" href="#L817">817</a> 		setNumber(gBasis.getPScalarBlade(), pIn);			<em class="jxr_comment">//Defer to checks made in setNumber()</em>
-<a class="jxr_linenumber" name="L818" href="#L818">818</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L819" href="#L819">819</a> 	}
-<a class="jxr_linenumber" name="L820" href="#L820">820</a> 
-<a class="jxr_linenumber" name="L821" href="#L821">821</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L822" href="#L822">822</a> <em class="jxr_javadoccomment">	 * This method just sets the scalar weight with a number that should satisfy type matches. If it</em>
-<a class="jxr_linenumber" name="L823" href="#L823">823</a> <em class="jxr_javadoccomment">	 * does not get past the type match check, nothing is done to change any weights. If it fails the mode</em>
-<a class="jxr_linenumber" name="L824" href="#L824">824</a> <em class="jxr_javadoccomment">	 * check, an IllegalArgumentException is thrown.</em>
-<a class="jxr_linenumber" name="L825" href="#L825">825</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L826" href="#L826">826</a> <em class="jxr_javadoccomment">	 * The offered number IS USED DIRECTLY. NO COPY IS CREATED!</em>
-<a class="jxr_linenumber" name="L827" href="#L827">827</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L828" href="#L828">828</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.</em>
-<a class="jxr_linenumber" name="L829" href="#L829">829</a> <em class="jxr_javadoccomment">	 * @param pIn D is a child of ProtoN to use as the pscalar weight.</em>
-<a class="jxr_linenumber" name="L830" href="#L830">830</a> <em class="jxr_javadoccomment">	 * @return Scale of numbers for use in streaming operations if desired.</em>
-<a class="jxr_linenumber" name="L831" href="#L831">831</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L832" href="#L832">832</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setScalar(T pIn) {
-<a class="jxr_linenumber" name="L833" href="#L833">833</a> 		setNumber(gBasis.getScalarBlade(), pIn);			<em class="jxr_comment">//Defer to checks made in setNumber()</em>
-<a class="jxr_linenumber" name="L834" href="#L834">834</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L835" href="#L835">835</a> 	}
-<a class="jxr_linenumber" name="L836" href="#L836">836</a> 
-<a class="jxr_linenumber" name="L837" href="#L837">837</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L838" href="#L838">838</a> <em class="jxr_javadoccomment">	 * This coefficient settor accepts a single ProtoN child and a Blade and inserts the number into the </em>
-<a class="jxr_linenumber" name="L839" href="#L839">839</a> <em class="jxr_javadoccomment">	 * internal map at the blade index.</em>
-<a class="jxr_linenumber" name="L840" href="#L840">840</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L841" href="#L841">841</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered number to be disconnected from this object. </em>
-<a class="jxr_linenumber" name="L842" href="#L842">842</a> <em class="jxr_javadoccomment">	 * IT WON'T BE! If you really must use this method that way, copy your coefficients first.</em>
+<a class="jxr_linenumber" name="L742" href="#L742">742</a> 			rB	.append(indent+<span class="jxr_string">"\t"</span>)
+<a class="jxr_linenumber" name="L743" href="#L743">743</a> 				.append(<span class="jxr_string">"&lt;Pair bitKey=\&quot;0b"</span>);
+<a class="jxr_linenumber" name="L744" href="#L744">744</a> 			<strong class="jxr_keyword">int</strong> pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();
+<a class="jxr_linenumber" name="L745" href="#L745">745</a> 			<strong class="jxr_keyword">while</strong> (pad&gt;0) {
+<a class="jxr_linenumber" name="L746" href="#L746">746</a> 				rB.append(<span class="jxr_string">"0"</span>);
+<a class="jxr_linenumber" name="L747" href="#L747">747</a> 				pad--;
+<a class="jxr_linenumber" name="L748" href="#L748">748</a> 			}
+<a class="jxr_linenumber" name="L749" href="#L749">749</a> 			rB	.append(Integer.toBinaryString(blade.bitKey()));
+<a class="jxr_linenumber" name="L750" href="#L750">750</a> 			<em class="jxr_comment">//rB	.append("\&quot; cardinal=\&quot;"+pS.map.get(blade).getCardinalString());</em>
+<a class="jxr_linenumber" name="L751" href="#L751">751</a> 			rB	.append(<span class="jxr_string">"\&quot; "</span>);
+<a class="jxr_linenumber" name="L752" href="#L752">752</a> 			
+<a class="jxr_linenumber" name="L753" href="#L753">753</a> 			<strong class="jxr_keyword">switch</strong> (pS.getMode()){
+<a class="jxr_linenumber" name="L754" href="#L754">754</a> 				<strong class="jxr_keyword">case</strong> REALF:
+<a class="jxr_linenumber" name="L755" href="#L755">755</a> 					rB	.append(<span class="jxr_string">"realvalue=\&quot;"</span>+((<a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>)pS.map.get(blade)).getReal());
+<a class="jxr_linenumber" name="L756" href="#L756">756</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L757" href="#L757">757</a> 				<strong class="jxr_keyword">case</strong> REALD:
+<a class="jxr_linenumber" name="L758" href="#L758">758</a> 					rB	.append(<span class="jxr_string">"realvalue=\&quot;"</span>+((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>)pS.map.get(blade)).getReal());
+<a class="jxr_linenumber" name="L759" href="#L759">759</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L760" href="#L760">760</a> 				<strong class="jxr_keyword">case</strong> COMPLEXF:
+<a class="jxr_linenumber" name="L761" href="#L761">761</a> 					rB	.append(<span class="jxr_string">"realvalue=\&quot;"</span>+((<a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>)pS.map.get(blade)).getReal())
+<a class="jxr_linenumber" name="L762" href="#L762">762</a> 						.append(<span class="jxr_string">"\&quot; imgvalue=\&quot;"</span>+((<a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>)pS.map.get(blade)).getImg());
+<a class="jxr_linenumber" name="L763" href="#L763">763</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L764" href="#L764">764</a> 				<strong class="jxr_keyword">case</strong> COMPLEXD:
+<a class="jxr_linenumber" name="L765" href="#L765">765</a> 					rB	.append(<span class="jxr_string">"realvalue=\&quot;"</span>+((<a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>)pS.map.get(blade)).getReal())
+<a class="jxr_linenumber" name="L766" href="#L766">766</a> 						.append(<span class="jxr_string">"\&quot; imgvalue=\&quot;"</span>+((<a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>)pS.map.get(blade)).getImg());
+<a class="jxr_linenumber" name="L767" href="#L767">767</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L768" href="#L768">768</a> 				<strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="L769" href="#L769">769</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L770" href="#L770">770</a> 				
+<a class="jxr_linenumber" name="L771" href="#L771">771</a> 			}
+<a class="jxr_linenumber" name="L772" href="#L772">772</a> 			rB	.append(<span class="jxr_string">"\&quot; /&gt;\n"</span>);
+<a class="jxr_linenumber" name="L773" href="#L773">773</a> 		});
+<a class="jxr_linenumber" name="L774" href="#L774">774</a> 		rB	.append(indent)
+<a class="jxr_linenumber" name="L775" href="#L775">775</a> 			.append(<span class="jxr_string">"&lt;/Scales&gt;\n"</span>);
+<a class="jxr_linenumber" name="L776" href="#L776">776</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
+<a class="jxr_linenumber" name="L777" href="#L777">777</a> 	}
+<a class="jxr_linenumber" name="L778" href="#L778">778</a> 
+<a class="jxr_linenumber" name="L779" href="#L779">779</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L780" href="#L780">780</a> <em class="jxr_javadoccomment">	 * This is an exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.</em>
+<a class="jxr_linenumber" name="L781" href="#L781">781</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L782" href="#L782">782</a> <em class="jxr_javadoccomment">	 * @param pS The Scale oject to be output as XML</em>
+<a class="jxr_linenumber" name="L783" href="#L783">783</a> <em class="jxr_javadoccomment">	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.</em>
+<a class="jxr_linenumber" name="L784" href="#L784">784</a> <em class="jxr_javadoccomment">	 * @return String formatted as XML containing information about the Scale</em>
+<a class="jxr_linenumber" name="L785" href="#L785">785</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L786" href="#L786">786</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String toXMLFullString(Scale&lt;?&gt; pS, String indent) {
+<a class="jxr_linenumber" name="L787" href="#L787">787</a> 		StringBuilder rB = <strong class="jxr_keyword">new</strong> StringBuilder(indent);		
+<a class="jxr_linenumber" name="L788" href="#L788">788</a> 		rB	.append(<span class="jxr_string">"&lt;Scales mode=\&quot;"</span>+pS.getMode()+<span class="jxr_string">"\&quot; pans=\&quot;"</span>)
+<a class="jxr_linenumber" name="L789" href="#L789">789</a> 			.append(pS.map.size())
+<a class="jxr_linenumber" name="L790" href="#L790">790</a> 			.append(<span class="jxr_string">"\&quot;&gt;\n"</span>);
+<a class="jxr_linenumber" name="L791" href="#L791">791</a> 
+<a class="jxr_linenumber" name="L792" href="#L792">792</a> 		pS.gBasis.bladeStream().forEach(blade -&gt; {
+<a class="jxr_linenumber" name="L793" href="#L793">793</a> 			rB	.append(indent)
+<a class="jxr_linenumber" name="L794" href="#L794">794</a> 				.append(<span class="jxr_string">"\t\t\t&lt;Pair&gt;\n"</span>);
+<a class="jxr_linenumber" name="L795" href="#L795">795</a> 			rB	.append(indent)
+<a class="jxr_linenumber" name="L796" href="#L796">796</a> 				.append(Blade.toXMLString(blade, <span class="jxr_string">"\t\t\t\t"</span>));
+<a class="jxr_linenumber" name="L797" href="#L797">797</a> 			<strong class="jxr_keyword">switch</strong> (pS.getMode()){
+<a class="jxr_linenumber" name="L798" href="#L798">798</a> 				<strong class="jxr_keyword">case</strong> COMPLEXD -&gt; {rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ComplexD.toXMLString((<a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
+<a class="jxr_linenumber" name="L799" href="#L799">799</a> 				<strong class="jxr_keyword">case</strong> COMPLEXF -&gt; {rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ComplexF.toXMLString((<a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
+<a class="jxr_linenumber" name="L800" href="#L800">800</a> 				<strong class="jxr_keyword">case</strong> REALD -&gt; 	{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(RealD.toXMLString((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
+<a class="jxr_linenumber" name="L801" href="#L801">801</a> 				<strong class="jxr_keyword">case</strong> REALF -&gt; 	{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(RealF.toXMLString((<a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>) pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
+<a class="jxr_linenumber" name="L802" href="#L802">802</a> 				<strong class="jxr_keyword">default</strong> -&gt; 		{rB.append(indent + <span class="jxr_string">"\t\t\t\t"</span>).append(ProtoN.toXMLString(pS.map.get(blade))).append(<span class="jxr_string">"\n"</span>);}
+<a class="jxr_linenumber" name="L803" href="#L803">803</a> 			}	
+<a class="jxr_linenumber" name="L804" href="#L804">804</a> 			rB	.append(indent).append(<span class="jxr_string">"\t\t\t&lt;/Pair&gt;\n"</span>);
+<a class="jxr_linenumber" name="L805" href="#L805">805</a> 		});
+<a class="jxr_linenumber" name="L806" href="#L806">806</a> 		rB	.append(indent).append(<span class="jxr_string">"\t\t&lt;/Scales&gt;\n"</span>);
+<a class="jxr_linenumber" name="L807" href="#L807">807</a> 		<strong class="jxr_keyword">return</strong> rB.toString();
+<a class="jxr_linenumber" name="L808" href="#L808">808</a> 	}
+<a class="jxr_linenumber" name="L809" href="#L809">809</a> 
+<a class="jxr_linenumber" name="L810" href="#L810">810</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L811" href="#L811">811</a> <em class="jxr_javadoccomment">	 * This is a simple gettor method, but it is most likly to be used to establish</em>
+<a class="jxr_linenumber" name="L812" href="#L812">812</a> <em class="jxr_javadoccomment">	 * a stream of blades, values, or both from the internal map of this object. The</em>
+<a class="jxr_linenumber" name="L813" href="#L813">813</a> <em class="jxr_javadoccomment">	 * map's keys are all blades from the object's basis. The map won't contain just</em>
+<a class="jxr_linenumber" name="L814" href="#L814">814</a> <em class="jxr_javadoccomment">	 * a few blades as keys, though. It will contain every blade as a key paired to</em>
+<a class="jxr_linenumber" name="L815" href="#L815">815</a> <em class="jxr_javadoccomment">	 * some unique CladosF number.</em>
+<a class="jxr_linenumber" name="L816" href="#L816">816</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L817" href="#L817">817</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers (and</em>
+<a class="jxr_linenumber" name="L818" href="#L818">818</a> <em class="jxr_javadoccomment">	 * ProtoN itself though that would be useless) there is a cast to a</em>
+<a class="jxr_linenumber" name="L819" href="#L819">819</a> <em class="jxr_javadoccomment">	 * 'generic' type before insertion into the map. This would normally cause</em>
+<a class="jxr_linenumber" name="L820" href="#L820">820</a> <em class="jxr_javadoccomment">	 * warnings by the compiler since the generic named in the internal map IS a</em>
+<a class="jxr_linenumber" name="L821" href="#L821">821</a> <em class="jxr_javadoccomment">	 * ProtoN child AND casting an unchecked type could fail at runtime.</em>
+<a class="jxr_linenumber" name="L822" href="#L822">822</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L823" href="#L823">823</a> <em class="jxr_javadoccomment">	 * That won't happen here when CladosF builders are used. They can't build</em>
+<a class="jxr_linenumber" name="L824" href="#L824">824</a> <em class="jxr_javadoccomment">	 * anything that is NOT a ProtoN child. They can't even build a</em>
+<a class="jxr_linenumber" name="L825" href="#L825">825</a> <em class="jxr_javadoccomment">	 * ProtoN instance directly. Therefore, only children can arrive as the</em>
+<a class="jxr_linenumber" name="L826" href="#L826">826</a> <em class="jxr_javadoccomment">	 * value parameter of the 'put' function. Thus, there is no danger of a failed</em>
+<a class="jxr_linenumber" name="L827" href="#L827">827</a> <em class="jxr_javadoccomment">	 * cast operation... until someone creates a new ProtoN child class and</em>
+<a class="jxr_linenumber" name="L828" href="#L828">828</a> <em class="jxr_javadoccomment">	 * fails to update all builders.</em>
+<a class="jxr_linenumber" name="L829" href="#L829">829</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L830" href="#L830">830</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field</em>
+<a class="jxr_linenumber" name="L831" href="#L831">831</a> <em class="jxr_javadoccomment">	 *            AND Normalizable.</em>
+<a class="jxr_linenumber" name="L832" href="#L832">832</a> <em class="jxr_javadoccomment">	 * @return deliver the internal coefficients as the internal map.</em>
+<a class="jxr_linenumber" name="L833" href="#L833">833</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L834" href="#L834">834</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Map&lt;Blade, T&gt; getMap() {
+<a class="jxr_linenumber" name="L835" href="#L835">835</a> 		<strong class="jxr_keyword">return</strong> (Map&lt;Blade, T&gt;) map;
+<a class="jxr_linenumber" name="L836" href="#L836">836</a> 	}
+<a class="jxr_linenumber" name="L837" href="#L837">837</a> 
+<a class="jxr_linenumber" name="L838" href="#L838">838</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L839" href="#L839">839</a> <em class="jxr_javadoccomment">	 * The settor method supporting Unitized interface that isn't actually in the</em>
+<a class="jxr_linenumber" name="L840" href="#L840">840</a> <em class="jxr_javadoccomment">	 * interface. If the cardinal to be set is different from the one already present,</em>
+<a class="jxr_linenumber" name="L841" href="#L841">841</a> <em class="jxr_javadoccomment">	 * the weights are cleared out and set to zero. If the cardinal is the same one,</em>
+<a class="jxr_linenumber" name="L842" href="#L842">842</a> <em class="jxr_javadoccomment">	 * nothing is done and this Scale is returned.</em>
 <a class="jxr_linenumber" name="L843" href="#L843">843</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L844" href="#L844">844</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the number object.</em>
-<a class="jxr_linenumber" name="L845" href="#L845">845</a> <em class="jxr_javadoccomment">	 * @param pB Blade where the offered number belongs.</em>
-<a class="jxr_linenumber" name="L846" href="#L846">846</a> <em class="jxr_javadoccomment">	 * @param pIn Array of ProtoN children</em>
+<a class="jxr_linenumber" name="L844" href="#L844">844</a> <em class="jxr_javadoccomment">	 * Once a Cardinal is set, it basically can't be removed. It can be changed, but</em>
+<a class="jxr_linenumber" name="L845" href="#L845">845</a> <em class="jxr_javadoccomment">	 * not eliminated entirely.</em>
+<a class="jxr_linenumber" name="L846" href="#L846">846</a> <em class="jxr_javadoccomment">	 * @param pCard CladosField element to set as the mode.</em>
 <a class="jxr_linenumber" name="L847" href="#L847">847</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
-<a class="jxr_linenumber" name="L848" href="#L848">848</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered number is null OR the blade isn't in the basis. </em>
-<a class="jxr_linenumber" name="L849" href="#L849">849</a> <em class="jxr_javadoccomment">	 * 									The blade must be covered. NO NULL numbers.</em>
-<a class="jxr_linenumber" name="L850" href="#L850">850</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L851" href="#L851">851</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setNumber(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB, T pIn) {
-<a class="jxr_linenumber" name="L852" href="#L852">852</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)																<em class="jxr_comment">//Nulls aren't tolerated</em>
-<a class="jxr_linenumber" name="L853" href="#L853">853</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST NOT be null."</span>);
-<a class="jxr_linenumber" name="L854" href="#L854">854</a> 		<strong class="jxr_keyword">if</strong> (!map.containsKey(pB))
-<a class="jxr_linenumber" name="L855" href="#L855">855</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered Blade MUST be in the basis."</span>);
-<a class="jxr_linenumber" name="L856" href="#L856">856</a> 		<strong class="jxr_keyword">if</strong>  (	!(pIn instanceof <a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>) &amp; (getMode() == REALF)
-<a class="jxr_linenumber" name="L857" href="#L857">857</a> 			&amp; 	!(pIn instanceof <a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) &amp; (getMode() == REALD)
-<a class="jxr_linenumber" name="L858" href="#L858">858</a> 			&amp; 	!(pIn instanceof <a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>) &amp; (getMode() == COMPLEXF)
-<a class="jxr_linenumber" name="L859" href="#L859">859</a> 			&amp; 	!(pIn instanceof <a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>) &amp; (getMode() == COMPLEXD))
-<a class="jxr_linenumber" name="L860" href="#L860">860</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST mode match."</span>);
-<a class="jxr_linenumber" name="L861" href="#L861">861</a> 		<strong class="jxr_keyword">if</strong> (card != pIn.getCardinal())
-<a class="jxr_linenumber" name="L862" href="#L862">862</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST match the Scale cardinal."</span>);
-<a class="jxr_linenumber" name="L863" href="#L863">863</a> 		map.put(pB, (D) pIn);
-<a class="jxr_linenumber" name="L864" href="#L864">864</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L865" href="#L865">865</a> 	}
-<a class="jxr_linenumber" name="L866" href="#L866">866</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L867" href="#L867">867</a> <em class="jxr_javadoccomment">	 * This coefficient settor accepts an array of ProtoN numbers, assumes they are in basis index order, and then </em>
-<a class="jxr_linenumber" name="L868" href="#L868">868</a> <em class="jxr_javadoccomment">	 * inserts them into the internal map by blade at that index.</em>
-<a class="jxr_linenumber" name="L869" href="#L869">869</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L870" href="#L870">870</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered coefficient array to be disconnected from this object. </em>
-<a class="jxr_linenumber" name="L871" href="#L871">871</a> <em class="jxr_javadoccomment">	 * IT WON'T BE!. If you really must use this method that way, copy your coefficients first.</em>
-<a class="jxr_linenumber" name="L872" href="#L872">872</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L873" href="#L873">873</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT try to change the mode for the scale either. Once set, mode is fixed.</em>
-<a class="jxr_linenumber" name="L874" href="#L874">874</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L875" href="#L875">875</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; 	is a child of ProtoN used as the generic identity of the numbers.</em>
-<a class="jxr_linenumber" name="L876" href="#L876">876</a> <em class="jxr_javadoccomment">	 * @param pIn 	Array of ProtoN children</em>
-<a class="jxr_linenumber" name="L877" href="#L877">877</a> <em class="jxr_javadoccomment">	 * @return Scale after this object is modified.</em>
-<a class="jxr_linenumber" name="L878" href="#L878">878</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered array not suitable to cover the basis.</em>
-<a class="jxr_linenumber" name="L879" href="#L879">879</a> <em class="jxr_javadoccomment">	 * 									All blades must be covered. NO NULL numbers.</em>
-<a class="jxr_linenumber" name="L880" href="#L880">880</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L881" href="#L881">881</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setNumbers(T[] pIn) {
-<a class="jxr_linenumber" name="L882" href="#L882">882</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)																<em class="jxr_comment">//Nulls aren't tolerated</em>
-<a class="jxr_linenumber" name="L883" href="#L883">883</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT be null."</span>);
-<a class="jxr_linenumber" name="L884" href="#L884">884</a> 		<strong class="jxr_keyword">if</strong> (!Scale.validateNoNullsIncoming(pIn))										<em class="jxr_comment">//Seriously! They aren't tolerated.</em>
-<a class="jxr_linenumber" name="L885" href="#L885">885</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT contain nulls."</span>);
-<a class="jxr_linenumber" name="L886" href="#L886">886</a> 		<strong class="jxr_keyword">if</strong>(!Scale.validateModeIncoming(getMode(), pIn))									<em class="jxr_comment">//Mixed mode isn't tolerated either.</em>
-<a class="jxr_linenumber" name="L887" href="#L887">887</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST mode match."</span>);
-<a class="jxr_linenumber" name="L888" href="#L888">888</a> 		<strong class="jxr_keyword">if</strong> (pIn.length != gBasis.getBladeCount())										<em class="jxr_comment">//Offered array MUST cover the basis.</em>
-<a class="jxr_linenumber" name="L889" href="#L889">889</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST cover every blade in the basis."</span>);
-<a class="jxr_linenumber" name="L890" href="#L890">890</a> 
-<a class="jxr_linenumber" name="L891" href="#L891">891</a> 		<strong class="jxr_keyword">switch</strong> (Scale.testCardinalMatchesIncoming(card, pIn)) {
-<a class="jxr_linenumber" name="L892" href="#L892">892</a> 			<strong class="jxr_keyword">case</strong> 0  : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed are a jumbled mess of cardinals."</span>);
-<a class="jxr_linenumber" name="L893" href="#L893">893</a> 			<strong class="jxr_keyword">case</strong> -1 : card = pIn[0].getCardinal();										<em class="jxr_comment">//-1 case ALSO uses +1 action</em>
-<a class="jxr_linenumber" name="L894" href="#L894">894</a> 			<strong class="jxr_keyword">case</strong> +1 : gBasis.bladeStream().forEach(blade -&gt; {
-<a class="jxr_linenumber" name="L895" href="#L895">895</a> 									setNumber(blade, pIn[gBasis.find(blade) - 1]);		<em class="jxr_comment">//nulls checked again which is okay</em>
-<a class="jxr_linenumber" name="L896" href="#L896">896</a> 																						<em class="jxr_comment">//the top level check stops ALL mutation.</em>
-<a class="jxr_linenumber" name="L897" href="#L897">897</a> 								});
-<a class="jxr_linenumber" name="L898" href="#L898">898</a> 			<strong class="jxr_keyword">default</strong> : ;
-<a class="jxr_linenumber" name="L899" href="#L899">899</a> 		}
-<a class="jxr_linenumber" name="L900" href="#L900">900</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L901" href="#L901">901</a> 	}
-<a class="jxr_linenumber" name="L902" href="#L902">902</a> 
-<a class="jxr_linenumber" name="L903" href="#L903">903</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L904" href="#L904">904</a> <em class="jxr_javadoccomment">	 * This method sets the coefficients represented by this Scale. It accepts a map relating blades in the basis to ProtoN children. </em>
-<a class="jxr_linenumber" name="L905" href="#L905">905</a> <em class="jxr_javadoccomment">	 * It checks to see if the map is of the wrong size and throws an IllegalArgumentException if so. It does NOT check</em>
-<a class="jxr_linenumber" name="L906" href="#L906">906</a> <em class="jxr_javadoccomment">	 * for mode consistency and nulls</em>
-<a class="jxr_linenumber" name="L907" href="#L907">907</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L908" href="#L908">908</a> <em class="jxr_javadoccomment">	 * NOTE this method DEEP COPIES the inbound map to disconnect the map's source ProtoN children from the ones 'put' here. </em>
-<a class="jxr_linenumber" name="L909" href="#L909">909</a> <em class="jxr_javadoccomment">	 * This is the safest settor for ensuring numbers are NOT reused across monads... IF ONE PAYS ATTENTION to nulls and mixed modes.</em>
-<a class="jxr_linenumber" name="L910" href="#L910">910</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L911" href="#L911">911</a> <em class="jxr_javadoccomment">	 * @param pInMap Inbound Map relating blades to numbers.</em>
-<a class="jxr_linenumber" name="L912" href="#L912">912</a> <em class="jxr_javadoccomment">	 * @return Scale after modification of the map.</em>
-<a class="jxr_linenumber" name="L913" href="#L913">913</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered map does not have the same size as the basis. Good enough</em>
-<a class="jxr_linenumber" name="L914" href="#L914">914</a> <em class="jxr_javadoccomment">	 *                                  to ensure all blades are covered because Map doesn't allow duplicate keys.</em>
-<a class="jxr_linenumber" name="L915" href="#L915">915</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L916" href="#L916">916</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setMap(Map&lt;Blade, D&gt; pInMap) {
-<a class="jxr_linenumber" name="L917" href="#L917">917</a> 		<strong class="jxr_keyword">if</strong> (pInMap.size() != gBasis.getBladeCount())
-<a class="jxr_linenumber" name="L918" href="#L918">918</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered map of coefficients MUST cover every blade in the basis."</span>);
-<a class="jxr_linenumber" name="L919" href="#L919">919</a> 
-<a class="jxr_linenumber" name="L920" href="#L920">920</a> 		Map&lt;Blade, D&gt; mapCopy = pInMap	.entrySet()
-<a class="jxr_linenumber" name="L921" href="#L921">921</a> 										.parallelStream()
-<a class="jxr_linenumber" name="L922" href="#L922">922</a> 										.collect(Collectors.toMap(	e -&gt; e.getKey(),
-<a class="jxr_linenumber" name="L923" href="#L923">923</a> 																	e -&gt; FBuilder.copyOf(e.getValue())	)
-<a class="jxr_linenumber" name="L924" href="#L924">924</a> 												);
-<a class="jxr_linenumber" name="L925" href="#L925">925</a> 		map.putAll(mapCopy);
-<a class="jxr_linenumber" name="L926" href="#L926">926</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L927" href="#L927">927</a> 	}
-<a class="jxr_linenumber" name="L928" href="#L928">928</a> 
-<a class="jxr_linenumber" name="L929" href="#L929">929</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L930" href="#L930">930</a> <em class="jxr_javadoccomment">	 * This settor accepts an array of ProtoN children, assumes they are in basis index order to assign a blade of the specified grade, </em>
-<a class="jxr_linenumber" name="L931" href="#L931">931</a> <em class="jxr_javadoccomment">	 * then inserts them into the map at that blade covering ONLY the grade suggested.</em>
-<a class="jxr_linenumber" name="L932" href="#L932">932</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L933" href="#L933">933</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered coefficient array to be disconnected from this object. IT WON'T BE! </em>
-<a class="jxr_linenumber" name="L934" href="#L934">934</a> <em class="jxr_javadoccomment">	 * If you really must use this method that way, copy your coefficients first.</em>
-<a class="jxr_linenumber" name="L935" href="#L935">935</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L936" href="#L936">936</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be overwritten</em>
-<a class="jxr_linenumber" name="L937" href="#L937">937</a> <em class="jxr_javadoccomment">	 * @param pIn    Array of ProtoN Children</em>
-<a class="jxr_linenumber" name="L938" href="#L938">938</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
-<a class="jxr_linenumber" name="L939" href="#L939">939</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L940" href="#L940">940</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setNumbersAtGrade(byte pGrade, D[] pIn) {
-<a class="jxr_linenumber" name="L941" href="#L941">941</a> 		<strong class="jxr_keyword">if</strong> (!gBasis.validateGradeIndex(pGrade))
-<a class="jxr_linenumber" name="L942" href="#L942">942</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered grade must be in range for underlying basis."</span>);
-<a class="jxr_linenumber" name="L943" href="#L943">943</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L944" href="#L944">944</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT be null."</span>);
-<a class="jxr_linenumber" name="L945" href="#L945">945</a> 		<strong class="jxr_keyword">if</strong> (gBasis.bladeOfGradeStream(pGrade).count() != (<strong class="jxr_keyword">long</strong>) pIn.length)
-<a class="jxr_linenumber" name="L946" href="#L946">946</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST cover every blade in the grade range."</span>);
-<a class="jxr_linenumber" name="L947" href="#L947">947</a> 		
-<a class="jxr_linenumber" name="L948" href="#L948">948</a> 		<strong class="jxr_keyword">switch</strong> (Scale.testCardinalMatchesIncoming(card, pIn)) {
-<a class="jxr_linenumber" name="L949" href="#L949">949</a> 			<strong class="jxr_keyword">case</strong> 0  : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed are a jumbled mess of cardinals."</span>);
-<a class="jxr_linenumber" name="L950" href="#L950">950</a> 			<strong class="jxr_keyword">case</strong> -1 : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed MUST match the Scale cardinal."</span>);
-<a class="jxr_linenumber" name="L951" href="#L951">951</a> 			<strong class="jxr_keyword">case</strong> +1 : {										<em class="jxr_comment">//The only case we can accept requires perfect cardinal matches.</em>
-<a class="jxr_linenumber" name="L952" href="#L952">952</a> 				<strong class="jxr_keyword">int</strong> init = gBasis.getGradeStart(pGrade);	<em class="jxr_comment">//This is where the pGrade blades start</em>
-<a class="jxr_linenumber" name="L953" href="#L953">953</a> 				gBasis	.bladeOfGradeStream(pGrade)			<em class="jxr_comment">//so stream the blades, match them with pIn[] entries,</em>
-<a class="jxr_linenumber" name="L954" href="#L954">954</a> 						.forEach(blade -&gt; {	map.put(blade, pIn[gBasis.find(blade) - init - 1]);	} );	<em class="jxr_comment">//and 'put' them in map.</em>
-<a class="jxr_linenumber" name="L955" href="#L955">955</a> 			}
-<a class="jxr_linenumber" name="L956" href="#L956">956</a> 			<strong class="jxr_keyword">default</strong> : ;
-<a class="jxr_linenumber" name="L957" href="#L957">957</a> 		}
-<a class="jxr_linenumber" name="L958" href="#L958">958</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L959" href="#L959">959</a> 	}
-<a class="jxr_linenumber" name="L960" href="#L960">960</a> 
-<a class="jxr_linenumber" name="L961" href="#L961">961</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L962" href="#L962">962</a> <em class="jxr_javadoccomment">	 * This is the compliment of a blade stream involving the scaling factors 'multiplied' by blades in the sense </em>
-<a class="jxr_linenumber" name="L963" href="#L963">963</a> <em class="jxr_javadoccomment">	 * of a linear combination in a vector space. When forming a linear combination of blades to make a 'vector', </em>
-<a class="jxr_linenumber" name="L964" href="#L964">964</a> <em class="jxr_javadoccomment">	 * these are the 'numbers' that scale each blade.</em>
-<a class="jxr_linenumber" name="L965" href="#L965">965</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L966" href="#L966">966</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers as values, there is a cast to a 'generic' type </em>
-<a class="jxr_linenumber" name="L967" href="#L967">967</a> <em class="jxr_javadoccomment">	 * within this method. This would normally cause warnings by the compiler since the generic named in the internal </em>
-<a class="jxr_linenumber" name="L968" href="#L968">968</a> <em class="jxr_javadoccomment">	 * map IS a ProtoN child AND casting an unchecked type could fail at runtime.</em>
-<a class="jxr_linenumber" name="L969" href="#L969">969</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L970" href="#L970">970</a> <em class="jxr_javadoccomment">	 * That won't happen when CladosF builders are used because they dan't build anything that is NOT a ProtoN child. </em>
-<a class="jxr_linenumber" name="L971" href="#L971">971</a> <em class="jxr_javadoccomment">	 * Scale's internal map only accepts ProtoN child classes, so there is no danger of a failed cast operation... </em>
-<a class="jxr_linenumber" name="L972" href="#L972">972</a> <em class="jxr_javadoccomment">	 * until someone creates a new ProtoN child class and fails to update the builders.</em>
-<a class="jxr_linenumber" name="L973" href="#L973">973</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L974" href="#L974">974</a> <em class="jxr_javadoccomment">	 * @return Stream of ProtoN children that are the numbers in the internal map.</em>
-<a class="jxr_linenumber" name="L975" href="#L975">975</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L976" href="#L976">976</a> 	<strong class="jxr_keyword">protected</strong> Stream&lt;D&gt; weightsStream() {
-<a class="jxr_linenumber" name="L977" href="#L977">977</a> 		<strong class="jxr_keyword">return</strong> map.values().stream();
-<a class="jxr_linenumber" name="L978" href="#L978">978</a> 	}
-<a class="jxr_linenumber" name="L979" href="#L979">979</a> 
-<a class="jxr_linenumber" name="L980" href="#L980">980</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L981" href="#L981">981</a> <em class="jxr_javadoccomment">	 * This method returns a parallelizable stream of the weights in this scale. </em>
-<a class="jxr_linenumber" name="L982" href="#L982">982</a> <em class="jxr_javadoccomment">	 * It is intended for wholesale operations on the weights that may be done</em>
-<a class="jxr_linenumber" name="L983" href="#L983">983</a> <em class="jxr_javadoccomment">	 * in any order. It is mostly for use by the owning object of this Scale.</em>
+<a class="jxr_linenumber" name="L848" href="#L848">848</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L849" href="#L849">849</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setCardinal(<a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pCard) {
+<a class="jxr_linenumber" name="L850" href="#L850">850</a> 		<strong class="jxr_keyword">if</strong> (card != pCard &amp; pCard != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L851" href="#L851">851</a> 			weightsParallelStream().forEach(x -&gt; x.setCardinal(pCard));
+<a class="jxr_linenumber" name="L852" href="#L852">852</a> 			card = pCard;
+<a class="jxr_linenumber" name="L853" href="#L853">853</a> 		}
+<a class="jxr_linenumber" name="L854" href="#L854">854</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L855" href="#L855">855</a> 	}
+<a class="jxr_linenumber" name="L856" href="#L856">856</a> 
+<a class="jxr_linenumber" name="L857" href="#L857">857</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L858" href="#L858">858</a> <em class="jxr_javadoccomment">	 * This method just sets the pscalar weight with a number that should satisfy type matches. If it</em>
+<a class="jxr_linenumber" name="L859" href="#L859">859</a> <em class="jxr_javadoccomment">	 * does not get past the type match check, nothing is done to change any weights. If it fails the mode</em>
+<a class="jxr_linenumber" name="L860" href="#L860">860</a> <em class="jxr_javadoccomment">	 * check, an IllegalArgumentException is thrown.</em>
+<a class="jxr_linenumber" name="L861" href="#L861">861</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L862" href="#L862">862</a> <em class="jxr_javadoccomment">	 * The offered number IS USED DIRECTLY. NO COPY IS CREATED!</em>
+<a class="jxr_linenumber" name="L863" href="#L863">863</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L864" href="#L864">864</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.</em>
+<a class="jxr_linenumber" name="L865" href="#L865">865</a> <em class="jxr_javadoccomment">	 * @param pIn D is a child of ProtoN to use as the pscalar weight.</em>
+<a class="jxr_linenumber" name="L866" href="#L866">866</a> <em class="jxr_javadoccomment">	 * @return Scale of numbers for use in streaming operations if desired.</em>
+<a class="jxr_linenumber" name="L867" href="#L867">867</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L868" href="#L868">868</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setPScalar(T pIn) {
+<a class="jxr_linenumber" name="L869" href="#L869">869</a> 		setNumber(gBasis.getPScalarBlade(), pIn);			<em class="jxr_comment">//Defer to checks made in setNumber()</em>
+<a class="jxr_linenumber" name="L870" href="#L870">870</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L871" href="#L871">871</a> 	}
+<a class="jxr_linenumber" name="L872" href="#L872">872</a> 
+<a class="jxr_linenumber" name="L873" href="#L873">873</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L874" href="#L874">874</a> <em class="jxr_javadoccomment">	 * This method just sets the scalar weight with a number that should satisfy type matches. If it</em>
+<a class="jxr_linenumber" name="L875" href="#L875">875</a> <em class="jxr_javadoccomment">	 * does not get past the type match check, nothing is done to change any weights. If it fails the mode</em>
+<a class="jxr_linenumber" name="L876" href="#L876">876</a> <em class="jxr_javadoccomment">	 * check, an IllegalArgumentException is thrown.</em>
+<a class="jxr_linenumber" name="L877" href="#L877">877</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L878" href="#L878">878</a> <em class="jxr_javadoccomment">	 * The offered number IS USED DIRECTLY. NO COPY IS CREATED!</em>
+<a class="jxr_linenumber" name="L879" href="#L879">879</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L880" href="#L880">880</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the weights in this object.</em>
+<a class="jxr_linenumber" name="L881" href="#L881">881</a> <em class="jxr_javadoccomment">	 * @param pIn D is a child of ProtoN to use as the pscalar weight.</em>
+<a class="jxr_linenumber" name="L882" href="#L882">882</a> <em class="jxr_javadoccomment">	 * @return Scale of numbers for use in streaming operations if desired.</em>
+<a class="jxr_linenumber" name="L883" href="#L883">883</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L884" href="#L884">884</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setScalar(T pIn) {
+<a class="jxr_linenumber" name="L885" href="#L885">885</a> 		setNumber(gBasis.getScalarBlade(), pIn);			<em class="jxr_comment">//Defer to checks made in setNumber()</em>
+<a class="jxr_linenumber" name="L886" href="#L886">886</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L887" href="#L887">887</a> 	}
+<a class="jxr_linenumber" name="L888" href="#L888">888</a> 
+<a class="jxr_linenumber" name="L889" href="#L889">889</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L890" href="#L890">890</a> <em class="jxr_javadoccomment">	 * This coefficient settor accepts a single ProtoN child and a Blade and inserts the number into the </em>
+<a class="jxr_linenumber" name="L891" href="#L891">891</a> <em class="jxr_javadoccomment">	 * internal map at the blade index.</em>
+<a class="jxr_linenumber" name="L892" href="#L892">892</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L893" href="#L893">893</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered number to be disconnected from this object. </em>
+<a class="jxr_linenumber" name="L894" href="#L894">894</a> <em class="jxr_javadoccomment">	 * IT WON'T BE! If you really must use this method that way, copy your coefficients first.</em>
+<a class="jxr_linenumber" name="L895" href="#L895">895</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L896" href="#L896">896</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the number object.</em>
+<a class="jxr_linenumber" name="L897" href="#L897">897</a> <em class="jxr_javadoccomment">	 * @param pB Blade where the offered number belongs.</em>
+<a class="jxr_linenumber" name="L898" href="#L898">898</a> <em class="jxr_javadoccomment">	 * @param pIn Array of ProtoN children</em>
+<a class="jxr_linenumber" name="L899" href="#L899">899</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
+<a class="jxr_linenumber" name="L900" href="#L900">900</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered number is null OR the blade isn't in the basis. </em>
+<a class="jxr_linenumber" name="L901" href="#L901">901</a> <em class="jxr_javadoccomment">	 * 									The blade must be covered. NO NULL numbers.</em>
+<a class="jxr_linenumber" name="L902" href="#L902">902</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L903" href="#L903">903</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setNumber(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB, T pIn) {
+<a class="jxr_linenumber" name="L904" href="#L904">904</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)																<em class="jxr_comment">//Nulls aren't tolerated</em>
+<a class="jxr_linenumber" name="L905" href="#L905">905</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST NOT be null."</span>);
+<a class="jxr_linenumber" name="L906" href="#L906">906</a> 		<strong class="jxr_keyword">if</strong> (!map.containsKey(pB))
+<a class="jxr_linenumber" name="L907" href="#L907">907</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered Blade MUST be in the basis."</span>);
+<a class="jxr_linenumber" name="L908" href="#L908">908</a> 		<strong class="jxr_keyword">if</strong>  (	!(pIn instanceof <a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>) &amp; (getMode() == REALF)
+<a class="jxr_linenumber" name="L909" href="#L909">909</a> 			&amp; 	!(pIn instanceof <a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) &amp; (getMode() == REALD)
+<a class="jxr_linenumber" name="L910" href="#L910">910</a> 			&amp; 	!(pIn instanceof <a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>) &amp; (getMode() == COMPLEXF)
+<a class="jxr_linenumber" name="L911" href="#L911">911</a> 			&amp; 	!(pIn instanceof <a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>) &amp; (getMode() == COMPLEXD))
+<a class="jxr_linenumber" name="L912" href="#L912">912</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST mode match."</span>);
+<a class="jxr_linenumber" name="L913" href="#L913">913</a> 		<strong class="jxr_keyword">if</strong> (card != pIn.getCardinal())
+<a class="jxr_linenumber" name="L914" href="#L914">914</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered number MUST match the Scale cardinal."</span>);
+<a class="jxr_linenumber" name="L915" href="#L915">915</a> 		map.put(pB, (D) pIn);
+<a class="jxr_linenumber" name="L916" href="#L916">916</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L917" href="#L917">917</a> 	}
+<a class="jxr_linenumber" name="L918" href="#L918">918</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L919" href="#L919">919</a> <em class="jxr_javadoccomment">	 * This coefficient settor accepts an array of ProtoN numbers, assumes they are in basis index order, and then </em>
+<a class="jxr_linenumber" name="L920" href="#L920">920</a> <em class="jxr_javadoccomment">	 * inserts them into the internal map by blade at that index.</em>
+<a class="jxr_linenumber" name="L921" href="#L921">921</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L922" href="#L922">922</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered coefficient array to be disconnected from this object. </em>
+<a class="jxr_linenumber" name="L923" href="#L923">923</a> <em class="jxr_javadoccomment">	 * IT WON'T BE!. If you really must use this method that way, copy your coefficients first.</em>
+<a class="jxr_linenumber" name="L924" href="#L924">924</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L925" href="#L925">925</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT try to change the mode for the scale either. Once set, mode is fixed.</em>
+<a class="jxr_linenumber" name="L926" href="#L926">926</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L927" href="#L927">927</a> <em class="jxr_javadoccomment">	 * @param &lt;T&gt; 	is a child of ProtoN used as the generic identity of the numbers.</em>
+<a class="jxr_linenumber" name="L928" href="#L928">928</a> <em class="jxr_javadoccomment">	 * @param pIn 	Array of ProtoN children</em>
+<a class="jxr_linenumber" name="L929" href="#L929">929</a> <em class="jxr_javadoccomment">	 * @return Scale after this object is modified.</em>
+<a class="jxr_linenumber" name="L930" href="#L930">930</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered array not suitable to cover the basis.</em>
+<a class="jxr_linenumber" name="L931" href="#L931">931</a> <em class="jxr_javadoccomment">	 * 									All blades must be covered. NO NULL numbers.</em>
+<a class="jxr_linenumber" name="L932" href="#L932">932</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L933" href="#L933">933</a> 	<strong class="jxr_keyword">protected</strong> &lt;T <strong class="jxr_keyword">extends</strong> <a name="ProtoN" href="../../../org/interworldtransport/cladosF/ProtoN.html#ProtoN">ProtoN</a> &amp; <a name="Field" href="../../../org/interworldtransport/cladosF/Field.html#Field">Field</a> &amp; Normalizable&gt; Scale&lt;D&gt; setNumbers(T[] pIn) {
+<a class="jxr_linenumber" name="L934" href="#L934">934</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)																<em class="jxr_comment">//Nulls aren't tolerated</em>
+<a class="jxr_linenumber" name="L935" href="#L935">935</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT be null."</span>);
+<a class="jxr_linenumber" name="L936" href="#L936">936</a> 		<strong class="jxr_keyword">if</strong> (!Scale.validateNoNullsIncoming(pIn))										<em class="jxr_comment">//Seriously! They aren't tolerated.</em>
+<a class="jxr_linenumber" name="L937" href="#L937">937</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT contain nulls."</span>);
+<a class="jxr_linenumber" name="L938" href="#L938">938</a> 		<strong class="jxr_keyword">if</strong>(!Scale.validateModeIncoming(getMode(), pIn))									<em class="jxr_comment">//Mixed mode isn't tolerated either.</em>
+<a class="jxr_linenumber" name="L939" href="#L939">939</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST mode match."</span>);
+<a class="jxr_linenumber" name="L940" href="#L940">940</a> 		<strong class="jxr_keyword">if</strong> (pIn.length != gBasis.getBladeCount())										<em class="jxr_comment">//Offered array MUST cover the basis.</em>
+<a class="jxr_linenumber" name="L941" href="#L941">941</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST cover every blade in the basis."</span>);
+<a class="jxr_linenumber" name="L942" href="#L942">942</a> 
+<a class="jxr_linenumber" name="L943" href="#L943">943</a> 		<strong class="jxr_keyword">switch</strong> (Scale.testCardinalMatchesIncoming(card, pIn)) {
+<a class="jxr_linenumber" name="L944" href="#L944">944</a> 			<strong class="jxr_keyword">case</strong> 0  : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed are a jumbled mess of cardinals."</span>);
+<a class="jxr_linenumber" name="L945" href="#L945">945</a> 			<strong class="jxr_keyword">case</strong> -1 : card = pIn[0].getCardinal();										<em class="jxr_comment">//-1 case ALSO uses +1 action</em>
+<a class="jxr_linenumber" name="L946" href="#L946">946</a> 			<strong class="jxr_keyword">case</strong> +1 : gBasis.bladeStream().forEach(blade -&gt; {
+<a class="jxr_linenumber" name="L947" href="#L947">947</a> 									setNumber(blade, pIn[gBasis.find(blade) - 1]);		<em class="jxr_comment">//nulls checked again which is okay</em>
+<a class="jxr_linenumber" name="L948" href="#L948">948</a> 																						<em class="jxr_comment">//the top level check stops ALL mutation.</em>
+<a class="jxr_linenumber" name="L949" href="#L949">949</a> 								});
+<a class="jxr_linenumber" name="L950" href="#L950">950</a> 			<strong class="jxr_keyword">default</strong> : ;
+<a class="jxr_linenumber" name="L951" href="#L951">951</a> 		}
+<a class="jxr_linenumber" name="L952" href="#L952">952</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L953" href="#L953">953</a> 	}
+<a class="jxr_linenumber" name="L954" href="#L954">954</a> 
+<a class="jxr_linenumber" name="L955" href="#L955">955</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L956" href="#L956">956</a> <em class="jxr_javadoccomment">	 * This method sets the coefficients represented by this Scale. It accepts a map relating blades in the basis to ProtoN children. </em>
+<a class="jxr_linenumber" name="L957" href="#L957">957</a> <em class="jxr_javadoccomment">	 * It checks to see if the map is of the wrong size and throws an IllegalArgumentException if so. It does NOT check</em>
+<a class="jxr_linenumber" name="L958" href="#L958">958</a> <em class="jxr_javadoccomment">	 * for mode consistency and nulls</em>
+<a class="jxr_linenumber" name="L959" href="#L959">959</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L960" href="#L960">960</a> <em class="jxr_javadoccomment">	 * NOTE this method DEEP COPIES the inbound map to disconnect the map's source ProtoN children from the ones 'put' here. </em>
+<a class="jxr_linenumber" name="L961" href="#L961">961</a> <em class="jxr_javadoccomment">	 * This is the safest settor for ensuring numbers are NOT reused across monads... IF ONE PAYS ATTENTION to nulls and mixed modes.</em>
+<a class="jxr_linenumber" name="L962" href="#L962">962</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L963" href="#L963">963</a> <em class="jxr_javadoccomment">	 * @param pInMap Inbound Map relating blades to numbers.</em>
+<a class="jxr_linenumber" name="L964" href="#L964">964</a> <em class="jxr_javadoccomment">	 * @return Scale after modification of the map.</em>
+<a class="jxr_linenumber" name="L965" href="#L965">965</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException This happens if the offered map does not have the same size as the basis. Good enough</em>
+<a class="jxr_linenumber" name="L966" href="#L966">966</a> <em class="jxr_javadoccomment">	 *                                  to ensure all blades are covered because Map doesn't allow duplicate keys.</em>
+<a class="jxr_linenumber" name="L967" href="#L967">967</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L968" href="#L968">968</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setMap(Map&lt;Blade, D&gt; pInMap) {
+<a class="jxr_linenumber" name="L969" href="#L969">969</a> 		<strong class="jxr_keyword">if</strong> (pInMap.size() != gBasis.getBladeCount())
+<a class="jxr_linenumber" name="L970" href="#L970">970</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered map of coefficients MUST cover every blade in the basis."</span>);
+<a class="jxr_linenumber" name="L971" href="#L971">971</a> 
+<a class="jxr_linenumber" name="L972" href="#L972">972</a> 		Map&lt;Blade, D&gt; mapCopy = pInMap	.entrySet()
+<a class="jxr_linenumber" name="L973" href="#L973">973</a> 										.parallelStream()
+<a class="jxr_linenumber" name="L974" href="#L974">974</a> 										.collect(Collectors.toMap(	e -&gt; e.getKey(),
+<a class="jxr_linenumber" name="L975" href="#L975">975</a> 																	e -&gt; FBuilder.copyOf(e.getValue())	)
+<a class="jxr_linenumber" name="L976" href="#L976">976</a> 												);
+<a class="jxr_linenumber" name="L977" href="#L977">977</a> 		map.putAll(mapCopy);
+<a class="jxr_linenumber" name="L978" href="#L978">978</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L979" href="#L979">979</a> 	}
+<a class="jxr_linenumber" name="L980" href="#L980">980</a> 
+<a class="jxr_linenumber" name="L981" href="#L981">981</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L982" href="#L982">982</a> <em class="jxr_javadoccomment">	 * This settor accepts an array of ProtoN children, assumes they are in basis index order to assign a blade of the specified grade, </em>
+<a class="jxr_linenumber" name="L983" href="#L983">983</a> <em class="jxr_javadoccomment">	 * then inserts them into the map at that blade covering ONLY the grade suggested.</em>
 <a class="jxr_linenumber" name="L984" href="#L984">984</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L985" href="#L985">985</a> <em class="jxr_javadoccomment">	 * @return A stream of weights as children of ProtoN.</em>
-<a class="jxr_linenumber" name="L986" href="#L986">986</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L987" href="#L987">987</a> 	<strong class="jxr_keyword">protected</strong> Stream&lt;D&gt; weightsParallelStream() {
-<a class="jxr_linenumber" name="L988" href="#L988">988</a> 		<strong class="jxr_keyword">return</strong> map.values().parallelStream();
-<a class="jxr_linenumber" name="L989" href="#L989">989</a> 	}
-<a class="jxr_linenumber" name="L990" href="#L990">990</a> 
-<a class="jxr_linenumber" name="L991" href="#L991">991</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L992" href="#L992">992</a> <em class="jxr_javadoccomment">	 * This method causes all coefficients to be set to zero using the offered</em>
-<a class="jxr_linenumber" name="L993" href="#L993">993</a> <em class="jxr_javadoccomment">	 * cardinal.</em>
-<a class="jxr_linenumber" name="L994" href="#L994">994</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L995" href="#L995">995</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
-<a class="jxr_linenumber" name="L996" href="#L996">996</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L997" href="#L997">997</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAll() {
-<a class="jxr_linenumber" name="L998" href="#L998">998</a> 		gBasis	.bladeStream()
-<a class="jxr_linenumber" name="L999" href="#L999">999</a> 				.forEach(b -&gt; {
-<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a> 								map.put(b, FBuilder.createZERO(mode, card));
-<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> 							});
-<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a> 	}
-<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a> 
-<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a> <em class="jxr_javadoccomment">	 * This is a specialty method making use of setCoefficientsAtGrade for a</em>
-<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a> <em class="jxr_javadoccomment">	 * specific purpose of grade suppression.</em>
-<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be preserved</em>
-<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
-<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAllButGrade(byte pGrade) {
-<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a> 		<strong class="jxr_keyword">if</strong> (gBasis.validateGradeIndex(pGrade))
-<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a> 			gBasis	.bladeStream()
-<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a> 					.filter(blade -&gt; blade.rank() != pGrade)
-<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a> 					.forEach(blade -&gt; {
-<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a> 										map.put(blade, FBuilder.createZERO(mode, card));
-<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a> 									});
-<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L1020" href="#L1020">1020</a> 	}
-<a class="jxr_linenumber" name="L1021" href="#L1021">1021</a> 
-<a class="jxr_linenumber" name="L1022" href="#L1022">1022</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1023" href="#L1023">1023</a> <em class="jxr_javadoccomment">	 * Zero the value at the offered blade.</em>
-<a class="jxr_linenumber" name="L1024" href="#L1024">1024</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L1025" href="#L1025">1025</a> <em class="jxr_javadoccomment">	 * NOTE this doesn't remove the blade from the map because the basis should</em>
-<a class="jxr_linenumber" name="L1026" href="#L1026">1026</a> <em class="jxr_javadoccomment">	 * never change. The mapped value at that blade is zero'd.</em>
-<a class="jxr_linenumber" name="L1027" href="#L1027">1027</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L1028" href="#L1028">1028</a> <em class="jxr_javadoccomment">	 * @param pB Blade key to zero out the related coefficient</em>
-<a class="jxr_linenumber" name="L1029" href="#L1029">1029</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
-<a class="jxr_linenumber" name="L1030" href="#L1030">1030</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L1031" href="#L1031">1031</a> 	<strong class="jxr_keyword">public</strong> Scale&lt;D&gt; zeroAt(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
-<a class="jxr_linenumber" name="L1032" href="#L1032">1032</a> 		<strong class="jxr_keyword">if</strong> (pB != <strong class="jxr_keyword">null</strong> &amp; map.containsKey(pB))
-<a class="jxr_linenumber" name="L1033" href="#L1033">1033</a> 			map.put(pB, FBuilder.createZERO(mode, map.get(pB).getCardinal()));
-<a class="jxr_linenumber" name="L1034" href="#L1034">1034</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a> 	}
-<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a> 
-<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1038" href="#L1038">1038</a> <em class="jxr_javadoccomment">	 * This is a specialty method making use of setCoefficientsAtGrade for a</em>
-<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a> <em class="jxr_javadoccomment">	 * specific purpose of grade suppression.</em>
-<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
-<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be overwritten</em>
-<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
-<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAtGrade(byte pGrade) {
-<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a> 		<strong class="jxr_keyword">if</strong> (gBasis.validateGradeIndex(pGrade))
-<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a> 			gBasis.bladeStream().filter(blade -&gt; blade.rank() == pGrade).forEach(blade -&gt; {
-<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a> 				map.put(blade, FBuilder.createZERO(mode, card));
-<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a> 		});
-<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a> 	}
-<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a> }
+<a class="jxr_linenumber" name="L985" href="#L985">985</a> <em class="jxr_javadoccomment">	 * NOTE | Do NOT use this method if you intend the offered coefficient array to be disconnected from this object. IT WON'T BE! </em>
+<a class="jxr_linenumber" name="L986" href="#L986">986</a> <em class="jxr_javadoccomment">	 * If you really must use this method that way, copy your coefficients first.</em>
+<a class="jxr_linenumber" name="L987" href="#L987">987</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L988" href="#L988">988</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be overwritten</em>
+<a class="jxr_linenumber" name="L989" href="#L989">989</a> <em class="jxr_javadoccomment">	 * @param pIn    Array of ProtoN Children</em>
+<a class="jxr_linenumber" name="L990" href="#L990">990</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
+<a class="jxr_linenumber" name="L991" href="#L991">991</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L992" href="#L992">992</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; setNumbersAtGrade(byte pGrade, D[] pIn) {
+<a class="jxr_linenumber" name="L993" href="#L993">993</a> 		<strong class="jxr_keyword">if</strong> (!gBasis.validateGradeIndex(pGrade))
+<a class="jxr_linenumber" name="L994" href="#L994">994</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered grade must be in range for underlying basis."</span>);
+<a class="jxr_linenumber" name="L995" href="#L995">995</a> 		<strong class="jxr_keyword">if</strong> (pIn == <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L996" href="#L996">996</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST NOT be null."</span>);
+<a class="jxr_linenumber" name="L997" href="#L997">997</a> 		<strong class="jxr_keyword">if</strong> (gBasis.bladeOfGradeStream(pGrade).count() != (<strong class="jxr_keyword">long</strong>) pIn.length)
+<a class="jxr_linenumber" name="L998" href="#L998">998</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Offered array of coefficients MUST cover every blade in the grade range."</span>);
+<a class="jxr_linenumber" name="L999" href="#L999">999</a> 		
+<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a> 		<strong class="jxr_keyword">switch</strong> (Scale.testCardinalMatchesIncoming(card, pIn)) {
+<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> 			<strong class="jxr_keyword">case</strong> 0  : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed are a jumbled mess of cardinals."</span>);
+<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a> 			<strong class="jxr_keyword">case</strong> -1 : <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Coefficients passed MUST match the Scale cardinal."</span>);
+<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a> 			<strong class="jxr_keyword">case</strong> +1 : {										<em class="jxr_comment">//The only case we can accept requires perfect cardinal matches.</em>
+<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a> 				<strong class="jxr_keyword">int</strong> init = gBasis.getGradeStart(pGrade);	<em class="jxr_comment">//This is where the pGrade blades start</em>
+<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 				gBasis	.bladeOfGradeStream(pGrade)			<em class="jxr_comment">//so stream the blades, match them with pIn[] entries,</em>
+<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a> 						.forEach(blade -&gt; {	map.put(blade, pIn[gBasis.find(blade) - init - 1]);	} );	<em class="jxr_comment">//and 'put' them in map.</em>
+<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a> 			}
+<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a> 			<strong class="jxr_keyword">default</strong> : ;
+<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> 		}
+<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a> 	}
+<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a> 
+<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a> <em class="jxr_javadoccomment">	 * This is the compliment of a blade stream involving the scaling factors 'multiplied' by blades in the sense </em>
+<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a> <em class="jxr_javadoccomment">	 * of a linear combination in a vector space. When forming a linear combination of blades to make a 'vector', </em>
+<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a> <em class="jxr_javadoccomment">	 * these are the 'numbers' that scale each blade.</em>
+<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers as values, there is a cast to a 'generic' type </em>
+<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a> <em class="jxr_javadoccomment">	 * within this method. This would normally cause warnings by the compiler since the generic named in the internal </em>
+<a class="jxr_linenumber" name="L1020" href="#L1020">1020</a> <em class="jxr_javadoccomment">	 * map IS a ProtoN child AND casting an unchecked type could fail at runtime.</em>
+<a class="jxr_linenumber" name="L1021" href="#L1021">1021</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1022" href="#L1022">1022</a> <em class="jxr_javadoccomment">	 * That won't happen when CladosF builders are used because they dan't build anything that is NOT a ProtoN child. </em>
+<a class="jxr_linenumber" name="L1023" href="#L1023">1023</a> <em class="jxr_javadoccomment">	 * Scale's internal map only accepts ProtoN child classes, so there is no danger of a failed cast operation... </em>
+<a class="jxr_linenumber" name="L1024" href="#L1024">1024</a> <em class="jxr_javadoccomment">	 * until someone creates a new ProtoN child class and fails to update the builders.</em>
+<a class="jxr_linenumber" name="L1025" href="#L1025">1025</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1026" href="#L1026">1026</a> <em class="jxr_javadoccomment">	 * @return Stream of ProtoN children that are the numbers in the internal map.</em>
+<a class="jxr_linenumber" name="L1027" href="#L1027">1027</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1028" href="#L1028">1028</a> 	<strong class="jxr_keyword">protected</strong> Stream&lt;D&gt; weightsStream() {
+<a class="jxr_linenumber" name="L1029" href="#L1029">1029</a> 		<strong class="jxr_keyword">return</strong> map.values().stream();
+<a class="jxr_linenumber" name="L1030" href="#L1030">1030</a> 	}
+<a class="jxr_linenumber" name="L1031" href="#L1031">1031</a> 
+<a class="jxr_linenumber" name="L1032" href="#L1032">1032</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1033" href="#L1033">1033</a> <em class="jxr_javadoccomment">	 * This method returns a parallelizable stream of the weights in this scale. </em>
+<a class="jxr_linenumber" name="L1034" href="#L1034">1034</a> <em class="jxr_javadoccomment">	 * It is intended for wholesale operations on the weights that may be done</em>
+<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a> <em class="jxr_javadoccomment">	 * in any order. It is mostly for use by the owning object of this Scale.</em>
+<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a> <em class="jxr_javadoccomment">	 * @return A stream of weights as children of ProtoN.</em>
+<a class="jxr_linenumber" name="L1038" href="#L1038">1038</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a> 	<strong class="jxr_keyword">protected</strong> Stream&lt;D&gt; weightsParallelStream() {
+<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a> 		<strong class="jxr_keyword">return</strong> map.values().parallelStream();
+<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a> 	}
+<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a> 
+<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a> <em class="jxr_javadoccomment">	 * This method causes all coefficients to be set to zero using the offered</em>
+<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a> <em class="jxr_javadoccomment">	 * cardinal.</em>
+<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
+<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAll() {
+<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a> 		gBasis	.bladeStream()
+<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a> 				.forEach(b -&gt; {
+<a class="jxr_linenumber" name="L1052" href="#L1052">1052</a> 								map.put(b, FBuilder.createZERO(mode, card));
+<a class="jxr_linenumber" name="L1053" href="#L1053">1053</a> 							});
+<a class="jxr_linenumber" name="L1054" href="#L1054">1054</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L1055" href="#L1055">1055</a> 	}
+<a class="jxr_linenumber" name="L1056" href="#L1056">1056</a> 
+<a class="jxr_linenumber" name="L1057" href="#L1057">1057</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1058" href="#L1058">1058</a> <em class="jxr_javadoccomment">	 * This is a specialty method making use of setCoefficientsAtGrade for a</em>
+<a class="jxr_linenumber" name="L1059" href="#L1059">1059</a> <em class="jxr_javadoccomment">	 * specific purpose of grade suppression.</em>
+<a class="jxr_linenumber" name="L1060" href="#L1060">1060</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1061" href="#L1061">1061</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be preserved</em>
+<a class="jxr_linenumber" name="L1062" href="#L1062">1062</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
+<a class="jxr_linenumber" name="L1063" href="#L1063">1063</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1064" href="#L1064">1064</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAllButGrade(byte pGrade) {
+<a class="jxr_linenumber" name="L1065" href="#L1065">1065</a> 		<strong class="jxr_keyword">if</strong> (gBasis.validateGradeIndex(pGrade))
+<a class="jxr_linenumber" name="L1066" href="#L1066">1066</a> 			gBasis	.bladeStream()
+<a class="jxr_linenumber" name="L1067" href="#L1067">1067</a> 					.filter(blade -&gt; blade.rank() != pGrade)
+<a class="jxr_linenumber" name="L1068" href="#L1068">1068</a> 					.forEach(blade -&gt; {
+<a class="jxr_linenumber" name="L1069" href="#L1069">1069</a> 										map.put(blade, FBuilder.createZERO(mode, card));
+<a class="jxr_linenumber" name="L1070" href="#L1070">1070</a> 									});
+<a class="jxr_linenumber" name="L1071" href="#L1071">1071</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L1072" href="#L1072">1072</a> 	}
+<a class="jxr_linenumber" name="L1073" href="#L1073">1073</a> 
+<a class="jxr_linenumber" name="L1074" href="#L1074">1074</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1075" href="#L1075">1075</a> <em class="jxr_javadoccomment">	 * Zero the value at the offered blade.</em>
+<a class="jxr_linenumber" name="L1076" href="#L1076">1076</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1077" href="#L1077">1077</a> <em class="jxr_javadoccomment">	 * NOTE this doesn't remove the blade from the map because the basis should</em>
+<a class="jxr_linenumber" name="L1078" href="#L1078">1078</a> <em class="jxr_javadoccomment">	 * never change. The mapped value at that blade is zero'd.</em>
+<a class="jxr_linenumber" name="L1079" href="#L1079">1079</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1080" href="#L1080">1080</a> <em class="jxr_javadoccomment">	 * @param pB Blade key to zero out the related coefficient</em>
+<a class="jxr_linenumber" name="L1081" href="#L1081">1081</a> <em class="jxr_javadoccomment">	 * @return Scale object. Just this object after modification.</em>
+<a class="jxr_linenumber" name="L1082" href="#L1082">1082</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1083" href="#L1083">1083</a> 	<strong class="jxr_keyword">public</strong> Scale&lt;D&gt; zeroAt(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
+<a class="jxr_linenumber" name="L1084" href="#L1084">1084</a> 		<strong class="jxr_keyword">if</strong> (pB != <strong class="jxr_keyword">null</strong> &amp; map.containsKey(pB))
+<a class="jxr_linenumber" name="L1085" href="#L1085">1085</a> 			map.put(pB, FBuilder.createZERO(mode, map.get(pB).getCardinal()));
+<a class="jxr_linenumber" name="L1086" href="#L1086">1086</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L1087" href="#L1087">1087</a> 	}
+<a class="jxr_linenumber" name="L1088" href="#L1088">1088</a> 
+<a class="jxr_linenumber" name="L1089" href="#L1089">1089</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1090" href="#L1090">1090</a> <em class="jxr_javadoccomment">	 * This is a specialty method making use of setCoefficientsAtGrade for a</em>
+<a class="jxr_linenumber" name="L1091" href="#L1091">1091</a> <em class="jxr_javadoccomment">	 * specific purpose of grade suppression.</em>
+<a class="jxr_linenumber" name="L1092" href="#L1092">1092</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;</em>
+<a class="jxr_linenumber" name="L1093" href="#L1093">1093</a> <em class="jxr_javadoccomment">	 * @param pGrade byte integer naming the grade to be overwritten</em>
+<a class="jxr_linenumber" name="L1094" href="#L1094">1094</a> <em class="jxr_javadoccomment">	 * @return This Scale instance after coefficients are zero'd out.</em>
+<a class="jxr_linenumber" name="L1095" href="#L1095">1095</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L1096" href="#L1096">1096</a> 	<strong class="jxr_keyword">protected</strong> Scale&lt;D&gt; zeroAtGrade(byte pGrade) {
+<a class="jxr_linenumber" name="L1097" href="#L1097">1097</a> 		<strong class="jxr_keyword">if</strong> (gBasis.validateGradeIndex(pGrade))
+<a class="jxr_linenumber" name="L1098" href="#L1098">1098</a> 			gBasis.bladeStream().filter(blade -&gt; blade.rank() == pGrade).forEach(blade -&gt; {
+<a class="jxr_linenumber" name="L1099" href="#L1099">1099</a> 				map.put(blade, FBuilder.createZERO(mode, card));
+<a class="jxr_linenumber" name="L1100" href="#L1100">1100</a> 		});
+<a class="jxr_linenumber" name="L1101" href="#L1101">1101</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L1102" href="#L1102">1102</a> 	}
+<a class="jxr_linenumber" name="L1103" href="#L1103">1103</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

@@ -578,16 +578,29 @@
 <a class="jxr_linenumber" name="L570" href="#L570">570</a>         }
 <a class="jxr_linenumber" name="L571" href="#L571">571</a> 
 <a class="jxr_linenumber" name="L572" href="#L572">572</a>     }
-<a class="jxr_linenumber" name="L573" href="#L573">573</a>     
-<a class="jxr_linenumber" name="L574" href="#L574">574</a>     
-<a class="jxr_linenumber" name="L575" href="#L575">575</a> 
-<a class="jxr_linenumber" name="L576" href="#L576">576</a>     <em class="jxr_comment">//@Test</em>
-<a class="jxr_linenumber" name="L577" href="#L577">577</a>     <em class="jxr_comment">//public void testXMLString() {</em>
-<a class="jxr_linenumber" name="L578" href="#L578">578</a>     <em class="jxr_comment">//    System.out.println("Scale of real floats is:");</em>
-<a class="jxr_linenumber" name="L579" href="#L579">579</a>     <em class="jxr_comment">//    System.out.println(Scale.toXMLString(workScaleCD, ""));</em>
-<a class="jxr_linenumber" name="L580" href="#L580">580</a>     <em class="jxr_comment">//}</em>
+<a class="jxr_linenumber" name="L573" href="#L573">573</a> 
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>     @Test
+<a class="jxr_linenumber" name="L575" href="#L575">575</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testXMLString() {
+<a class="jxr_linenumber" name="L576" href="#L576">576</a> 
+<a class="jxr_linenumber" name="L577" href="#L577">577</a>         workScaleRF = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(CladosField.REALF, workBasis, workCard);
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>         workScaleRD = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(CladosField.REALD, workBasis, workCard);
+<a class="jxr_linenumber" name="L579" href="#L579">579</a>         workScaleCF = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(CladosField.COMPLEXF, workBasis, workCard);
+<a class="jxr_linenumber" name="L580" href="#L580">580</a>         workScaleCD = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(CladosField.COMPLEXD, workBasis, workCard);
 <a class="jxr_linenumber" name="L581" href="#L581">581</a> 
-<a class="jxr_linenumber" name="L582" href="#L582">582</a> }
+<a class="jxr_linenumber" name="L582" href="#L582">582</a>         assertNotNull(Scale.toXMLFullString(workScaleRF, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L583" href="#L583">583</a>         assertNotNull(Scale.toXMLFullString(workScaleRD, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>         assertNotNull(Scale.toXMLFullString(workScaleCF, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>         assertNotNull(Scale.toXMLFullString(workScaleCD, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L586" href="#L586">586</a> 
+<a class="jxr_linenumber" name="L587" href="#L587">587</a>         assertNotNull(Scale.toXMLString(workScaleRF, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L588" href="#L588">588</a>         assertNotNull(Scale.toXMLString(workScaleRD, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>         assertNotNull(Scale.toXMLString(workScaleCF, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>         assertNotNull(Scale.toXMLString(workScaleCD, <span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L591" href="#L591">591</a>         <em class="jxr_comment">//System.out.println(Scale.toXMLString(workScaleRF, ""));</em>
+<a class="jxr_linenumber" name="L592" href="#L592">592</a>         <em class="jxr_comment">//System.out.println(Scale.toXMLString(workScaleCD, ""));</em>
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>     }
+<a class="jxr_linenumber" name="L594" href="#L594">594</a> 
+<a class="jxr_linenumber" name="L595" href="#L595">595</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>
