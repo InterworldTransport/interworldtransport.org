@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  	@Test
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  	<strong class="jxr_keyword">void</strong> testStatic() <strong class="jxr_keyword">throws</strong> BadSignatureException {
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  		out = BladeDuet.simplify(firstB, secondB, sig);
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		assertTrue(Blade.isNBlade(out, (byte) 1));
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		assertTrue(CanonicalBlade.isNBlade(out, (byte) 1));
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  		out = BladeDuet.simplify(firstB, firstB, sig);
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  		assertTrue(Blade.isScalar(out));
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  	}
@@ -56,7 +56,7 @@
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  		Blade together = BladeDuet.simplify(maxSize1, maxSize2, bigsig);
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  		assertTrue(together.maxGenerator() == (byte) 15);
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  		assertFalse(Blade.isScalar(together));
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		assertTrue(Blade.isNBlade(together, (byte) 1));
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		assertTrue(CanonicalBlade.isNBlade(together, (byte) 1));
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  		assertTrue(together.key() == singlet.key());
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  	}
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  

@@ -115,10 +115,10 @@ import java.util.Collections;
 <span class="fc" id="L115">		maxGen = pB1.maxGenerator();</span>
 		// assert (maxGen &gt; 0);
 <span class="fc" id="L117">		bladeDuet = new ArrayList&lt;&gt;(2 * maxGen);</span>
-<span class="fc" id="L118">		pB1.getGenerators().stream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L118">		pB1.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
 <span class="fc" id="L119">		sign = pB1.sign();</span>
 <span class="fc" id="L120">		bitKeyLeft = pB1.bitKey();</span>
-<span class="fc" id="L121">		pB2.getGenerators().stream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L121">		pB2.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
 <span class="fc" id="L122">		sign *= pB2.sign();</span>
 <span class="fc" id="L123">		bitKeyRight = pB2.bitKey();</span>
 <span class="fc" id="L124">	}</span>
