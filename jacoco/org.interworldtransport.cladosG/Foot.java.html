@@ -24,10 +24,6 @@
  */
 package org.interworldtransport.cladosG;
 
-//import java.util.ArrayList;
-//import java.util.Optional;
-
-//import org.interworldtransport.cladosF.Cardinal;
 import org.interworldtransport.cladosF.FBuilder;
 import org.interworldtransport.cladosF.FCache;
 import org.interworldtransport.cladosF.ProtoN;
@@ -58,7 +54,7 @@ public final class Foot {
 	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
 	 */
 	public static final Foot buildAsType(String pFootName) {
-<span class="fc" id="L61">		return new Foot(pFootName);</span>
+<span class="fc" id="L57">		return new Foot(pFootName);</span>
 	}
 
 	/**
@@ -72,10 +68,10 @@ public final class Foot {
 	 * &lt;br&gt;
 	 * @param pName String This string will be the name of the foot point.
 	 */
-<span class="fc" id="L75">	public Foot(String pName) {</span>
-<span class="fc" id="L76">		setFootName(pName);</span>
-<span class="fc" id="L77">		FBuilder.createCardinal(pName);</span>
-<span class="fc" id="L78">	}</span>
+<span class="fc" id="L71">	public Foot(String pName) {</span>
+<span class="fc" id="L72">		setFootName(pName);</span>
+<span class="fc" id="L73">		FBuilder.createCardinal(pName);</span>
+<span class="fc" id="L74">	}</span>
 
 	/**
 	 * Build the Foot from scratch then put the number's Cardinal in the internal list.
@@ -84,10 +80,10 @@ public final class Foot {
 	 * @param pF    ProtoN This object holds the cardinal that defines the kind of
 	 *              numbers that are meaningful for this foot point
 	 */
-<span class="fc" id="L87">	public Foot(String pName, ProtoN pF) {</span>
-<span class="fc" id="L88">		setFootName(pName);</span>
-<span class="fc" id="L89">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
-<span class="fc" id="L90">	}</span>
+<span class="fc" id="L83">	public Foot(String pName, ProtoN pF) {</span>
+<span class="fc" id="L84">		setFootName(pName);</span>
+<span class="fc" id="L85">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
+<span class="fc" id="L86">	}</span>
 
 	/**
 	 * Simple gettor of the Foot's name element
@@ -95,7 +91,7 @@ public final class Foot {
 	 * @return String name of the Foot
 	 */
 	public String getFootName() {
-<span class="fc" id="L98">		return footName;</span>
+<span class="fc" id="L94">		return footName;</span>
 	}
 
 	/**
@@ -104,8 +100,8 @@ public final class Foot {
 	 * @param footName String name of the Foot to set here
 	 */
 	public void setFootName(String footName) {
-<span class="fc" id="L107">		this.footName = footName;</span>
-<span class="fc" id="L108">	}</span>
+<span class="fc" id="L103">		this.footName = footName;</span>
+<span class="fc" id="L104">	}</span>
 
 	/**
 	 * This is an exporter of internal details to XML. It exists to bypass certain
@@ -117,11 +113,11 @@ public final class Foot {
 	 * @return String formatted as XML containing information about the Foot
 	 */
 	public final static String toXMLString(Foot pF, String indent) {
-<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
-<span class="fc" id="L121">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
-<span class="fc" id="L122">		rB	.append(pF.getFootName())</span>
-<span class="fc" id="L123">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L124">		return rB.toString();</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L117">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
+<span class="fc" id="L118">		rB	.append(pF.getFootName())</span>
+<span class="fc" id="L119">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L120">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

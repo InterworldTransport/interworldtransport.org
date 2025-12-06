@@ -856,69 +856,68 @@
 <a class="jxr_linenumber" name="L848" href="#L848">848</a> 		<strong class="jxr_keyword">void</strong> testSymmetricCompression() <strong class="jxr_keyword">throws</strong> CladosNyadException {
 <a class="jxr_linenumber" name="L849" href="#L849">849</a> 			assertTrue(thing1.getMonadAt(0) == motion);
 <a class="jxr_linenumber" name="L850" href="#L850">850</a> 			assertTrue(thing1.getMonadAt(1) == property);
-<a class="jxr_linenumber" name="L851" href="#L851">851</a> 	
-<a class="jxr_linenumber" name="L852" href="#L852">852</a> 			thing1.compressSymm(property, motion);									<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L853" href="#L853">853</a> 			assertTrue(thing1.getMonadAt(0) == property);
-<a class="jxr_linenumber" name="L854" href="#L854">854</a> 	
-<a class="jxr_linenumber" name="L855" href="#L855">855</a> 			assertTrue(thing1.getMOrder() == 1);									
-<a class="jxr_linenumber" name="L856" href="#L856">856</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
-<a class="jxr_linenumber" name="L857" href="#L857">857</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
-<a class="jxr_linenumber" name="L858" href="#L858">858</a> 			
-<a class="jxr_linenumber" name="L859" href="#L859">859</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
-<a class="jxr_linenumber" name="L860" href="#L860">860</a> 			thing1.compressSymm(newMotion, property);								<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L861" href="#L861">861</a> 			assertTrue(thing1.getMOrder() == 1);									
-<a class="jxr_linenumber" name="L862" href="#L862">862</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
-<a class="jxr_linenumber" name="L863" href="#L863">863</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
-<a class="jxr_linenumber" name="L864" href="#L864">864</a> 
-<a class="jxr_linenumber" name="L865" href="#L865">865</a> 			thing1.append(newProperty);
-<a class="jxr_linenumber" name="L866" href="#L866">866</a> 			assertDoesNotThrow(() -&gt; thing1.compressSymm(0, 1));	<em class="jxr_comment">//property winds up with motion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L867" href="#L867">867</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
-<a class="jxr_linenumber" name="L868" href="#L868">868</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
-<a class="jxr_linenumber" name="L869" href="#L869">869</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(0, 1));
-<a class="jxr_linenumber" name="L870" href="#L870">870</a> 
-<a class="jxr_linenumber" name="L871" href="#L871">871</a> 			thing1.append(newProperty2);											<em class="jxr_comment">//Back to juxtaposition with newMotion</em>
-<a class="jxr_linenumber" name="L872" href="#L872">872</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(newMotion, newMotion2));
-<a class="jxr_linenumber" name="L873" href="#L873">873</a> 																					<em class="jxr_comment">//Should bark because newMotion2 not in list</em>
-<a class="jxr_linenumber" name="L874" href="#L874">874</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(newMotion2, newMotion));
-<a class="jxr_linenumber" name="L875" href="#L875">875</a> 																					<em class="jxr_comment">//Reflexive test to be sure.</em>
-<a class="jxr_linenumber" name="L876" href="#L876">876</a> 		}
-<a class="jxr_linenumber" name="L877" href="#L877">877</a> 
-<a class="jxr_linenumber" name="L878" href="#L878">878</a> 		@Test
-<a class="jxr_linenumber" name="L879" href="#L879">879</a> 		<strong class="jxr_keyword">void</strong> testAntiSymmetricCompression() <strong class="jxr_keyword">throws</strong> CladosNyadException {
-<a class="jxr_linenumber" name="L880" href="#L880">880</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L881" href="#L881">881</a> 			assertTrue(thing1.getMonadAt(1) == property);
-<a class="jxr_linenumber" name="L882" href="#L882">882</a> 			
-<a class="jxr_linenumber" name="L883" href="#L883">883</a> 			thing1.compressAntiSymm(property, motion);								<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L884" href="#L884">884</a> 			assertTrue(thing1.getMonadAt(0) == property);
-<a class="jxr_linenumber" name="L885" href="#L885">885</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
-<a class="jxr_linenumber" name="L886" href="#L886">886</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);	<em class="jxr_comment">//Because anti-symmetric</em>
-<a class="jxr_linenumber" name="L887" href="#L887">887</a> 			
-<a class="jxr_linenumber" name="L888" href="#L888">888</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
-<a class="jxr_linenumber" name="L889" href="#L889">889</a> 			((RealF) property.getWeights().getScalar()).setReal(2.0f);		<em class="jxr_comment">//Now property is back to scalar = 2.</em>
-<a class="jxr_linenumber" name="L890" href="#L890">890</a> 			
-<a class="jxr_linenumber" name="L891" href="#L891">891</a> 			thing1.compressAntiSymm(newMotion, property);							<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L892" href="#L892">892</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
-<a class="jxr_linenumber" name="L893" href="#L893">893</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);
-<a class="jxr_linenumber" name="L894" href="#L894">894</a> 			
-<a class="jxr_linenumber" name="L895" href="#L895">895</a> 			thing1.append(newProperty);
-<a class="jxr_linenumber" name="L896" href="#L896">896</a> 			((RealF) newMotion.getWeights().getScalar()).setReal(1.0f);		<em class="jxr_comment">//Now newMotion is back to scalar = 1.</em>
-<a class="jxr_linenumber" name="L897" href="#L897">897</a> 			
-<a class="jxr_linenumber" name="L898" href="#L898">898</a> 			assertDoesNotThrow(() -&gt; thing1.compressAntiSymm(0, 1));	<em class="jxr_comment">//NewPproperty winds up with NewMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L899" href="#L899">899</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
-<a class="jxr_linenumber" name="L900" href="#L900">900</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
-<a class="jxr_linenumber" name="L901" href="#L901">901</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(0, 1));
-<a class="jxr_linenumber" name="L902" href="#L902">902</a> 			
-<a class="jxr_linenumber" name="L903" href="#L903">903</a> 			thing1.append(newProperty2);											<em class="jxr_comment">//Back to juxtaposition with newMotion</em>
-<a class="jxr_linenumber" name="L904" href="#L904">904</a> 			((RealF) newProperty2.getWeights().getScalar()).setReal(2.0f);	<em class="jxr_comment">//Now property is back to scalar = 2.</em>
-<a class="jxr_linenumber" name="L905" href="#L905">905</a> 			
-<a class="jxr_linenumber" name="L906" href="#L906">906</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(newMotion, newMotion2));
-<a class="jxr_linenumber" name="L907" href="#L907">907</a> 																					<em class="jxr_comment">//Should bark because newMotion2 not in list</em>
-<a class="jxr_linenumber" name="L908" href="#L908">908</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(newMotion2, newMotion));
-<a class="jxr_linenumber" name="L909" href="#L909">909</a> 																					<em class="jxr_comment">//Reflexive test to be sure.</em>
-<a class="jxr_linenumber" name="L910" href="#L910">910</a> 		}
-<a class="jxr_linenumber" name="L911" href="#L911">911</a> 
-<a class="jxr_linenumber" name="L912" href="#L912">912</a> 	}
-<a class="jxr_linenumber" name="L913" href="#L913">913</a> }
+<a class="jxr_linenumber" name="L851" href="#L851">851</a> 			thing1.compressSymm(property, motion);									<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L852" href="#L852">852</a> 			assertTrue(thing1.getMonadAt(0) == property);
+<a class="jxr_linenumber" name="L853" href="#L853">853</a> 	
+<a class="jxr_linenumber" name="L854" href="#L854">854</a> 			assertTrue(thing1.getMOrder() == 1);									
+<a class="jxr_linenumber" name="L855" href="#L855">855</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
+<a class="jxr_linenumber" name="L856" href="#L856">856</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
+<a class="jxr_linenumber" name="L857" href="#L857">857</a> 			
+<a class="jxr_linenumber" name="L858" href="#L858">858</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
+<a class="jxr_linenumber" name="L859" href="#L859">859</a> 			thing1.compressSymm(newMotion, property);								<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L860" href="#L860">860</a> 			assertTrue(thing1.getMOrder() == 1);									
+<a class="jxr_linenumber" name="L861" href="#L861">861</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
+<a class="jxr_linenumber" name="L862" href="#L862">862</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
+<a class="jxr_linenumber" name="L863" href="#L863">863</a> 
+<a class="jxr_linenumber" name="L864" href="#L864">864</a> 			thing1.append(newProperty);
+<a class="jxr_linenumber" name="L865" href="#L865">865</a> 			assertDoesNotThrow(() -&gt; thing1.compressSymm(0, 1));	<em class="jxr_comment">//property winds up with motion's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L866" href="#L866">866</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
+<a class="jxr_linenumber" name="L867" href="#L867">867</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
+<a class="jxr_linenumber" name="L868" href="#L868">868</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(0, 1));
+<a class="jxr_linenumber" name="L869" href="#L869">869</a> 
+<a class="jxr_linenumber" name="L870" href="#L870">870</a> 			thing1.append(newProperty2);											<em class="jxr_comment">//Back to juxtaposition with newMotion</em>
+<a class="jxr_linenumber" name="L871" href="#L871">871</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(newMotion, newMotion2));
+<a class="jxr_linenumber" name="L872" href="#L872">872</a> 																					<em class="jxr_comment">//Should bark because newMotion2 not in list</em>
+<a class="jxr_linenumber" name="L873" href="#L873">873</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(newMotion2, newMotion));
+<a class="jxr_linenumber" name="L874" href="#L874">874</a> 																					<em class="jxr_comment">//Reflexive test to be sure.</em>
+<a class="jxr_linenumber" name="L875" href="#L875">875</a> 		}
+<a class="jxr_linenumber" name="L876" href="#L876">876</a> 
+<a class="jxr_linenumber" name="L877" href="#L877">877</a> 		@Test
+<a class="jxr_linenumber" name="L878" href="#L878">878</a> 		<strong class="jxr_keyword">void</strong> testAntiSymmetricCompression() <strong class="jxr_keyword">throws</strong> CladosNyadException {
+<a class="jxr_linenumber" name="L879" href="#L879">879</a> 			assertTrue(thing1.getMonadAt(0) == motion);
+<a class="jxr_linenumber" name="L880" href="#L880">880</a> 			assertTrue(thing1.getMonadAt(1) == property);
+<a class="jxr_linenumber" name="L881" href="#L881">881</a> 			
+<a class="jxr_linenumber" name="L882" href="#L882">882</a> 			thing1.compressAntiSymm(property, motion);								<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L883" href="#L883">883</a> 			assertTrue(thing1.getMonadAt(0) == property);
+<a class="jxr_linenumber" name="L884" href="#L884">884</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
+<a class="jxr_linenumber" name="L885" href="#L885">885</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);	<em class="jxr_comment">//Because anti-symmetric</em>
+<a class="jxr_linenumber" name="L886" href="#L886">886</a> 			
+<a class="jxr_linenumber" name="L887" href="#L887">887</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
+<a class="jxr_linenumber" name="L888" href="#L888">888</a> 			((RealF) property.getWeights().getScalar()).setReal(2.0f);		<em class="jxr_comment">//Now property is back to scalar = 2.</em>
+<a class="jxr_linenumber" name="L889" href="#L889">889</a> 			
+<a class="jxr_linenumber" name="L890" href="#L890">890</a> 			thing1.compressAntiSymm(newMotion, property);							<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L891" href="#L891">891</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
+<a class="jxr_linenumber" name="L892" href="#L892">892</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);
+<a class="jxr_linenumber" name="L893" href="#L893">893</a> 			
+<a class="jxr_linenumber" name="L894" href="#L894">894</a> 			thing1.append(newProperty);
+<a class="jxr_linenumber" name="L895" href="#L895">895</a> 			((RealF) newMotion.getWeights().getScalar()).setReal(1.0f);		<em class="jxr_comment">//Now newMotion is back to scalar = 1.</em>
+<a class="jxr_linenumber" name="L896" href="#L896">896</a> 			
+<a class="jxr_linenumber" name="L897" href="#L897">897</a> 			assertDoesNotThrow(() -&gt; thing1.compressAntiSymm(0, 1));	<em class="jxr_comment">//NewPproperty winds up with NewMotion's algebra and cardinal</em>
+<a class="jxr_linenumber" name="L898" href="#L898">898</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
+<a class="jxr_linenumber" name="L899" href="#L899">899</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
+<a class="jxr_linenumber" name="L900" href="#L900">900</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(0, 1));
+<a class="jxr_linenumber" name="L901" href="#L901">901</a> 			
+<a class="jxr_linenumber" name="L902" href="#L902">902</a> 			thing1.append(newProperty2);											<em class="jxr_comment">//Back to juxtaposition with newMotion</em>
+<a class="jxr_linenumber" name="L903" href="#L903">903</a> 			((RealF) newProperty2.getWeights().getScalar()).setReal(2.0f);	<em class="jxr_comment">//Now property is back to scalar = 2.</em>
+<a class="jxr_linenumber" name="L904" href="#L904">904</a> 			
+<a class="jxr_linenumber" name="L905" href="#L905">905</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(newMotion, newMotion2));
+<a class="jxr_linenumber" name="L906" href="#L906">906</a> 																					<em class="jxr_comment">//Should bark because newMotion2 not in list</em>
+<a class="jxr_linenumber" name="L907" href="#L907">907</a> 			assertThrows(CladosNyadException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(newMotion2, newMotion));
+<a class="jxr_linenumber" name="L908" href="#L908">908</a> 																					<em class="jxr_comment">//Reflexive test to be sure.</em>
+<a class="jxr_linenumber" name="L909" href="#L909">909</a> 		}
+<a class="jxr_linenumber" name="L910" href="#L910">910</a> 
+<a class="jxr_linenumber" name="L911" href="#L911">911</a> 	}
+<a class="jxr_linenumber" name="L912" href="#L912">912</a> }
 </pre>
 <hr/>
 <div id="footer">© 2025</div>

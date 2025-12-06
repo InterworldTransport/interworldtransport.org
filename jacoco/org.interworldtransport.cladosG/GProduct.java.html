@@ -51,7 +51,7 @@ import org.interworldtransport.cladosGExceptions.BadSignatureException;
  * @version 2.0
  * @author Dr Alfred W Differ
  */
-public class GProduct implements CliffordProduct {
+public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 
 	/**
 	 * This basis holds a representation of all the elements that can be built from
@@ -266,11 +266,11 @@ public class GProduct implements CliffordProduct {
 	 * @return Blade representing the result found in the Cayley table. If none found, null is returned.
 	 */
 	public final Blade getResult(Blade pRow, Blade pCol) {
-<span class="fc" id="L269">		int tRow = canonBasis.find(pRow) - 1;</span>
-<span class="fc" id="L270">		int tCol = canonBasis.find(pCol) - 1;</span>
-		
-<span class="pc bpc" id="L272" title="1 of 2 branches missed.">		if (canonBasis.validateBladeIndex(tRow) &amp; canonBasis.validateBladeIndex(tCol))</span>
-<span class="fc" id="L273">			return canonBasis.getSingleBlade(Math.abs(getResult(tRow, tCol))-1);			</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
+<span class="fc" id="L270">			int p = canonBasis.find(pRow) - 1;</span>
+<span class="fc" id="L271">			int q = canonBasis.find(pCol) - 1;	</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">			return canonBasis.getSingleBlade(	(getResult(p, q)==0) ? 0 : Math.abs(getResult(p, q)) - 1	);	</span>
+		}		
 <span class="nc" id="L274">		return null;</span>
 	}
 
@@ -287,6 +287,25 @@ public class GProduct implements CliffordProduct {
 	}
 
 	/**
+	 * This method takes two blades, finds their index values in the basis, and then retrieves
+	 * the sign variation at that location in the Cayley table. 
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pRow 	Blade acting as the row entry for the Cayley table result
+	 * @param pCol	Blade acting as the column entry for the Cayley table result
+	 * @return int representing the sign of the result found in the Cayley table. If none found, 0 is returned.
+	 */
+	public final int getSign(Blade pRow, Blade pCol) {
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
+<span class="fc" id="L299">			int p = canonBasis.find(pRow) - 1;</span>
+<span class="fc" id="L300">			int q = canonBasis.find(pCol) - 1;	</span>
+<span class="fc" id="L301">			return getSign(p, q);</span>
+			//return canonBasis.getSingleBlade(	(getResult(p, q)==0) ? 0 : Math.abs(getResult(p, q)) - 1	);	
+		}		
+<span class="nc" id="L304">		return 0;</span>
+	}
+
+
+	/**
 	 * Return the signature of the generating geometry. This lists the squares of the
 	 * generators in their numeric order.
 	 * &lt;br&gt;
@@ -294,7 +313,7 @@ public class GProduct implements CliffordProduct {
 	 */
 	@Override
 	public final String signature() {
-<span class="fc" id="L297">		return signature;</span>
+<span class="fc" id="L316">		return signature;</span>
 	}
 
 	/**
@@ -306,33 +325,39 @@ public class GProduct implements CliffordProduct {
 	 * @return String This is the XML string export of an object.
 	 */
 	public final static String toXMLString(GProduct pG, String indent) {
-<span class="pc bpc" id="L309" title="1 of 2 branches missed.">		if (indent == null)</span>
-<span class="nc" id="L310">			indent = &quot;\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L311">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L312">		rB.append(indent)</span>
-<span class="fc" id="L313">			.append(&quot;\t&lt;Signature&gt;&quot;)</span>
-<span class="fc" id="L314">			.append(pG.signature())</span>
-<span class="fc" id="L315">			.append(&quot;&lt;/Signature&gt;\n&quot;);</span>
-<span class="fc" id="L316">		rB.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L317">		rB.append(indent)</span>
-<span class="fc" id="L318">			.append(&quot;\t&lt;ProductTable rows=\&quot;&quot;)</span>
-<span class="fc" id="L319">			.append(pG.getBladeCount())</span>
-<span class="fc" id="L320">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L321" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) // Appending rows</span>
-		{
-<span class="fc" id="L323">			rB.append(indent)</span>
-<span class="fc" id="L324">				.append(&quot;\t\t&lt;row number=\&quot;&quot;)</span>
-<span class="fc" id="L325">				.append(k)</span>
-<span class="fc" id="L326">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
-<span class="fc bfc" id="L327" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
-<span class="fc" id="L328">				rB.append(pG.getResult(k, m))</span>
-<span class="fc" id="L329">				.append(&quot;,&quot;);</span>
-<span class="fc" id="L330">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L331">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L329">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L330">		rB	.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L331">		rB	.append(indent)</span>
+<span class="fc" id="L332">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L333">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L334">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L335" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
+<span class="fc" id="L336">			rB	.append(indent)</span>
+<span class="fc" id="L337">				.append(&quot;\t\t&lt;row id=\&quot;&quot;)</span>
+<span class="fc" id="L338">				.append(k)</span>
+<span class="fc" id="L339">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L341">				rB	.append(pG.getResult(k, m))</span>
+<span class="fc" id="L342">					.append(&quot;,&quot;);</span>
+<span class="fc" id="L343">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L344">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		}
-<span class="fc" id="L333">		rB.append(indent + &quot;\t&lt;/ProductTable&gt;\n&quot;);</span>
-<span class="fc" id="L334">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L335">		return rB.toString();</span>
+<span class="fc" id="L346">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
+<span class="fc" id="L347">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L348">		return rB.toString();</span>
+	}
+
+	/**
+	 * I may need to come up with a better idea here. String comparisons might not be how 
+	 * we should compare GP's. They should probably be size first and then string comparisons
+	 * that are restricted to p, q, r measures.
+	 * @param pIn GProduct the other GP to compare to this one
+	 * @return int comparison of the two GProducts
+	 */
+	@Override
+	public int compareTo(GProduct pIn) {
+<span class="nc" id="L360">		return signature().compareTo(pIn.signature());</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

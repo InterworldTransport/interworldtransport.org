@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scale.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Scale.java</span></div><h1>Scale.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scale.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">Scale.java</span></div><h1>Scale.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
  * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
  * ------------------------------------------------------------------------ &lt;br&gt;
  * ---org.interworldtransport.cladosF.Scale&lt;br&gt;
@@ -35,66 +35,49 @@ import org.interworldtransport.cladosF.*;
 import org.interworldtransport.cladosFExceptions.*;
 
 /**
- * This class contains cladosF numbers that act together as the coefficients of
- * a monad. They are all children of ProtoN and implement Field, so they
- * have both a sense of 'units' and support basic arithmetic operations. Which
- * numbers are contained internally, therefore, is tracked by two private
- * elements. One contains a reference to a Cardinal that all the numbers should
- * share. The other is a reference two one of the CladosField elements so we
- * know whether this Scale is expected to contain real or complex numbers and at
- * what level of floating point precision. Access to the two private elements is
- * managed by their 'get' methods. getCardinal() and getMode(). There are set
- * methods for them too, but they are package protected methods that should not
- * be handled much by developers of physical models.
+ * This class contains cladosF numbers that act together as the coefficients of a monad. They are all children of 
+ * ProtoN and implement Field, so they have both a sense of 'units' and support basic arithmetic operations. Which
+ * numbers are contained internally, therefore, is tracked by two private elements. One contains a reference to a 
+ * Cardinal that all the numbers should share. The other is a reference two one of the CladosField elements so we
+ * know whether this Scale is expected to contain real or complex numbers and at what level of floating point 
+ * precision. Access to the two private elements is managed by their 'get' methods. getCardinal() and getMode(). 
+ * There are set methods for them too, but they are package protected methods that should not be handled much by 
+ * developers of physical models.
  * &lt;br&gt;&lt;br&gt;
- * The data structure used to represent 'coefficients' used to be a fixed array
- * that had the same length as the number of blades in a monad's basis. That has
- * been modernized to an IdentityHashMap contained within this class. The basis
- * against which the map is applicable can be referenced by another private
- * element, but shouldn't be manipulated once set. The private element is
- * finalized.
+ * The data structure used to represent 'coefficients' used to be a fixed array that had the same length as the 
+ * number of blades in a monad's basis. That has been modernized to an IdentityHashMap contained within this class. 
+ * The basis against which the map is applicable can be referenced by another private element, but shouldn't be 
+ * manipulated once set. The private element is finalized.
  * &lt;br&gt;&lt;br&gt;
- * An IdentityHashMap was used instead of a simpler HashMap in order to get
- * reference equality between map keys instead of object equality. Map Keys are
- * Blades from the basis, so reference equality is the correct expectation when
- * comparing keys. Typical use of keys from the map occurs with streams that
- * effectively iterate through the blades for access to coefficients in the
- * encompassing vector space. The information within a blade is far less
+ * An IdentityHashMap was used instead of a simpler HashMap in order to get reference equality between map keys 
+ * instead of object equality. Map Keys are Blades from the basis, so reference equality is the correct expectation 
+ * when comparing keys. Typical use of keys from the map occurs with streams that effectively iterate through the 
+ * blades for access to coefficients in the encompassing vector space. The information within a blade is far less
  * important than which blade it is, thus reference equality is what is needed.
  * &lt;br&gt;&lt;br&gt;
- * Map Values are CladosF numbers like RealF or ComplexD. Because they are
- * objects instead of primitives, they behave much like Java's boxed primitives.
- * In fact, they would BE those boxed primitives if not for the need to track
- * units in physical models. For example, one meter is not one second. No
- * equality test should pass.
+ * Map Values are CladosF numbers like RealF or ComplexD. Because they are objects instead of primitives, they 
+ * behave much like Java's boxed primitives. In fact, they would BE those boxed primitives if not for the need to 
+ * track units in physical models. For example, one meter is not one second. No equality test should pass.
  * &lt;br&gt;&lt;br&gt;
- * Because values are objects, care must be taken once one has a reference to
- * them. Any reference to one enables a developer to change it without the Scale
- * or Monad knowing. This is the hydra monster named Mutability. It IS a danger
- * here. Many of Scale's methods copy inbound numbers to avoid altering them,
- * but some do not INTENTIONALLY.
+ * Because values are objects, care must be taken once one has a reference to them. Any reference to one enables a 
+ * developer to change it without the Scale or Monad knowing. This is the hydra monster named Mutability. It IS a 
+ * danger here. Many of Scale's methods copy inbound numbers to avoid altering them, but some do not INTENTIONALLY.
  * &lt;br&gt;&lt;br&gt;
- * 1. Coefficient settors that accept arrays do NOT copy values before placing
- * them in the internal map. BEWARE BEWARE BEWARE
+ * 1. Coefficient settors that accept arrays do NOT copy values before placing them in the internal map. BEWARE BEWARE
  * &lt;br&gt;&lt;br&gt;
- * 2. Put() does not copy the incoming value before placing it in the internal
- * map. Again... BEWARE.
+ * 2. Put() does not copy the incoming value before placing it in the internal map. Again... BEWARE.
  * &lt;br&gt;&lt;br&gt;
- * 3. Coefficient settors that accept maps DO COPY values before placing them in
- * the internal map. Any object from which values are taken to be used here are
- * safe from the hydra.
+ * 3. Coefficient settors that accept maps DO COPY values before placing them in the internal map. Any object 
+ * from which values are taken to be used here are safe from the hydra.
  * &lt;br&gt;&lt;br&gt;
- * 4. All gettors for coefficients provide direct references to values in the
- * map. The most common use is INTENTIONAL MUTABILITY, so... BEWARE THE HYDRA.
- * The safest way to use them is within streams / lambdas.
+ * 4. All gettors for coefficients provide direct references to values in the map. The most common use is 
+ * INTENTIONAL MUTABILITY, so... BEWARE THE HYDRA. The safest way to use them is within streams / lambdas.
  * &lt;br&gt;&lt;br&gt;
- * GENERAL NOTE | Many of the methods for Scale look a lot like Monad, so one can
- * reasonably wonder why all the extra stuff in Monad when Scale looks enough like 
- * a tuple to represent things. The primary difference is that Scale contains only 
- * the coefficients and references a basis like what we got used to as students. 
- * That's not enough because a basis is only enough to represent linear combinations
- * for a vector space. Other geometric meanings aren't in the basis. They are in the
- * product table. Combining product table and basis into an 'algebra' gives a MUCH 
+ * GENERAL NOTE | Many of the methods for Scale look a lot like Monad, so one can reasonably wonder why all the 
+ * extra stuff in Monad when Scale looks enough like a tuple to represent things. The primary difference is that Scale 
+ * contains only the coefficients and references a basis like what we got used to as students. That's not enough 
+ * because a basis is only enough to represent linear combinations for a vector space. Other geometric meanings aren't 
+ * in the basis. They are in the product table. Combining product table and basis into an 'algebra' gives a MUCH 
  * better description of a 'tuple's' reference frame than a vector space.
  * &lt;br&gt;&lt;br&gt;
  * 
@@ -103,51 +86,44 @@ import org.interworldtransport.cladosFExceptions.*;
  * @param &lt;D&gt; CladosF number like RealF, RealD, ComplexF, ComplexD. They must be
  *            children of ProtoN AND implement Field.
  */
-<span class="fc" id="L106">public final class Scale&lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; implements Unitized, Modal {</span>
+<span class="fc" id="L89">public final class Scale&lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; implements Unitized, Modal {</span>
 	/**
-	 * When entries appear in the internal map, they should all share the same
-	 * cardinal. That cardinal is referenced here where it gives meaning to the weights
-	 * in this scale. This is WHY Scale implments Unitized.
+	 * When entries appear in the internal map, they should all share the same cardinal. That cardinal is 
+	 * referenced here where it gives meaning to the weights in this scale. This is WHY Scale implments Unitized.
 	 */
 	private Cardinal card;
 
 	/**
-	 * This basis is the reference against which these scaling weights make sense. 
-	 * For example, a list of 16 real floats is just a tuple. When coupled to a basis, 
-	 * they become weights for a sum of geometry composing a multivector.
-	 * &lt;br&gt;
-	 * Once set, the applicable basis should not change. Scales make sense
-	 * RELATIVE to a basis. Never on their own.
+	 * This basis is the reference against which these scaling weights make sense. For example, a list 
+	 * of 16 real floats is just a tuple. When coupled to a basis, they become weights for a sum of 
+	 * geometry composing a multivector.
+	 * &lt;br&gt;&lt;br&gt;
+	 * Once set, the applicable basis should not change. Scales make sense RELATIVE to a basis. Never on their own.
 	 */
 	private final Basis gBasis;
 
 	/**
-	 * This tree map is that actual list of weights mapped by their applicable blade.
-	 * In use, one calls the Scale's get(Blade) to get a generic that happens to be 
-	 * a CladosF.ProtoN child. One can also call a number of specialized 
-	 * gettors to get weights for well named blades.
-	 * &lt;br&gt;
-	 * This feature used to be a simple array of particular children of ProtoN,
-	 * but that made for several different... and mostly related implementations of Scale
-	 * or of burying Scale in Monad and maintaining several mostly related versions 
-	 * of those. Using a map like this reduces the family of objects in CladosG at
-	 * the cost of swapping data structures from an array to a map.
-	 * &lt;br&gt;
-	 * This feature ALSO used to be a hash map (java's IdentityHashMap), but hash maps
-	 * don't ensure the extraction of values arrive in any particular order. That makes
-	 * a mess of the design where streams are used to deliver pieces of geometry or 
-	 * numbers to lambda functions. If the weights storied in this map emerge in 
-	 * unpredictable ways, then all operations must act on blades AND numbers which 
-	 * we are trying to avoid. Getting a predictable order (from a TreeMap) comes 
-	 * at a small performance cost that simply must be paid.
+	 * This tree map is that actual list of weights mapped by their applicable blade. In use, one calls the 
+	 * Scale's get(Blade) to get a generic that happens to be a CladosF.ProtoN child. One can also call a 
+	 * number of specialized gettors to get weights for well named blades.
+	 * &lt;br&gt;&lt;br&gt;
+	 * This feature used to be a simple array of particular children of ProtoN, but that made for several 
+	 * different... and mostly related implementations of Scale or of burying Scale in Monad and maintaining 
+	 * several mostly related versions of those. Using a map like this reduces the family of objects in CladosG 
+	 * at the cost of swapping data structures from an array to a map.
+	 * &lt;br&gt;&lt;br&gt;
+	 * This feature ALSO used to be a hash map (java's IdentityHashMap), but hash maps don't ensure the 
+	 * extraction of values arrive in any particular order. That makes a mess of the design where streams are 
+	 * used to deliver pieces of geometry or numbers to lambda functions. If the weights storied in this map 
+	 * emerge in unpredictable ways, then all operations must act on blades AND numbers which we are trying to avoid. 
+	 * Getting a predictable order (from a TreeMap) comes at a small performance cost that simply must be paid.
 	 */
 	private TreeMap&lt;Blade, D&gt; map;
 
 	/**
-	 * This is the type of ProtoN that should be present in the list held by
-	 * this class. For example, if mode = CladosField.REALF, then all elements in
-	 * the list will be the RealF child of ProtoN. 
-	 * &lt;br&gt;
+	 * This is the type of ProtoN that should be present in the list held by this class. For example, 
+	 * if mode = CladosField.REALF, then all elements in the list will be the RealF child of ProtoN. 
+	 * &lt;br&gt;&lt;br&gt;
 	 * Mode ensures the scale elements all have the same precision and come from the same 
 	 * numeric field. It is also WHY Scale implements Modal.
 	 */
@@ -167,12 +143,12 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return integer offered for decisions about keeping the numbers or the standard cardinal.
 	 */
 	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; int testCardinalMatchesIncoming(Cardinal pCard, D[] pIn) {
-<span class="fc" id="L170">		long standardMatch = IntStream	.range(0, pIn.length)								</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">										.filter(i -&gt; pIn[i].getCardinal() == pCard )</span>
-<span class="fc" id="L172">										.count();</span>
-<span class="fc" id="L173">		long internalMatch = IntStream	.range(1, pIn.length)								</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">										.filter(i -&gt; pIn[i].getCardinal() == pIn[0].getCardinal())</span>
-<span class="fc" id="L175">										.count();				</span>
+<span class="fc" id="L146">		long standardMatch = IntStream	.range(0, pIn.length)								</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">										.filter(i -&gt; pIn[i].getCardinal() == pCard )</span>
+<span class="fc" id="L148">										.count();</span>
+<span class="fc" id="L149">		long internalMatch = IntStream	.range(1, pIn.length)								</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">										.filter(i -&gt; pIn[i].getCardinal() == pIn[0].getCardinal())</span>
+<span class="fc" id="L151">										.count();				</span>
 
 		//If standardMatch = pIn.length						: Cardinal match is perfect and the incoming numbers can be re-used with no cardinal resets.
 		//If standardMatch is between {0, pIn.length}		: Cardinal match is a mess and the incoming numbers are not typeMatches for each other.
@@ -180,9 +156,9 @@ import org.interworldtransport.cladosFExceptions.*;
 		//	If internalMatch = pIn.length -1				: Cardinals match perfectly within the incoming numbers and we should swap the standard.
 		//	If internalMatch is between {0, pIn.length -1}	: Cardinal match is a mess
 
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">		return 	(standardMatch == pIn.length) ? 1								//Standard Match is perfect</span>
-<span class="nc bnc" id="L184" title="All 6 branches missed.">				: (standardMatch == 0 &amp; internalMatch == pIn.length -1) ? -1 	//Standard Match is perfectly wrong... change the standard.</span>
-<span class="nc" id="L185">				: 0;															//Garbage offered. Toss it!</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		return 	(standardMatch == pIn.length) ? 1								//Standard Match is perfect</span>
+<span class="nc bnc" id="L160" title="All 6 branches missed.">				: (standardMatch == 0 &amp; internalMatch == pIn.length -1) ? -1 	//Standard Match is perfectly wrong... change the standard.</span>
+<span class="nc" id="L161">				: 0;															//Garbage offered. Toss it!</span>
 	}
 
 	/**
@@ -196,12 +172,12 @@ import org.interworldtransport.cladosFExceptions.*;
 	 */
 	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; boolean validateModeIncoming(CladosField pMode, D[] pIn) {
 
-<span class="fc" id="L199">		return IntStream	.range(0, pIn.length)								</span>
-<span class="fc bfc" id="L200" title="All 16 branches covered.">							.filter(i -&gt;	!(pIn[i] instanceof RealF &amp; pMode == REALF)</span>
-										&amp; 	!(pIn[i] instanceof RealD &amp; pMode == REALD)
-										&amp; 	!(pIn[i] instanceof ComplexF &amp; pMode == COMPLEXF)
-										&amp; 	!(pIn[i] instanceof ComplexD &amp; pMode == COMPLEXD) )
-<span class="fc bfc" id="L204" title="All 2 branches covered.">							.count() == 0;</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		return IntStream	.range(0, pIn.length)								</span>
+<span class="fc bfc" id="L176" title="All 4 branches covered.">							.filter(i -&gt;	!(pIn[i] instanceof RealF &amp; pMode == REALF)</span>
+<span class="fc bfc" id="L177" title="All 4 branches covered.">										&amp; 	!(pIn[i] instanceof RealD &amp; pMode == REALD)</span>
+<span class="fc bfc" id="L178" title="All 4 branches covered.">										&amp; 	!(pIn[i] instanceof ComplexF &amp; pMode == COMPLEXF)</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">										&amp; 	!(pIn[i] instanceof ComplexD &amp; pMode == COMPLEXD) )</span>
+<span class="fc" id="L180">							.count() == 0;</span>
 	}
 
 	/**
@@ -213,71 +189,71 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return boolean True if no nulls are present in the array. False if any are.
 	 */
 	public final static &lt;D extends ProtoN &amp; Field &amp; Normalizable&gt; boolean validateNoNullsIncoming(D[] pIn) {
-<span class="fc" id="L216">		 return IntStream	.range(0, pIn.length)</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">							.filter(i -&gt; pIn[i]==null)</span>
-<span class="fc bfc" id="L218" title="All 2 branches covered.">							.count() == 0;</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		 return IntStream	.range(0, pIn.length)</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">							.filter(i -&gt; pIn[i]==null)</span>
+<span class="fc" id="L194">							.count() == 0;</span>
 	}
 
 	/**
 	 * This is the constructor to use when one does not have the actual map ready,
 	 * but will provide it later.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pMode CladosField enumeration so we know what kind of ProtoN to
 	 *              expect from get()
 	 * @param pB    Basis to which the blades used in the internal map belong.
 	 * @param pCard Incoming Cardinal to reference here.
 	 */
-<span class="fc" id="L230">	public Scale(CladosField pMode, Basis pB, Cardinal pCard) {</span>
-<span class="fc" id="L231">		map = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L232">		mode = pMode;</span>
-<span class="fc" id="L233">		gBasis = pB;</span>
-<span class="fc" id="L234">		card = pCard;</span>
-<span class="fc" id="L235">		zeroAll();</span>
-<span class="fc" id="L236">	}</span>
+<span class="fc" id="L206">	public Scale(CladosField pMode, Basis pB, Cardinal pCard) {</span>
+<span class="fc" id="L207">		map = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L208">		mode = pMode;</span>
+<span class="fc" id="L209">		gBasis = pB;</span>
+<span class="fc" id="L210">		card = pCard;</span>
+<span class="fc" id="L211">		zeroAll();</span>
+<span class="fc" id="L212">	}</span>
 
 	/**
 	 * This is the constructor to use when one already has a map built and a
 	 * reference to the basis on which the map relies for keys.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * This is NOT a copy constructor. Use it when you fully intend for the offered map
 	 * to directly provide the weights in this Scale.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pMode  CladosField enumeration so we know what kind of ProtoN to
 	 *               expect from get()
 	 * @param pB     Basis to which the blades offered in the map belong.
 	 * @param pInMap This is a Map to copy. Probably a view of another Scale object.
 	 */
-<span class="fc" id="L250">	public Scale(CladosField pMode, Basis pB, Map&lt;Blade, D&gt; pInMap) {</span>
-<span class="fc" id="L251">		mode = pMode;</span>
-<span class="fc" id="L252">		gBasis = pB;</span>
-<span class="fc" id="L253">		card = pInMap.get(pB.getScalarBlade()).getCardinal();</span>
-<span class="fc" id="L254">		map = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L255">		map.putAll(pInMap);</span>
+<span class="fc" id="L226">	public Scale(CladosField pMode, Basis pB, Map&lt;Blade, D&gt; pInMap) {</span>
+<span class="fc" id="L227">		mode = pMode;</span>
+<span class="fc" id="L228">		gBasis = pB;</span>
+<span class="fc" id="L229">		card = pInMap.get(pB.getScalarBlade()).getCardinal();</span>
+<span class="fc" id="L230">		map = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L231">		map.putAll(pInMap);</span>
 		
-<span class="pc bpc" id="L257" title="1 of 2 branches missed.">		assert (pInMap.keySet().size() == pB.getBladeCount());</span>
-<span class="fc" id="L258">	}</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">		assert (pInMap.keySet().size() == pB.getBladeCount());</span>
+<span class="fc" id="L234">	}</span>
 
 	/**
 	 * Straight forward copy constructor. Copies values ONLY. Re-uses keys.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pIn Scale to be imitated.
 	 */
 	public Scale(Scale&lt;D&gt; pIn) {
-<span class="fc" id="L266">		this(pIn.getMode(), pIn.gBasis, pIn.getCardinal());</span>
-<span class="fc" id="L267">		gBasis.bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L268">			map.put(blade, FBuilder.copyOf(pIn.get(blade)));</span>
-<span class="fc" id="L269">		});</span>
-<span class="fc" id="L270">	}</span>
+<span class="fc" id="L242">		this(pIn.getMode(), pIn.gBasis, pIn.getCardinal());</span>
+<span class="fc" id="L243">		gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L244">			map.put(blade, FBuilder.copyOf(pIn.get(blade)));</span>
+<span class="fc" id="L245">		});</span>
+<span class="fc" id="L246">	}</span>
 
 	/**
 	 * This method conjugates all the values in the internal map, but leaves the
 	 * blades of the algebra untouched.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Scale object. Just this object after modification.
 	 */
 	public Scale&lt;D&gt; conjugateNumbers() {
-<span class="fc" id="L279">		this.weightsParallelStream().forEach(w -&gt; w.conjugate());</span>
-<span class="fc" id="L280">		return this;</span>
+<span class="fc" id="L255">		this.weightsParallelStream().forEach(w -&gt; w.conjugate());</span>
+<span class="fc" id="L256">		return this;</span>
 	}
 
 	/**
@@ -297,35 +273,35 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return Scale after modification of numbers.
 	 */
 	public Scale&lt;D&gt; conjugateShirokov(int pWhich) {
-<span class="pc bpc" id="L300" title="1 of 2 branches missed.">		if (pWhich &lt;1) 			return this;</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">		if (pWhich &lt;1) 			return this;</span>
 
-<span class="fc" id="L302">		int power = CladosConstant.pow((byte) 2, pWhich-1).intValue();			//1 -&gt; 2^0=1	2 -&gt; 2^1=2</span>
-<span class="fc bfc" id="L303" title="All 2 branches covered.">		gBasis.gradeStream().filter(j -&gt; (Integer.lowestOneBit(j/power)) == 1).parallel().forEach(grade -&gt; {</span>
-<span class="fc" id="L304">			gBasis.bladeOfGradeStream((byte) grade).forEach(blade -&gt; {</span>
-<span class="pc bpc" id="L305" title="1 of 3 branches missed.">				switch (mode) {</span>
+<span class="fc" id="L278">		int power = CladosConstant.pow((byte) 2, pWhich-1).intValue();			//1 -&gt; 2^0=1	2 -&gt; 2^1=2</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">		gBasis.gradeStream().filter(j -&gt; (Integer.lowestOneBit(j/power)) == 1).parallel().forEach(grade -&gt; {</span>
+<span class="fc" id="L280">			gBasis.bladeOfGradeStream((byte) grade).forEach(blade -&gt; {</span>
+<span class="pc bpc" id="L281" title="1 of 3 branches missed.">				switch (mode) {</span>
 				case REALF:						//Tricky here. This case falls through to the next and gets handled.
 				case COMPLEXF:
-<span class="fc" id="L308">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_F);</span>
-<span class="fc" id="L309">					break;						//Both cases handled in one then break.</span>
+<span class="fc" id="L284">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_F);</span>
+<span class="fc" id="L285">					break;						//Both cases handled in one then break.</span>
 				case REALD:						//Tricky here. This case falls through to the next and gets handled.
 				case COMPLEXD:
-<span class="fc" id="L312">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_D);</span>
+<span class="fc" id="L288">					(map.get(blade)).scale(CladosConstant.MINUS_ONE_D);</span>
 				}			//Both cases handled in one then done.
-<span class="fc" id="L314">			});</span>
-<span class="fc" id="L315">		});</span>
-<span class="fc" id="L316">		return this;</span>
+<span class="fc" id="L290">			});</span>
+<span class="fc" id="L291">		});</span>
+<span class="fc" id="L292">		return this;</span>
 	}
 
 	/**
 	 * This method imitates the 'get()' method in a map. Offer a key and receive a
 	 * value in return. In this particular case, keys are blades from the basis and
 	 * values are weights of those blades.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pB Blade to use as key in internal map
 	 * @return A ProtoN child related to this blade
 	 */
 	public D get(Blade pB) {
-<span class="fc" id="L328">		return map.get(pB);</span>
+<span class="fc" id="L304">		return map.get(pB);</span>
 	}
 
 	/**
@@ -333,21 +309,21 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * Be aware this basis is finalized, so it won't be changeable to 
 	 * a new basis. What might be possible is altering the internal details
 	 * of the basis, so be careful.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Basis in use in this.
 	 */
 	public Basis getBasis() {
-<span class="fc" id="L340">		return gBasis;</span>
+<span class="fc" id="L316">		return gBasis;</span>
 	}
 
 	/**
 	 * Simple gettor method for the Cardinal associated with this object.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Cardinal in use in this.
 	 */
 	@Override
 	public Cardinal getCardinal() {
-<span class="fc" id="L350">		return card;</span>
+<span class="fc" id="L326">		return card;</span>
 	}
 
 	/**
@@ -356,107 +332,107 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * smarter approach, though, is to call the parent class method values() and
 	 * receive a Collection of coefficients instead of an array. Do it that way and
 	 * they are already of a known ProtoN child class.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Since the internal map can accept any of the CladosF numbers as values, there
 	 * is a cast to a 'generic' type within this method. This would normally cause
 	 * warnings by the compiler since the generic named in the internal map IS a
 	 * ProtoN child AND casting an unchecked type could fail at runtime.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * That won't happen here when CladosF builders are used. They can't build
 	 * anything that is NOT a ProtoN child. They can't even build a
 	 * ProtoN instance directly. Therefore, only children can arrive as the
 	 * value parameter of the 'put' function. Thus, there is no danger of a failed
 	 * cast operation... until someone creates a new ProtoN child class and
 	 * fails to update all builders.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return an array of ProtoN children.
 	 */
 	public D[] getNumbers() {
-<span class="pc bpc" id="L375" title="1 of 5 branches missed.">		switch (mode) {</span>
-<span class="fc" id="L376">			case REALF : return (D[]) map.values().toArray(RealF[]::new);</span>
-<span class="fc" id="L377">			case REALD : return (D[]) map.values().toArray(RealD[]::new);</span>
-<span class="fc" id="L378">			case COMPLEXF : return (D[]) map.values().toArray(ComplexF[]::new);</span>
-<span class="fc" id="L379">			case COMPLEXD : return (D[]) map.values().toArray(ComplexD[]::new);</span>
-<span class="nc" id="L380">			default : return null;</span>
+<span class="pc bpc" id="L351" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L352">			case REALF : return (D[]) map.values().toArray(RealF[]::new);</span>
+<span class="fc" id="L353">			case REALD : return (D[]) map.values().toArray(RealD[]::new);</span>
+<span class="fc" id="L354">			case COMPLEXF : return (D[]) map.values().toArray(ComplexF[]::new);</span>
+<span class="fc" id="L355">			case COMPLEXD : return (D[]) map.values().toArray(ComplexD[]::new);</span>
+<span class="nc" id="L356">			default : return null;</span>
 		}
 	}
 
 	/**
 	 * Simple gettor method reporting the Scale's internal mode.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return CladosField element reporting which ProtoN child is expected in
 	 *         the list of this Scale.
 	 */
 	@Override
 	public CladosField getMode() {
-<span class="fc" id="L392">		return mode;</span>
+<span class="fc" id="L368">		return mode;</span>
 	}
 
 	/**
 	 * This method imitates the 'get()' method in a map, but specializes in the
 	 * pscalar blade key.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Since the internal map can accept any of the CladosF numbers as values, there
 	 * is a cast to a 'generic' type within this method. This would normally cause
 	 * warnings by the compiler since the generic named in the internal map IS a
 	 * ProtoN child AND casting an unchecked type could fail at runtime.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * That won't happen here when CladosF builders are used. They can't build
 	 * anything that is NOT a ProtoN child. They can't even build a
 	 * ProtoN instance directly. Therefore, only children can arrive as the
 	 * value parameter of the 'put' function. Thus, there is no danger of a failed
 	 * cast operation... until someone creates a new ProtoN child class and
 	 * fails to update all builders.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return A ProtoN child related to the pscalar blade
 	 */
 	public D getPScalar() {
-<span class="fc" id="L414">		return map.get(gBasis.getPScalarBlade());</span>
+<span class="fc" id="L390">		return map.get(gBasis.getPScalarBlade());</span>
 	}
 
 	/**
 	 * This method imitates the 'get()' method in a map, but specializes in the
 	 * scalar blade key.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Since the internal map can accept any of the CladosF numbers as values, there
 	 * is a cast to a 'generic' type within this method. This would normally cause
 	 * warnings by the compiler since the generic named in the internal map IS a
 	 * ProtoN child AND casting an unchecked type could fail at runtime.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * That won't happen here when CladosF builders are used. They can't build
 	 * anything that is NOT a ProtoN child. They can't even build a
 	 * ProtoN instance directly. Therefore, only children can arrive as the
 	 * value parameter of the 'put' function. Thus, there is no danger of a failed
 	 * cast operation... until someone creates a new ProtoN child class and
 	 * fails to update all builders.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return A ProtoN child related to the scalar blade
 	 */
 	public D getScalar() {
-<span class="fc" id="L436">		return map.get(gBasis.getScalarBlade());</span>
+<span class="fc" id="L412">		return map.get(gBasis.getScalarBlade());</span>
 	}
 
 	/**
 	 * This is a short hand method to reduce checking in other classes to simply
 	 * asking the question regarding the value rather than handle all the various
 	 * ProtoN children separately.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * NOTE this tends to get used in filters in streams to minimize the number of
 	 * coefficients processed in arithmetic operations. Non-zero ones contribute
 	 * non-zero results to products, so this especially matters in O(N^2)
 	 * calculations.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pB Blade to use as key to discover if related value is non-zero.
 	 * @return boolean False if the related value evaluates as ZERO in whatever
 	 *         number style it is.
 	 */
 	public boolean isNotZeroAt(Blade pB) {
-<span class="pc bpc" id="L454" title="1 of 5 branches missed.">		switch (mode) {</span>
-<span class="fc bfc" id="L455" title="All 2 branches covered.">			case COMPLEXD :	return !ComplexD.isZero((ComplexD) map.get(pB));</span>
-<span class="fc bfc" id="L456" title="All 2 branches covered.">			case COMPLEXF : return !ComplexF.isZero((ComplexF) map.get(pB));</span>
-<span class="fc bfc" id="L457" title="All 2 branches covered.">			case REALD : return !RealD.isZero((RealD) map.get(pB));</span>
-<span class="fc bfc" id="L458" title="All 2 branches covered.">			case REALF : return !RealF.isZero((RealF) map.get(pB));</span>
-<span class="nc" id="L459">			default : return true;</span>
+<span class="pc bpc" id="L430" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc bfc" id="L431" title="All 2 branches covered.">			case COMPLEXD :	return !ComplexD.isZero((ComplexD) map.get(pB));</span>
+<span class="fc bfc" id="L432" title="All 2 branches covered.">			case COMPLEXF : return !ComplexF.isZero((ComplexF) map.get(pB));</span>
+<span class="fc bfc" id="L433" title="All 2 branches covered.">			case REALD : return !RealD.isZero((RealD) map.get(pB));</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">			case REALF : return !RealF.isZero((RealF) map.get(pB));</span>
+<span class="nc" id="L435">			default : return true;</span>
 		}
 	}
 
@@ -464,17 +440,17 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * This is a short hand method to reduce checking in other classes to simply
 	 * asking this one rather than handle all the various ProtoN children
 	 * separately.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return boolean True if the pscalar value evaluates as ZERO in whatever
 	 *         number style it is.
 	 */
 	public boolean isPScalarZero() {
-<span class="pc bpc" id="L472" title="1 of 5 branches missed.">		switch (mode) {</span>
-<span class="fc" id="L473">			case COMPLEXD : return ComplexD.isZero((ComplexD) getPScalar());</span>
-<span class="fc" id="L474">			case COMPLEXF :	return ComplexF.isZero((ComplexF) getPScalar());</span>
-<span class="fc" id="L475">			case REALD : return RealD.isZero((RealD) getPScalar());</span>
-<span class="fc" id="L476">			case REALF : return RealF.isZero((RealF) getPScalar());</span>
-<span class="nc" id="L477">			default : return false;</span>
+<span class="pc bpc" id="L448" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L449">			case COMPLEXD : return ComplexD.isZero((ComplexD) getPScalar());</span>
+<span class="fc" id="L450">			case COMPLEXF :	return ComplexF.isZero((ComplexF) getPScalar());</span>
+<span class="fc" id="L451">			case REALD : return RealD.isZero((RealD) getPScalar());</span>
+<span class="fc" id="L452">			case REALF : return RealF.isZero((RealF) getPScalar());</span>
+<span class="nc" id="L453">			default : return false;</span>
 		}
 	}
 
@@ -482,17 +458,17 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * This is a short hand method to reduce checking in other classes to simply
 	 * asking this one rather than handle all the various ProtoN children
 	 * separately.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return boolean True if the scalar value evaluates as ZERO in whatever number
 	 *         style it is.
 	 */
 	public boolean isScalarZero() {
-<span class="pc bpc" id="L490" title="1 of 5 branches missed.">		switch (mode) {</span>
-<span class="fc" id="L491">			case COMPLEXD : return ComplexD.isZero((ComplexD) getScalar());</span>
-<span class="fc" id="L492">			case COMPLEXF : return ComplexF.isZero((ComplexF) getScalar());</span>
-<span class="fc" id="L493">			case REALD : return RealD.isZero((RealD) getScalar());</span>
-<span class="fc" id="L494">			case REALF : return RealF.isZero((RealF) getScalar());</span>
-<span class="nc" id="L495">			default : return false;</span>
+<span class="pc bpc" id="L466" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="fc" id="L467">			case COMPLEXD : return ComplexD.isZero((ComplexD) getScalar());</span>
+<span class="fc" id="L468">			case COMPLEXF : return ComplexF.isZero((ComplexF) getScalar());</span>
+<span class="fc" id="L469">			case REALD : return RealD.isZero((RealD) getScalar());</span>
+<span class="fc" id="L470">			case REALF : return RealF.isZero((RealF) getScalar());</span>
+<span class="nc" id="L471">			default : return false;</span>
 		}
 	}
 
@@ -500,78 +476,78 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * This method takes all values in the map and returns one ProtoN child
 	 * that has a real value that is equal to the square root of the sum of the
 	 * SQModulus of each value.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * NOTE about suppressed type cast warnings | This method switches through the
 	 * possible classes known as descendents of ProtoN. If the object to be
 	 * copied is one of them, the method uses a constructor appropriate to it, but
 	 * then casts the result back to the generic T before returning it.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * There is no danger to this with respect to the implementation of this method.
 	 * The danger comes from mis-use of the method. If one passes a different kind
 	 * of object that passes as a descendent of ProtoN implementing Field and
 	 * Normalizable, this method might not detect it and return null. The type
 	 * casting operation itself cannot fail, but unrecognized child classes do NOT
 	 * get copied.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * This can happen if one extends ProtoN creating a new CladosF number.
 	 * This method will not be aware of the new class until its implementation is
 	 * updated.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Because these are real numbers, though, we get away with simply summing the
 	 * moduli instead. It does not perform a cardinal safety check and will throw
 	 * the exception if that test fails.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return D ProtoN child that implements all the number interfaces too.
 	 */
 	public D modulusSQSum() {
 		D tR;
-<span class="pc bpc" id="L528" title="1 of 5 branches missed.">		switch (mode) {</span>
+<span class="pc bpc" id="L504" title="1 of 5 branches missed.">		switch (mode) {</span>
 			case REALF -&gt; {
-<span class="fc" id="L530">				tR = FBuilder.REALF.createZERO(this.getCardinal());</span>
-<span class="fc" id="L531">				weightsStream().forEach(div -&gt; {</span>
+<span class="fc" id="L506">				tR = FBuilder.REALF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L507">				weightsStream().forEach(div -&gt; {</span>
 					try {
-<span class="fc" id="L533">						tR.add(RealF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L534">					} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L535">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L536">					}</span>
-<span class="fc" id="L537">				});</span>
-<span class="fc" id="L538">				return tR;</span>
+<span class="fc" id="L509">						tR.add(RealF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L510">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L511">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L513">				});</span>
+<span class="fc" id="L514">				return tR;</span>
 			}
 			case REALD -&gt; {
-<span class="fc" id="L541">				tR = FBuilder.REALD.createZERO(this.getCardinal());</span>
-<span class="fc" id="L542">				weightsStream().forEach(div -&gt; {</span>
+<span class="fc" id="L517">				tR = FBuilder.REALD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L518">				weightsStream().forEach(div -&gt; {</span>
 					try {
-<span class="fc" id="L544">						tR.add(RealD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L545">					} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L546">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L547">					}</span>
-<span class="fc" id="L548">				});</span>
-<span class="fc" id="L549">				return tR;</span>
+<span class="fc" id="L520">						tR.add(RealD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L521">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L522">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L524">				});</span>
+<span class="fc" id="L525">				return tR;</span>
 			}
 			case COMPLEXF -&gt; {
-<span class="fc" id="L552">				tR = FBuilder.COMPLEXF.createZERO(this.getCardinal());</span>
-<span class="fc" id="L553">				weightsStream().forEach(div -&gt; {</span>
+<span class="fc" id="L528">				tR = FBuilder.COMPLEXF.createZERO(this.getCardinal());</span>
+<span class="fc" id="L529">				weightsStream().forEach(div -&gt; {</span>
 					try {
-<span class="fc" id="L555">						tR.add(ComplexF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L556">					} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L557">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L558">					}</span>
-<span class="fc" id="L559">				});</span>
-<span class="fc" id="L560">				return tR;</span>
+<span class="fc" id="L531">						tR.add(ComplexF.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L532">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L533">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L535">				});</span>
+<span class="fc" id="L536">				return tR;</span>
 			}
 			case COMPLEXD -&gt; {
-<span class="fc" id="L563">				tR = FBuilder.COMPLEXD.createZERO(this.getCardinal());</span>
-<span class="fc" id="L564">				weightsStream().forEach(div -&gt; {</span>
+<span class="fc" id="L539">				tR = FBuilder.COMPLEXD.createZERO(this.getCardinal());</span>
+<span class="fc" id="L540">				weightsStream().forEach(div -&gt; {</span>
 					try {
-<span class="fc" id="L566">						tR.add(ComplexD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
-<span class="nc" id="L567">					} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L568">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
-<span class="fc" id="L569">					}</span>
-<span class="fc" id="L570">				});</span>
-<span class="fc" id="L571">				return tR;</span>
+<span class="fc" id="L542">						tR.add(ComplexD.newONE(this.getCardinal()).scale(div.sqModulus()));</span>
+<span class="pc" id="L543">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L544">						throw new IllegalArgumentException(&quot;Cardinal mismatch when forming modulus sum.&quot;);</span>
+					}
+<span class="fc" id="L546">				});</span>
+<span class="fc" id="L547">				return tR;</span>
 			}
 			default -&gt; {
-<span class="nc" id="L574">				return (D) new ProtoN(this.getCardinal());</span>
+<span class="nc" id="L550">				return (D) new ProtoN(this.getCardinal());</span>
 			}
 		}
 	}
@@ -605,55 +581,47 @@ import org.interworldtransport.cladosFExceptions.*;
 	 */
 	public D modulusSum() {
 		D tR;
-<span class="pc bpc" id="L608" title="1 of 5 branches missed.">		switch (mode) {</span>
-		case REALF -&gt; {
-<span class="fc" id="L610">			tR = FBuilder.REALF.createZERO(this.getCardinal());</span>
-<span class="fc" id="L611">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
-				try {
-<span class="fc" id="L613">					tR.add(RealF.newONE(this.getCardinal()).scale(div.modulus()));</span>
-<span class="nc" id="L614">				} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L615">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L616">				}</span>
-<span class="fc" id="L617">			});</span>
-<span class="fc" id="L618">			return (D) tR;</span>
+<span class="pc bpc" id="L584" title="1 of 5 branches missed.">		switch (mode) {</span>
+			case REALF -&gt; {
+<span class="fc" id="L586">				tR = (D) RealF.newZERO(getCardinal());</span>
+<span class="fc" id="L587">				weightsStream().forEach(x -&gt; {  //Do not go parallel in this stream</span>
+<span class="fc" id="L588">					try {	tR.add(RealF.newONE(getCardinal()).scale(x.modulus()));</span>
+<span class="pc" id="L589">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L590">						throw new IllegalArgumentException(&quot;Cardinal mismatch in addition.&quot;);</span>
+					}
+<span class="fc" id="L592">				});</span>
+			}
+			case REALD -&gt; {
+<span class="fc" id="L595">				tR = (D) RealD.newZERO(getCardinal());</span>
+<span class="fc" id="L596">				weightsStream().forEach(x -&gt; {  //Do not go parallel in this stream</span>
+<span class="fc" id="L597">					try {	tR.add(RealD.newONE(getCardinal()).scale(x.modulus()));</span>
+<span class="pc" id="L598">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L599">						throw new IllegalArgumentException(&quot;Cardinal mismatch in addition.&quot;);</span>
+					}
+<span class="fc" id="L601">				});</span>
+			}
+			case COMPLEXF -&gt; {
+<span class="fc" id="L604">				tR = (D) ComplexF.newZERO(getCardinal());</span>
+<span class="fc" id="L605">				weightsStream().forEach(x -&gt; {  //Do not go parallel in this stream</span>
+<span class="fc" id="L606">					try {	tR.add(ComplexF.newONE(getCardinal()).scale(x.modulus()));	 //Conjugate built in</span>
+<span class="pc" id="L607">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L608">						throw new IllegalArgumentException(&quot;Cardinal mismatch in addition.&quot;);</span>
+					}
+<span class="fc" id="L610">				});</span>
+			}
+			case COMPLEXD -&gt; {
+<span class="fc" id="L613">				tR = (D) ComplexD.newZERO(getCardinal());</span>
+<span class="fc" id="L614">				weightsStream().forEach(x -&gt; {  //Do not go parallel in this stream</span>
+<span class="fc" id="L615">					try {	tR.add(ComplexD.newONE(getCardinal()).scale(x.modulus()));	 //Conjugate built in</span>
+<span class="pc" id="L616">					} catch (FieldBinaryException e) {</span>
+<span class="nc" id="L617">						throw new IllegalArgumentException(&quot;Cardinal mismatch in addition.&quot;);</span>
+					}
+<span class="fc" id="L619">				});</span>
+			}
+<span class="nc" id="L621">			default -&gt; tR = ((D) new ProtoN(this.getCardinal()));</span>
+			
 		}
-		case REALD -&gt; {
-<span class="fc" id="L621">			tR = FBuilder.REALD.createZERO(this.getCardinal());</span>
-<span class="fc" id="L622">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
-				try {
-<span class="fc" id="L624">					tR.add(RealD.newONE(this.getCardinal()).scale(div.modulus()));</span>
-<span class="nc" id="L625">				} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L626">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L627">				}</span>
-<span class="fc" id="L628">			});</span>
-<span class="fc" id="L629">			return (D) tR;</span>
-		}
-		case COMPLEXF -&gt; {
-<span class="fc" id="L632">			tR = FBuilder.COMPLEXF.createZERO(this.getCardinal());</span>
-<span class="fc" id="L633">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
-				try {
-<span class="fc" id="L635">					tR.add(ComplexF.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
-<span class="nc" id="L636">				} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L637">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L638">				}</span>
-<span class="fc" id="L639">			});</span>
-<span class="fc" id="L640">			return (D) tR;</span>
-		}
-		case COMPLEXD -&gt; {
-<span class="fc" id="L643">			tR = FBuilder.COMPLEXD.createZERO(this.getCardinal());</span>
-<span class="fc" id="L644">			weightsStream().forEach(div -&gt; {  //Do not go parallel in this stream</span>
-				try {
-<span class="fc" id="L646">					tR.add(ComplexD.newONE(this.getCardinal()).scale(div.modulus()));	 //Conjugate built in</span>
-<span class="nc" id="L647">				} catch (FieldBinaryException e) {</span>
-<span class="nc" id="L648">					throw new IllegalArgumentException(&quot;Cardinal mismatch in addition while forming modulus sum.&quot;);</span>
-<span class="fc" id="L649">				}</span>
-<span class="fc" id="L650">			});</span>
-<span class="fc" id="L651">			return (D) tR;</span>
-		}
-		default -&gt; {
-<span class="nc" id="L654">			return (D) new ProtoN(this.getCardinal());</span>
-		}
-		}
+<span class="fc" id="L624">		return tR;</span>
 	}
 
 	/**
@@ -674,8 +642,8 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * 							The exception is thrown by the number's invert() and passed along.
 	 */
 	public void normalize() throws FieldException {
-<span class="fc" id="L677">		this.scale((D) modulusSum().invert());</span>
-<span class="fc" id="L678">	}</span>
+<span class="fc" id="L645">		this.scale((D) modulusSum().invert());</span>
+<span class="fc" id="L646">	}</span>
 
 	/**
 	 * Put a key/value pair into the internal map of coefficients. A Blade acts as key. A ProtoN child acts as coefficient.
@@ -687,124 +655,124 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return Scale of Unit Abstract objects. Just this object after modification if it occurs.
 	 */
 	public Scale&lt;D&gt; put(Blade pB, D pD) {
-<span class="fc" id="L690">		map.put(pB, pD);</span>
-<span class="fc" id="L691">		return this;</span>
+<span class="fc" id="L658">		map.put(pB, pD);</span>
+<span class="fc" id="L659">		return this;</span>
 	}
 
 	/**
 	 * This method scales all values in the internal map by the value offered provided there is no typeMatch failure. 
 	 * When there IS a type mismatch the number simply does not get scaled.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * The first stream filters for weights that pass the match test.
 	 * The second stream scales them.
 	 * That means the embedded IllegalARgumentException will never be thrown.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pIn ProtoN child to use as a scaling element. 
 	 * 				Mode and cardinal MUST match values in map.
 	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field.
 	 * @return Scale object. Just this object after modification.
 	 */
 	public &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; scale(T pIn) {
-<span class="fc bfc" id="L708" title="All 4 branches covered.">		if (	!(pIn instanceof RealF &amp; getMode() == REALF)</span>
-<span class="fc bfc" id="L709" title="All 4 branches covered.">			&amp; 	!(pIn instanceof RealD &amp; getMode() == REALD)</span>
-<span class="fc bfc" id="L710" title="All 4 branches covered.">			&amp; 	!(pIn instanceof ComplexF &amp; getMode() == COMPLEXF)</span>
-<span class="pc bpc" id="L711" title="1 of 6 branches missed.">			&amp; 	!(pIn instanceof ComplexD &amp; getMode() == COMPLEXD) )</span>
-<span class="nc" id="L712">			throw new IllegalArgumentException(&quot;Offered scaling number MUST mode match.&quot;);</span>
+<span class="fc bfc" id="L676" title="All 4 branches covered.">		if (	!(pIn instanceof RealF &amp; getMode() == REALF)</span>
+<span class="fc bfc" id="L677" title="All 4 branches covered.">			&amp; 	!(pIn instanceof RealD &amp; getMode() == REALD)</span>
+<span class="fc bfc" id="L678" title="All 4 branches covered.">			&amp; 	!(pIn instanceof ComplexF &amp; getMode() == COMPLEXF)</span>
+<span class="pc bpc" id="L679" title="1 of 6 branches missed.">			&amp; 	!(pIn instanceof ComplexD &amp; getMode() == COMPLEXD) )</span>
+<span class="nc" id="L680">			throw new IllegalArgumentException(&quot;Offered scaling number MUST mode match.&quot;);</span>
 
-<span class="pc bpc" id="L714" title="2 of 4 branches missed.">		if (pIn.getCardinal() == card &amp; weightsStream().allMatch(x -&gt; ProtoN.isTypeMatch(x, pIn))) {</span>
-<span class="fc" id="L715">			weightsParallelStream()</span>
-<span class="fc" id="L716">				.forEach(y -&gt; {	try {y.multiply(pIn);} </span>
-<span class="nc" id="L717">								catch (FieldBinaryException e) {</span>
-<span class="nc" id="L718">									throw new IllegalArgumentException(&quot;Can't scale with NaN or isInfinite.&quot;);</span>
-<span class="fc" id="L719">								}	//Field binary exception is also thrown for cardinal mismatches</span>
+<span class="pc bpc" id="L682" title="2 of 4 branches missed.">		if (pIn.getCardinal() == card &amp; weightsStream().allMatch(x -&gt; ProtoN.isTypeMatch(x, pIn))) {</span>
+<span class="fc" id="L683">			weightsParallelStream()</span>
+<span class="fc" id="L684">				.forEach(y -&gt; {	try {y.multiply(pIn);} </span>
+<span class="nc" id="L685">								catch (FieldBinaryException e) {</span>
+<span class="nc" id="L686">									throw new IllegalArgumentException(&quot;Can't scale with NaN or isInfinite.&quot;);</span>
+								}	//Field binary exception is also thrown for cardinal mismatches
 									//but those were caught at the top of the conditional causing 
 									//this method to do absolutely nothing. Anything caught down here 
 									//should stop events the same way dividing by ZERO does.
-<span class="fc" id="L723">			});</span>
+<span class="fc" id="L691">			});</span>
 		}
-<span class="fc" id="L725">		return this;</span>
+<span class="fc" id="L693">		return this;</span>
 	}
 
 	/**
 	 * This is a short exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pS The Scale oject to be output as XML
 	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.
 	 * @return String formatted as XML containing information about the Scale
 	 */
 	public final static String toXMLString(Scale&lt;?&gt; pS, String indent) {
-<span class="fc" id="L736">		StringBuilder rB = new StringBuilder(indent);		</span>
-<span class="fc" id="L737">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; &quot;);</span>
-<span class="fc" id="L738">		rB	.append(&quot;pans=\&quot;&quot;+pS.map.size()+&quot;\&quot; &quot;)</span>
-<span class="fc" id="L739">			.append(&quot;cardinal=&quot;+pS.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L704">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L705">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; &quot;);</span>
+<span class="fc" id="L706">		rB	.append(&quot;pans=\&quot;&quot;+pS.map.size()+&quot;\&quot; &quot;)</span>
+<span class="fc" id="L707">			.append(&quot;cardinal=&quot;+pS.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
 
-<span class="fc" id="L741">		pS.gBasis.bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L742">			rB	.append(indent+&quot;\t&quot;)</span>
-<span class="fc" id="L743">				.append(&quot;&lt;Pair bitKey=\&quot;0b&quot;);</span>
-<span class="fc" id="L744">			int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
-<span class="fc bfc" id="L745" title="All 2 branches covered.">			while (pad&gt;0) {</span>
-<span class="fc" id="L746">				rB.append(&quot;0&quot;);</span>
-<span class="fc" id="L747">				pad--;</span>
+<span class="fc" id="L709">		pS.gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L710">			rB	.append(indent+&quot;\t&quot;)</span>
+<span class="fc" id="L711">				.append(&quot;&lt;Pair bitKey=\&quot;0b&quot;);</span>
+<span class="fc" id="L712">			int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L713" title="All 2 branches covered.">			while (pad&gt;0) {</span>
+<span class="fc" id="L714">				rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L715">				pad--;</span>
 			}
-<span class="fc" id="L749">			rB	.append(Integer.toBinaryString(blade.bitKey()));</span>
+<span class="fc" id="L717">			rB	.append(Integer.toBinaryString(blade.bitKey()));</span>
 			//rB	.append(&quot;\&quot; cardinal=\&quot;&quot;+pS.map.get(blade).getCardinalString());
-<span class="fc" id="L751">			rB	.append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L719">			rB	.append(&quot;\&quot; &quot;);</span>
 			
-<span class="pc bpc" id="L753" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="pc bpc" id="L721" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
 				case REALF:
-<span class="fc" id="L755">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealF)pS.map.get(blade)).getReal());</span>
-<span class="fc" id="L756">					break;</span>
+<span class="fc" id="L723">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealF)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L724">					break;</span>
 				case REALD:
-<span class="fc" id="L758">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealD)pS.map.get(blade)).getReal());</span>
-<span class="fc" id="L759">					break;</span>
+<span class="fc" id="L726">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealD)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L727">					break;</span>
 				case COMPLEXF:
-<span class="fc" id="L761">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getReal())</span>
-<span class="fc" id="L762">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getImg());</span>
-<span class="fc" id="L763">					break;</span>
+<span class="fc" id="L729">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L730">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L731">					break;</span>
 				case COMPLEXD:
-<span class="fc" id="L765">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getReal())</span>
-<span class="fc" id="L766">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getImg());</span>
-<span class="fc" id="L767">					break;</span>
+<span class="fc" id="L733">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L734">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L735">					break;</span>
 				default:
 					break;
 				
 			}
-<span class="fc" id="L772">			rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L773">		});</span>
-<span class="fc" id="L774">		rB	.append(indent)</span>
-<span class="fc" id="L775">			.append(&quot;&lt;/Scales&gt;\n&quot;);</span>
-<span class="fc" id="L776">		return rB.toString();</span>
+<span class="fc" id="L740">			rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L741">		});</span>
+<span class="fc" id="L742">		rB	.append(indent)</span>
+<span class="fc" id="L743">			.append(&quot;&lt;/Scales&gt;\n&quot;);</span>
+<span class="fc" id="L744">		return rB.toString();</span>
 	}
 
 	/**
 	 * This is an exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pS The Scale oject to be output as XML
 	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.
 	 * @return String formatted as XML containing information about the Scale
 	 */
 	public final static String toXMLFullString(Scale&lt;?&gt; pS, String indent) {
-<span class="fc" id="L787">		StringBuilder rB = new StringBuilder(indent);		</span>
-<span class="fc" id="L788">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;)</span>
-<span class="fc" id="L789">			.append(pS.map.size())</span>
-<span class="fc" id="L790">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L755">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L756">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;)</span>
+<span class="fc" id="L757">			.append(pS.map.size())</span>
+<span class="fc" id="L758">			.append(&quot;\&quot;&gt;\n&quot;);</span>
 
-<span class="fc" id="L792">		pS.gBasis.bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L793">			rB	.append(indent)</span>
-<span class="fc" id="L794">				.append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
-<span class="fc" id="L795">			rB	.append(indent)</span>
-<span class="fc" id="L796">				.append(Blade.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
-<span class="pc bpc" id="L797" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
-<span class="fc" id="L798">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L799">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L800">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L801">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="nc" id="L802">				default -&gt; 		{rB.append(indent + &quot;\t\t\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L760">		pS.gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L761">			rB	.append(indent)</span>
+<span class="fc" id="L762">				.append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
+<span class="fc" id="L763">			rB	.append(indent)</span>
+<span class="fc" id="L764">				.append(Blade.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
+<span class="pc bpc" id="L765" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="fc" id="L766">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L767">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L768">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L769">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="nc" id="L770">				default -&gt; 		{rB.append(indent + &quot;\t\t\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
 			}	
-<span class="fc" id="L804">			rB	.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
-<span class="fc" id="L805">		});</span>
-<span class="fc" id="L806">		rB	.append(indent).append(&quot;\t\t&lt;/Scales&gt;\n&quot;);</span>
-<span class="fc" id="L807">		return rB.toString();</span>
+<span class="fc" id="L772">			rB	.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
+<span class="fc" id="L773">		});</span>
+<span class="fc" id="L774">		rB	.append(indent).append(&quot;\t\t&lt;/Scales&gt;\n&quot;);</span>
+<span class="fc" id="L775">		return rB.toString();</span>
 	}
 
 	/**
@@ -813,26 +781,26 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * map's keys are all blades from the object's basis. The map won't contain just
 	 * a few blades as keys, though. It will contain every blade as a key paired to
 	 * some unique CladosF number.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Since the internal map can accept any of the CladosF numbers (and
 	 * ProtoN itself though that would be useless) there is a cast to a
 	 * 'generic' type before insertion into the map. This would normally cause
 	 * warnings by the compiler since the generic named in the internal map IS a
 	 * ProtoN child AND casting an unchecked type could fail at runtime.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * That won't happen here when CladosF builders are used. They can't build
 	 * anything that is NOT a ProtoN child. They can't even build a
 	 * ProtoN instance directly. Therefore, only children can arrive as the
 	 * value parameter of the 'put' function. Thus, there is no danger of a failed
 	 * cast operation... until someone creates a new ProtoN child class and
 	 * fails to update all builders.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param &lt;T&gt; ProtoN child generic type support. Must also implement Field
 	 *            AND Normalizable.
 	 * @return deliver the internal coefficients as the internal map.
 	 */
 	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Map&lt;Blade, T&gt; getMap() {
-<span class="fc" id="L835">		return (Map&lt;Blade, T&gt;) map;</span>
+<span class="fc" id="L803">		return (Map&lt;Blade, T&gt;) map;</span>
 	}
 
 	/**
@@ -840,18 +808,19 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * interface. If the cardinal to be set is different from the one already present,
 	 * the weights are cleared out and set to zero. If the cardinal is the same one,
 	 * nothing is done and this Scale is returned.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Once a Cardinal is set, it basically can't be removed. It can be changed, but
 	 * not eliminated entirely.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pCard CladosField element to set as the mode.
 	 * @return Scale object. Just this object after modification.
 	 */
 	protected Scale&lt;D&gt; setCardinal(Cardinal pCard) {
-<span class="pc bpc" id="L850" title="1 of 6 branches missed.">		if (card != pCard &amp; pCard != null) {</span>
-<span class="fc" id="L851">			weightsParallelStream().forEach(x -&gt; x.setCardinal(pCard));</span>
-<span class="fc" id="L852">			card = pCard;</span>
+<span class="pc bpc" id="L819" title="1 of 6 branches missed.">		if (card != pCard &amp; pCard != null) {</span>
+<span class="fc" id="L820">			weightsParallelStream().forEach(x -&gt; x.setCardinal(pCard));</span>
+<span class="fc" id="L821">			card = pCard;</span>
 		}
-<span class="fc" id="L854">		return this;</span>
+<span class="fc" id="L823">		return this;</span>
 	}
 
 	/**
@@ -866,8 +835,8 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return Scale of numbers for use in streaming operations if desired.
 	 */
 	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setPScalar(T pIn) {
-<span class="fc" id="L869">		setNumber(gBasis.getPScalarBlade(), pIn);			//Defer to checks made in setNumber()</span>
-<span class="fc" id="L870">		return this;</span>
+<span class="fc" id="L838">		setNumber(gBasis.getPScalarBlade(), pIn);			//Defer to checks made in setNumber()</span>
+<span class="fc" id="L839">		return this;</span>
 	}
 
 	/**
@@ -882,8 +851,8 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return Scale of numbers for use in streaming operations if desired.
 	 */
 	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setScalar(T pIn) {
-<span class="fc" id="L885">		setNumber(gBasis.getScalarBlade(), pIn);			//Defer to checks made in setNumber()</span>
-<span class="fc" id="L886">		return this;</span>
+<span class="fc" id="L854">		setNumber(gBasis.getScalarBlade(), pIn);			//Defer to checks made in setNumber()</span>
+<span class="fc" id="L855">		return this;</span>
 	}
 
 	/**
@@ -892,7 +861,7 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * &lt;br&gt;&lt;br&gt;
 	 * NOTE | Do NOT use this method if you intend the offered number to be disconnected from this object. 
 	 * IT WON'T BE! If you really must use this method that way, copy your coefficients first.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param &lt;T&gt; is a child of ProtoN used as the generic identity of the number object.
 	 * @param pB Blade where the offered number belongs.
 	 * @param pIn Array of ProtoN children
@@ -901,19 +870,19 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * 									The blade must be covered. NO NULL numbers.
 	 */
 	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setNumber(Blade pB, T pIn) {
-<span class="pc bpc" id="L904" title="1 of 2 branches missed.">		if (pIn == null)																//Nulls aren't tolerated</span>
-<span class="nc" id="L905">					throw new IllegalArgumentException(&quot;Offered number MUST NOT be null.&quot;);</span>
-<span class="pc bpc" id="L906" title="1 of 2 branches missed.">		if (!map.containsKey(pB))</span>
-<span class="nc" id="L907">					throw new IllegalArgumentException(&quot;Offered Blade MUST be in the basis.&quot;);</span>
-<span class="fc bfc" id="L908" title="All 6 branches covered.">		if  (	!(pIn instanceof RealF) &amp; (getMode() == REALF)</span>
-<span class="fc bfc" id="L909" title="All 4 branches covered.">			&amp; 	!(pIn instanceof RealD) &amp; (getMode() == REALD)</span>
-<span class="fc bfc" id="L910" title="All 4 branches covered.">			&amp; 	!(pIn instanceof ComplexF) &amp; (getMode() == COMPLEXF)</span>
-<span class="pc bpc" id="L911" title="1 of 4 branches missed.">			&amp; 	!(pIn instanceof ComplexD) &amp; (getMode() == COMPLEXD))</span>
-<span class="nc" id="L912">					throw new IllegalArgumentException(&quot;Offered number MUST mode match.&quot;);</span>
-<span class="fc bfc" id="L913" title="All 2 branches covered.">		if (card != pIn.getCardinal())</span>
-<span class="fc" id="L914">					throw new IllegalArgumentException(&quot;Offered number MUST match the Scale cardinal.&quot;);</span>
-<span class="fc" id="L915">		map.put(pB, (D) pIn);</span>
-<span class="fc" id="L916">		return this;</span>
+<span class="pc bpc" id="L873" title="1 of 2 branches missed.">		if (pIn == null)																//Nulls aren't tolerated</span>
+<span class="nc" id="L874">					throw new IllegalArgumentException(&quot;Offered number MUST NOT be null.&quot;);</span>
+<span class="pc bpc" id="L875" title="1 of 2 branches missed.">		if (!map.containsKey(pB))</span>
+<span class="nc" id="L876">					throw new IllegalArgumentException(&quot;Offered Blade MUST be in the basis.&quot;);</span>
+<span class="fc bfc" id="L877" title="All 4 branches covered.">		if  (	!(pIn instanceof RealF) &amp; (getMode() == REALF)</span>
+<span class="fc bfc" id="L878" title="All 4 branches covered.">			&amp; 	!(pIn instanceof RealD) &amp; (getMode() == REALD)</span>
+<span class="fc bfc" id="L879" title="All 4 branches covered.">			&amp; 	!(pIn instanceof ComplexF) &amp; (getMode() == COMPLEXF)</span>
+<span class="pc bpc" id="L880" title="1 of 6 branches missed.">			&amp; 	!(pIn instanceof ComplexD) &amp; (getMode() == COMPLEXD))</span>
+<span class="nc" id="L881">					throw new IllegalArgumentException(&quot;Offered number MUST mode match.&quot;);</span>
+<span class="fc bfc" id="L882" title="All 2 branches covered.">		if (card != pIn.getCardinal())</span>
+<span class="fc" id="L883">					throw new IllegalArgumentException(&quot;Offered number MUST match the Scale cardinal.&quot;);</span>
+<span class="fc" id="L884">		map.put(pB, (D) pIn);</span>
+<span class="fc" id="L885">		return this;</span>
 	}
 	/**
 	 * This coefficient settor accepts an array of ProtoN numbers, assumes they are in basis index order, and then 
@@ -931,127 +900,127 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * 									All blades must be covered. NO NULL numbers.
 	 */
 	protected &lt;T extends ProtoN &amp; Field &amp; Normalizable&gt; Scale&lt;D&gt; setNumbers(T[] pIn) {
-<span class="fc bfc" id="L934" title="All 2 branches covered.">		if (pIn == null)																//Nulls aren't tolerated</span>
-<span class="fc" id="L935">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT be null.&quot;);</span>
-<span class="fc bfc" id="L936" title="All 2 branches covered.">		if (!Scale.validateNoNullsIncoming(pIn))										//Seriously! They aren't tolerated.</span>
-<span class="fc" id="L937">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT contain nulls.&quot;);</span>
-<span class="fc bfc" id="L938" title="All 2 branches covered.">		if(!Scale.validateModeIncoming(getMode(), pIn))									//Mixed mode isn't tolerated either.</span>
-<span class="fc" id="L939">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST mode match.&quot;);</span>
-<span class="fc bfc" id="L940" title="All 2 branches covered.">		if (pIn.length != gBasis.getBladeCount())										//Offered array MUST cover the basis.</span>
-<span class="fc" id="L941">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST cover every blade in the basis.&quot;);</span>
+<span class="fc bfc" id="L903" title="All 2 branches covered.">		if (pIn == null)																//Nulls aren't tolerated</span>
+<span class="fc" id="L904">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT be null.&quot;);</span>
+<span class="fc bfc" id="L905" title="All 2 branches covered.">		if (!Scale.validateNoNullsIncoming(pIn))										//Seriously! They aren't tolerated.</span>
+<span class="fc" id="L906">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT contain nulls.&quot;);</span>
+<span class="fc bfc" id="L907" title="All 2 branches covered.">		if(!Scale.validateModeIncoming(getMode(), pIn))									//Mixed mode isn't tolerated either.</span>
+<span class="fc" id="L908">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST mode match.&quot;);</span>
+<span class="fc bfc" id="L909" title="All 2 branches covered.">		if (pIn.length != gBasis.getBladeCount())										//Offered array MUST cover the basis.</span>
+<span class="fc" id="L910">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST cover every blade in the basis.&quot;);</span>
 
-<span class="pc bpc" id="L943" title="3 of 4 branches missed.">		switch (Scale.testCardinalMatchesIncoming(card, pIn)) {</span>
-<span class="nc" id="L944">			case 0  : throw new IllegalArgumentException(&quot;Coefficients passed are a jumbled mess of cardinals.&quot;);</span>
-<span class="nc" id="L945">			case -1 : card = pIn[0].getCardinal();										//-1 case ALSO uses +1 action</span>
-<span class="fc" id="L946">			case +1 : gBasis.bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L947">									setNumber(blade, pIn[gBasis.find(blade) - 1]);		//nulls checked again which is okay</span>
+<span class="pc bpc" id="L912" title="3 of 4 branches missed.">		switch (Scale.testCardinalMatchesIncoming(card, pIn)) {</span>
+<span class="nc" id="L913">			case 0  : throw new IllegalArgumentException(&quot;Coefficients passed are a jumbled mess of cardinals.&quot;);</span>
+<span class="nc" id="L914">			case -1 : card = pIn[0].getCardinal();										//-1 case ALSO uses +1 action</span>
+<span class="fc" id="L915">			case +1 : gBasis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L916">									setNumber(blade, pIn[gBasis.find(blade) - 1]);		//nulls checked again which is okay</span>
 																						//the top level check stops ALL mutation.
-<span class="fc" id="L949">								});</span>
+<span class="fc" id="L918">								});</span>
 			default : ;
 		}
-<span class="fc" id="L952">		return this;</span>
+<span class="fc" id="L921">		return this;</span>
 	}
 
 	/**
 	 * This method sets the coefficients represented by this Scale. It accepts a map relating blades in the basis to ProtoN children. 
 	 * It checks to see if the map is of the wrong size and throws an IllegalArgumentException if so. It does NOT check
 	 * for mode consistency and nulls
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * NOTE this method DEEP COPIES the inbound map to disconnect the map's source ProtoN children from the ones 'put' here. 
 	 * This is the safest settor for ensuring numbers are NOT reused across monads... IF ONE PAYS ATTENTION to nulls and mixed modes.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pInMap Inbound Map relating blades to numbers.
 	 * @return Scale after modification of the map.
 	 * @throws IllegalArgumentException This happens if the offered map does not have the same size as the basis. Good enough
 	 *                                  to ensure all blades are covered because Map doesn't allow duplicate keys.
 	 */
 	protected Scale&lt;D&gt; setMap(Map&lt;Blade, D&gt; pInMap) {
-<span class="pc bpc" id="L969" title="1 of 2 branches missed.">		if (pInMap.size() != gBasis.getBladeCount())</span>
-<span class="nc" id="L970">					throw new IllegalArgumentException(&quot;Offered map of coefficients MUST cover every blade in the basis.&quot;);</span>
+<span class="pc bpc" id="L938" title="1 of 2 branches missed.">		if (pInMap.size() != gBasis.getBladeCount())</span>
+<span class="nc" id="L939">					throw new IllegalArgumentException(&quot;Offered map of coefficients MUST cover every blade in the basis.&quot;);</span>
 
-<span class="fc" id="L972">		Map&lt;Blade, D&gt; mapCopy = pInMap	.entrySet()</span>
-<span class="fc" id="L973">										.parallelStream()</span>
-<span class="fc" id="L974">										.collect(Collectors.toMap(	e -&gt; e.getKey(),</span>
-<span class="fc" id="L975">																	e -&gt; FBuilder.copyOf(e.getValue())	)</span>
+<span class="fc" id="L941">		Map&lt;Blade, D&gt; mapCopy = pInMap	.entrySet()</span>
+<span class="fc" id="L942">										.parallelStream()</span>
+<span class="fc" id="L943">										.collect(Collectors.toMap(	e -&gt; e.getKey(),</span>
+<span class="fc" id="L944">																	e -&gt; FBuilder.copyOf(e.getValue())	)</span>
 												);
-<span class="fc" id="L977">		map.putAll(mapCopy);</span>
-<span class="fc" id="L978">		return this;</span>
+<span class="fc" id="L946">		map.putAll(mapCopy);</span>
+<span class="fc" id="L947">		return this;</span>
 	}
 
 	/**
 	 * This settor accepts an array of ProtoN children, assumes they are in basis index order to assign a blade of the specified grade, 
 	 * then inserts them into the map at that blade covering ONLY the grade suggested.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * NOTE | Do NOT use this method if you intend the offered coefficient array to be disconnected from this object. IT WON'T BE! 
 	 * If you really must use this method that way, copy your coefficients first.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pGrade byte integer naming the grade to be overwritten
 	 * @param pIn    Array of ProtoN Children
 	 * @return Scale object. Just this object after modification.
 	 */
 	protected Scale&lt;D&gt; setNumbersAtGrade(byte pGrade, D[] pIn) {
-<span class="fc bfc" id="L993" title="All 2 branches covered.">		if (!gBasis.validateGradeIndex(pGrade))</span>
-<span class="fc" id="L994">					throw new IllegalArgumentException(&quot;Offered grade must be in range for underlying basis.&quot;);</span>
-<span class="fc bfc" id="L995" title="All 2 branches covered.">		if (pIn == null)</span>
-<span class="fc" id="L996">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT be null.&quot;);</span>
-<span class="fc bfc" id="L997" title="All 2 branches covered.">		if (gBasis.bladeOfGradeStream(pGrade).count() != (long) pIn.length)</span>
-<span class="fc" id="L998">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST cover every blade in the grade range.&quot;);</span>
+<span class="fc bfc" id="L962" title="All 2 branches covered.">		if (!gBasis.validateGradeIndex(pGrade))</span>
+<span class="fc" id="L963">					throw new IllegalArgumentException(&quot;Offered grade must be in range for underlying basis.&quot;);</span>
+<span class="fc bfc" id="L964" title="All 2 branches covered.">		if (pIn == null)</span>
+<span class="fc" id="L965">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST NOT be null.&quot;);</span>
+<span class="fc bfc" id="L966" title="All 2 branches covered.">		if (gBasis.bladeOfGradeStream(pGrade).count() != (long) pIn.length)</span>
+<span class="fc" id="L967">					throw new IllegalArgumentException(&quot;Offered array of coefficients MUST cover every blade in the grade range.&quot;);</span>
 		
-<span class="pc bpc" id="L1000" title="3 of 4 branches missed.">		switch (Scale.testCardinalMatchesIncoming(card, pIn)) {</span>
-<span class="nc" id="L1001">			case 0  : throw new IllegalArgumentException(&quot;Coefficients passed are a jumbled mess of cardinals.&quot;);</span>
-<span class="nc" id="L1002">			case -1 : throw new IllegalArgumentException(&quot;Coefficients passed MUST match the Scale cardinal.&quot;);</span>
+<span class="pc bpc" id="L969" title="3 of 4 branches missed.">		switch (Scale.testCardinalMatchesIncoming(card, pIn)) {</span>
+<span class="nc" id="L970">			case 0  : throw new IllegalArgumentException(&quot;Coefficients passed are a jumbled mess of cardinals.&quot;);</span>
+<span class="nc" id="L971">			case -1 : throw new IllegalArgumentException(&quot;Coefficients passed MUST match the Scale cardinal.&quot;);</span>
 			case +1 : {										//The only case we can accept requires perfect cardinal matches.
-<span class="fc" id="L1004">				int init = gBasis.getGradeStart(pGrade);	//This is where the pGrade blades start</span>
-<span class="fc" id="L1005">				gBasis	.bladeOfGradeStream(pGrade)			//so stream the blades, match them with pIn[] entries,</span>
-<span class="fc" id="L1006">						.forEach(blade -&gt; {	map.put(blade, pIn[gBasis.find(blade) - init - 1]);	} );	//and 'put' them in map.</span>
+<span class="fc" id="L973">				int init = gBasis.getGradeStart(pGrade);	//This is where the pGrade blades start</span>
+<span class="fc" id="L974">				gBasis	.bladeOfGradeStream(pGrade)			//so stream the blades, match them with pIn[] entries,</span>
+<span class="fc" id="L975">						.forEach(blade -&gt; {	map.put(blade, pIn[gBasis.find(blade) - init - 1]);	} );	//and 'put' them in map.</span>
 			}
 			default : ;
 		}
-<span class="fc" id="L1010">		return this;</span>
+<span class="fc" id="L979">		return this;</span>
 	}
 
     /**
 	 * This is the compliment of a blade stream involving the scaling factors 'multiplied' by blades in the sense 
 	 * of a linear combination in a vector space. When forming a linear combination of blades to make a 'vector', 
 	 * these are the 'numbers' that scale each blade.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * Since the internal map can accept any of the CladosF numbers as values, there is a cast to a 'generic' type 
 	 * within this method. This would normally cause warnings by the compiler since the generic named in the internal 
 	 * map IS a ProtoN child AND casting an unchecked type could fail at runtime.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * That won't happen when CladosF builders are used because they dan't build anything that is NOT a ProtoN child. 
 	 * Scale's internal map only accepts ProtoN child classes, so there is no danger of a failed cast operation... 
 	 * until someone creates a new ProtoN child class and fails to update the builders.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Stream of ProtoN children that are the numbers in the internal map.
 	 */
 	protected Stream&lt;D&gt; weightsStream() {
-<span class="fc" id="L1029">		return map.values().stream();</span>
+<span class="fc" id="L998">		return map.values().stream();</span>
 	}
 
 	/**
 	 * This method returns a parallelizable stream of the weights in this scale. 
 	 * It is intended for wholesale operations on the weights that may be done
 	 * in any order. It is mostly for use by the owning object of this Scale.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return A stream of weights as children of ProtoN.
 	 */
 	protected Stream&lt;D&gt; weightsParallelStream() {
-<span class="fc" id="L1040">		return map.values().parallelStream();</span>
+<span class="fc" id="L1009">		return map.values().parallelStream();</span>
 	}
 
 	/**
 	 * This method causes all coefficients to be set to zero using the offered
 	 * cardinal.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return This Scale instance after coefficients are zero'd out.
 	 */
 	protected Scale&lt;D&gt; zeroAll() {
-<span class="fc" id="L1050">		gBasis	.bladeStream()</span>
-<span class="fc" id="L1051">				.forEach(b -&gt; {</span>
-<span class="fc" id="L1052">								map.put(b, FBuilder.createZERO(mode, card));</span>
-<span class="fc" id="L1053">							});</span>
-<span class="fc" id="L1054">		return this;</span>
+<span class="fc" id="L1019">		gBasis	.bladeStream()</span>
+<span class="fc" id="L1020">				.forEach(b -&gt; {</span>
+<span class="fc" id="L1021">								map.put(b, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L1022">							});</span>
+<span class="fc" id="L1023">		return this;</span>
 	}
 
 	/**
@@ -1062,13 +1031,13 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return This Scale instance after coefficients are zero'd out.
 	 */
 	protected Scale&lt;D&gt; zeroAllButGrade(byte pGrade) {
-<span class="fc bfc" id="L1065" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
-<span class="fc" id="L1066">			gBasis	.bladeStream()</span>
-<span class="fc bfc" id="L1067" title="All 2 branches covered.">					.filter(blade -&gt; blade.rank() != pGrade)</span>
-<span class="fc" id="L1068">					.forEach(blade -&gt; {</span>
-<span class="fc" id="L1069">										map.put(blade, FBuilder.createZERO(mode, card));</span>
-<span class="fc" id="L1070">									});</span>
-<span class="fc" id="L1071">		return this;</span>
+<span class="fc bfc" id="L1034" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
+<span class="fc" id="L1035">			gBasis	.bladeStream()</span>
+<span class="fc bfc" id="L1036" title="All 2 branches covered.">					.filter(blade -&gt; blade.rank() != pGrade)</span>
+<span class="fc" id="L1037">					.forEach(blade -&gt; {</span>
+<span class="fc" id="L1038">										map.put(blade, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L1039">									});</span>
+<span class="fc" id="L1040">		return this;</span>
 	}
 
 	/**
@@ -1081,9 +1050,9 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return Scale object. Just this object after modification.
 	 */
 	public Scale&lt;D&gt; zeroAt(Blade pB) {
-<span class="fc bfc" id="L1084" title="All 4 branches covered.">		if (pB != null &amp; map.containsKey(pB))</span>
-<span class="fc" id="L1085">			map.put(pB, FBuilder.createZERO(mode, map.get(pB).getCardinal()));</span>
-<span class="fc" id="L1086">		return this;</span>
+<span class="fc bfc" id="L1053" title="All 4 branches covered.">		if (pB != null &amp; map.containsKey(pB))</span>
+<span class="fc" id="L1054">			map.put(pB, FBuilder.createZERO(mode, map.get(pB).getCardinal()));</span>
+<span class="fc" id="L1055">		return this;</span>
 	}
 
 	/**
@@ -1094,11 +1063,11 @@ import org.interworldtransport.cladosFExceptions.*;
 	 * @return This Scale instance after coefficients are zero'd out.
 	 */
 	protected Scale&lt;D&gt; zeroAtGrade(byte pGrade) {
-<span class="fc bfc" id="L1097" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
-<span class="fc bfc" id="L1098" title="All 2 branches covered.">			gBasis.bladeStream().filter(blade -&gt; blade.rank() == pGrade).forEach(blade -&gt; {</span>
-<span class="fc" id="L1099">				map.put(blade, FBuilder.createZERO(mode, card));</span>
-<span class="fc" id="L1100">		});</span>
-<span class="fc" id="L1101">		return this;</span>
+<span class="fc bfc" id="L1066" title="All 2 branches covered.">		if (gBasis.validateGradeIndex(pGrade))</span>
+<span class="fc bfc" id="L1067" title="All 2 branches covered.">			gBasis.bladeStream().filter(blade -&gt; blade.rank() == pGrade).forEach(blade -&gt; {</span>
+<span class="fc" id="L1068">				map.put(blade, FBuilder.createZERO(mode, card));</span>
+<span class="fc" id="L1069">		});</span>
+<span class="fc" id="L1070">		return this;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

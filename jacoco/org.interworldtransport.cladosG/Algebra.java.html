@@ -131,7 +131,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	 * &lt;br&gt;
 	 * 
 	 */
-	protected String uuid;
+	protected final String uuid;
 
 	/**
 	 * This is the constructor that assumes a full Algebra has already been
@@ -202,9 +202,9 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 	public Algebra(String pNewName, Foot pF, String pSig)
 			throws BadSignatureException {
 <span class="fc" id="L204">		this(	pNewName, </span>
-				pF, 
+<span class="fc" id="L205">				pF, </span>
 <span class="fc" id="L206">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-											pSig));
+<span class="fc" id="L207">											pSig));</span>
 <span class="fc" id="L208">		GCache.INSTANCE.appendBasis(gBasis);</span>
 <span class="fc" id="L209">		GCache.INSTANCE.appendGProduct(gProduct);</span>
 <span class="fc" id="L210">	}</span>
@@ -240,7 +240,7 @@ public final class Algebra implements Comparable&lt;Algebra&gt; {
 <span class="fc" id="L240">				GBuilder.createFoot(		pFootName, </span>
 <span class="fc" id="L241">											pF.getCardinalString()),</span>
 <span class="fc" id="L242">				GBuilder.createGProduct(	GCache.INSTANCE.findBasis((byte) pSig.length()),</span>
-											pSig));
+<span class="fc" id="L243">											pSig));</span>
 <span class="fc" id="L244">		GCache.INSTANCE.appendBasis(gBasis);</span>
 <span class="fc" id="L245">		GCache.INSTANCE.appendGProduct(gProduct);</span>
 <span class="fc" id="L246">	}</span>

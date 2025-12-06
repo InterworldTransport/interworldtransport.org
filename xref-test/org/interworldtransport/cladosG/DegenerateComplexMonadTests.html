@@ -258,22 +258,22 @@
 <a class="jxr_linenumber" name="L250" href="#L250">250</a> 
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM0)));
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM0)));
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplySymm(tM0)));
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyAntisymm(tM0)));
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).anticommutator(tM0)));
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).commutator(tM0)));
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> 
 <a class="jxr_linenumber" name="L256" href="#L256">256</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM1))); <em class="jxr_comment">//different feet and algebras</em>
 <a class="jxr_linenumber" name="L257" href="#L257">257</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyLeft(tM0))); <em class="jxr_comment">//different feet and algebras</em>
 <a class="jxr_linenumber" name="L258" href="#L258">258</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM1))); <em class="jxr_comment">//different feet and algebras</em>
 <a class="jxr_linenumber" name="L259" href="#L259">259</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyRight(tM0))); <em class="jxr_comment">//different feet and algebras</em>
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplySymm(tM0))); <em class="jxr_comment">//different feet and algebras</em>
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyAntisymm(tM0))); <em class="jxr_comment">//different feet and algebras</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).anticommutator(tM0))); <em class="jxr_comment">//different feet and algebras</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).commutator(tM0))); <em class="jxr_comment">//different feet and algebras</em>
 <a class="jxr_linenumber" name="L262" href="#L262">262</a> 
 <a class="jxr_linenumber" name="L263" href="#L263">263</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM5)));   <em class="jxr_comment">//reference match succeeds</em>
 <a class="jxr_linenumber" name="L264" href="#L264">264</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyLeft(tM0)));   <em class="jxr_comment">//reference match succeeds</em>
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM5)));  <em class="jxr_comment">//reference match succeeds</em>
 <a class="jxr_linenumber" name="L266" href="#L266">266</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyRight(tM0)));  <em class="jxr_comment">//reference match succeeds</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplySymm(tM5)));   <em class="jxr_comment">//reference match succeeds</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyAntisymm(tM0))); <em class="jxr_comment">//reference match succeeds</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).anticommutator(tM5)));   <em class="jxr_comment">//reference match succeeds</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         assertDoesNotThrow(() -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).commutator(tM0))); <em class="jxr_comment">//reference match succeeds</em>
 <a class="jxr_linenumber" name="L269" href="#L269">269</a> 
 <a class="jxr_linenumber" name="L270" href="#L270">270</a>         tM8 = <strong class="jxr_keyword">new</strong> Monad(tM6);                                               <em class="jxr_comment">// Another fake nilpotent.</em>
 <a class="jxr_linenumber" name="L271" href="#L271">271</a>         assertDoesNotThrow(() -&gt; tM8.multiplyRight(tM6));                   <em class="jxr_comment">// Not sparse multiply</em>
@@ -281,13 +281,13 @@
 <a class="jxr_linenumber" name="L273" href="#L273">273</a>         assertTrue(Monad.isGrade(tM8, 0));                           <em class="jxr_comment">// Proves that E14*E14=0</em>
 <a class="jxr_linenumber" name="L274" href="#L274">274</a> 
 <a class="jxr_linenumber" name="L275" href="#L275">275</a>         tM8 = <strong class="jxr_keyword">new</strong> Monad( tM6);                                              <em class="jxr_comment">// Another fake nilpotent.</em>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>         assertDoesNotThrow(() -&gt; tM8.multiplySymm(tM6));                    <em class="jxr_comment">//Not sparse multiply. Also tests addition.</em>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>         assertTrue(((ComplexF) tM8.scales.getScalar()).getReal() == 1.0f);
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>         assertDoesNotThrow(() -&gt; tM8.anticommutator(tM6));                    <em class="jxr_comment">//Not sparse multiply. Also tests addition.</em>
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>         assertTrue(((ComplexF) tM8.scales.getScalar()).getReal() == 2.0f);
 <a class="jxr_linenumber" name="L278" href="#L278">278</a>         assertTrue(Monad.isGrade(tM8, 0));                           <em class="jxr_comment">// Proves that E14*E14=0</em>
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>         <em class="jxr_comment">//System.out.println(Monad.toXMLFullString(tM8, ""));</em>
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> 
 <a class="jxr_linenumber" name="L281" href="#L281">281</a>         tM8 = <strong class="jxr_keyword">new</strong> Monad(tM6);
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         assertDoesNotThrow(() -&gt; tM8.multiplyAntisymm(tM6));                <em class="jxr_comment">//Not sparse multiply. Also tests subtraction.</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         assertDoesNotThrow(() -&gt; tM8.commutator(tM6));                <em class="jxr_comment">//Not sparse multiply. Also tests subtraction.</em>
 <a class="jxr_linenumber" name="L283" href="#L283">283</a>         assertTrue(((ComplexF) tM8.scales.getScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L284" href="#L284">284</a>         assertTrue(Monad.isGrade(tM8, 0)); 
 <a class="jxr_linenumber" name="L285" href="#L285">285</a>  

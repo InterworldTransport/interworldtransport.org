@@ -344,22 +344,22 @@
 <a class="jxr_linenumber" name="L336" href="#L336">336</a> 		
 <a class="jxr_linenumber" name="L337" href="#L337">337</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM0)));
 <a class="jxr_linenumber" name="L338" href="#L338">338</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM0)));
-<a class="jxr_linenumber" name="L339" href="#L339">339</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplySymm(tM0)));
-<a class="jxr_linenumber" name="L340" href="#L340">340</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyAntisymm(tM0)));
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>         assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).anticommutator(tM0)));
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> 		assertTrue(Monad.isGZero(GBuilder.copyOfMonad(tM0).commutator(tM0)));
 <a class="jxr_linenumber" name="L341" href="#L341">341</a>         
 <a class="jxr_linenumber" name="L342" href="#L342">342</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM1)));
 <a class="jxr_linenumber" name="L343" href="#L343">343</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyLeft(tM0)));
 <a class="jxr_linenumber" name="L344" href="#L344">344</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM1)));
 <a class="jxr_linenumber" name="L345" href="#L345">345</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyRight(tM0)));
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplySymm(tM0)));
-<a class="jxr_linenumber" name="L347" href="#L347">347</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).multiplyAntisymm(tM0)));
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).anticommutator(tM0)));
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM1).commutator(tM0)));
 <a class="jxr_linenumber" name="L348" href="#L348">348</a> 
 <a class="jxr_linenumber" name="L349" href="#L349">349</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyLeft(tM5)));
 <a class="jxr_linenumber" name="L350" href="#L350">350</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyLeft(tM0)));
 <a class="jxr_linenumber" name="L351" href="#L351">351</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplyRight(tM5)));
 <a class="jxr_linenumber" name="L352" href="#L352">352</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyRight(tM0)));
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).multiplySymm(tM5)));
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).multiplyAntisymm(tM0)));
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM0).anticommutator(tM5)));
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>         assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; Monad.isGZero(GBuilder.copyOfMonad(tM5).commutator(tM0)));
 <a class="jxr_linenumber" name="L355" href="#L355">355</a> 
 <a class="jxr_linenumber" name="L356" href="#L356">356</a>         tM7.gradePart((byte) 4).setName(<span class="jxr_string">"PScalar"</span>);    <em class="jxr_comment">//Like tm6 except it is now a unit pscalar</em>
 <a class="jxr_linenumber" name="L357" href="#L357">357</a>         assertDoesNotThrow(() -&gt; tM8.multiplyLeft(tM7));                    <em class="jxr_comment">//Not sparse multiply</em>
@@ -372,12 +372,12 @@
 <a class="jxr_linenumber" name="L364" href="#L364">364</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 1.0f);
 <a class="jxr_linenumber" name="L365" href="#L365">365</a> 
 <a class="jxr_linenumber" name="L366" href="#L366">366</a>         tM8 = <strong class="jxr_keyword">new</strong> Monad( tM6);
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>         assertDoesNotThrow(() -&gt; tM8.multiplySymm(tM7));                    <em class="jxr_comment">//Not sparse multiply. Also tests addition.</em>
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == -1.0f);
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 1.0f);
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>         assertDoesNotThrow(() -&gt; tM8.anticommutator(tM7));                    <em class="jxr_comment">//Not sparse multiply. Also tests addition.</em>
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == -2.0f);
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 2.0f);
 <a class="jxr_linenumber" name="L370" href="#L370">370</a> 
 <a class="jxr_linenumber" name="L371" href="#L371">371</a>         tM8 = <strong class="jxr_keyword">new</strong> Monad(tM6);
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>         assertDoesNotThrow(() -&gt; tM8.multiplyAntisymm(tM7));                <em class="jxr_comment">//Not sparse multiply. Also tests subtraction.</em>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         assertDoesNotThrow(() -&gt; tM8.commutator(tM7));                <em class="jxr_comment">//Not sparse multiply. Also tests subtraction.</em>
 <a class="jxr_linenumber" name="L373" href="#L373">373</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L374" href="#L374">374</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L375" href="#L375">375</a> 
@@ -394,12 +394,12 @@
 <a class="jxr_linenumber" name="L386" href="#L386">386</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 1.0f);
 <a class="jxr_linenumber" name="L387" href="#L387">387</a> 
 <a class="jxr_linenumber" name="L388" href="#L388">388</a>         tM8 = (<strong class="jxr_keyword">new</strong> Monad(tM6)).gradePart((byte) 4).setName(<span class="jxr_string">"BunchOfOnes"</span>);    <em class="jxr_comment">//Like tm6 except it is now a unit pscalar</em>
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>         assertDoesNotThrow(() -&gt; tM8.multiplySymm(tM7));                    <em class="jxr_comment">//sparse multiply. Also tests addition.</em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == -1.0f);
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 1.0f);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>         assertDoesNotThrow(() -&gt; tM8.anticommutator(tM7));                    <em class="jxr_comment">//sparse multiply. Also tests addition.</em>
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == -2.0f);
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 2.0f);
 <a class="jxr_linenumber" name="L392" href="#L392">392</a> 
 <a class="jxr_linenumber" name="L393" href="#L393">393</a>         tM8 = (<strong class="jxr_keyword">new</strong> Monad(tM6)).gradePart((byte) 4).setName(<span class="jxr_string">"BunchOfOnes"</span>);    <em class="jxr_comment">//Like tm6 except it is now a unit pscalar</em>
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>         assertDoesNotThrow(() -&gt; tM8.multiplyAntisymm(tM7));                <em class="jxr_comment">//sparse multiply. Also tests subtraction.</em>
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>         assertDoesNotThrow(() -&gt; tM8.commutator(tM7));                <em class="jxr_comment">//sparse multiply. Also tests subtraction.</em>
 <a class="jxr_linenumber" name="L395" href="#L395">395</a>         assertTrue(((RealF) tM8.scales.getScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L396" href="#L396">396</a>         assertTrue(((RealF) tM8.scales.getPScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L397" href="#L397">397</a> 	}
