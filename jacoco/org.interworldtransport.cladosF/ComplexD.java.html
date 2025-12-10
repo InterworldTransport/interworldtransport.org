@@ -59,10 +59,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD add(ComplexD pF1, ComplexD pF2) throws FieldBinaryException {
-<span class="pc bpc" id="L62" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexD.isNaN(pF1) &amp;&amp; !ComplexD.isNaN(pF2) &amp;&amp; !ComplexD.isInfinite(pF1)</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">				&amp;&amp; !ComplexD.isInfinite(pF2))</span>
-<span class="fc" id="L64">			return ComplexD.create(pF1.getCardinal(), pF1.getReal() + pF2.getReal(), pF1.getImg() + pF2. getImg());</span>
-<span class="fc" id="L65">		throw (new FieldBinaryException(pF1, &quot;Static Addition error found&quot;, pF2));</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (ProtoN.isTypeMatch(pF1, pF2) </span>
+<span class="pc bpc" id="L63" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isNaN(pF1) 		&amp;&amp; !ComplexD.isNaN(pF2) </span>
+<span class="pc bpc" id="L64" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isInfinite(pF1)	&amp;&amp; !ComplexD.isInfinite(pF2))</span>
+<span class="fc" id="L65">			return ComplexD.create(pF1.getCardinal(), pF1.getReal() + pF2.getReal(), pF1.getImg() + pF2. getImg());</span>
+<span class="fc" id="L66">		throw (new FieldBinaryException(pF1, &quot;Static Addition error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD conjugate(ComplexD pF) {
-<span class="fc" id="L77">		return ComplexD.create(pF.getCardinal(), pF.getReal(), -1.0D * pF.getImg());</span>
+<span class="fc" id="L78">		return ComplexD.create(pF.getCardinal(), pF.getReal(), -1.0D * pF.getImg());</span>
 	}
 
 	/**
@@ -93,12 +94,12 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public final static ComplexD copySumModulus(ComplexD[] pL) throws FieldBinaryException {
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form Modulus Sum from empty array.&quot;);</span>
-<span class="fc" id="L97">		ComplexD tR = ComplexD.copyZERO(pL[0]);</span>
-<span class="fc bfc" id="L98" title="All 2 branches covered.">		for (ComplexD point : pL)</span>
-<span class="fc" id="L99">			tR.add((ComplexD.copyONE(point).scale(point.modulus())));</span>
-<span class="fc" id="L100">		tR.setReal(Math.sqrt(tR.getReal()));</span>
-<span class="fc" id="L101">		return tR;</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form Modulus Sum from empty array.&quot;);</span>
+<span class="fc" id="L98">		ComplexD tR = ComplexD.copyZERO(pL[0]);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		for (ComplexD point : pL)</span>
+<span class="fc" id="L100">			tR.add((ComplexD.copyONE(point).scale(point.modulus())));</span>
+<span class="fc" id="L101">		tR.setReal(Math.sqrt(tR.getReal()));</span>
+<span class="fc" id="L102">		return tR;</span>
 	}
 
 	/**
@@ -115,11 +116,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public final static ComplexD copySumSQModulus(ComplexD[] pL) throws FieldBinaryException {
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form SQ Modulus Sum from empty array.&quot;);</span>
-<span class="fc" id="L119">		ComplexD tR = ComplexD.copyZERO(pL[0]);</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">		for (ComplexD point : pL)</span>
-<span class="fc" id="L121">			tR.add((ComplexD.copyONE(point).scale(point.sqModulus())));</span>
-<span class="fc" id="L122">		return tR;</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (pL.length == 0) throw new IllegalArgumentException(&quot;Can't form SQ Modulus Sum from empty array.&quot;);</span>
+<span class="fc" id="L120">		ComplexD tR = ComplexD.copyZERO(pL[0]);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">		for (ComplexD point : pL)</span>
+<span class="fc" id="L122">			tR.add((ComplexD.copyONE(point).scale(point.sqModulus())));</span>
+<span class="fc" id="L123">		return tR;</span>
 	}
 
 	/**
@@ -130,7 +131,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD copyOf(ComplexD pF) {
-<span class="fc" id="L133">		return new ComplexD(pF);</span>
+<span class="fc" id="L134">		return new ComplexD(pF);</span>
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD copyONE(ProtoN pR) {
-<span class="fc" id="L143">		return ComplexD.create(pR.getCardinal(), 1.0d, 0.0d);</span>
+<span class="fc" id="L144">		return ComplexD.create(pR.getCardinal(), 1.0d, 0.0d);</span>
 	}
 
 	/**
@@ -150,7 +151,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD copyZERO(ProtoN pR) {
-<span class="fc" id="L153">		return ComplexD.create(pR.getCardinal(), 0.0d, 0.0d);</span>
+<span class="fc" id="L154">		return ComplexD.create(pR.getCardinal(), 0.0d, 0.0d);</span>
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD create(double pR, double pI) {
-<span class="fc" id="L166">		return new ComplexD(pR, pI);</span>
+<span class="fc" id="L167">		return new ComplexD(pR, pI);</span>
 	}
 
 /**
@@ -176,11 +177,12 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD create(Cardinal pCard, double pR, double pI) {
-<span class="fc" id="L179">		return new ComplexD(pCard, pR, pI);</span>
+<span class="fc" id="L180">		return new ComplexD(pCard, pR, pI);</span>
 	}
 
 	/**
 	 * Static divide method that creates a new ComplexD with the product pF1 / pF2.
+	 * Note that type matching is not done.
 	 * &lt;br&gt;
 	 * @param pF1 ComplexD
 	 * @param pF2 ComplexD
@@ -189,17 +191,18 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD divide(ComplexD pF1, ComplexD pF2) throws FieldBinaryException {
-<span class="pc bpc" id="L192" title="1 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexD.isZero(pF2) &amp;&amp; !ComplexD.isNaN(pF1) &amp;&amp; !ComplexD.isNaN(pF2)</span>
-<span class="pc bpc" id="L193" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isInfinite(pF1) &amp;&amp; !ComplexD.isInfinite(pF2)) {</span>
-<span class="fc" id="L194">			ComplexD tZ = ComplexD.copyOf(pF1);</span>
-<span class="fc" id="L195">			ComplexD tZ2 = ComplexD.copyOf(pF2);</span>
-<span class="fc" id="L196">			tZ2.conjugate();</span>
-<span class="fc" id="L197">			tZ.multiply(tZ2);</span>
-<span class="fc" id="L198">			tZ2.conjugate();</span>
-<span class="fc" id="L199">			tZ.scale(Double.valueOf(1.0D / tZ2.sqModulus()));</span>
-<span class="fc" id="L200">			return tZ;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (!ComplexD.isZero(pF2) </span>
+<span class="pc bpc" id="L195" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isNaN(pF1) 		&amp;&amp; !ComplexD.isNaN(pF2)</span>
+<span class="pc bpc" id="L196" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isInfinite(pF1) 	&amp;&amp; !ComplexD.isInfinite(pF2)) {</span>
+<span class="fc" id="L197">			ComplexD tZ = ComplexD.copyOf(pF1);</span>
+<span class="fc" id="L198">			ComplexD tZ2 = ComplexD.copyOf(pF2);</span>
+<span class="fc" id="L199">			tZ2.conjugate();</span>
+<span class="fc" id="L200">			tZ.multiply(tZ2);</span>
+<span class="fc" id="L201">			tZ2.conjugate();</span>
+<span class="fc" id="L202">			tZ.scale(Double.valueOf(1.0D / tZ2.sqModulus()));</span>
+<span class="fc" id="L203">			return tZ;</span>
 		}
-<span class="fc" id="L202">		throw (new FieldBinaryException(pF1, &quot;Static Division error found&quot;, pF2));</span>
+<span class="fc" id="L205">		throw (new FieldBinaryException(pF1, &quot;Static Division error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -213,7 +216,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 *         otherwise.
 	 */
 	public static boolean isEqual(ComplexD pE, ComplexD pF) {
-<span class="pc bpc" id="L216" title="1 of 6 branches missed.">		return ProtoN.isTypeMatch(pE, pF) &amp;&amp; (pE.getReal() == pF.getReal()) &amp;&amp; (pE.getImg() == pF.getImg());</span>
+<span class="pc bpc" id="L219" title="1 of 6 branches missed.">		return ProtoN.isTypeMatch(pE, pF) &amp;&amp; (pE.getReal() == pF.getReal()) &amp;&amp; (pE.getImg() == pF.getImg());</span>
 	}
 
 	/**
@@ -223,7 +226,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return boolean
 	 */
 	public static boolean isImaginary(ComplexD pF) {
-<span class="pc bpc" id="L226" title="3 of 4 branches missed.">		return (pF.getReal() == 0.0d &amp;&amp; pF.getImg() != 0.0d);</span>
+<span class="pc bpc" id="L229" title="3 of 4 branches missed.">		return (pF.getReal() == 0.0d &amp;&amp; pF.getImg() != 0.0d);</span>
 	}
 
 	/**
@@ -233,7 +236,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return boolean
 	 */
 	public static boolean isInfinite(ComplexD pF) {
-<span class="pc bpc" id="L236" title="1 of 4 branches missed.">		return Double.isInfinite(pF.getReal()) || Double.isInfinite(pF.getImg());</span>
+<span class="pc bpc" id="L239" title="1 of 4 branches missed.">		return Double.isInfinite(pF.getReal()) || Double.isInfinite(pF.getImg());</span>
 	}
 
 	/**
@@ -243,7 +246,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return boolean
 	 */
 	public static boolean isNaN(ComplexD pF) {
-<span class="fc bfc" id="L246" title="All 4 branches covered.">		return Double.isNaN(pF.getReal()) || Double.isNaN(pF.getImg());</span>
+<span class="fc bfc" id="L249" title="All 4 branches covered.">		return Double.isNaN(pF.getReal()) || Double.isNaN(pF.getImg());</span>
 	}
 
 	/**
@@ -253,7 +256,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return boolean
 	 */
 	public static boolean isReal(ComplexD pF) {
-<span class="fc bfc" id="L256" title="All 2 branches covered.">		return (pF.getImg() == 0.0d);</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">		return (pF.getImg() == 0.0d);</span>
 	}
 
 	/**
@@ -263,11 +266,12 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return boolean
 	 */
 	public static boolean isZero(ComplexD pF) {
-<span class="fc bfc" id="L266" title="All 4 branches covered.">		return (pF.getReal() == 0.0D &amp;&amp; pF.getImg() == 0.0D);</span>
+<span class="fc bfc" id="L269" title="All 4 branches covered.">		return (pF.getReal() == 0.0D &amp;&amp; pF.getImg() == 0.0D);</span>
 	}
 
 	/**
 	 * Static multiply method that creates a new ComplexD with product pF1 * pF2.
+	 * Note that type matching is not done.
 	 * &lt;br&gt;
 	 * @param pF1 ComplexD
 	 * @param pF2 ComplexD
@@ -276,13 +280,13 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return complexD
 	 */
 	public static ComplexD multiply(ComplexD pF1, ComplexD pF2) throws FieldBinaryException {
-<span class="pc bpc" id="L279" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexD.isNaN(pF1) &amp;&amp; !ComplexD.isNaN(pF2) &amp;&amp; !ComplexD.isInfinite(pF1)</span>
-<span class="fc bfc" id="L280" title="All 2 branches covered.">				&amp;&amp; !ComplexD.isInfinite(pF2)) {</span>
-<span class="fc" id="L281">			double tempR = pF1.getReal() * pF2.getReal() - pF1.getImg() * pF2.getImg();</span>
-<span class="fc" id="L282">			double tempI = pF1.getReal() * pF2.getImg() + pF1.getImg() * pF2.getReal();</span>
-<span class="fc" id="L283">			return ComplexD.create(pF1.getCardinal(), tempR, tempI);</span>
+<span class="pc bpc" id="L283" title="1 of 4 branches missed.">		if (!ComplexD.isNaN(pF1) 				&amp;&amp; !ComplexD.isNaN(pF2) </span>
+<span class="pc bpc" id="L284" title="1 of 4 branches missed.">				&amp;&amp; !ComplexD.isInfinite(pF1)	&amp;&amp; !ComplexD.isInfinite(pF2)) {</span>
+<span class="fc" id="L285">			double tempR = pF1.getReal() * pF2.getReal() - pF1.getImg() * pF2.getImg();</span>
+<span class="fc" id="L286">			double tempI = pF1.getReal() * pF2.getImg() + pF1.getImg() * pF2.getReal();</span>
+<span class="fc" id="L287">			return ComplexD.create(pF1.getCardinal(), tempR, tempI);</span>
 		}
-<span class="fc" id="L285">		throw (new FieldBinaryException(pF1, &quot;Static Multiplication error found&quot;, pF2));</span>
+<span class="fc" id="L289">		throw (new FieldBinaryException(pF1, &quot;Static Multiplication error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -292,7 +296,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD newONE(String pS) {
-<span class="fc" id="L295">		return ComplexD.create(Cardinal.generate(pS), 1.0d, 0.0d);</span>
+<span class="fc" id="L299">		return ComplexD.create(Cardinal.generate(pS), 1.0d, 0.0d);</span>
 	}
 
 	/**
@@ -302,7 +306,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD newZERO(String pS) {
-<span class="fc" id="L305">		return ComplexD.create(Cardinal.generate(pS), 0.0D, 0.0D);</span>
+<span class="fc" id="L309">		return ComplexD.create(Cardinal.generate(pS), 0.0D, 0.0D);</span>
 	}
 
 	/**
@@ -312,7 +316,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD newONE(Cardinal pC) {
-<span class="fc" id="L315">		return ComplexD.create(pC, 1.0d, 0.0d);</span>
+<span class="fc" id="L319">		return ComplexD.create(pC, 1.0d, 0.0d);</span>
 	}
 
 	/**
@@ -322,7 +326,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD newZERO(Cardinal pC) {
-<span class="fc" id="L325">		return ComplexD.create(pC, 0.0D, 0.0D);</span>
+<span class="fc" id="L329">		return ComplexD.create(pC, 0.0D, 0.0D);</span>
 	}
 
 	/**
@@ -336,11 +340,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD
 	 */
 	public static ComplexD subtract(ComplexD pF1, ComplexD pF2) throws FieldBinaryException {
-<span class="pc bpc" id="L339" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexD.isNaN(pF1) &amp;&amp; !ComplexD.isNaN(pF2) &amp;&amp; !ComplexD.isInfinite(pF1)</span>
-<span class="fc bfc" id="L340" title="All 2 branches covered.">				&amp;&amp; !ComplexD.isInfinite(pF2))</span>
-<span class="fc" id="L341">			return ComplexD.create(pF1.getCardinal(), pF1.getReal() - pF2.getReal(), pF1.getImg() - pF2.getImg());</span>
+<span class="pc bpc" id="L343" title="2 of 8 branches missed.">		if (ProtoN.isTypeMatch(pF1, pF2) &amp;&amp; !ComplexD.isNaN(pF1) &amp;&amp; !ComplexD.isNaN(pF2) &amp;&amp; !ComplexD.isInfinite(pF1)</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">				&amp;&amp; !ComplexD.isInfinite(pF2))</span>
+<span class="fc" id="L345">			return ComplexD.create(pF1.getCardinal(), pF1.getReal() - pF2.getReal(), pF1.getImg() - pF2.getImg());</span>
 
-<span class="fc" id="L343">		throw (new FieldBinaryException(pF1, &quot;Static Subtraction error found&quot;, pF2));</span>
+<span class="fc" id="L347">		throw (new FieldBinaryException(pF1, &quot;Static Subtraction error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -353,11 +357,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * Basic Constructor with no values to initialize.
 	 */
 	public ComplexD() {
-<span class="fc" id="L356">		super(Cardinal.generate(CladosField.COMPLEXD));</span>
-<span class="fc" id="L357">		vals = new double[2];</span>
-<span class="fc" id="L358">		setReal(0.0D);</span>
-<span class="fc" id="L359">		setImg(0.0D);</span>
-<span class="fc" id="L360">	}</span>
+<span class="fc" id="L360">		super(Cardinal.generate(CladosField.COMPLEXD));</span>
+<span class="fc" id="L361">		vals = new double[2];</span>
+<span class="fc" id="L362">		setReal(0.0D);</span>
+<span class="fc" id="L363">		setImg(0.0D);</span>
+<span class="fc" id="L364">	}</span>
 
 	/**
 	 * Copy Constructor that reuses the v reference.
@@ -365,11 +369,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pC ComplexD
 	 */
 	public ComplexD(ComplexD pC) {
-<span class="fc" id="L368">		super(pC.getCardinal());</span>
-<span class="fc" id="L369">		vals = new double[2];</span>
-<span class="fc" id="L370">		setReal(pC.getReal());</span>
-<span class="fc" id="L371">		setImg(pC.getImg());</span>
-<span class="fc" id="L372">	}</span>
+<span class="fc" id="L372">		super(pC.getCardinal());</span>
+<span class="fc" id="L373">		vals = new double[2];</span>
+<span class="fc" id="L374">		setReal(pC.getReal());</span>
+<span class="fc" id="L375">		setImg(pC.getImg());</span>
+<span class="fc" id="L376">	}</span>
 
 	/**
 	 * Copy Constructor that reuses the cardinal reference while allowing the values
@@ -380,11 +384,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pI double
 	 */
 	public ComplexD(ProtoN pC, double pR, double pI) {
-<span class="fc" id="L383">		super(pC.getCardinal());</span>
-<span class="fc" id="L384">		vals = new double[2];</span>
-<span class="fc" id="L385">		setReal(pR);</span>
-<span class="fc" id="L386">		setImg(pI);</span>
-<span class="fc" id="L387">	}</span>
+<span class="fc" id="L387">		super(pC.getCardinal());</span>
+<span class="fc" id="L388">		vals = new double[2];</span>
+<span class="fc" id="L389">		setReal(pR);</span>
+<span class="fc" id="L390">		setImg(pI);</span>
+<span class="fc" id="L391">	}</span>
 
 	/**
 	 * Basic Constructor with only the cardinal to initialize.
@@ -392,11 +396,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pT Cardinal
 	 */
 	public ComplexD(Cardinal pT) {
-<span class="fc" id="L395">		super(pT);</span>
-<span class="fc" id="L396">		vals = new double[2];</span>
-<span class="fc" id="L397">		setReal(0.0D);</span>
-<span class="fc" id="L398">		setImg(0.0D);</span>
-<span class="fc" id="L399">	}</span>
+<span class="fc" id="L399">		super(pT);</span>
+<span class="fc" id="L400">		vals = new double[2];</span>
+<span class="fc" id="L401">		setReal(0.0D);</span>
+<span class="fc" id="L402">		setImg(0.0D);</span>
+<span class="fc" id="L403">	}</span>
 
 	/**
 	 * Basic Constructor with everything to initialize but the imaginary.
@@ -405,11 +409,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pR double
 	 */
 	public ComplexD(Cardinal pT, double pR) {
-<span class="fc" id="L408">		super(pT);</span>
-<span class="fc" id="L409">		vals = new double[2];</span>
-<span class="fc" id="L410">		setReal(pR);</span>
-<span class="fc" id="L411">		setImg(0.0D);</span>
-<span class="fc" id="L412">	}</span>
+<span class="fc" id="L412">		super(pT);</span>
+<span class="fc" id="L413">		vals = new double[2];</span>
+<span class="fc" id="L414">		setReal(pR);</span>
+<span class="fc" id="L415">		setImg(0.0D);</span>
+<span class="fc" id="L416">	}</span>
 
 	/**
 	 * Basic Constructor with everything to initialize it.
@@ -419,11 +423,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pI double
 	 */
 	public ComplexD(Cardinal pT, double pR, double pI) {
-<span class="fc" id="L422">		super(pT);</span>
-<span class="fc" id="L423">		vals = new double[2];</span>
-<span class="fc" id="L424">		setReal(pR);</span>
-<span class="fc" id="L425">		setImg(pI);</span>
-<span class="fc" id="L426">	}</span>
+<span class="fc" id="L426">		super(pT);</span>
+<span class="fc" id="L427">		vals = new double[2];</span>
+<span class="fc" id="L428">		setReal(pR);</span>
+<span class="fc" id="L429">		setImg(pI);</span>
+<span class="fc" id="L430">	}</span>
 
 	/**
 	 * Basic Constructor with only the number to initialize.
@@ -432,11 +436,11 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @param pI double
 	 */
 	public ComplexD(double pR, double pI) {
-<span class="fc" id="L435">		super(Cardinal.generate(CladosField.COMPLEXD));</span>
-<span class="fc" id="L436">		vals = new double[2];</span>
-<span class="fc" id="L437">		setReal(pR);</span>
-<span class="fc" id="L438">		setImg(pI);</span>
-<span class="fc" id="L439">	}</span>
+<span class="fc" id="L439">		super(Cardinal.generate(CladosField.COMPLEXD));</span>
+<span class="fc" id="L440">		vals = new double[2];</span>
+<span class="fc" id="L441">		setReal(pR);</span>
+<span class="fc" id="L442">		setImg(pI);</span>
+<span class="fc" id="L443">	}</span>
 
 	/**
 	 * This method adds real numbers together and changes this object to be the
@@ -449,12 +453,13 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD add(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L452" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
-<span class="pc bpc" id="L453" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
-<span class="fc" id="L454">			throw (new FieldBinaryException(this, &quot;Addition failed type match test&quot;, (ProtoN) pF));</span>
-<span class="fc" id="L455">		setReal(getReal() + ((ComplexD) pF).getReal());</span>
-<span class="fc" id="L456">		setImg(getImg() + ((ComplexD) pF).getImg());</span>
-<span class="fc" id="L457">		return this;</span>
+<span class="fc bfc" id="L456" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L457" title="1 of 4 branches missed.">				|| ComplexD.isNaN(this) 		|| ComplexD.isNaN((ComplexD) pF)</span>
+<span class="pc bpc" id="L458" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) 	|| ComplexD.isInfinite((ComplexD) pF))</span>
+<span class="fc" id="L459">			throw (new FieldBinaryException(this, &quot;Addition failed type match test&quot;, (ProtoN) pF));</span>
+<span class="fc" id="L460">		setReal(getReal() + ((ComplexD) pF).getReal());</span>
+<span class="fc" id="L461">		setImg(getImg() + ((ComplexD) pF).getImg());</span>
+<span class="fc" id="L462">		return this;</span>
 	}
 
 	/**
@@ -465,12 +470,13 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD conjugate() {
-<span class="fc" id="L468">		setImg(-1.0D * getImg());</span>
-<span class="fc" id="L469">		return this;</span>
+<span class="fc" id="L473">		setImg(-1.0D * getImg());</span>
+<span class="fc" id="L474">		return this;</span>
 	}
 
 	/**
 	 * This method divides real numbers and changes this object to be the result.
+	 * Note that type matching is not done.
 	 * &lt;br&gt;
 	 * @param pF Field
 	 * @throws FieldBinaryException This exception occurs when field mismatches or
@@ -479,18 +485,18 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD divide(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L482" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
-<span class="pc bpc" id="L483" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
-<span class="fc" id="L484">			throw (new FieldBinaryException(this, &quot;Divide failed type match or size test&quot;, (ProtoN) pF));</span>
-<span class="fc bfc" id="L485" title="All 2 branches covered.">		if (ComplexD.isZero((ComplexD) pF))</span>
-<span class="fc" id="L486">			throw (new FieldBinaryException(this, &quot;Divide by Zero detected&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L488" title="1 of 4 branches missed.">		if (ComplexD.isNaN(this) 				|| ComplexD.isNaN((ComplexD) pF)</span>
+<span class="pc bpc" id="L489" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) 	|| ComplexD.isInfinite((ComplexD) pF))</span>
+<span class="fc" id="L490">			throw (new FieldBinaryException(this, &quot;Divide failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L491" title="All 2 branches covered.">		if (ComplexD.isZero((ComplexD) pF))</span>
+<span class="fc" id="L492">			throw (new FieldBinaryException(this, &quot;Divide by Zero detected&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L488">		ComplexD tempZ = ComplexD.copyOf((ComplexD) pF);</span>
-<span class="fc" id="L489">		tempZ.conjugate();</span>
-<span class="fc" id="L490">		multiply(tempZ);</span>
-<span class="fc" id="L491">		tempZ.conjugate();</span>
-<span class="fc" id="L492">		scale(Double.valueOf(1.0D / tempZ.sqModulus()));</span>
-<span class="fc" id="L493">		return this;</span>
+<span class="fc" id="L494">		ComplexD tempZ = ComplexD.copyOf((ComplexD) pF);</span>
+<span class="fc" id="L495">		tempZ.conjugate();</span>
+<span class="fc" id="L496">		multiply(tempZ);</span>
+<span class="fc" id="L497">		tempZ.conjugate();</span>
+<span class="fc" id="L498">		scale(Double.valueOf(1.0D / tempZ.sqModulus()));</span>
+<span class="fc" id="L499">		return this;</span>
 	}
 
 	/**
@@ -500,10 +506,10 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return double
 	 */
 	public double getArgument() {
-<span class="pc bpc" id="L503" title="1 of 2 branches missed.">		if (!ComplexD.isImaginary(this))</span>
-<span class="fc" id="L504">			return Math.atan(getImg() / getReal());</span>
+<span class="pc bpc" id="L509" title="1 of 2 branches missed.">		if (!ComplexD.isImaginary(this))</span>
+<span class="fc" id="L510">			return Math.atan(getImg() / getReal());</span>
 
-<span class="nc bnc" id="L506" title="All 2 branches missed.">		return (getImg() &gt;= 0) ? Math.PI / 2.0D : 3.0D * Math.PI / 2.0D;</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">		return (getImg() &gt;= 0) ? Math.PI / 2.0D : 3.0D * Math.PI / 2.0D;</span>
 	}
 
 	/**
@@ -512,7 +518,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return double
 	 */
 	public double getImg() {
-<span class="fc" id="L515">		return vals[1];</span>
+<span class="fc" id="L521">		return vals[1];</span>
 	}
 
 	/**
@@ -523,7 +529,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Double modulus() {
-<span class="fc" id="L526">		return Double.valueOf(Math.sqrt(sqModulus()));</span>
+<span class="fc" id="L532">		return Double.valueOf(Math.sqrt(sqModulus()));</span>
 	}
 
 	/**
@@ -532,7 +538,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return double
 	 */
 	public double getReal() {
-<span class="fc" id="L535">		return vals[0];</span>
+<span class="fc" id="L541">		return vals[0];</span>
 	}
 
 	/**
@@ -544,10 +550,10 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Double sqModulus() {
-<span class="fc" id="L547">		double tR = 0d;</span>
-<span class="fc bfc" id="L548" title="All 2 branches covered.">		for (double point : vals)</span>
-<span class="fc" id="L549">			tR += point * point;</span>
-<span class="fc" id="L550">		return Double.valueOf(tR);</span>
+<span class="fc" id="L553">		double tR = 0d;</span>
+<span class="fc bfc" id="L554" title="All 2 branches covered.">		for (double point : vals)</span>
+<span class="fc" id="L555">			tR += point * point;</span>
+<span class="fc" id="L556">		return Double.valueOf(tR);</span>
 	}
 
 	/**
@@ -559,18 +565,19 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD invert() throws FieldException {
-<span class="fc bfc" id="L562" title="All 2 branches covered.">		if (ComplexD.isZero(this))</span>
-<span class="fc" id="L563">			throw new FieldException(this, &quot;Can't invert a zero ComplexD&quot;);</span>
+<span class="fc bfc" id="L568" title="All 2 branches covered.">		if (ComplexD.isZero(this))</span>
+<span class="fc" id="L569">			throw new FieldException(this, &quot;Can't invert a zero ComplexD&quot;);</span>
 
-<span class="fc" id="L565">		double tM = 1.0 / modulus();</span>
-<span class="fc" id="L566">		double tA = -1.0 * getArgument();</span>
-<span class="fc" id="L567">		setReal(tM * Math.cos(tA));</span>
-<span class="fc" id="L568">		setImg(tM * Math.sin(tA));</span>
-<span class="fc" id="L569">		return this;</span>
+<span class="fc" id="L571">		double tM = 1.0 / modulus();</span>
+<span class="fc" id="L572">		double tA = -1.0 * getArgument();</span>
+<span class="fc" id="L573">		setReal(tM * Math.cos(tA));</span>
+<span class="fc" id="L574">		setImg(tM * Math.sin(tA));</span>
+<span class="fc" id="L575">		return this;</span>
 	}
 
 	/**
 	 * This method multiplies real numbers and changes this object to be the result.
+	 * Note that type matching is not done.
 	 * &lt;br&gt;
 	 * @param pF Field
 	 * @throws FieldBinaryException This exception occurs when field mismatches
@@ -579,13 +586,13 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD multiply(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L582" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
-<span class="pc bpc" id="L583" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
-<span class="fc" id="L584">			throw (new FieldBinaryException(this, &quot;Multiply failed type match test&quot;, (ProtoN) pF));</span>
-<span class="fc" id="L585">		ComplexD tempZ = (ComplexD) pF;</span>
-<span class="fc" id="L586">		setReal(getReal() * tempZ.getReal() - getImg() * tempZ.getImg());</span>
-<span class="fc" id="L587">		setImg(getReal() * tempZ.getImg() + getImg() * tempZ.getReal());</span>
-<span class="fc" id="L588">		return this;</span>
+<span class="pc bpc" id="L589" title="1 of 4 branches missed.">		if (ComplexD.isNaN(this) 				|| ComplexD.isNaN((ComplexD) pF)</span>
+<span class="pc bpc" id="L590" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) 	|| ComplexD.isInfinite((ComplexD) pF))</span>
+<span class="fc" id="L591">			throw (new FieldBinaryException(this, &quot;Multiply failed type match test&quot;, (ProtoN) pF));</span>
+<span class="fc" id="L592">		ComplexD tempZ = (ComplexD) pF;</span>
+<span class="fc" id="L593">		setReal(getReal() * tempZ.getReal() - getImg() * tempZ.getImg());</span>
+<span class="fc" id="L594">		setImg(getReal() * tempZ.getImg() + getImg() * tempZ.getReal());</span>
+<span class="fc" id="L595">		return this;</span>
 	}
 
 	/**
@@ -596,9 +603,9 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD scale(Number pS) {
-<span class="fc" id="L599">		setReal(pS.doubleValue() * getReal());</span>
-<span class="fc" id="L600">		setImg(pS.doubleValue() * getImg());</span>
-<span class="fc" id="L601">		return this;</span>
+<span class="fc" id="L606">		setReal(pS.doubleValue() * getReal());</span>
+<span class="fc" id="L607">		setImg(pS.doubleValue() * getImg());</span>
+<span class="fc" id="L608">		return this;</span>
 	}
 
 	/**
@@ -608,8 +615,8 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD this number
 	 */
 	public ComplexD setImg(double pimg) {
-<span class="fc" id="L611">		vals[1] = pimg;</span>
-<span class="fc" id="L612">		return this;</span>
+<span class="fc" id="L618">		vals[1] = pimg;</span>
+<span class="fc" id="L619">		return this;</span>
 	}
 
 	/**
@@ -619,8 +626,8 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return ComplexD this number
 	 */
 	public ComplexD setReal(double preal) {
-<span class="fc" id="L622">		vals[0] = preal;</span>
-<span class="fc" id="L623">		return this;</span>
+<span class="fc" id="L629">		vals[0] = preal;</span>
+<span class="fc" id="L630">		return this;</span>
 	}
 
 	/**
@@ -633,13 +640,14 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexD subtract(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L636" title="1 of 6 branches missed.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) || ComplexD.isNaN(this) || ComplexD.isNaN((ComplexD) pF)</span>
-<span class="pc bpc" id="L637" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) || ComplexD.isInfinite((ComplexD) pF))</span>
-<span class="fc" id="L638">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L643" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L644" title="1 of 4 branches missed.">				|| ComplexD.isNaN(this) 		|| ComplexD.isNaN((ComplexD) pF)</span>
+<span class="pc bpc" id="L645" title="1 of 4 branches missed.">				|| ComplexD.isInfinite(this) 	|| ComplexD.isInfinite((ComplexD) pF))</span>
+<span class="fc" id="L646">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 		
-<span class="fc" id="L640">		setReal(getReal() - ((ComplexD) pF).getReal());</span>
-<span class="fc" id="L641">		setImg(getImg() - ((ComplexD) pF).getImg());</span>
-<span class="fc" id="L642">		return this;</span>
+<span class="fc" id="L648">		setReal(getReal() - ((ComplexD) pF).getReal());</span>
+<span class="fc" id="L649">		setImg(getImg() - ((ComplexD) pF).getImg());</span>
+<span class="fc" id="L650">		return this;</span>
 	}
 
 	/**
@@ -649,7 +657,7 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L652">		return (getReal() + &quot;DR, &quot; + getImg() + &quot;DI&quot;);</span>
+<span class="fc" id="L660">		return (getReal() + &quot;DR, &quot; + getImg() + &quot;DI&quot;);</span>
 	}
 
 	/**
@@ -659,8 +667,8 @@ public class ComplexD extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(ComplexD pN) {
-<span class="fc" id="L662">		return (&quot;&lt;ComplexD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; img=\&quot;&quot;</span>
-<span class="fc" id="L663">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
+<span class="fc" id="L670">		return (&quot;&lt;ComplexD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; img=\&quot;&quot;</span>
+<span class="fc" id="L671">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

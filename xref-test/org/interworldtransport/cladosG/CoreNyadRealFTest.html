@@ -102,7 +102,7 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  		@Test
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  		<strong class="jxr_keyword">void</strong> testShouldntHappens() {
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  			thing1.remove(motion);
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  			assertTrue(thing1.getMOrder() == 0);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  			assertTrue(thing1.arity() == 0);
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  			assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; <strong class="jxr_keyword">new</strong> Nyad(<span class="jxr_string">""</span>, thing1, false));
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  			assertThrows(IllegalArgumentException.<strong class="jxr_keyword">class</strong>, () -&gt; <strong class="jxr_keyword">new</strong> Nyad(<span class="jxr_string">""</span>, thing1, <strong class="jxr_keyword">true</strong>));
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> 		}
@@ -117,28 +117,28 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 			String newCard = <span class="jxr_string">"iso"</span>;
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 			thing1.create(newMName, newAName, newSig, newCard);
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 			thing1.create(newMName, newAName, newSig, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> 
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> 			thing1.create(newMName, newAName, newSig, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> 
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> 			thing1.create(newMName, newAName, newSig, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L126" href="#L126">126</a> 
 <a class="jxr_linenumber" name="L127" href="#L127">127</a> 			Cardinal testCard = Cardinal.generate(newCard);
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 			thing1.create(newMName, newAName, newSig, testCard.getUnit());
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> 			thing1.create(newMName, aName, newSig, newCard);
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 			assertTrue(thing1.isComposition());								<em class="jxr_comment">//aName algebra got re-used and newSig IGNORED!</em>
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 			thing1.remove(1);
 <a class="jxr_linenumber" name="L136" href="#L136">136</a> 		}
@@ -163,17 +163,17 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 			thing2.setMonadList(<strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(thing1.monadList));					<em class="jxr_comment">//Copy thing1's monadList into thing2</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 			assertTrue(Nyad.isNEqual(thing2, thing1));								<em class="jxr_comment">//Now they are the same</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 			thing2.setMonadList(<strong class="jxr_keyword">null</strong>);											<em class="jxr_comment">//Reinitiates the monadList</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			assertTrue(thing2.getMOrder() == 0);									<em class="jxr_comment">//THIS is how we get empty nyads easily.</em>
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			assertTrue(thing2.arity() == 0);									<em class="jxr_comment">//THIS is how we get empty nyads easily.</em>
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 		}
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 		@Test
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 		<strong class="jxr_keyword">void</strong> testJuxtaposition() <strong class="jxr_keyword">throws</strong> CladosNyadException {
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 			assertTrue(thing1.getMOrder() == 1);
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> 			assertTrue(thing1.getAOrder() == 1);
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 			assertTrue(thing1.arity() == 1);
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 			assertTrue(thing1.algrity() == 1);
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> 			
 <a class="jxr_linenumber" name="L166" href="#L166">166</a> 			thing1.append(property);
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 			assertTrue(thing1.getMOrder() == 2);
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 			assertTrue(thing1.getAOrder() == 2);
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 			assertTrue(thing1.arity() == 2);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 			assertTrue(thing1.algrity() == 2);
 <a class="jxr_linenumber" name="L169" href="#L169">169</a> 			assertTrue(thing1.isJuxtaposition());
 <a class="jxr_linenumber" name="L170" href="#L170">170</a> 		}
 <a class="jxr_linenumber" name="L171" href="#L171">171</a> 
@@ -182,7 +182,7 @@
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 			thing1.appendACopy(motion);
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> 			thing1.appendACopy(motion);
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> 			thing1.appendACopy(motion);
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 			assertTrue(thing1.getMOrder() == 4);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 			assertTrue(thing1.arity() == 4);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a> 			assertTrue(thing1.isComposition());
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> 			thing1.appendACopy(property);
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> 			assertFalse(thing1.isComposition());
@@ -193,8 +193,8 @@
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 			thing1.appendACopy(motion);											<em class="jxr_comment">//two copies of same monad</em>
 <a class="jxr_linenumber" name="L186" href="#L186">186</a> 			thing1.append(property);											<em class="jxr_comment">//appended distinct monad with new algebra</em>
 <a class="jxr_linenumber" name="L187" href="#L187">187</a> 			thing1.appendACopy(property);										<em class="jxr_comment">//two copies of each monad (total 4)</em>
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			assertTrue(thing1.getMOrder() == 4);
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			assertTrue(thing1.getAOrder() == 2);
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			assertTrue(thing1.arity() == 4);
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			assertTrue(thing1.algrity() == 2);
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 			assertTrue(thing1.isMixed());										<em class="jxr_comment">//Mixed because MOrder&gt;AOrder and counts&gt;1</em>
 <a class="jxr_linenumber" name="L191" href="#L191">191</a> 
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 			thing1.remove(property);											<em class="jxr_comment">//MOrder = 3, AOrder = 2</em>
@@ -235,8 +235,8 @@
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> 		@Test
 <a class="jxr_linenumber" name="L228" href="#L228">228</a> 		<strong class="jxr_keyword">void</strong> testAlgebraProjection() <strong class="jxr_keyword">throws</strong> CladosNyadException {	<em class="jxr_comment">//Part of the compression concept for juxtapositions.</em>
 <a class="jxr_linenumber" name="L229" href="#L229">229</a> 			thing1.append(property);											<em class="jxr_comment">//two monads. Both = ZERO by construction</em>
-<a class="jxr_linenumber" name="L230" href="#L230">230</a> 			assertTrue(thing1.getMOrder() == 2);
-<a class="jxr_linenumber" name="L231" href="#L231">231</a> 			assertTrue(thing1.getAOrder() == 2);
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 			assertTrue(thing1.arity() == 2);
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 			assertTrue(thing1.algrity() == 2);
 <a class="jxr_linenumber" name="L232" href="#L232">232</a> 			assertTrue(thing1.isJuxtaposition());
 <a class="jxr_linenumber" name="L233" href="#L233">233</a> 
 <a class="jxr_linenumber" name="L234" href="#L234">234</a> 			Nyad.projectReference(property, motion);
@@ -297,7 +297,7 @@
 <a class="jxr_linenumber" name="L289" href="#L289">289</a> 			assertFalse(Nyad.isStrongReferenceMatch(thing3, thing1));								<em class="jxr_comment">//Foot mismatch</em>
 <a class="jxr_linenumber" name="L290" href="#L290">290</a> 
 <a class="jxr_linenumber" name="L291" href="#L291">291</a> 			thing2.remove(property);																<em class="jxr_comment">//empty nyad</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 			assertTrue(thing2.getMOrder() == 0);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 			assertTrue(thing2.arity() == 0);
 <a class="jxr_linenumber" name="L293" href="#L293">293</a> 			assertFalse(Nyad.isStrongReferenceMatch(thing1, thing2));								<em class="jxr_comment">//thing1 is ALL danglers</em>
 <a class="jxr_linenumber" name="L294" href="#L294">294</a> 
 <a class="jxr_linenumber" name="L295" href="#L295">295</a> 			thing2.appendACopy(motion);
@@ -453,8 +453,8 @@
 <a class="jxr_linenumber" name="L445" href="#L445">445</a> 		@Test
 <a class="jxr_linenumber" name="L446" href="#L446">446</a> 		<strong class="jxr_keyword">void</strong> testScaleIn() <strong class="jxr_keyword">throws</strong> CladosNyadException {
 <a class="jxr_linenumber" name="L447" href="#L447">447</a> 			thing1.appendACopy(property);
-<a class="jxr_linenumber" name="L448" href="#L448">448</a> 			assertTrue(thing1.getMOrder() == 3);
-<a class="jxr_linenumber" name="L449" href="#L449">449</a> 			assertTrue(thing1.getAOrder() == 2);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> 			assertTrue(thing1.arity() == 3);
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> 			assertTrue(thing1.algrity() == 2);
 <a class="jxr_linenumber" name="L450" href="#L450">450</a> 			thing1.scaleUsing(property.getAlgebra(), RealF.newONE(charge).scale(3.0f));			<em class="jxr_comment">//now property is scalar = 6.</em>
 <a class="jxr_linenumber" name="L451" href="#L451">451</a> 			assertTrue(thing1.monadInAlgebraStream(property.getAlgebra()).allMatch(x -&gt; ((RealF) x.getWeights().getScalar()).getReal() == 6.0f));
 <a class="jxr_linenumber" name="L452" href="#L452">452</a> 																									<em class="jxr_comment">//scaled EVERY monad in the property algebra</em>
@@ -467,33 +467,33 @@
 <a class="jxr_linenumber" name="L459" href="#L459">459</a> 			assertTrue(thing1.isMixed());
 <a class="jxr_linenumber" name="L460" href="#L460">460</a> 			thing1.remove(property);
 <a class="jxr_linenumber" name="L461" href="#L461">461</a> 			assertTrue(thing1.isJuxtaposition());
-<a class="jxr_linenumber" name="L462" href="#L462">462</a> 			assertTrue(thing1.getMOrder() == 2);
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> 			assertTrue(thing1.arity() == 2);
 <a class="jxr_linenumber" name="L463" href="#L463">463</a> 
 <a class="jxr_linenumber" name="L464" href="#L464">464</a> 			thing1.remove(thing1.find(property.getAlgebra()));										<em class="jxr_comment">//only removes one</em>
-<a class="jxr_linenumber" name="L465" href="#L465">465</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L465" href="#L465">465</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L466" href="#L466">466</a> 
 <a class="jxr_linenumber" name="L467" href="#L467">467</a> 			thing1.append(property);																<em class="jxr_comment">//back to juxtaposition</em>
 <a class="jxr_linenumber" name="L468" href="#L468">468</a> 			thing1.append(property);																<em class="jxr_comment">//won't get appended because it is there!</em>
 <a class="jxr_linenumber" name="L469" href="#L469">469</a> 			assertFalse(thing1.isMixed());															<em class="jxr_comment">//would be true if append didn't check for dupes.</em>
 <a class="jxr_linenumber" name="L470" href="#L470">470</a> 			thing1.appendACopy(property);
 <a class="jxr_linenumber" name="L471" href="#L471">471</a> 			thing1.appendACopy(property);															<em class="jxr_comment">//MOrder = 4</em>
-<a class="jxr_linenumber" name="L472" href="#L472">472</a> 			assertTrue(thing1.getMOrder() == 4);
+<a class="jxr_linenumber" name="L472" href="#L472">472</a> 			assertTrue(thing1.arity() == 4);
 <a class="jxr_linenumber" name="L473" href="#L473">473</a> 			assertTrue(thing1.isMixed());															<em class="jxr_comment">//is true because appendACopy doesn't append a dupe.</em>
 <a class="jxr_linenumber" name="L474" href="#L474">474</a> 			
 <a class="jxr_linenumber" name="L475" href="#L475">475</a> 			thing1.remove(thing1.findNext(property.getAlgebra(), 2));						<em class="jxr_comment">//only removes one copy</em>
-<a class="jxr_linenumber" name="L476" href="#L476">476</a> 			assertTrue(thing1.getMOrder() == 3);
+<a class="jxr_linenumber" name="L476" href="#L476">476</a> 			assertTrue(thing1.arity() == 3);
 <a class="jxr_linenumber" name="L477" href="#L477">477</a> 			thing1.remove(property);																<em class="jxr_comment">//removes the monad at 'property' reference</em>
-<a class="jxr_linenumber" name="L478" href="#L478">478</a> 			assertTrue(thing1.getMOrder() == 2);													<em class="jxr_comment">//property algebra still in use, but we have</em>
+<a class="jxr_linenumber" name="L478" href="#L478">478</a> 			assertTrue(thing1.arity() == 2);													<em class="jxr_comment">//property algebra still in use, but we have</em>
 <a class="jxr_linenumber" name="L479" href="#L479">479</a> 																									<em class="jxr_comment">//no reference to the monad using it.</em>
 <a class="jxr_linenumber" name="L480" href="#L480">480</a> 			assertTrue(thing1.findNext(property.getAlgebra(), 2) == -1);					<em class="jxr_comment">//Nothing out there. List is smaller.</em>
 <a class="jxr_linenumber" name="L481" href="#L481">481</a> 			assertTrue(thing1.findNext(motion.getAlgebra(), 1) == -1);						<em class="jxr_comment">//motion happens to be in the 0 position.</em>
 <a class="jxr_linenumber" name="L482" href="#L482">482</a> 
 <a class="jxr_linenumber" name="L483" href="#L483">483</a> 			thing1.remove(property);																<em class="jxr_comment">//Try to remove it using old reference.</em>
-<a class="jxr_linenumber" name="L484" href="#L484">484</a> 			assertTrue(thing1.getMOrder() == 2);													<em class="jxr_comment">//Proof we didn't succeed. Shows appendACopy works.</em>
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 			assertTrue(thing1.arity() == 2);													<em class="jxr_comment">//Proof we didn't succeed. Shows appendACopy works.</em>
 <a class="jxr_linenumber" name="L485" href="#L485">485</a> 			assertTrue(thing1.isJuxtaposition());
 <a class="jxr_linenumber" name="L486" href="#L486">486</a> 
 <a class="jxr_linenumber" name="L487" href="#L487">487</a> 			thing1.remove(10);															<em class="jxr_comment">//Out of bounds index should do nothing</em>
-<a class="jxr_linenumber" name="L488" href="#L488">488</a> 			assertTrue(thing1.getMOrder() == 2);													<em class="jxr_comment">//Proof nothing happened.</em>
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> 			assertTrue(thing1.arity() == 2);													<em class="jxr_comment">//Proof nothing happened.</em>
 <a class="jxr_linenumber" name="L489" href="#L489">489</a> 		}
 <a class="jxr_linenumber" name="L490" href="#L490">490</a> 
 <a class="jxr_linenumber" name="L491" href="#L491">491</a> 		@Test 
@@ -501,10 +501,10 @@
 <a class="jxr_linenumber" name="L493" href="#L493">493</a> 			thing1.appendACopy(property);
 <a class="jxr_linenumber" name="L494" href="#L494">494</a> 			thing1.appendACopy(property);
 <a class="jxr_linenumber" name="L495" href="#L495">495</a> 			thing1.appendACopy(property);
-<a class="jxr_linenumber" name="L496" href="#L496">496</a> 			assertTrue(thing1.getMOrder() == 5);													<em class="jxr_comment">//One motion monad. Four property monads.</em>
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 			assertTrue(thing1.arity() == 5);													<em class="jxr_comment">//One motion monad. Four property monads.</em>
 <a class="jxr_linenumber" name="L497" href="#L497">497</a> 
 <a class="jxr_linenumber" name="L498" href="#L498">498</a> 			thing1.removeAt(property.getAlgebra());													<em class="jxr_comment">//remove all monads using property's algebra</em>
-<a class="jxr_linenumber" name="L499" href="#L499">499</a> 			assertTrue(thing1.getMOrder() == 1);													<em class="jxr_comment">//just one left.</em>
+<a class="jxr_linenumber" name="L499" href="#L499">499</a> 			assertTrue(thing1.arity() == 1);													<em class="jxr_comment">//just one left.</em>
 <a class="jxr_linenumber" name="L500" href="#L500">500</a> 		}
 <a class="jxr_linenumber" name="L501" href="#L501">501</a> 
 <a class="jxr_linenumber" name="L502" href="#L502">502</a> 		@Test
@@ -570,7 +570,7 @@
 <a class="jxr_linenumber" name="L562" href="#L562">562</a> 			thing1.push(-1);
 <a class="jxr_linenumber" name="L563" href="#L563">563</a> 			assertTrue(thing1.find(motion) == 1);
 <a class="jxr_linenumber" name="L564" href="#L564">564</a> 			assertTrue(thing1.find(property) == 0);
-<a class="jxr_linenumber" name="L565" href="#L565">565</a> 			thing1.push(thing1.getMOrder());
+<a class="jxr_linenumber" name="L565" href="#L565">565</a> 			thing1.push(thing1.arity());
 <a class="jxr_linenumber" name="L566" href="#L566">566</a> 			assertTrue(thing1.find(motion) == 1);
 <a class="jxr_linenumber" name="L567" href="#L567">567</a> 			assertTrue(thing1.find(property) == 0);
 <a class="jxr_linenumber" name="L568" href="#L568">568</a> 		}
@@ -685,7 +685,7 @@
 <a class="jxr_linenumber" name="L677" href="#L677">677</a> 
 <a class="jxr_linenumber" name="L678" href="#L678">678</a> 			thing1.multiplyLeftward(motion, reflect);
 <a class="jxr_linenumber" name="L679" href="#L679">679</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L680" href="#L680">680</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L680" href="#L680">680</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L681" href="#L681">681</a> 			assertTrue(Monad.hasGrade(motion, 2));				<em class="jxr_comment">//Should be grade 0 and 2</em>
 <a class="jxr_linenumber" name="L682" href="#L682">682</a> 		}
 <a class="jxr_linenumber" name="L683" href="#L683">683</a> 
@@ -706,7 +706,7 @@
 <a class="jxr_linenumber" name="L698" href="#L698">698</a> 
 <a class="jxr_linenumber" name="L699" href="#L699">699</a> 			thing1.multiplyLeftward(0, 1);
 <a class="jxr_linenumber" name="L700" href="#L700">700</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L701" href="#L701">701</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L701" href="#L701">701</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L702" href="#L702">702</a> 			assertTrue(Monad.hasGrade(motion, 2));				<em class="jxr_comment">//Should be grade 0 and 2</em>
 <a class="jxr_linenumber" name="L703" href="#L703">703</a> 		}
 <a class="jxr_linenumber" name="L704" href="#L704">704</a> 
@@ -727,7 +727,7 @@
 <a class="jxr_linenumber" name="L719" href="#L719">719</a> 
 <a class="jxr_linenumber" name="L720" href="#L720">720</a> 			thing1.multiplyRightward(reflect, motion);
 <a class="jxr_linenumber" name="L721" href="#L721">721</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L722" href="#L722">722</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L722" href="#L722">722</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L723" href="#L723">723</a> 			assertTrue(Monad.hasGrade(motion, 2));				<em class="jxr_comment">//Should be grade 0 and 2</em>
 <a class="jxr_linenumber" name="L724" href="#L724">724</a> 		}
 <a class="jxr_linenumber" name="L725" href="#L725">725</a> 
@@ -748,7 +748,7 @@
 <a class="jxr_linenumber" name="L740" href="#L740">740</a> 
 <a class="jxr_linenumber" name="L741" href="#L741">741</a> 			thing1.multiplyRightward(0, 1);
 <a class="jxr_linenumber" name="L742" href="#L742">742</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L743" href="#L743">743</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L743" href="#L743">743</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L744" href="#L744">744</a> 			assertTrue(Monad.hasGrade(motion, 2));				<em class="jxr_comment">//Should be grade 0 and 2</em>
 <a class="jxr_linenumber" name="L745" href="#L745">745</a> 		}
 <a class="jxr_linenumber" name="L746" href="#L746">746</a> 
@@ -766,7 +766,7 @@
 <a class="jxr_linenumber" name="L758" href="#L758">758</a> 
 <a class="jxr_linenumber" name="L759" href="#L759">759</a> 			thing1.sandwich(motion, boost);
 <a class="jxr_linenumber" name="L760" href="#L760">760</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L761" href="#L761">761</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L761" href="#L761">761</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L762" href="#L762">762</a> 			assertTrue(Monad.isGrade(motion, 1));				<em class="jxr_comment">//Should be grade 1 only</em>
 <a class="jxr_linenumber" name="L763" href="#L763">763</a> 		}
 <a class="jxr_linenumber" name="L764" href="#L764">764</a> 
@@ -784,7 +784,7 @@
 <a class="jxr_linenumber" name="L776" href="#L776">776</a> 
 <a class="jxr_linenumber" name="L777" href="#L777">777</a> 			thing1.sandwich(0, 1);
 <a class="jxr_linenumber" name="L778" href="#L778">778</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L779" href="#L779">779</a> 			assertTrue(thing1.getMOrder() == 1);
+<a class="jxr_linenumber" name="L779" href="#L779">779</a> 			assertTrue(thing1.arity() == 1);
 <a class="jxr_linenumber" name="L780" href="#L780">780</a> 			assertTrue(Monad.isGrade(motion, 1));				<em class="jxr_comment">//Should be grade 1 only</em>
 <a class="jxr_linenumber" name="L781" href="#L781">781</a> 		}
 <a class="jxr_linenumber" name="L782" href="#L782">782</a> 
@@ -809,7 +809,7 @@
 <a class="jxr_linenumber" name="L801" href="#L801">801</a> 
 <a class="jxr_linenumber" name="L802" href="#L802">802</a> 			thing1.sandwich(motion, boost, thing2);
 <a class="jxr_linenumber" name="L803" href="#L803">803</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L804" href="#L804">804</a> 			assertTrue(thing2.getMOrder() == 0);
+<a class="jxr_linenumber" name="L804" href="#L804">804</a> 			assertTrue(thing2.arity() == 0);
 <a class="jxr_linenumber" name="L805" href="#L805">805</a> 			assertTrue(Monad.isGrade(motion, 1));				<em class="jxr_comment">//Should be grade 1 only</em>
 <a class="jxr_linenumber" name="L806" href="#L806">806</a> 		}
 <a class="jxr_linenumber" name="L807" href="#L807">807</a> 
@@ -832,7 +832,7 @@
 <a class="jxr_linenumber" name="L824" href="#L824">824</a> 
 <a class="jxr_linenumber" name="L825" href="#L825">825</a> 			thing1.sandwich(0, 0, thing2);
 <a class="jxr_linenumber" name="L826" href="#L826">826</a> 			assertTrue(thing1.getMonadAt(0) == motion);
-<a class="jxr_linenumber" name="L827" href="#L827">827</a> 			assertTrue(thing2.getMOrder() == 0);
+<a class="jxr_linenumber" name="L827" href="#L827">827</a> 			assertTrue(thing2.arity() == 0);
 <a class="jxr_linenumber" name="L828" href="#L828">828</a> 			assertTrue(Monad.isGrade(motion, 1));				<em class="jxr_comment">//Should be grade 1 only</em>
 <a class="jxr_linenumber" name="L829" href="#L829">829</a> 		}
 <a class="jxr_linenumber" name="L830" href="#L830">830</a> 
@@ -859,19 +859,19 @@
 <a class="jxr_linenumber" name="L851" href="#L851">851</a> 			thing1.compressSymm(property, motion);									<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
 <a class="jxr_linenumber" name="L852" href="#L852">852</a> 			assertTrue(thing1.getMonadAt(0) == property);
 <a class="jxr_linenumber" name="L853" href="#L853">853</a> 	
-<a class="jxr_linenumber" name="L854" href="#L854">854</a> 			assertTrue(thing1.getMOrder() == 1);									
-<a class="jxr_linenumber" name="L855" href="#L855">855</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
+<a class="jxr_linenumber" name="L854" href="#L854">854</a> 			assertTrue(thing1.arity() == 1);									
+<a class="jxr_linenumber" name="L855" href="#L855">855</a> 			assertTrue(thing1.algrity() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
 <a class="jxr_linenumber" name="L856" href="#L856">856</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
 <a class="jxr_linenumber" name="L857" href="#L857">857</a> 			
 <a class="jxr_linenumber" name="L858" href="#L858">858</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
 <a class="jxr_linenumber" name="L859" href="#L859">859</a> 			thing1.compressSymm(newMotion, property);								<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L860" href="#L860">860</a> 			assertTrue(thing1.getMOrder() == 1);									
-<a class="jxr_linenumber" name="L861" href="#L861">861</a> 			assertTrue(thing1.getAOrder() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
+<a class="jxr_linenumber" name="L860" href="#L860">860</a> 			assertTrue(thing1.arity() == 1);									
+<a class="jxr_linenumber" name="L861" href="#L861">861</a> 			assertTrue(thing1.algrity() == 1);									<em class="jxr_comment">//(It happens with only one monad)</em>
 <a class="jxr_linenumber" name="L862" href="#L862">862</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 2.0f);
 <a class="jxr_linenumber" name="L863" href="#L863">863</a> 
 <a class="jxr_linenumber" name="L864" href="#L864">864</a> 			thing1.append(newProperty);
 <a class="jxr_linenumber" name="L865" href="#L865">865</a> 			assertDoesNotThrow(() -&gt; thing1.compressSymm(0, 1));	<em class="jxr_comment">//property winds up with motion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L866" href="#L866">866</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
+<a class="jxr_linenumber" name="L866" href="#L866">866</a> 			assertTrue(thing1.arity() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
 <a class="jxr_linenumber" name="L867" href="#L867">867</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
 <a class="jxr_linenumber" name="L868" href="#L868">868</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressSymm(0, 1));
 <a class="jxr_linenumber" name="L869" href="#L869">869</a> 
@@ -889,21 +889,21 @@
 <a class="jxr_linenumber" name="L881" href="#L881">881</a> 			
 <a class="jxr_linenumber" name="L882" href="#L882">882</a> 			thing1.compressAntiSymm(property, motion);								<em class="jxr_comment">//motion gets property's algebra and cardinal</em>
 <a class="jxr_linenumber" name="L883" href="#L883">883</a> 			assertTrue(thing1.getMonadAt(0) == property);
-<a class="jxr_linenumber" name="L884" href="#L884">884</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
+<a class="jxr_linenumber" name="L884" href="#L884">884</a> 			assertTrue(thing1.arity() == 1);									<em class="jxr_comment">//One left</em>
 <a class="jxr_linenumber" name="L885" href="#L885">885</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);	<em class="jxr_comment">//Because anti-symmetric</em>
 <a class="jxr_linenumber" name="L886" href="#L886">886</a> 			
 <a class="jxr_linenumber" name="L887" href="#L887">887</a> 			thing1.append(newMotion).pop(newMotion);								<em class="jxr_comment">//Back to a juxtaposition</em>
 <a class="jxr_linenumber" name="L888" href="#L888">888</a> 			((RealF) property.getWeights().getScalar()).setReal(2.0f);		<em class="jxr_comment">//Now property is back to scalar = 2.</em>
 <a class="jxr_linenumber" name="L889" href="#L889">889</a> 			
 <a class="jxr_linenumber" name="L890" href="#L890">890</a> 			thing1.compressAntiSymm(newMotion, property);							<em class="jxr_comment">//property gets newMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L891" href="#L891">891</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//One left</em>
+<a class="jxr_linenumber" name="L891" href="#L891">891</a> 			assertTrue(thing1.arity() == 1);									<em class="jxr_comment">//One left</em>
 <a class="jxr_linenumber" name="L892" href="#L892">892</a> 			assertTrue(((RealF) thing1.getMonadAt(0).getWeights().getScalar()).getReal() == 0.0f);
 <a class="jxr_linenumber" name="L893" href="#L893">893</a> 			
 <a class="jxr_linenumber" name="L894" href="#L894">894</a> 			thing1.append(newProperty);
 <a class="jxr_linenumber" name="L895" href="#L895">895</a> 			((RealF) newMotion.getWeights().getScalar()).setReal(1.0f);		<em class="jxr_comment">//Now newMotion is back to scalar = 1.</em>
 <a class="jxr_linenumber" name="L896" href="#L896">896</a> 			
 <a class="jxr_linenumber" name="L897" href="#L897">897</a> 			assertDoesNotThrow(() -&gt; thing1.compressAntiSymm(0, 1));	<em class="jxr_comment">//NewPproperty winds up with NewMotion's algebra and cardinal</em>
-<a class="jxr_linenumber" name="L898" href="#L898">898</a> 			assertTrue(thing1.getMOrder() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
+<a class="jxr_linenumber" name="L898" href="#L898">898</a> 			assertTrue(thing1.arity() == 1);									<em class="jxr_comment">//Test caused mutation of thing1.</em>
 <a class="jxr_linenumber" name="L899" href="#L899">899</a> 																					<em class="jxr_comment">//So doing it again should causes out of bounds</em>
 <a class="jxr_linenumber" name="L900" href="#L900">900</a> 			assertThrows(IndexOutOfBoundsException.<strong class="jxr_keyword">class</strong>, () -&gt; thing1.compressAntiSymm(0, 1));
 <a class="jxr_linenumber" name="L901" href="#L901">901</a> 			

@@ -319,7 +319,7 @@ import org.interworldtransport.cladosGExceptions.*;
 <span class="fc bfc" id="L319" title="All 2 branches covered.">		if (pB.isPresent()) {</span>
 <span class="fc" id="L320">			GCache.INSTANCE.appendBasis(pB.get()); 					//append to ensure it's findable</span>
 <span class="fc" id="L321">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
-<span class="fc" id="L322">		} else {</span>
+		} else {
 <span class="fc" id="L323">			tSpot = Optional.ofNullable(createGProduct(pSig));</span>
 <span class="fc" id="L324">			GCache.INSTANCE.appendBasis(tSpot.get().getBasis());	//new one to append</span>
 		}
@@ -354,7 +354,7 @@ import org.interworldtransport.cladosGExceptions.*;
 <span class="fc bfc" id="L354" title="All 2 branches covered.">		if (tB.isPresent()){</span>
 <span class="fc" id="L355">			tSpot2 = new GProduct(tB, pSig);</span>
 <span class="fc" id="L356">			GCache.INSTANCE.appendGProduct(tSpot2);</span>
-<span class="fc" id="L357">		}</span>
+		}
 		else {
 <span class="fc" id="L359">			tSpot2 = new GProduct(pSig);</span>
 <span class="fc" id="L360">			GCache.INSTANCE.appendBasis(tSpot2.getBasis());	//new one to append</span>
@@ -424,8 +424,8 @@ import org.interworldtransport.cladosGExceptions.*;
 <span class="fc" id="L424">		return new Monad(	pName, 		//A String</span>
 <span class="fc" id="L425">							createAlgebraWithFootGP(createFoot(pFoot, pNumbers.getCardinal().getUnit()), </span>
 <span class="fc" id="L426">													createGProduct(Optional.ofNullable(pNumbers.getBasis()), pSig),</span>
-<span class="fc" id="L427">													pName),</span>
-<span class="fc" id="L428">							pNumbers);	//A Scale object use for weights AND the basis</span>
+													pName),
+							pNumbers);	//A Scale object use for weights AND the basis
 	}
 
 	/**

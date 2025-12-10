@@ -25,105 +25,102 @@
 package org.interworldtransport.cladosG;
 
 import java.util.stream.Stream;
+import static org.interworldtransport.cladosG.CladosConstant.*;
 
 /**
- * Generators are just place holders representing 'directions' in a space. It
- * is best to think of them as labels for splits in the space where a 'direction'
- * is defined as 'away from the split to this side or that'. 
+ * Generators are just place holders representing 'directions' in a space. It is best to think of them as 
+ * labels for splits in the space where a 'direction' is defined as 'away from the split to this side or that'. 
  * &lt;br&gt;&lt;br&gt;
- * These splits are 'signed' so one can know on which side one is. No other 
- * assumptions are encoded here about magnitudes, directions, or metrics. 
- * A Generator merely represents one split distinct from some other split.
+ * These splits are 'signed' so one can know on which side one is. No other assumptions are encoded here about 
+ * magnitudes, directions, or metrics. A Generator merely represents one split distinct from some other split.
  * &lt;br&gt;&lt;br&gt;
- * The enumeration class works as a builder too. Shared static methods and instance
- * methods 'switch' on their identity determining what gets built and returned.
+ * The enumeration class works as a builder too. Shared static methods and instance methods 'switch' on their 
+ * identity determining what gets built and returned.
  * &lt;br&gt;&lt;br&gt;
- * The enumeration has one instance data element that can't undergo state changes. 
- * Generator keeps in the INTERNAL STATE of each instance a constant byte that 
- * provides an ordinal for finding a matching instance from an integer. This 
- * internal state also provides a comparator an integer for bounds on supported 
- * blade sizes. Most uses of a generator make NO use of the internal state, thus 
- * cannot change it even if it wasn't constant.
+ * The enumeration has one instance data element that can't undergo state changes. Generator keeps in the 
+ * INTERNAL STATE of each instance a constant byte that provides an ordinal for finding a matching instance from an 
+ * integer. This internal state also provides a comparator an integer for bounds on supported blade sizes. Most uses
+ *  of a generator make NO use of the internal state, thus cannot change it even if it wasn't constant.
  * &lt;br&gt;&lt;br&gt;
  * @version 2.0
  * @author Dr Alfred W Differ
  */
-<span class="fc" id="L51">public enum Generator {</span>
-<span class="fc" id="L52">	/**</span>
+<span class="fc" id="L48">public enum Generator {</span>
+	/**
 	 * This is the first generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L56">	E1((byte) 1),</span>
-<span class="fc" id="L57">	/**</span>
+<span class="fc" id="L53">	E1((byte) 1),</span>
+	/**
 	 * This is the second generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L61">	E2((byte) 2),</span>
-<span class="fc" id="L62">	/**</span>
+<span class="fc" id="L58">	E2((byte) 2),</span>
+	/**
 	 * This is the third generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L66">	E3((byte) 3),</span>
-<span class="fc" id="L67">	/**</span>
+<span class="fc" id="L63">	E3((byte) 3),</span>
+	/**
 	 * This is the fourth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L71">	E4((byte) 4),</span>
-<span class="fc" id="L72">	/**</span>
+<span class="fc" id="L68">	E4((byte) 4),</span>
+	/**
 	 * This is the fifth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L76">	E5((byte) 5),</span>
-<span class="fc" id="L77">	/**</span>
+<span class="fc" id="L73">	E5((byte) 5),</span>
+	/**
 	 * This is the sixth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L81">	E6((byte) 6),</span>
-<span class="fc" id="L82">	/**</span>
+<span class="fc" id="L78">	E6((byte) 6),</span>
+	/**
 	 * This is the seventh generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L86">	E7((byte) 7),</span>
-<span class="fc" id="L87">	/**</span>
+<span class="fc" id="L83">	E7((byte) 7),</span>
+	/**
 	 * This is generator number eight. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L91">	E8((byte) 8),</span>
-<span class="fc" id="L92">	/**</span>
+<span class="fc" id="L88">	E8((byte) 8),</span>
+	/**
 	 * This is the ninth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L96">	E9((byte) 9),</span>
-<span class="fc" id="L97">	/**</span>
+<span class="fc" id="L93">	E9((byte) 9),</span>
+	/**
 	 * This is the tenth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L101">	EA((byte) 10),</span>
-<span class="fc" id="L102">	/**</span>
+<span class="fc" id="L98">	EA((byte) 10),</span>
+	/**
 	 * This is generator number elevent. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L106">	EB((byte) 11),</span>
-<span class="fc" id="L107">	/**</span>
+<span class="fc" id="L103">	EB((byte) 11),</span>
+	/**
 	 * This is the twelfth generator. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L111">	EC((byte) 12),</span>
-<span class="fc" id="L112">	/**</span>
+<span class="fc" id="L108">	EC((byte) 12),</span>
+	/**
 	 * This is generator number thirteen. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L116">	ED((byte) 13),</span>
-<span class="fc" id="L117">	/**</span>
+<span class="fc" id="L113">	ED((byte) 13),</span>
+	/**
 	 * This is generator number fourteen. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L121">	EE((byte) 14),</span>
-<span class="fc" id="L122">	/**</span>
+<span class="fc" id="L118">	EE((byte) 14),</span>
+	/**
 	 * This is generator number fifteen. 
 	 * An implicit private constructor exists.
 	 */
-<span class="fc" id="L126">	EF((byte) 15);//,</span>
+<span class="fc" id="L123">	EF((byte) 15);//,</span>
 	/**
 	 * This is generator number sixteen and is likely beyond the maximum size
 	 * most commodity computers can use as they'll run out of memory before 
@@ -140,7 +137,7 @@ import java.util.stream.Stream;
 	 * @return Stream of Generator
 	 */
 	public final static Stream&lt;Generator&gt; stream() {
-<span class="fc" id="L143">		return Stream.of(Generator.values()).limit(CladosConstant.GENERATOR_MAX.ord);</span>
+<span class="fc" id="L140">		return Stream.of(Generator.values()).limit(GENERATOR_MAX.ord);</span>
 	}
 
 	/**
@@ -151,35 +148,33 @@ import java.util.stream.Stream;
 	 * @return Stream of Generator
 	 */
 	public final static Stream&lt;Generator&gt; stream(byte pLimit) {
-<span class="fc" id="L154">		return Stream.of(Generator.values()).limit(pLimit);</span>
+<span class="fc" id="L151">		return Stream.of(Generator.values()).limit(pLimit);</span>
 	}
 
 	/**
-	 * This method connects byte integers to Generator instances. It gets a
-	 * reference to the enumeration instance that has the same ordinal as the byte
-	 * integer parameter.
+	 * This method connects a byte integer to Generator instances. It gets a reference to the enumeration 
+	 * instance that has the same ordinal as the byte integer parameter.
 	 * &lt;br&gt;
 	 * @param pS Offer a byte integer
 	 * @return and get back the corresponding Generator instance
 	 */
 	public final static Generator get(byte pS) {
-<span class="fc bfc" id="L166" title="All 6 branches covered.">		if (pS &lt; CladosConstant.GENERATOR_MIN.ord | pS &gt; CladosConstant.GENERATOR_MAX.ord)</span>
-<span class="fc" id="L167">			return null;</span>
-<span class="fc" id="L168">		return ((Generator[]) Generator.values())[pS - 1];</span>
+<span class="fc bfc" id="L162" title="All 6 branches covered.">		if (pS &lt; GENERATOR_MIN.ord | pS &gt; GENERATOR_MAX.ord)</span>
+<span class="fc" id="L163">			return null;</span>
+<span class="fc" id="L164">		return ((Generator[]) Generator.values())[pS - 1];</span>
 	}
 
 	/**
-	 * This method connects boxed byte integers to Generator instances. It gets a
-	 * reference to the enumeration instance that has the same ordinal as the byte
-	 * integer within the boxed parameter.
+	 * This method connects a boxed byte integer to Generator instances. It gets areference to the 
+	 * enumeration instance that has the same ordinal as the byte integer within the boxed parameter.
 	 * &lt;br&gt;
 	 * @param pS Byte integer offered
 	 * @return and get back the corresponding Generator instance
 	 */
 	public final static Generator get(Byte pS) {
-<span class="fc bfc" id="L180" title="All 6 branches covered.">		if (pS.byteValue() &lt; CladosConstant.GENERATOR_MIN.ord | pS.byteValue() &gt; CladosConstant.GENERATOR_MAX.ord)</span>
-<span class="fc" id="L181">			return null;</span>
-<span class="fc" id="L182">		return ((Generator[]) Generator.values())[pS - 1];</span>
+<span class="fc bfc" id="L175" title="All 6 branches covered.">		if (pS.byteValue() &lt; GENERATOR_MIN.ord | pS.byteValue() &gt; GENERATOR_MAX.ord)</span>
+<span class="fc" id="L176">			return null;</span>
+<span class="fc" id="L177">		return ((Generator[]) Generator.values())[pS - 1];</span>
 	}
 
 	/**
@@ -192,13 +187,13 @@ import java.util.stream.Stream;
 	/*
 	 * A very private constructor that simply sets the ordinal for each instance.
 	 */
-<span class="fc" id="L195">	private Generator(byte ps) {</span>
-<span class="fc" id="L196">		ord = ps;</span>
-<span class="fc" id="L197">	}</span>
+<span class="fc" id="L190">	private Generator(byte ps) {</span>
+<span class="fc" id="L191">		ord = ps;</span>
+<span class="fc" id="L192">	}</span>
 
 	@Override
 	public String toString() {
-<span class="fc" id="L201">		return super.toString();</span>
+<span class="fc" id="L196">		return super.toString();</span>
 	}
 
 }

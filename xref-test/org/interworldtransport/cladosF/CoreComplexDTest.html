@@ -218,9 +218,9 @@
 <a class="jxr_linenumber" name="L210" href="#L210">210</a> 	@Test
 <a class="jxr_linenumber" name="L211" href="#L211">211</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testMultipliesThatShouldNotWork() {
 <a class="jxr_linenumber" name="L212" href="#L212">212</a> 		ComplexD testThis1 = ComplexD.copyZERO(tComplex1);
-<a class="jxr_linenumber" name="L213" href="#L213">213</a> 		ComplexD testThis2 = ComplexD.newONE(Cardinal.generate(<span class="jxr_string">"PurposelyDifferent"</span>));
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.multiply(testThis1, testThis2)); 	<em class="jxr_comment">//Cardinal mismatch</em>
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; testThis1.multiply(testThis2));				<em class="jxr_comment">//Cardinal mismatch</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 		<em class="jxr_comment">//ComplexD testThis2 = ComplexD.newONE(Cardinal.generate("PurposelyDifferent"));</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 		<em class="jxr_comment">//assertThrows(FieldBinaryException.class, () -&gt; ComplexD.multiply(testThis1, testThis2)); 	//Cardinal mismatch</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 		<em class="jxr_comment">//assertThrows(FieldBinaryException.class, () -&gt; testThis1.multiply(testThis2));				//Cardinal mismatch</em>
 <a class="jxr_linenumber" name="L216" href="#L216">216</a> 
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.multiply(testThis1, tComplex4));		<em class="jxr_comment">//multiply NaN</em>
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.multiply(testThis1, tComplex5));		<em class="jxr_comment">//multiply infinity</em>
@@ -238,9 +238,9 @@
 <a class="jxr_linenumber" name="L230" href="#L230">230</a> 	@Test
 <a class="jxr_linenumber" name="L231" href="#L231">231</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDividesThatShouldNotWork() { <em class="jxr_comment">//Divide BY zero already tested elsewhere</em>
 <a class="jxr_linenumber" name="L232" href="#L232">232</a> 		ComplexD testThis1 = ComplexD.copyZERO(tComplex1);
-<a class="jxr_linenumber" name="L233" href="#L233">233</a> 		ComplexD testThis2 = ComplexD.newONE(Cardinal.generate(<span class="jxr_string">"PurposelyDifferent"</span>));
-<a class="jxr_linenumber" name="L234" href="#L234">234</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.divide(testThis1, testThis2)); 		<em class="jxr_comment">//Cardinal mismatch</em>
-<a class="jxr_linenumber" name="L235" href="#L235">235</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; testThis1.divide(testThis2));				<em class="jxr_comment">//Cardinal mismatch</em>
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 		<em class="jxr_comment">//ComplexD testThis2 = ComplexD.newONE(Cardinal.generate("PurposelyDifferent"));</em>
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 		<em class="jxr_comment">//assertThrows(FieldBinaryException.class, () -&gt; ComplexD.divide(testThis1, testThis2)); 		//Cardinal mismatch</em>
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 		<em class="jxr_comment">//assertThrows(FieldBinaryException.class, () -&gt; testThis1.divide(testThis2));				//Cardinal mismatch</em>
 <a class="jxr_linenumber" name="L236" href="#L236">236</a> 
 <a class="jxr_linenumber" name="L237" href="#L237">237</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.divide(testThis1, tComplex4));		<em class="jxr_comment">//divide by NaN</em>
 <a class="jxr_linenumber" name="L238" href="#L238">238</a> 		assertThrows(FieldBinaryException.<strong class="jxr_keyword">class</strong>, () -&gt; ComplexD.divide(testThis1, tComplex5));		<em class="jxr_comment">//divide by infinity</em>

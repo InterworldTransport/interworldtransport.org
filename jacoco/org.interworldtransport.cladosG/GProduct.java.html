@@ -148,6 +148,16 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 <span class="fc" id="L148">		});</span>
 <span class="fc" id="L149">	}</span>
 
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (this == obj)					return true;</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">		if (obj == null)					return false;</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())	return false;</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">		if (!canonBasis.equals(((GProduct) obj).getBasis()))	return false;</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">		if (!signature.equals(((GProduct) obj).signature))		return false;		</span>
+<span class="nc" id="L158">		return true;</span>
+	}
+
 	/**
 	 * Return a measure of whether blades pj and pk anticommute. Return a 1 if they
 	 * anticommute. Return a 0 otherwise.
@@ -158,7 +168,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int getACommuteSign(int pRow, int pCol) {
-<span class="fc bfc" id="L161" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 0 : 1;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 0 : 1;</span>
 	}
 
 	/**
@@ -168,7 +178,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final Basis getBasis() {
-<span class="fc" id="L171">		return canonBasis;</span>
+<span class="fc" id="L181">		return canonBasis;</span>
 	}
 
 	/**
@@ -178,7 +188,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int getBladeCount() {
-<span class="fc" id="L181">		return canonBasis.getBladeCount();</span>
+<span class="fc" id="L191">		return canonBasis.getBladeCount();</span>
 	}
 
 	/**
@@ -191,7 +201,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int getCommuteSign(int pRow, int pCol) {
-<span class="fc bfc" id="L194" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 1 : 0;</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		return (result[pRow][pCol] == result[pCol][pRow]) ? 1 : 0;</span>
 	}
 
 	/**
@@ -201,7 +211,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final byte getGradeCount() {
-<span class="fc" id="L204">		return canonBasis.getGradeCount();</span>
+<span class="fc" id="L214">		return canonBasis.getGradeCount();</span>
 	}
 
 	/**
@@ -215,20 +225,20 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int[] getGradeRange(byte pGrade) {
-<span class="fc" id="L218">		int[] tR = new int[2];</span>
-<span class="fc" id="L219">		tR[0] = (int) canonBasis.getGradeStart(pGrade);</span>
-<span class="fc bfc" id="L220" title="All 2 branches covered.">		tR[1] = (int) ((pGrade == canonBasis.getGradeCount() - 1) // is this MaxGrade? If so, top=bottom</span>
-<span class="fc" id="L221">				? tR[0]</span>
-<span class="fc" id="L222">				: (canonBasis.getGradeStart((byte) (pGrade + 1)) - 1));</span>
-<span class="fc" id="L223">		return tR;</span>
+<span class="fc" id="L228">		int[] tR = new int[2];</span>
+<span class="fc" id="L229">		tR[0] = (int) canonBasis.getGradeStart(pGrade);</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		tR[1] = (int) ((pGrade == canonBasis.getGradeCount() - 1) // is this MaxGrade? If so, top=bottom</span>
+<span class="fc" id="L231">				? tR[0]</span>
+<span class="fc" id="L232">				: (canonBasis.getGradeStart((byte) (pGrade + 1)) - 1));</span>
+<span class="fc" id="L233">		return tR;</span>
 	}
 
 	@Override
 	public final int[] getPScalarRange() {
-<span class="fc" id="L228">		int[] tR = new int[2];</span>
-<span class="fc" id="L229">		tR[0] = canonBasis.getPScalarStart();</span>
-<span class="fc" id="L230">		tR[1] = tR[0];</span>
-<span class="fc" id="L231">		return tR;</span>
+<span class="fc" id="L238">		int[] tR = new int[2];</span>
+<span class="fc" id="L239">		tR[0] = canonBasis.getPScalarStart();</span>
+<span class="fc" id="L240">		tR[1] = tR[0];</span>
+<span class="fc" id="L241">		return tR;</span>
 	}
 
 	/**
@@ -238,7 +248,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 * @return int[][]
 	 */
 	public final int[] getResult(int pRow) {
-<span class="fc" id="L241">		return result[pRow];</span>
+<span class="fc" id="L251">		return result[pRow];</span>
 	}
 
 	/**
@@ -250,7 +260,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int getResult(int pRow, int pCol) {
-<span class="fc" id="L253">		return result[pRow][pCol];</span>
+<span class="fc" id="L263">		return result[pRow][pCol];</span>
 	}
 
 	/**
@@ -266,12 +276,12 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 * @return Blade representing the result found in the Cayley table. If none found, null is returned.
 	 */
 	public final Blade getResult(Blade pRow, Blade pCol) {
-<span class="pc bpc" id="L269" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
-<span class="fc" id="L270">			int p = canonBasis.find(pRow) - 1;</span>
-<span class="fc" id="L271">			int q = canonBasis.find(pCol) - 1;	</span>
-<span class="fc bfc" id="L272" title="All 2 branches covered.">			return canonBasis.getSingleBlade(	(getResult(p, q)==0) ? 0 : Math.abs(getResult(p, q)) - 1	);	</span>
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
+<span class="fc" id="L280">			int p = canonBasis.find(pRow) - 1;</span>
+<span class="fc" id="L281">			int q = canonBasis.find(pCol) - 1;	</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">			return canonBasis.getSingleBlade(	(getResult(p, q)==0) ? 0 : Math.abs(getResult(p, q)) - 1	);	</span>
 		}		
-<span class="nc" id="L274">		return null;</span>
+<span class="nc" id="L284">		return null;</span>
 	}
 
 	/**
@@ -283,7 +293,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final int getSign(int pRow, int pCol) {
-<span class="fc bfc" id="L286" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
+<span class="fc bfc" id="L296" title="All 4 branches covered.">		return (result[pRow][pCol] &lt; 0) ? -1 : (result[pRow][pCol] &gt; 0) ? 1 : 0;</span>
 	}
 
 	/**
@@ -295,13 +305,13 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 * @return int representing the sign of the result found in the Cayley table. If none found, 0 is returned.
 	 */
 	public final int getSign(Blade pRow, Blade pCol) {
-<span class="pc bpc" id="L298" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
-<span class="fc" id="L299">			int p = canonBasis.find(pRow) - 1;</span>
-<span class="fc" id="L300">			int q = canonBasis.find(pCol) - 1;	</span>
-<span class="fc" id="L301">			return getSign(p, q);</span>
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">		if (canonBasis.hasBlade(pRow) &amp; canonBasis.hasBlade(pCol)) {</span>
+<span class="fc" id="L309">			int p = canonBasis.find(pRow) - 1;</span>
+<span class="fc" id="L310">			int q = canonBasis.find(pCol) - 1;	</span>
+<span class="fc" id="L311">			return getSign(p, q);</span>
 			//return canonBasis.getSingleBlade(	(getResult(p, q)==0) ? 0 : Math.abs(getResult(p, q)) - 1	);	
 		}		
-<span class="nc" id="L304">		return 0;</span>
+<span class="nc" id="L314">		return 0;</span>
 	}
 
 
@@ -313,7 +323,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public final String signature() {
-<span class="fc" id="L316">		return signature;</span>
+<span class="fc" id="L326">		return signature;</span>
 	}
 
 	/**
@@ -325,27 +335,27 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 * @return String This is the XML string export of an object.
 	 */
 	public final static String toXMLString(GProduct pG, String indent) {
-<span class="pc bpc" id="L328" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L329">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc" id="L330">		rB	.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L331">		rB	.append(indent)</span>
-<span class="fc" id="L332">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
-<span class="fc" id="L333">			.append(pG.getBladeCount())</span>
-<span class="fc" id="L334">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L335" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
-<span class="fc" id="L336">			rB	.append(indent)</span>
-<span class="fc" id="L337">				.append(&quot;\t\t&lt;row id=\&quot;&quot;)</span>
-<span class="fc" id="L338">				.append(k)</span>
-<span class="fc" id="L339">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
-<span class="fc bfc" id="L340" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
-<span class="fc" id="L341">				rB	.append(pG.getResult(k, m))</span>
-<span class="fc" id="L342">					.append(&quot;,&quot;);</span>
-<span class="fc" id="L343">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L344">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L339">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L340">		rB	.append(Basis.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L341">		rB	.append(indent)</span>
+<span class="fc" id="L342">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L343">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L344">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L345" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
+<span class="fc" id="L346">			rB	.append(indent)</span>
+<span class="fc" id="L347">				.append(&quot;\t\t&lt;row id=\&quot;&quot;)</span>
+<span class="fc" id="L348">				.append(k)</span>
+<span class="fc" id="L349">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L351">				rB	.append(pG.getResult(k, m))</span>
+<span class="fc" id="L352">					.append(&quot;,&quot;);</span>
+<span class="fc" id="L353">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L354">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		}
-<span class="fc" id="L346">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
-<span class="fc" id="L347">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L348">		return rB.toString();</span>
+<span class="fc" id="L356">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
+<span class="fc" id="L357">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L358">		return rB.toString();</span>
 	}
 
 	/**
@@ -357,7 +367,7 @@ public class GProduct implements CliffordProduct, Comparable&lt;GProduct&gt; {
 	 */
 	@Override
 	public int compareTo(GProduct pIn) {
-<span class="nc" id="L360">		return signature().compareTo(pIn.signature());</span>
+<span class="nc" id="L370">		return signature().compareTo(pIn.signature());</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -85,7 +85,7 @@
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  			assertTrue(tB4.equals(tB43)); 			<em class="jxr_comment">//Same inner meaning should pass equals test</em>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  			assertFalse(tB4 == tB43); 				<em class="jxr_comment">//but they are not the same objects</em>
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  			Blade testThis = Blade.createBlade(Generator.E5);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  			Blade testThis = Blade.createBladePlus(Generator.E5);
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  			assertTrue(testThis.rank() == 1);
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  			assertTrue(testThis.maxGenerator() == 5);
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  
@@ -110,8 +110,8 @@
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 			Blade newTest = <strong class="jxr_keyword">new</strong> Blade((byte)17);
 <a class="jxr_linenumber" name="L103" href="#L103">103</a> 			assertTrue(newTest instanceof Blade);	<em class="jxr_comment">//A scalar blade is now generated for out of range nonsense</em>
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> 
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			Blade left = Blade.createBlade(Generator.E1).remove(Generator.E1);
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 			Blade right = Blade.createBlade(Generator.E2).remove(Generator.E2);
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			Blade left = Blade.createBladePlus(Generator.E1).remove(Generator.E1);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 			Blade right = Blade.createBladePlus(Generator.E2).remove(Generator.E2);
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> 			assertFalse(left.equals(right));						<em class="jxr_comment">//Both scalar blades, but from different sized spaces.</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 			assertFalse(left.equals(right));						<em class="jxr_comment">//Both scalar blades, but from different sized spaces.</em>
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 			assertTrue(CanonicalBlade.equivalent(left, right));		<em class="jxr_comment">//but both are the E1 space</em>
@@ -225,11 +225,11 @@
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> 			assertTrue(testThis2.maxGenerator() == 5);
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> 
 <a class="jxr_linenumber" name="L219" href="#L219">219</a> 			Blade testThis3 = Blade.augmentBlade(testThis2, Generator.EC);
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> 			assertTrue(testThis3.maxGenerator() == 5);
-<a class="jxr_linenumber" name="L221" href="#L221">221</a> 			assertFalse(testThis3.rank() &gt; 4); <em class="jxr_comment">//Augment adds room for one more generator, but only the next one.</em>
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 			assertTrue(testThis3.maxGenerator() == 12);
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 			assertFalse(testThis3.rank() == 6); <em class="jxr_comment">//Augment increases rank by one.</em>
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 
 <a class="jxr_linenumber" name="L223" href="#L223">223</a> 			Blade testThis4 = Blade.augmentBlade(testThis3, Generator.EF);
-<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			assertTrue(testThis4.maxGenerator() == 5);
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			assertTrue(testThis4.maxGenerator() == 15);
 <a class="jxr_linenumber" name="L225" href="#L225">225</a> 		}
 <a class="jxr_linenumber" name="L226" href="#L226">226</a> 
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> 		@Test
@@ -247,7 +247,7 @@
 <a class="jxr_linenumber" name="L239" href="#L239">239</a> 
 <a class="jxr_linenumber" name="L240" href="#L240">240</a> 	@Test
 <a class="jxr_linenumber" name="L241" href="#L241">241</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testXMLOutput() {
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> 		Blade tB = Blade.createBlade(gMax);
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 		Blade tB = Blade.createBladePlus(gMax);
 <a class="jxr_linenumber" name="L243" href="#L243">243</a> 		Generator.stream(gMax.ord).forEach(g-&gt; tB.add(g));
 <a class="jxr_linenumber" name="L244" href="#L244">244</a> 		String regString = <span class="jxr_string">"\t&lt;Blade key=\&quot;81985529216486896\&quot; bitKey=\&quot;0b111111111111111\&quot; generators=\&quot;E1,E2,E3,E4,E5,E6,E7,E8,E9,EA,EB,EC,ED,EE,EF\&quot; /&gt;\n"</span>;
 <a class="jxr_linenumber" name="L245" href="#L245">245</a> 		String ordString = <span class="jxr_string">"\t&lt;Blade key=\&quot;81985529216486895\&quot; bitKey=\&quot;0b111111111111111\&quot; generators=\&quot;1,2,3,4,5,6,7,8,9,10,11,12,13,14,15\&quot; /&gt;\n"</span>;

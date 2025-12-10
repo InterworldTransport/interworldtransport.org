@@ -57,10 +57,10 @@ public class ProtoN {
 	 * @return boolean
 	 */
 	public static final boolean isTypeMatch(ProtoN pE, ProtoN pF) {
-<span class="fc bfc" id="L60" title="All 4 branches covered.">		if (pE.card == null &amp;&amp; pF.card == null)		return true;</span>
-<span class="pc bpc" id="L61" title="1 of 4 branches missed.">		if (pE.card != null &amp;&amp; pF.card == null)		return false;</span>
-<span class="pc bpc" id="L62" title="1 of 4 branches missed.">		if (pE.card == null &amp;&amp; pF.card != null)		return false;</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">		return pE.card.getUnit() == pF.card.getUnit();</span>
+<span class="pc bpc" id="L60" title="3 of 6 branches missed.">		if (pE == null | pF == null)	return false;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (pE.card != null)			return pE.equals(pF);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (pF.card != null)			return pF.equals(pE);</span>
+<span class="fc" id="L63">		return true;</span>
 	}
 
 	/**
@@ -86,11 +86,11 @@ public class ProtoN {
 <span class="fc bfc" id="L86" title="All 2 branches covered.">		if (this == obj)								return true;</span>
 <span class="fc bfc" id="L87" title="All 2 branches covered.">		if (obj == null)								return false;</span>
 <span class="fc bfc" id="L88" title="All 2 branches covered.">		if (getClass() != obj.getClass())				return false;</span>
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if 		(this.getCardinal() == null) {</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if 		(getCardinal() == null) {</span>
 <span class="nc bnc" id="L90" title="All 2 branches missed.">			if 	(((ProtoN) obj).getCardinal() == null)	return true;</span>
 <span class="nc" id="L91">			else 										return false;</span>
 		}
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		else if (((ProtoN) obj).getCardinal() == null)	return false;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		else if (((ProtoN) obj).getCardinal() == null)	return false;</span>
 		
 <span class="fc" id="L95">		return getCardinal().equals(((ProtoN) obj).getCardinal());		</span>
 	}
