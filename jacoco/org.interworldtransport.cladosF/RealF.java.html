@@ -244,15 +244,14 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * &lt;br&gt;
 	 * @param pF1 RealF
 	 * @param pF2 RealF
-	 * @throws FieldBinaryException This exception is thrown when there is a field
-	 *                              mismatch.
+	 * @throws FieldBinaryException This exception is thrown when there is a field mismatch.
 	 * @return RealF
 	 */
 	public static RealF multiply(RealF pF1, RealF pF2) throws FieldBinaryException {
-<span class="pc bpc" id="L252" title="2 of 8 branches missed.">		if (!RealF.isNaN(pF1) &amp;&amp; !RealF.isNaN(pF2) &amp;&amp; !RealF.isInfinite(pF1) &amp;&amp; !RealF.isInfinite(pF2))</span>
-<span class="fc" id="L253">			return RealF.create(pF1.getCardinal(), pF1.getReal() * pF2.getReal());</span>
+<span class="pc bpc" id="L251" title="2 of 8 branches missed.">		if (!RealF.isNaN(pF1) &amp;&amp; !RealF.isNaN(pF2) &amp;&amp; !RealF.isInfinite(pF1) &amp;&amp; !RealF.isInfinite(pF2))</span>
+<span class="fc" id="L252">			return RealF.create(pF1.getCardinal(), pF1.getReal() * pF2.getReal());</span>
 
-<span class="fc" id="L255">		throw (new FieldBinaryException(pF1, &quot;Static Multiplication error found&quot;, pF2));</span>
+<span class="fc" id="L254">		throw (new FieldBinaryException(pF1, &quot;Static Multiplication error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -262,7 +261,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF
 	 */
 	public static RealF newONE(String pS) {
-<span class="fc" id="L265">		return RealF.create(Cardinal.generate(pS), 1.0F);</span>
+<span class="fc" id="L264">		return RealF.create(Cardinal.generate(pS), 1.0F);</span>
 	}
 
 	/**
@@ -272,7 +271,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF
 	 */
 	public static RealF newZERO(String pS) {
-<span class="fc" id="L275">		return RealF.create(Cardinal.generate(pS), 0.0f);</span>
+<span class="fc" id="L274">		return RealF.create(Cardinal.generate(pS), 0.0f);</span>
 	}
 
 	/**
@@ -282,7 +281,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF
 	 */
 	public static RealF newONE(Cardinal pC) {
-<span class="fc" id="L285">		return RealF.create(pC, 1.0f);</span>
+<span class="fc" id="L284">		return RealF.create(pC, 1.0f);</span>
 	}
 
 	/**
@@ -292,7 +291,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF
 	 */
 	public static RealF newZERO(Cardinal pC) {
-<span class="fc" id="L295">		return RealF.create(pC, 0.0f);</span>
+<span class="fc" id="L294">		return RealF.create(pC, 0.0f);</span>
 	}
 
 	/**
@@ -305,12 +304,12 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF
 	 */
 	public static RealF subtract(RealF pF1, RealF pF2) throws FieldBinaryException {
-<span class="fc bfc" id="L308" title="All 2 branches covered.">		if (RealF.isTypeMatch(pF1, pF2) </span>
-<span class="pc bpc" id="L309" title="1 of 4 branches missed.">				&amp;&amp; !RealF.isNaN(pF1) 		&amp;&amp; !RealF.isNaN(pF2) </span>
-<span class="pc bpc" id="L310" title="1 of 4 branches missed.">				&amp;&amp; !RealF.isInfinite(pF1)	&amp;&amp; !RealF.isInfinite(pF2))</span>
-<span class="fc" id="L311">			return RealF.create(pF1.getCardinal(), pF1.getReal() - pF2.getReal());</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">		if (RealF.isTypeMatch(pF1, pF2) </span>
+<span class="pc bpc" id="L308" title="1 of 4 branches missed.">				&amp;&amp; !RealF.isNaN(pF1) 		&amp;&amp; !RealF.isNaN(pF2) </span>
+<span class="pc bpc" id="L309" title="1 of 4 branches missed.">				&amp;&amp; !RealF.isInfinite(pF1)	&amp;&amp; !RealF.isInfinite(pF2))</span>
+<span class="fc" id="L310">			return RealF.create(pF1.getCardinal(), pF1.getReal() - pF2.getReal());</span>
 
-<span class="fc" id="L313">		throw (new FieldBinaryException(pF1, &quot;Static Subtraction error found&quot;, pF2));</span>
+<span class="fc" id="L312">		throw (new FieldBinaryException(pF1, &quot;Static Subtraction error found&quot;, pF2));</span>
 	}
 
 	/**
@@ -323,11 +322,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * Basic Constructor with no values to initialize.
 	 */
 	public RealF() {
-<span class="fc" id="L326">		super(Cardinal.generate(CladosField.REALF));</span>
-<span class="fc" id="L327">		vals = new float[1];</span>
-<span class="fc" id="L328">		setReal(0.0F);</span>
+<span class="fc" id="L325">		super(Cardinal.generate(CladosField.REALF));</span>
+<span class="fc" id="L326">		vals = new float[1];</span>
+<span class="fc" id="L327">		setReal(0.0F);</span>
 
-<span class="fc" id="L330">	}</span>
+<span class="fc" id="L329">	}</span>
 
 	/**
 	 * Basic Constructor with only the cardinal to initialize.
@@ -335,11 +334,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @param pT Cardinal
 	 */
 	public RealF(Cardinal pT) {
-<span class="fc" id="L338">		super(pT);</span>
-<span class="fc" id="L339">		vals = new float[1];</span>
-<span class="fc" id="L340">		setReal(0.0F);</span>
+<span class="fc" id="L337">		super(pT);</span>
+<span class="fc" id="L338">		vals = new float[1];</span>
+<span class="fc" id="L339">		setReal(0.0F);</span>
 
-<span class="fc" id="L342">	}</span>
+<span class="fc" id="L341">	}</span>
 
 	/**
 	 * Basic Constructor with everything to initialize.
@@ -348,11 +347,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @param pR float
 	 */
 	public RealF(Cardinal pT, float pR) {
-<span class="fc" id="L351">		super(pT);</span>
-<span class="fc" id="L352">		vals = new float[1];</span>
-<span class="fc" id="L353">		setReal(pR);</span>
+<span class="fc" id="L350">		super(pT);</span>
+<span class="fc" id="L351">		vals = new float[1];</span>
+<span class="fc" id="L352">		setReal(pR);</span>
 
-<span class="fc" id="L355">	}</span>
+<span class="fc" id="L354">	}</span>
 
 	/**
 	 * Basic Constructor with only the number to initialize.
@@ -360,11 +359,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @param pR float
 	 */
 	public RealF(float pR) {
-<span class="fc" id="L363">		super(Cardinal.generate(CladosField.REALF));</span>
-<span class="fc" id="L364">		vals = new float[1];</span>
-<span class="fc" id="L365">		setReal(pR);</span>
+<span class="fc" id="L362">		super(Cardinal.generate(CladosField.REALF));</span>
+<span class="fc" id="L363">		vals = new float[1];</span>
+<span class="fc" id="L364">		setReal(pR);</span>
 
-<span class="fc" id="L367">	}</span>
+<span class="fc" id="L366">	}</span>
 
 	/**
 	 * Copy Constructor that reuses the cardinal reference.
@@ -372,11 +371,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @param pR RealF
 	 */
 	public RealF(RealF pR) {
-<span class="fc" id="L375">		super(pR.getCardinal());</span>
-<span class="fc" id="L376">		vals = new float[1];</span>
-<span class="fc" id="L377">		setReal(pR.getReal());</span>
+<span class="fc" id="L374">		super(pR.getCardinal());</span>
+<span class="fc" id="L375">		vals = new float[1];</span>
+<span class="fc" id="L376">		setReal(pR.getReal());</span>
 
-<span class="fc" id="L379">	}</span>
+<span class="fc" id="L378">	}</span>
 
 	/**
 	 * Copy Constructor that reuses the cardinal reference while allowing the value
@@ -386,11 +385,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @param pF float
 	 */
 	public RealF(ProtoN pR, float pF) {
-<span class="fc" id="L389">		super(pR.getCardinal());</span>
-<span class="fc" id="L390">		vals = new float[1];</span>
-<span class="fc" id="L391">		setReal(pF);</span>
+<span class="fc" id="L388">		super(pR.getCardinal());</span>
+<span class="fc" id="L389">		vals = new float[1];</span>
+<span class="fc" id="L390">		setReal(pF);</span>
 
-<span class="fc" id="L393">	}</span>
+<span class="fc" id="L392">	}</span>
 
 	/**
 	 * This method adds real numbers together and changes this object to be the
@@ -403,13 +402,13 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF add(Field pF) throws FieldBinaryException {
-<span class="fc bfc" id="L406" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
-<span class="pc bpc" id="L407" title="1 of 4 branches missed.">				|| RealF.isNaN(this) 		|| RealF.isNaN((RealF) pF)</span>
-<span class="pc bpc" id="L408" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) 	|| RealF.isInfinite((RealF) pF))</span>
-<span class="fc" id="L409">			throw (new FieldBinaryException(this, &quot;Addition failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L406" title="1 of 4 branches missed.">				|| RealF.isNaN(this) 		|| RealF.isNaN((RealF) pF)</span>
+<span class="pc bpc" id="L407" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) 	|| RealF.isInfinite((RealF) pF))</span>
+<span class="fc" id="L408">			throw (new FieldBinaryException(this, &quot;Addition failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L411">		setReal(getReal() + ((RealF) pF).getReal());</span>
-<span class="fc" id="L412">		return this;</span>
+<span class="fc" id="L410">		setReal(getReal() + ((RealF) pF).getReal());</span>
+<span class="fc" id="L411">		return this;</span>
 	}
 
 	/**
@@ -421,7 +420,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	@Override
 	public RealF conjugate() {
 
-<span class="fc" id="L424">		return this;</span>
+<span class="fc" id="L423">		return this;</span>
 	}
 
 	/**
@@ -435,24 +434,35 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF divide(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L438" title="2 of 8 branches missed.">		if (RealF.isNaN(this) || RealF.isNaN((RealF) pF) || RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
-<span class="fc" id="L439">			throw (new FieldBinaryException(this, &quot;Divide failed type match or size test&quot;, (ProtoN) pF));</span>
-<span class="fc bfc" id="L440" title="All 2 branches covered.">		if (RealF.isZero((RealF) pF))</span>
-<span class="fc" id="L441">			throw (new FieldBinaryException(this, &quot;Divide by Zero detected&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L437" title="2 of 8 branches missed.">		if (RealF.isNaN(this) || RealF.isNaN((RealF) pF) || RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
+<span class="fc" id="L438">			throw (new FieldBinaryException(this, &quot;Divide failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L439" title="All 2 branches covered.">		if (RealF.isZero((RealF) pF))</span>
+<span class="fc" id="L440">			throw (new FieldBinaryException(this, &quot;Divide by Zero detected&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L443">		setReal(getReal() / ((RealF) pF).getReal());</span>
-<span class="fc" id="L444">		return this;</span>
+<span class="fc" id="L442">		setReal(getReal() / ((RealF) pF).getReal());</span>
+<span class="fc" id="L443">		return this;</span>
+	}
+
+	/**
+	 * This method tacks on a value check for equality, but first checks whether the super class ProtoN agrees.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pF The number to be tested for equality
+	 * @return boolean answer to whether the numbers are equal
+	 */
+	public boolean equals(RealF pF) {
+<span class="nc bnc" id="L453" title="All 2 branches missed.">		if (!super.equals(pF))		return false;</span>
+<span class="nc bnc" id="L454" title="All 2 branches missed.">		return getReal() == pF.getReal();</span>
 	}
 
 	/**
 	 * This is the square root of the SQ Modulus. It is smarter to calculate
 	 * SQModulus first.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return Float
 	 */
 	@Override
 	public Float modulus() {
-<span class="fc" id="L455">		return Float.valueOf((float) Math.sqrt(sqModulus().floatValue()));</span>
+<span class="fc" id="L465">		return Float.valueOf((float) Math.sqrt(sqModulus().floatValue()));</span>
 	}
 
 	/**
@@ -461,7 +471,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return float
 	 */
 	public float getReal() {
-<span class="fc" id="L464">		return vals[0];</span>
+<span class="fc" id="L474">		return vals[0];</span>
 	}
 
 	/**
@@ -473,26 +483,25 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Float sqModulus() {
-<span class="fc" id="L476">		float tR = 0f;</span>
-<span class="fc bfc" id="L477" title="All 2 branches covered.">		for (float point : vals)</span>
-<span class="fc" id="L478">			tR += point * point;</span>
-<span class="fc" id="L479">		return Float.valueOf(tR);</span>
+<span class="fc" id="L486">		float tR = 0f;</span>
+<span class="fc bfc" id="L487" title="All 2 branches covered.">		for (float point : vals)</span>
+<span class="fc" id="L488">			tR += point * point;</span>
+<span class="fc" id="L489">		return Float.valueOf(tR);</span>
 	}
 
 	/**
 	 * This method inverts real numbers.
-	 * &lt;br&gt;
-	 * @throws FieldException This exception is thrown if someone tries to invert a
-	 *                        ZERO.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @throws FieldException This exception is thrown if someone tries to invert a ZERO.
 	 * @return RealF
 	 */
 	@Override
 	public RealF invert() throws FieldException {
-<span class="fc bfc" id="L491" title="All 2 branches covered.">		if (RealF.isZero(this))</span>
-<span class="fc" id="L492">			throw new FieldException(this, &quot;Can't invert a zero RealF&quot;);</span>
+<span class="fc bfc" id="L500" title="All 2 branches covered.">		if (RealF.isZero(this))</span>
+<span class="fc" id="L501">			throw new FieldException(this, &quot;Can't invert a zero RealF&quot;);</span>
 
-<span class="fc" id="L494">		setReal(1.0F / getReal());</span>
-<span class="fc" id="L495">		return this;</span>
+<span class="fc" id="L503">		setReal(1.0F / getReal());</span>
+<span class="fc" id="L504">		return this;</span>
 	}
 
 	/**
@@ -505,11 +514,11 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF multiply(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L508" title="2 of 8 branches missed.">		if (RealF.isNaN(this) || RealF.isNaN((RealF) pF) || RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
-<span class="fc" id="L509">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L517" title="2 of 8 branches missed.">		if (RealF.isNaN(this) || RealF.isNaN((RealF) pF) || RealF.isInfinite(this) || RealF.isInfinite((RealF) pF))</span>
+<span class="fc" id="L518">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L511">		setReal(getReal() * ((RealF) pF).getReal());</span>
-<span class="fc" id="L512">		return this;</span>
+<span class="fc" id="L520">		setReal(getReal() * ((RealF) pF).getReal());</span>
+<span class="fc" id="L521">		return this;</span>
 	}
 
 	/**
@@ -520,9 +529,9 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF scale(Number pS) {
-<span class="fc" id="L523">		setReal(pS.floatValue() * getReal());</span>
+<span class="fc" id="L532">		setReal(pS.floatValue() * getReal());</span>
 
-<span class="fc" id="L525">		return this;</span>
+<span class="fc" id="L534">		return this;</span>
 	}
 
 	/**
@@ -532,8 +541,8 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return RealF this number
 	 */
 	public RealF setReal(float preal) {
-<span class="fc" id="L535">		vals[0] = preal;</span>
-<span class="fc" id="L536">		return this;</span>
+<span class="fc" id="L544">		vals[0] = preal;</span>
+<span class="fc" id="L545">		return this;</span>
 	}
 
 	/**
@@ -546,13 +555,13 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealF subtract(Field pF) throws FieldBinaryException {
-<span class="fc bfc" id="L549" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
-<span class="pc bpc" id="L550" title="1 of 4 branches missed.">				|| RealF.isNaN(this) 		|| RealF.isNaN((RealF) pF)</span>
-<span class="pc bpc" id="L551" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) 	|| RealF.isInfinite((RealF) pF))</span>
-<span class="fc" id="L552">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L558" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L559" title="1 of 4 branches missed.">				|| RealF.isNaN(this) 		|| RealF.isNaN((RealF) pF)</span>
+<span class="pc bpc" id="L560" title="1 of 4 branches missed.">				|| RealF.isInfinite(this) 	|| RealF.isInfinite((RealF) pF))</span>
+<span class="fc" id="L561">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L554">		setReal(getReal() - ((RealF) pF).getReal());</span>
-<span class="fc" id="L555">		return this;</span>
+<span class="fc" id="L563">		setReal(getReal() - ((RealF) pF).getReal());</span>
+<span class="fc" id="L564">		return this;</span>
 	}
 
 	/**
@@ -562,7 +571,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L565">		return (getReal() + &quot;FR&quot;);</span>
+<span class="fc" id="L574">		return (getReal() + &quot;FR&quot;);</span>
 	}
 
 	/**
@@ -572,7 +581,7 @@ public class RealF extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(RealF pN) {
-<span class="fc" id="L575">		return (&quot;&lt;RealF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
+<span class="fc" id="L584">		return (&quot;&lt;RealF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

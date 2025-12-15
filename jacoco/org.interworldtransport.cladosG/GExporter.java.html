@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GExporter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clados</a> &gt; <a href="index.source.html" class="el_package">org.interworldtransport.cladosG</a> &gt; <span class="el_source">GExporter.java</span></div><h1>GExporter.java</h1><pre class="source lang-java linenums">/*
+ * &lt;h2&gt;Copyright&lt;/h2&gt; © 2025 Alfred Differ&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GExporter&lt;br&gt;
+ * -------------------------------------------------------------------- &lt;br&gt;
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.&lt;br&gt;&lt;br&gt;
+ * 
+ * Use of this code or executable objects derived from it by the Licensee 
+ * states their willingness to accept the terms of the license. &lt;br&gt; &lt;br&gt;
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.&lt;br&gt; &lt;br&gt;
+ * 
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ * ---org.interworldtransport.cladosG.GExporter&lt;br&gt;
+ * ------------------------------------------------------------------------ &lt;br&gt;
+ */
+package org.interworldtransport.cladosG;
+
+import org.interworldtransport.cladosF.ComplexD;
+import org.interworldtransport.cladosF.ComplexF;
+import org.interworldtransport.cladosF.ProtoN;
+import org.interworldtransport.cladosF.RealD;
+import org.interworldtransport.cladosF.RealF;
+
+/**
+ * This is a non-constructable class meant as a collector of all export methods for cladosG objects
+ * They are collected here not because a single object doing data exports is particularly efficient, 
+ * (it is likely to be a bottleneck until everything is parallelized), but because the geometry
+ * objects in real physical models are likely to be numerous. The geometry does not need to take 
+ * up memory knowing how to export its contents to some format for every single piece of geometry.
+ * It is enough that one object does it or even that it is all handled by static methods.
+ */
+public class GExporter {
+    /*
+	 * Private constructor means this will only after get used for its class/static methods.
+	 */
+	private GExporter(){
+		;
+	}
+
+    /**
+	 * Export a Foot as a small JSON fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * {&quot;Foot&quot;: {&quot;name&quot;: &quot;NamedPoint&quot;}}
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pF Foot to be exported as JSON
+	 * @return String formatted as JSON containing information about the Foot
+	 */
+	public final static String toJSON(Foot pF) {
+<span class="nc" id="L59">		StringBuilder rB = new StringBuilder();</span>
+<span class="nc" id="L60">		rB	.append(&quot;{\&quot;Foot\&quot;: {\&quot;name\&quot;: \&quot;&quot;)</span>
+<span class="nc" id="L61">			.append(pF.getName())</span>
+<span class="nc" id="L62">			.append(&quot;\&quot;}}\n&quot;);</span>
+<span class="nc" id="L63">		return rB.toString();</span>
+	}
+
+    /**
+	 * Export a Foot as a small XML fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pF Foot the be exported as XML.
+	 * @param indent String indentation to assist with human readability of output XML data
+	 * @return String formatted as XML containing information about the Foot
+	 */
+	public final static String toXMLString(Foot pF, String indent) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L76">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
+<span class="fc" id="L77">		rB	.append(pF.getName())</span>
+<span class="fc" id="L78">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L79">		return rB.toString();</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * Blade in a human readable form.
+	 * &lt;br&gt;
+	 * This variation uses a Generator's ordinal to name it in the generator list.
+	 * &lt;br&gt;
+	 * @param blade  The Blade to be exported to XML.
+	 * @param indent String of 'tab' characters that help space the output correctly
+	 *               visually. It's not actually necessary except for human
+	 *               readability of the output.
+	 * @return String The XML formated String representing the Blade.
+	 */
+	public final static String toXMLOrdString(Blade blade, String indent) {
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L96">		StringBuilder rB = new StringBuilder(indent);</span>
+<span class="fc" id="L97">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
+<span class="fc" id="L98">			.append(blade.key())</span>
+<span class="fc" id="L99">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
+
+<span class="fc" id="L101">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		while (pad&gt;0) {</span>
+<span class="nc" id="L103">			rB.append(&quot;0&quot;);</span>
+<span class="nc" id="L104">			pad--;</span>
+		}
+<span class="fc" id="L106">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
+<span class="fc" id="L107">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
+
+<span class="fc" id="L109">		blade	.generatorStream()</span>
+<span class="fc" id="L110">				.forEachOrdered(gen -&gt; rB.append(gen.ord).append(&quot;,&quot;));</span>
+
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (blade.rank() &gt; 0)</span>
+<span class="fc" id="L113">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L114">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L115">		return rB.toString();</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * Blade in a human readable form.
+	 * &lt;br&gt;
+	 * This variation uses a Generator's name in the generator list.
+	 * &lt;br&gt;
+	 * @param blade  The Blade to be exported to XML.
+	 * @param indent String of 'tab' characters that help space the output correctly
+	 *               visually. It's not actually necessary except for human
+	 *               readability of the output.
+	 * @return String The XML formated String representing the Blade.
+	 */
+	public final static String toXMLString(Blade blade, String indent) {
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L132">		StringBuilder rB = new StringBuilder(indent);</span>
+<span class="fc" id="L133">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
+<span class="fc" id="L134">			.append(blade.key())</span>
+<span class="fc" id="L135">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
+
+<span class="fc" id="L137">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		while (pad&gt;0) {</span>
+<span class="fc" id="L139">			rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L140">			pad--;</span>
+		}
+<span class="fc" id="L142">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
+<span class="fc" id="L143">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
+
+<span class="fc" id="L145">		blade	.generatorStream()</span>
+<span class="fc" id="L146">				.forEachOrdered(g -&gt; rB.append(g.toString()).append(&quot;,&quot;));</span>
+
+<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (blade.getGenerators().size() &gt; 0)</span>
+<span class="fc" id="L149">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L150">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L151">		return rB.toString();</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * BladeDuet in a human readable form. This is likely ONLY useful during debug
+	 * efforts.
+	 * &lt;br&gt;
+	 * This variation uses a Generator's name in the generator list.
+	 * &lt;br&gt;
+	 * @param pBD The blade duet to export as XML.
+	 * @return String The XML formated String representing the BladeDuet.
+	 */
+	public final static String toXMLString(BladeDuet pBD) {
+<span class="fc" id="L165">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L166">		rB.append(&quot;&lt;BladeDuet sign=\&quot;&quot;).append(pBD.sign).append(&quot;\&quot; maxGrade=\&quot;&quot;).append(pBD.maxGen.ord).append(&quot;\&quot; generators=\&quot;&quot;);</span>
+<span class="fc" id="L167">		pBD.bladeDuet.stream().forEachOrdered(g -&gt; rB.append(g.toString() + &quot;,&quot;));</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (pBD.bladeDuet.size() &gt; 0)</span>
+<span class="fc" id="L169">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L170">		rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L171">		return rB.toString();</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * Basis in a human readable form. return String
+	 * &lt;br&gt;
+	 * @param pB The Basis to export as XML
+	 * @param indent String of 'tab' characters that help space the output correctly
+	 *               visually. It's not actually necessary except for human
+	 *               readability of the output.
+	 * @return String
+	 */
+	public static String toXMLString(Basis pB, String indent) {
+<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L186">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L187">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis UUID=\&quot;&quot;);</span>
+<span class="fc" id="L188">		rB	.append(pB.uuid)</span>
+<span class="fc" id="L189">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+		// ------------------------------------------------------------------
+<span class="fc" id="L191">		rB.append(indent)</span>
+<span class="fc" id="L192">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
+<span class="fc" id="L193">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.getGradeCount() - 2; k++) // loop to get all but the highest grade</span>
+<span class="fc" id="L195">			rB	.append(indent)</span>
+<span class="fc" id="L196">				.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
+<span class="fc" id="L197">				.append(k)</span>
+<span class="fc" id="L198">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L199">				.append(pB.getGrades().get(k))</span>
+<span class="fc" id="L200">				.append(&quot;-&quot;)</span>
+<span class="fc" id="L201">				.append((pB.getGrades().get(k + 1) - 1))</span>
+<span class="fc" id="L202">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
+		// Handle last grade separate. There is no k+1 index for the largest grade
+<span class="fc" id="L204">		rB	.append(indent)</span>
+<span class="fc" id="L205">			.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
+<span class="fc" id="L206">			.append((pB.getGradeCount() - 1))</span>
+<span class="fc" id="L207">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L208">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
+<span class="fc" id="L209">			.append(&quot;-&quot;)</span>
+<span class="fc" id="L210">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
+<span class="fc" id="L211">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L212">		rB.append(indent)</span>
+<span class="fc" id="L213">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
+		// ------------------------------------------------------------------
+<span class="fc" id="L215">		rB	.append(indent)</span>
+<span class="fc" id="L216">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
+<span class="fc" id="L217">			.append(pB.getBladeCount())</span>
+<span class="fc" id="L218">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
+<span class="fc" id="L220">			rB	.append(GExporter.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L221">		rB	.append(indent)</span>
+<span class="fc" id="L222">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
+		// ------------------------------------------------------------------
+<span class="fc" id="L224">		rB	.append(indent)</span>
+<span class="fc" id="L225">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
+<span class="fc" id="L226">		return rB.toString();</span>
+	}
+
+	/**
+	 * This method produces a printable and parseable string that represents the
+	 * Basis in a human readable form.
+	 * &lt;br&gt;
+	 * @param pG A geometric product to be exported to XML
+	 * @param indent A string to use for XML element intentation. Not required.
+	 * @return String This is the XML string export of an object.
+	 */
+	public final static String toXMLString(GProduct pG, String indent) {
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L239">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L240">		rB	.append(GExporter.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L241">		rB	.append(indent)</span>
+<span class="fc" id="L242">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L243">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L244">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
+<span class="fc" id="L246">			rB	.append(indent)</span>
+<span class="fc" id="L247">				.append(&quot;\t\t&lt;row id=\&quot;&quot;)</span>
+<span class="fc" id="L248">				.append(k)</span>
+<span class="fc" id="L249">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L251">				rB	.append(pG.getResult(k, m))</span>
+<span class="fc" id="L252">					.append(&quot;,&quot;);</span>
+<span class="fc" id="L253">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L254">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+		}
+<span class="fc" id="L256">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
+<span class="fc" id="L257">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L258">		return rB.toString();</span>
+	}
+	
+	/**
+	 * This is an exporter of internal details to XML. It exists to bypass certain security concerns related to 
+	 * Java serialization of objects.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pA     Algebra to be exported as XML data
+	 * @param indent String of tab characters to assist with human readability of output.
+	 * @return String formatted as XML containing information about the Algebra
+	 */
+	public final static String toXMLString(Algebra pA, String indent) {
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t&quot;;</span>
+<span class="fc" id="L271">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Algebra name=\&quot;&quot;);</span>
+<span class="fc" id="L272">		rB	.append(pA.getAName())</span>
+<span class="fc" id="L273">			.append(&quot;\&quot; UUID=\&quot;&quot;)</span>
+<span class="fc" id="L274">			.append(pA.uuid)</span>
+<span class="fc" id="L275">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+		
+<span class="fc" id="L277">		rB	.append(GExporter.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));			//Algebra owns a reference to a Foot</span>
+<span class="fc" id="L278">		rB	.append(GExporter.toXMLString(pA.getGP(), indent + &quot;\t&quot;));				//Algebra owns a reference to a GP</span>
+		
+<span class="fc" id="L280">		rB	.append(indent)</span>
+<span class="fc" id="L281">			.append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
+<span class="fc" id="L282">		return rB.toString();</span>
+	}
+
+	/**
+	 * This is a short exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pS The Scale oject to be output as XML
+	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.
+	 * @return String formatted as XML containing information about the Scale
+	 */
+	public final static String toXMLString(Scale&lt;?&gt; pS, String indent) {
+<span class="fc" id="L293">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L294">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; &quot;);</span>
+<span class="fc" id="L295">		rB	.append(&quot;pans=\&quot;&quot;+pS.map.size()+&quot;\&quot; &quot;)</span>
+<span class="fc" id="L296">			.append(&quot;cardinal=&quot;+pS.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
+
+<span class="fc" id="L298">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L299">			rB	.append(indent+&quot;\t&quot;)</span>
+<span class="fc" id="L300">				.append(&quot;&lt;Pair bitKey=\&quot;0b&quot;);</span>
+<span class="fc" id="L301">			int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">			while (pad&gt;0) {</span>
+<span class="fc" id="L303">				rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L304">				pad--;</span>
+			}
+<span class="fc" id="L306">			rB	.append(Integer.toBinaryString(blade.bitKey()));</span>
+			//rB	.append(&quot;\&quot; cardinal=\&quot;&quot;+pS.map.get(blade).getCardinalString());
+<span class="fc" id="L308">			rB	.append(&quot;\&quot; &quot;);</span>
+			
+<span class="pc bpc" id="L310" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+				case REALF:
+<span class="fc" id="L312">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealF)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L313">					break;</span>
+				case REALD:
+<span class="fc" id="L315">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealD)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L316">					break;</span>
+				case COMPLEXF:
+<span class="fc" id="L318">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L319">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L320">					break;</span>
+				case COMPLEXD:
+<span class="fc" id="L322">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L323">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L324">					break;</span>
+				default:
+					break;
+				
+			}
+<span class="fc" id="L329">			rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L330">		});</span>
+<span class="fc" id="L331">		rB	.append(indent)</span>
+<span class="fc" id="L332">			.append(&quot;&lt;/Scales&gt;\n&quot;);</span>
+<span class="fc" id="L333">		return rB.toString();</span>
+	}
+
+	/**
+	 * This is an exporter of internal details to XML. It exists to bypass certain security concerns related to Java serialization.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pS The Scale oject to be output as XML
+	 * @param indent String of 'tab' characters to get spacing right for human readable XML output.
+	 * @return String formatted as XML containing information about the Scale
+	 */
+	public final static String toXMLFullString(Scale&lt;?&gt; pS, String indent) {
+<span class="fc" id="L344">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L345">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;)</span>
+<span class="fc" id="L346">			.append(pS.map.size())</span>
+<span class="fc" id="L347">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+
+<span class="fc" id="L349">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L350">			rB	.append(indent)</span>
+<span class="fc" id="L351">				.append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
+<span class="fc" id="L352">			rB	.append(indent)</span>
+<span class="fc" id="L353">				.append(GExporter.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
+<span class="pc bpc" id="L354" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="fc" id="L355">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L356">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L357">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L358">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="nc" id="L359">				default -&gt; 		{rB.append(indent + &quot;\t\t\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+			}	
+<span class="fc" id="L361">			rB	.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
+<span class="fc" id="L362">		});</span>
+<span class="fc" id="L363">		rB	.append(indent).append(&quot;\t\t&lt;/Scales&gt;\n&quot;);</span>
+<span class="fc" id="L364">		return rB.toString();</span>
+	}
+
+	/**
+	 * Display XML string that represents the Monad
+	 * &lt;br&gt;
+	 * @param pM     MonadRealF This is the monad to be converted to XML.
+	 * @param indent String of tab characters to assign with human readability
+	 * @return String
+	 */
+	public final static String toXMLFullString(Monad pM, String indent) {
+<span class="pc bpc" id="L375" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L376">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L377">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L378">			.append(pM.getName())</span>
+<span class="fc" id="L379">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L380">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L381">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L382">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L383">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L384">		rB.append(GExporter.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L385">		rB.append(indent)</span>
+<span class="fc" id="L386">			.append(GExporter.toXMLFullString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L387">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L388">		return rB.toString();</span>
+	}
+
+	/**
+	 * Display XML string that represents the Monad
+	 * &lt;br&gt;
+	 * @param pM     Monad This is the monad to be converted to XML.
+	 * @param indent String of tab characters to assign with human readability
+	 * @return String
+	 */
+	public final static String toXMLString(Monad pM, String indent) {
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L400">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L401">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L402">			.append(pM.getName())</span>
+<span class="fc" id="L403">			.append(&quot;\&quot; algebra=\&quot;&quot;)</span>
+<span class="fc" id="L404">			.append(pM.getAlgebra().getAName())</span>
+<span class="fc" id="L405">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L406">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L407">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L408">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L409">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L410">		rB.append(indent)</span>
+<span class="fc" id="L411">			.append(GExporter.toXMLString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L412">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L413">		return rB.toString();</span>
+	}
+
+
+	/**
+	 * Display XML string that represents the Nyad and all its internal details
+	 * &lt;br&gt;
+	 * @param pN The Nyad to be exported as XML
+	 * @param indent String of tab characters to assist with human readability.
+	 * @return String
+	 */
+	public final static String toXMLFullString(Nyad pN, String indent) {
+<span class="fc bfc" id="L425" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L426">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
+<span class="fc" id="L427">		rB	.append(pN.getName())</span>
+<span class="fc" id="L428">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
+<span class="fc" id="L429">			.append(pN.arity())</span>
+<span class="fc" id="L430">			.append(&quot;\&quot; algorder=\&quot;&quot;)</span>
+<span class="fc" id="L431">			.append(pN.algrity())</span>
+<span class="fc" id="L432">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+		
+<span class="fc" id="L434">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+	
+<span class="fc" id="L436">		rB	.append(indent)</span>
+<span class="fc" id="L437">			.append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
+<span class="fc" id="L439">			rB	.append(indent)</span>
+<span class="fc" id="L440">				.append(&quot;\t\t&lt;AlgebraName&gt;&quot;)</span>
+<span class="fc" id="L441">				.append(point.getAName())</span>
+<span class="fc" id="L442">				.append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
+<span class="fc" id="L443">		rB	.append(indent)</span>
+<span class="fc" id="L444">			.append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
+		
+<span class="fc" id="L446">		rB	.append(indent)</span>
+<span class="fc" id="L447">			.append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L449">			rB.append(GExporter.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L450">		rB	.append(indent)</span>
+<span class="fc" id="L451">			.append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+	
+<span class="fc" id="L453">		rB	.append(indent)</span>
+<span class="fc" id="L454">			.append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L455">		return rB.toString();</span>
+	}
+
+	/**
+	 * Display XML string that represents the Nyad
+	 * &lt;br&gt;
+	 * @param pN The Nyad to be exported as XML
+	 * @param indent String of tab characters to assist with human readability.
+	 * @return String
+	 */
+	public final static String toXMLString(Nyad pN, String indent) {
+<span class="fc bfc" id="L466" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L467">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
+<span class="fc" id="L468">		rB	.append(pN.getName())</span>
+<span class="fc" id="L469">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
+<span class="fc" id="L470">			.append(pN.arity())</span>
+<span class="fc" id="L471">			.append(&quot;\&quot; algorder=\&quot;&quot;);</span>
+<span class="fc" id="L472">		rB	.append(pN.algrity())</span>
+<span class="fc" id="L473">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+				
+<span class="fc" id="L475">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+		
+<span class="fc" id="L477">		rB	.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L478" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L479">			rB.append(GExporter.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L480">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+		
+<span class="fc" id="L482">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L483">		return rB.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

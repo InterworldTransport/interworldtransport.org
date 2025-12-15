@@ -138,29 +138,31 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 <span class="fc" id="L138">		return new Basis(mxBlade); </span>
 	}
 
-	/*
-	 * Deliver the powerset of generators present in the pscalar of a basis. Members
-	 * of this set ARE the other blades.
-	 * &lt;br&gt;
+	/**
+	 * Deliver the powerset of generators present in the pscalar of a basis. Members of this set ARE the other blades.
+	 * &lt;br&gt;&lt;br&gt;
 	 * This is O(n^2), so improvements here matter.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param inSet is a set of generators (essentially a pscalar) to use in making a powerset
+	 * @return Set of EnumSets of Generators. Each enumset is a blade, so the set is a basis
 	 */
-	private final static Set&lt;EnumSet&lt;Generator&gt;&gt; powerSet(Set&lt;Generator&gt; inSet) {
-<span class="fc" id="L148">		Set&lt;EnumSet&lt;Generator&gt;&gt; sets = new HashSet&lt;EnumSet&lt;Generator&gt;&gt;(inSet.size(), 0.75f);</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">		if (inSet.isEmpty()) {</span>
-<span class="fc" id="L150">			sets.add(EnumSet.noneOf(Generator.class));</span>
-<span class="fc" id="L151">			return sets;</span>
+	protected final static Set&lt;EnumSet&lt;Generator&gt;&gt; powerSet(Set&lt;Generator&gt; inSet) {
+<span class="fc" id="L150">		Set&lt;EnumSet&lt;Generator&gt;&gt; sets = new HashSet&lt;EnumSet&lt;Generator&gt;&gt;(inSet.size(), 0.75f);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">		if (inSet.isEmpty()) {</span>
+<span class="fc" id="L152">			sets.add(EnumSet.noneOf(Generator.class));</span>
+<span class="fc" id="L153">			return sets;</span>
 		}
-<span class="fc" id="L153">		List&lt;Generator&gt; list = new ArrayList&lt;Generator&gt;(inSet);</span>
-<span class="fc" id="L154">		Generator head = list.get(0);</span>
-<span class="fc" id="L155">		Set&lt;Generator&gt; tailset = new HashSet&lt;Generator&gt;(list.subList(1, list.size()));</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">		for (EnumSet&lt;Generator&gt; set : powerSet(tailset)) {</span>
-<span class="fc" id="L157">			EnumSet&lt;Generator&gt; newSet = EnumSet.noneOf(Generator.class);</span>
-<span class="fc" id="L158">			newSet.add(head);</span>
-<span class="fc" id="L159">			newSet.addAll(set);</span>
-<span class="fc" id="L160">			sets.add(newSet);</span>
-<span class="fc" id="L161">			sets.add(set);</span>
-<span class="fc" id="L162">		}</span>
-<span class="fc" id="L163">		return sets;</span>
+<span class="fc" id="L155">		List&lt;Generator&gt; list = new ArrayList&lt;Generator&gt;(inSet);</span>
+<span class="fc" id="L156">		Generator head = list.get(0);</span>
+<span class="fc" id="L157">		Set&lt;Generator&gt; tailset = new HashSet&lt;Generator&gt;(list.subList(1, list.size()));</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		for (EnumSet&lt;Generator&gt; set : powerSet(tailset)) {</span>
+<span class="fc" id="L159">			EnumSet&lt;Generator&gt; newSet = EnumSet.noneOf(Generator.class);</span>
+<span class="fc" id="L160">			newSet.add(head);</span>
+<span class="fc" id="L161">			newSet.addAll(set);</span>
+<span class="fc" id="L162">			sets.add(newSet);</span>
+<span class="fc" id="L163">			sets.add(set);</span>
+<span class="fc" id="L164">		}</span>
+<span class="fc" id="L165">		return sets;</span>
 	}
 
 	/**
@@ -182,7 +184,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 * used if there is a chance of confusing an algebra's &quot;Generator Basis&quot; with
 	 * the basis of the vector space spanned by all the blades.
 	 */
-	private final ArrayList&lt;Blade&gt; bladeList;
+	protected final ArrayList&lt;Blade&gt; bladeList;
 
 	/**
 	 * This integer is the number of grades in the algebra. It is one more than the
@@ -249,8 +251,8 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 * @param pGens byte This is the number of generators that make up the basis
 	 */
 	public Basis(byte pGens) {
-<span class="fc" id="L252">		this(Generator.get(pGens));</span>
-<span class="fc" id="L253">	}</span>
+<span class="fc" id="L254">		this(Generator.get(pGens));</span>
+<span class="fc" id="L255">	}</span>
 
 	/**
 	 * This is the constructor that takes one generator and assumes all generators with smaller ordinals
@@ -260,88 +262,109 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 * &lt;br&gt;&lt;br&gt;
 	 * @param pGen Generator that is the largest one in the set of generators to use to create the basis
 	 */
-<span class="fc" id="L263">	public Basis(Generator pGen) {</span>
-<span class="fc" id="L264">		uuid = UUID.randomUUID().toString();</span>
-<span class="fc bfc" id="L265" title="All 2 branches covered.">		if (pGen != null) {</span>
-<span class="fc" id="L266">			gradeCount = (byte) (pGen.ord + 1);									//Initializing starts here</span>
-<span class="fc" id="L267">			gradeList = new ArrayList&lt;Integer&gt;(gradeCount);						//Exactly as many entries as basis grades</span>
-<span class="fc" id="L268">			bladeList = new ArrayList&lt;Blade&gt;(1 &lt;&lt; pGen.ord);					//Exactly as many entries as 2^(gradeCount-1)</span>
-<span class="fc" id="L269">			keyIndexMap = new TreeMap&lt;&gt;();										//Relates the two blade keys</span>
+<span class="fc" id="L265">	public Basis(Generator pGen) {</span>
+<span class="fc" id="L266">		uuid = UUID.randomUUID().toString();</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">		if (pGen != null) {</span>
+<span class="fc" id="L268">			gradeCount = (byte) (pGen.ord + 1);									//Initializing starts here</span>
+<span class="fc" id="L269">			gradeList = new ArrayList&lt;Integer&gt;(gradeCount);						//Exactly as many entries as basis grades</span>
+<span class="fc" id="L270">			bladeList = new ArrayList&lt;Blade&gt;(1 &lt;&lt; pGen.ord);					//Exactly as many entries as 2^(gradeCount-1)</span>
+<span class="fc" id="L271">			keyIndexMap = new TreeMap&lt;&gt;();										//Relates the two blade keys</span>
 			
-<span class="fc bfc" id="L271" title="All 2 branches covered.">			switch (pGen.ord) {													//Now build the bladeList</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">			switch (pGen.ord) {													//Now build the bladeList</span>
 				case 1 -&gt; {
-<span class="fc" id="L273">					bladeList.add(Blade.createScalarBlade(Generator.E1));		//One generator is easier</span>
-<span class="fc" id="L274">					gradeList.add(Integer.valueOf(0));						//to set up manually rather</span>
-<span class="fc" id="L275">					keyIndexMap.put(0L, 1);							//than use loops.</span>
-<span class="fc" id="L276">					bladeList.add(Blade.createPScalarBlade(Generator.E1));</span>
-<span class="fc" id="L277">					gradeList.add(Integer.valueOf(1));</span>
-<span class="fc" id="L278">					keyIndexMap.put(1L, 2);</span>
-<span class="fc" id="L279">					break;</span>
+<span class="fc" id="L275">					bladeList.add(Blade.createScalarBlade(Generator.E1));		//One generator is easier</span>
+<span class="fc" id="L276">					gradeList.add(Integer.valueOf(0));						//to set up manually rather</span>
+<span class="fc" id="L277">					keyIndexMap.put(0L, 1);							//than use loops.</span>
+<span class="fc" id="L278">					bladeList.add(Blade.createPScalarBlade(Generator.E1));</span>
+<span class="fc" id="L279">					gradeList.add(Integer.valueOf(1));</span>
+<span class="fc" id="L280">					keyIndexMap.put(1L, 2);</span>
+<span class="fc" id="L281">					break;</span>
 				}
 				default -&gt; {													//Two or more generators -&gt; use loops
-<span class="fc" id="L282">					EnumSet&lt;Generator&gt; offer = EnumSet.range(GENERATOR_MIN, pGen); //Set of generators to use for basis</span>
-<span class="fc" id="L283">					TreeSet&lt;Blade&gt; sorted = new TreeSet&lt;&gt;(); 					//Natural order! This is how sort is avoided.</span>
-<span class="fc bfc" id="L284" title="All 2 branches covered.">					for (EnumSet&lt;Generator&gt; pG : powerSet(offer))				//Magic(!) creating every blade as a set</span>
-<span class="fc" id="L285">						sorted.add(new Blade(pGen, pG)); 						//Adds in SORTED ORDER because... TreeSet</span>
+<span class="fc" id="L284">					EnumSet&lt;Generator&gt; offer = EnumSet.range(GENERATOR_MIN, pGen); //Set of generators to use for basis</span>
+<span class="fc" id="L285">					TreeSet&lt;Blade&gt; sorted = new TreeSet&lt;&gt;(); 					//Natural order! This is how sort is avoided.</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">					for (EnumSet&lt;Generator&gt; pG : powerSet(offer))				//Magic(!) creating every blade as a set</span>
+<span class="fc" id="L287">						sorted.add(new Blade(pGen, pG)); 						//Adds in SORTED ORDER because... TreeSet</span>
 					
-<span class="fc" id="L287">					sorted.iterator().forEachRemaining(blade -&gt; { 				//Iterator works in ascending order causing</span>
-<span class="fc" id="L288">						bladeList.add(blade); 									//bladeList to be in key ascending order</span>
-<span class="fc" id="L289">						keyIndexMap.put(blade.key(), 							//as blades are added to key map.</span>
-<span class="fc" id="L290">										Integer.valueOf(bladeList.indexOf(blade) + 1));</span>
-<span class="fc" id="L291">					});</span>
+<span class="fc" id="L289">					sorted.iterator().forEachRemaining(blade -&gt; { 				//Iterator works in ascending order causing</span>
+<span class="fc" id="L290">						bladeList.add(blade); 									//bladeList to be in key ascending order</span>
+<span class="fc" id="L291">						keyIndexMap.put(blade.key(), 							//as blades are added to key map.</span>
+<span class="fc" id="L292">										Integer.valueOf(bladeList.indexOf(blade) + 1));</span>
+<span class="fc" id="L293">					});</span>
 																				//Now build the gradeList
-<span class="fc" id="L293">					gradeList.add(Integer.valueOf(0)); 						//First entry is 0-blade grade (scalar)</span>
-<span class="fc" id="L294">					gradeList.add(Integer.valueOf(1)); 						//Second entry is 1-blade grade</span>
-<span class="fc" id="L295">					IntStream.range(2, gradeCount - 1)			//IntStream handles 2-blade to pscalar-1</span>
-<span class="fc" id="L296">						.forEachOrdered(i -&gt; {gradeList.add(					//add starting indexes in order...</span>
-<span class="fc" id="L297">							keyIndexMap.ceilingEntry(							//getting least key greater than or equal to</span>
+<span class="fc" id="L295">					gradeList.add(Integer.valueOf(0)); 						//First entry is 0-blade grade (scalar)</span>
+<span class="fc" id="L296">					gradeList.add(Integer.valueOf(1)); 						//Second entry is 1-blade grade</span>
+<span class="fc" id="L297">					IntStream.range(2, gradeCount - 1)			//IntStream handles 2-blade to pscalar-1</span>
+<span class="fc" id="L298">						.forEachOrdered(i -&gt; {gradeList.add(					//add starting indexes in order...</span>
+<span class="fc" id="L299">							keyIndexMap.ceilingEntry(							//getting least key greater than or equal to</span>
 									//Long.valueOf((long) Math.pow(gradeCount, i - 1))).getValue() - 1
-<span class="fc" id="L299">									pow(gradeCount, i - 1)).getValue() - 1		//a possible key slightly below or at the next grade</span>
+<span class="fc" id="L301">									pow(gradeCount, i - 1)).getValue() - 1		//a possible key slightly below or at the next grade</span>
 							);
-<span class="fc" id="L301">						}); 													//keyIndexMap links a blade's bladeKey to its bladeIndex </span>
+<span class="fc" id="L303">						}); 													//keyIndexMap links a blade's bladeKey to its bladeIndex </span>
 																				//Useful for the Cayley table which stores bladeIndex values.
-<span class="fc" id="L303">					gradeList.add(getBladeCount() - 1); 						//Last entry is pscalar grade</span>
-<span class="fc" id="L304">				}</span>
+<span class="fc" id="L305">					gradeList.add(getBladeCount() - 1); 						//Last entry is pscalar grade</span>
+<span class="fc" id="L306">				}</span>
 			}
 		} else {
-<span class="fc" id="L307">			gradeCount = 1;</span>
-<span class="fc" id="L308">			gradeList = new ArrayList&lt;Integer&gt;(gradeCount);</span>
-<span class="fc" id="L309">			gradeList.add(Integer.valueOf(0));</span>
-<span class="fc" id="L310">			bladeList = new ArrayList&lt;Blade&gt;(1);</span>
-<span class="fc" id="L311">			bladeList.add(Blade.createBlade((byte)0));</span>
-<span class="fc" id="L312">			keyIndexMap = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L313">			keyIndexMap.put(0L, 1);</span>
+<span class="fc" id="L309">			gradeCount = 1;</span>
+<span class="fc" id="L310">			gradeList = new ArrayList&lt;Integer&gt;(gradeCount);</span>
+<span class="fc" id="L311">			gradeList.add(Integer.valueOf(0));</span>
+<span class="fc" id="L312">			bladeList = new ArrayList&lt;Blade&gt;(1);</span>
+<span class="fc" id="L313">			bladeList.add(Blade.createBlade((byte)0));</span>
+<span class="fc" id="L314">			keyIndexMap = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L315">			keyIndexMap.put(0L, 1);</span>
 		}
-<span class="fc" id="L315">	}</span>
+<span class="fc" id="L317">	}</span>
 
 	/**
-	 * The stream returned contains blades that match the grade requested in the
-	 * parameter.
-	 * &lt;br&gt;
-	 * There are silent fail behaviors in this method. If the requested grade falls
-	 * outside the range expected in the basis, the returned stream will be empty.
-	 * This happens for negative grades and grades larger than the pscalar.
-	 * &lt;br&gt;
-	 * Otherwise, this method works simply filters what bladeStream() would produce
-	 * on blade.rank().
+	 * The stream returned contains blades that match the grade requested in the  parameter. It works like 
+	 * the full bladeStream() but with a filtering on blade.rank().
+	 * &lt;br&gt;&lt;br&gt;
+	 * There are silent ways this method fails. If the input grade falls outside the range in the basis, the 
+	 * returned stream will be empty. This happens for negative grades and grades larger than the pscalar.
+	 * &lt;br&gt;&lt;br&gt;
+	 * 
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pIn byte identifying the grade of the blades to be streamed.
+	 * @return Stream of Blades of the correct grade in the basis.
 	 */
 	@Override
 	public Stream&lt;Blade&gt; bladeOfGradeStream(byte pIn) {
-<span class="fc bfc" id="L330" title="All 2 branches covered.">		return bladeList.stream().filter(blade -&gt; blade.rank() == pIn);</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">		return bladeList.stream().filter(blade -&gt; blade.rank() == pIn);</span>
+	}
+
+	/**
+	 * The stream returned contains blades that match the grades requested in the mask parameter. Instead of
+	 * matching grade bytes, though, a boolean mask is sent that is long enough to cover all possible grades
+	 * in the bases. Where the mask array is true, that grade will be selected FOR in the stream. Where the 
+	 * mask array is false, that grade will be selected AGAINST (filtered out) in the stream.
+	 * &lt;br&gt;&lt;br&gt;
+	 * There are silent fail behaviors in this method. If the mask sent does not have a length that matches 
+	 * the gradecount for the basis, an empty stream is returned. A null mask does the same thing. If all is
+	 * well with the mask, this method works simply filters what bladeStream() would produce. Another way to
+	 * look at it is it expands on what bladeOfGradeStream() produces by covering more than one grade.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pMask boolean mask array identifying the grades of the blades to be streamed.
+	 * @return Stream of Blades of the correct grades in the basis.
+	 */
+	public Stream&lt;Blade&gt; bladeOfGradesStream(boolean[] pMask) {
+<span class="pc bpc" id="L351" title="2 of 4 branches missed.">		if (pMask == null || pMask.length != gradeCount)</span>
+<span class="nc" id="L352">			return Stream.empty();</span>
+<span class="fc" id="L353">    	return bladeList.stream().filter(blade -&gt; pMask[blade.rank()]);</span>
 	}
 
 	@Override
 	public Stream&lt;Blade&gt; bladeStream() {
-<span class="fc" id="L335">		return bladeList.stream();</span>
+<span class="fc" id="L358">		return bladeList.stream();</span>
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L340" title="All 2 branches covered.">		if (this == obj) 							return true;</span>
-<span class="fc bfc" id="L341" title="All 2 branches covered.">		if (obj == null) 							return false;</span>
-<span class="fc bfc" id="L342" title="All 2 branches covered.">		if (getClass() != obj.getClass())			return false;</span>
-<span class="fc bfc" id="L343" title="All 2 branches covered.">		if (gradeCount != ((Basis) obj).gradeCount)	return false;</span>
-<span class="fc" id="L344">													return true;</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">		if (this == obj) 							return true;</span>
+<span class="fc bfc" id="L364" title="All 2 branches covered.">		if (obj == null) 							return false;</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">		if (getClass() != obj.getClass())			return false;</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">		if (gradeCount != ((Basis) obj).gradeCount)	return false;</span>
+<span class="fc" id="L367">													return true;</span>
 	}
 
 	/**
@@ -354,12 +377,12 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public int find(Blade pIn) {
-<span class="fc bfc" id="L357" title="All 2 branches covered.">		if (!(pIn == null)) {</span>
-<span class="fc" id="L358">			Integer loc = keyIndexMap.get(pIn.key());</span>
-<span class="fc bfc" id="L359" title="All 2 branches covered.">			if (!(loc == null))</span>
-<span class="fc" id="L360">				return loc.intValue();</span>
+<span class="fc bfc" id="L380" title="All 2 branches covered.">		if (!(pIn == null)) {</span>
+<span class="fc" id="L381">			Integer loc = keyIndexMap.get(pIn.key());</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">			if (!(loc == null))</span>
+<span class="fc" id="L383">				return loc.intValue();</span>
 		}
-<span class="fc" id="L362">		return -1;</span>
+<span class="fc" id="L385">		return -1;</span>
 	}
 
 	/**
@@ -370,7 +393,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public int getBladeCount() {
-<span class="fc" id="L373">		return bladeList.size();</span>
+<span class="fc" id="L396">		return bladeList.size();</span>
 	}
 
 	/**
@@ -384,7 +407,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public byte getGradeCount() {
-<span class="fc" id="L387">		return gradeCount;</span>
+<span class="fc" id="L410">		return gradeCount;</span>
 	}
 
 	/**
@@ -395,7 +418,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public ArrayList&lt;Integer&gt; getGrades() {
-<span class="fc" id="L398">		return gradeList;</span>
+<span class="fc" id="L421">		return gradeList;</span>
 	}
 
 	/**
@@ -406,9 +429,9 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public int getGradeStart(byte p1) {
-<span class="fc bfc" id="L409" title="All 2 branches covered.">		if (this.validateGradeIndex(p1))</span>
-<span class="fc" id="L410">			return gradeList.get(p1).intValue();</span>
-<span class="fc" id="L411">		return -1;</span>
+<span class="fc bfc" id="L432" title="All 2 branches covered.">		if (this.validateGradeIndex(p1))</span>
+<span class="fc" id="L433">			return gradeList.get(p1).intValue();</span>
+<span class="fc" id="L434">		return -1;</span>
 	}
 
 	/**
@@ -422,14 +445,14 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public long getKey(int p1) {
-<span class="fc bfc" id="L425" title="All 2 branches covered.">		if (this.validateBladeIndex(p1))</span>
-<span class="fc" id="L426">			return bladeList.get(p1).key();</span>
-<span class="fc" id="L427">		return -1;</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">		if (this.validateBladeIndex(p1))</span>
+<span class="fc" id="L449">			return bladeList.get(p1).key();</span>
+<span class="fc" id="L450">		return -1;</span>
 	}
 
 	@Override
 	public Blade getPScalarBlade() {
-<span class="fc" id="L432">		return bladeList.get(getBladeCount() - 1);</span>
+<span class="fc" id="L455">		return bladeList.get(getBladeCount() - 1);</span>
 	}
 
 	/**
@@ -439,12 +462,12 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public int getPScalarStart() {
-<span class="fc" id="L442">		return gradeList.get(gradeCount - 1);</span>
+<span class="fc" id="L465">		return gradeList.get(gradeCount - 1);</span>
 	}
 
 	@Override
 	public Blade getScalarBlade() {
-<span class="fc" id="L447">		return bladeList.get(0);</span>
+<span class="fc" id="L470">		return bladeList.get(0);</span>
 	}
 
 	/**
@@ -458,84 +481,29 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public Blade getSingleBlade(int p1) {
-<span class="fc bfc" id="L461" title="All 2 branches covered.">		if (this.validateBladeIndex(p1))</span>
-<span class="fc" id="L462">			return bladeList.get(p1);</span>
-<span class="fc" id="L463">		return null;</span>
+<span class="fc bfc" id="L484" title="All 2 branches covered.">		if (this.validateBladeIndex(p1))</span>
+<span class="fc" id="L485">			return bladeList.get(p1);</span>
+<span class="fc" id="L486">		return null;</span>
 	}
 
 	@Override
 	public IntStream gradeStream() {
-<span class="fc" id="L468">		return IntStream.rangeClosed(0, gradeCount - 1);</span>
+<span class="fc" id="L491">		return IntStream.rangeClosed(0, gradeCount - 1);</span>
 	}
 
 	@Override
 	public boolean hasBlade(Blade pB) {
-<span class="fc" id="L473">		return keyIndexMap.containsKey(pB.key());</span>
+<span class="fc" id="L496">		return keyIndexMap.containsKey(pB.key());</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L478">		return (int) getGradeCount();</span>
+<span class="fc" id="L501">		return (int) getGradeCount();</span>
 	}
 
 	@Override
 	public LongStream keyStream() {
-<span class="fc" id="L483">		return bladeList.stream().mapToLong(blade -&gt; blade.key());</span>
-	}
-
-	/**
-	 * This method produces a printable and parseable string that represents the
-	 * Basis in a human readable form. return String
-	 * &lt;br&gt;
-	 * @param pB The Basis to export as XML
-	 * @param indent String of 'tab' characters that help space the output correctly
-	 *               visually. It's not actually necessary except for human
-	 *               readability of the output.
-	 * @return String
-	 */
-	public static String toXMLString(Basis pB, String indent) {
-<span class="fc bfc" id="L497" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L498">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L499">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis UUID=\&quot;&quot;);</span>
-<span class="fc" id="L500">		rB	.append(pB.uuid)</span>
-<span class="fc" id="L501">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-		// ------------------------------------------------------------------
-<span class="fc" id="L503">		rB.append(indent)</span>
-<span class="fc" id="L504">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
-<span class="fc" id="L505">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L506" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.gradeCount - 2; k++) // loop to get all but the highest grade</span>
-<span class="fc" id="L507">			rB	.append(indent)</span>
-<span class="fc" id="L508">				.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
-<span class="fc" id="L509">				.append(k)</span>
-<span class="fc" id="L510">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L511">				.append(pB.gradeList.get(k))</span>
-<span class="fc" id="L512">				.append(&quot;-&quot;)</span>
-<span class="fc" id="L513">				.append((pB.gradeList.get(k + 1) - 1))</span>
-<span class="fc" id="L514">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
-		// Handle last grade separate. There is no k+1 index for the largest grade
-<span class="fc" id="L516">		rB	.append(indent)</span>
-<span class="fc" id="L517">			.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
-<span class="fc" id="L518">			.append((pB.getGradeCount() - 1))</span>
-<span class="fc" id="L519">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L520">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
-<span class="fc" id="L521">			.append(&quot;-&quot;)</span>
-<span class="fc" id="L522">			.append(pB.gradeList.get(pB.gradeCount - 1))</span>
-<span class="fc" id="L523">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L524">		rB.append(indent)</span>
-<span class="fc" id="L525">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
-		// ------------------------------------------------------------------
-<span class="fc" id="L527">		rB	.append(indent)</span>
-<span class="fc" id="L528">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
-<span class="fc" id="L529">			.append(pB.getBladeCount())</span>
-<span class="fc" id="L530">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L531" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
-<span class="fc" id="L532">			rB	.append(Blade.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L533">		rB	.append(indent)</span>
-<span class="fc" id="L534">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
-		// ------------------------------------------------------------------
-<span class="fc" id="L536">		rB	.append(indent)</span>
-<span class="fc" id="L537">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
-<span class="fc" id="L538">		return rB.toString();</span>
+<span class="fc" id="L506">		return bladeList.stream().mapToLong(blade -&gt; blade.key());</span>
 	}
 
 	/**
@@ -548,7 +516,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public final boolean validateBladeIndex(int pIn) {
-<span class="fc bfc" id="L551" title="All 4 branches covered.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());</span>
+<span class="fc bfc" id="L519" title="All 4 branches covered.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getBladeCount());</span>
 	}
 
 	/**
@@ -561,7 +529,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public final boolean validateGradeIndex(int pIn) {
-<span class="pc bpc" id="L564" title="1 of 4 branches missed.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());</span>
+<span class="pc bpc" id="L532" title="1 of 4 branches missed.">		return (pIn &gt;= SCALARGRADE &amp; pIn &lt; getGradeCount());</span>
 	}
 
 	/**
@@ -573,7 +541,7 @@ public final class Basis implements CanonicalBasis, Comparable&lt;Basis&gt; {
 	 */
 	@Override
 	public int compareTo(Basis pIn) {
-<span class="nc bnc" id="L576" title="All 4 branches missed.">		return (getGradeCount() &lt; pIn.getGradeCount()) ? -1 : (getGradeCount() &gt; pIn.getGradeCount() ? 1 : 0);</span>
+<span class="nc bnc" id="L544" title="All 4 branches missed.">		return (getGradeCount() &lt; pIn.getGradeCount()) ? -1 : (getGradeCount() &gt; pIn.getGradeCount() ? 1 : 0);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

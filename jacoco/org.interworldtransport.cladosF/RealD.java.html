@@ -448,6 +448,17 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	}
 
 	/**
+	 * This method tacks on a value check for equality, but first checks whether the super class ProtoN agrees.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pF The number to be tested for equality
+	 * @return boolean answer to whether the numbers are equal
+	 */
+	public boolean equals(RealD pF) {
+<span class="nc bnc" id="L457" title="All 2 branches missed.">		if (!super.equals(pF))		return false;</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">		return getReal() == pF.getReal();</span>
+	}
+
+	/**
 	 * This is the square root of the SQ Modulus. It is smarter to calculate
 	 * SQModulus first.
 	 * &lt;br&gt;
@@ -455,7 +466,7 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Double modulus() {
-<span class="fc" id="L458">		return Double.valueOf(Math.sqrt(sqModulus()));</span>
+<span class="fc" id="L469">		return Double.valueOf(Math.sqrt(sqModulus()));</span>
 	}
 
 	/**
@@ -464,7 +475,7 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 * @return double
 	 */
 	public double getReal() {
-<span class="fc" id="L467">		return vals[0];</span>
+<span class="fc" id="L478">		return vals[0];</span>
 	}
 
 	/**
@@ -476,10 +487,10 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Double sqModulus() {
-<span class="fc" id="L479">		double tR = 0d;</span>
-<span class="fc bfc" id="L480" title="All 2 branches covered.">		for (double point : vals)</span>
-<span class="fc" id="L481">			tR += point * point;</span>
-<span class="fc" id="L482">		return Double.valueOf(tR);</span>
+<span class="fc" id="L490">		double tR = 0d;</span>
+<span class="fc bfc" id="L491" title="All 2 branches covered.">		for (double point : vals)</span>
+<span class="fc" id="L492">			tR += point * point;</span>
+<span class="fc" id="L493">		return Double.valueOf(tR);</span>
 	}
 
 	/**
@@ -491,11 +502,11 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealD invert() throws FieldException {
-<span class="fc bfc" id="L494" title="All 2 branches covered.">		if (RealD.isZero(this))</span>
-<span class="fc" id="L495">			throw new FieldException(this, &quot;Can't invert a zero RealD&quot;);</span>
+<span class="fc bfc" id="L505" title="All 2 branches covered.">		if (RealD.isZero(this))</span>
+<span class="fc" id="L506">			throw new FieldException(this, &quot;Can't invert a zero RealD&quot;);</span>
 
-<span class="fc" id="L497">		setReal(1.0D / getReal());</span>
-<span class="fc" id="L498">		return this;</span>
+<span class="fc" id="L508">		setReal(1.0D / getReal());</span>
+<span class="fc" id="L509">		return this;</span>
 	}
 
 	/**
@@ -509,12 +520,12 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealD multiply(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L512" title="1 of 4 branches missed.">		if (RealD.isNaN(this) 				|| RealD.isNaN((RealD) pF)</span>
-<span class="pc bpc" id="L513" title="1 of 4 branches missed.">				|| RealD.isInfinite(this) 	|| RealD.isInfinite((RealD) pF))</span>
-<span class="fc" id="L514">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="pc bpc" id="L523" title="1 of 4 branches missed.">		if (RealD.isNaN(this) 				|| RealD.isNaN((RealD) pF)</span>
+<span class="pc bpc" id="L524" title="1 of 4 branches missed.">				|| RealD.isInfinite(this) 	|| RealD.isInfinite((RealD) pF))</span>
+<span class="fc" id="L525">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L516">		setReal(getReal() * ((RealD) pF).getReal());</span>
-<span class="fc" id="L517">		return this;</span>
+<span class="fc" id="L527">		setReal(getReal() * ((RealD) pF).getReal());</span>
+<span class="fc" id="L528">		return this;</span>
 	}
 
 	/**
@@ -525,9 +536,9 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealD scale(Number pS) {
-<span class="fc" id="L528">		setReal(pS.doubleValue() * getReal());</span>
+<span class="fc" id="L539">		setReal(pS.doubleValue() * getReal());</span>
 
-<span class="fc" id="L530">		return this;</span>
+<span class="fc" id="L541">		return this;</span>
 	}
 
 	/**
@@ -537,8 +548,8 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 * @return RealD this number
 	 */
 	public RealD setReal(double preal) {
-<span class="fc" id="L540">		vals[0] = preal;</span>
-<span class="fc" id="L541">		return this;</span>
+<span class="fc" id="L551">		vals[0] = preal;</span>
+<span class="fc" id="L552">		return this;</span>
 	}
 
 	/**
@@ -551,13 +562,13 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public RealD subtract(Field pF) throws FieldBinaryException {
-<span class="fc bfc" id="L554" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
-<span class="pc bpc" id="L555" title="1 of 4 branches missed.">				|| RealD.isNaN(this) 		|| RealD.isNaN((RealD) pF)</span>
-<span class="pc bpc" id="L556" title="1 of 4 branches missed.">				|| RealD.isInfinite(this) 	|| RealD.isInfinite((RealD) pF))</span>
-<span class="fc" id="L557">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L565" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L566" title="1 of 4 branches missed.">				|| RealD.isNaN(this) 		|| RealD.isNaN((RealD) pF)</span>
+<span class="pc bpc" id="L567" title="1 of 4 branches missed.">				|| RealD.isInfinite(this) 	|| RealD.isInfinite((RealD) pF))</span>
+<span class="fc" id="L568">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 
-<span class="fc" id="L559">		setReal(getReal() - ((RealD) pF).getReal());</span>
-<span class="fc" id="L560">		return this;</span>
+<span class="fc" id="L570">		setReal(getReal() - ((RealD) pF).getReal());</span>
+<span class="fc" id="L571">		return this;</span>
 	}
 
 	/**
@@ -567,7 +578,7 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L570">		return (getReal() + &quot;DR&quot;);</span>
+<span class="fc" id="L581">		return (getReal() + &quot;DR&quot;);</span>
 	}
 
 	/**
@@ -577,7 +588,7 @@ public class RealD extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(RealD pN) {
-<span class="fc" id="L580">		return (&quot;&lt;RealD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
+<span class="fc" id="L591">		return (&quot;&lt;RealD cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; /&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

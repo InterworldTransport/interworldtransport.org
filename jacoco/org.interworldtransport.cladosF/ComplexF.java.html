@@ -501,16 +501,27 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	}
 
 	/**
+	 * This method tacks on a value check for equality, but first checks whether the super class ProtoN agrees.
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pF The number to be tested for equality
+	 * @return boolean answer to whether the numbers are equal
+	 */
+	public boolean equals(ComplexF pF) {
+<span class="nc bnc" id="L510" title="All 2 branches missed.">		if (!super.equals(pF))		return false;</span>
+<span class="nc bnc" id="L511" title="All 4 branches missed.">		return (getReal() == pF.getReal() &amp; getImg() == pF.getImg());</span>
+	}
+
+	/**
 	 * Get method for the argument of the complex number. This function uses the
 	 * arctangent function, so its range and domain are the same.
 	 * &lt;br&gt;
 	 * @return float
 	 */
 	public float getArgument() {
-<span class="pc bpc" id="L510" title="1 of 2 branches missed.">		if (!ComplexF.isImaginary(this))</span>
-<span class="fc" id="L511">			return (float) Math.atan(getImg() / getReal());</span>
+<span class="pc bpc" id="L521" title="1 of 2 branches missed.">		if (!ComplexF.isImaginary(this))</span>
+<span class="fc" id="L522">			return (float) Math.atan(getImg() / getReal());</span>
 
-<span class="nc bnc" id="L513" title="All 2 branches missed.">		return (float) ((getImg() &gt;= 0f) ? Math.PI / 2.0f : 3.0D * Math.PI / 2.0f);</span>
+<span class="nc bnc" id="L524" title="All 2 branches missed.">		return (float) ((getImg() &gt;= 0f) ? Math.PI / 2.0f : 3.0D * Math.PI / 2.0f);</span>
 	}
 
 	/**
@@ -519,7 +530,7 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 * @return float
 	 */
 	public float getImg() {
-<span class="fc" id="L522">		return vals[1];</span>
+<span class="fc" id="L533">		return vals[1];</span>
 	}
 
 	/**
@@ -530,7 +541,7 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Float modulus() {
-<span class="fc" id="L533">		return Float.valueOf((float) Math.sqrt(sqModulus().floatValue()));</span>
+<span class="fc" id="L544">		return Float.valueOf((float) Math.sqrt(sqModulus().floatValue()));</span>
 	}
 
 	/**
@@ -539,7 +550,7 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 * @return float
 	 */
 	public float getReal() {
-<span class="fc" id="L542">		return vals[0];</span>
+<span class="fc" id="L553">		return vals[0];</span>
 	}
 
 	/**
@@ -551,10 +562,10 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public Float sqModulus() {
-<span class="fc" id="L554">		float tR = 0f;</span>
-<span class="fc bfc" id="L555" title="All 2 branches covered.">		for (float point : vals)</span>
-<span class="fc" id="L556">			tR += point * point;</span>
-<span class="fc" id="L557">		return Float.valueOf(tR);</span>
+<span class="fc" id="L565">		float tR = 0f;</span>
+<span class="fc bfc" id="L566" title="All 2 branches covered.">		for (float point : vals)</span>
+<span class="fc" id="L567">			tR += point * point;</span>
+<span class="fc" id="L568">		return Float.valueOf(tR);</span>
 	}
 
 	/**
@@ -566,14 +577,14 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexF invert() throws FieldException {
-<span class="fc bfc" id="L569" title="All 2 branches covered.">		if (ComplexF.isZero(this))</span>
-<span class="fc" id="L570">			throw new FieldException(this, &quot;Can't invert a zero ComplexF&quot;);</span>
+<span class="fc bfc" id="L580" title="All 2 branches covered.">		if (ComplexF.isZero(this))</span>
+<span class="fc" id="L581">			throw new FieldException(this, &quot;Can't invert a zero ComplexF&quot;);</span>
 
-<span class="fc" id="L572">		float tM = 1.0f / modulus();</span>
-<span class="fc" id="L573">		float tA = -1.0f * getArgument();</span>
-<span class="fc" id="L574">		setReal((float) (tM * Math.cos(tA)));</span>
-<span class="fc" id="L575">		setImg((float) (tM * Math.sin(tA)));</span>
-<span class="fc" id="L576">		return this;</span>
+<span class="fc" id="L583">		float tM = 1.0f / modulus();</span>
+<span class="fc" id="L584">		float tA = -1.0f * getArgument();</span>
+<span class="fc" id="L585">		setReal((float) (tM * Math.cos(tA)));</span>
+<span class="fc" id="L586">		setImg((float) (tM * Math.sin(tA)));</span>
+<span class="fc" id="L587">		return this;</span>
 	}
 
 	/**
@@ -587,13 +598,13 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexF multiply(Field pF) throws FieldBinaryException {
-<span class="pc bpc" id="L590" title="1 of 4 branches missed.">		if (ComplexF.isNaN(this) 				|| ComplexF.isNaN((ComplexF) pF)</span>
-<span class="pc bpc" id="L591" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) 	|| ComplexF.isInfinite((ComplexF) pF))</span>
-<span class="fc" id="L592">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
-<span class="fc" id="L593">		ComplexF tempZ = (ComplexF) pF;</span>
-<span class="fc" id="L594">		setReal(getReal() * tempZ.getReal() - getImg() * tempZ.getImg());</span>
-<span class="fc" id="L595">		setImg(getReal() * tempZ.getImg() + getImg() * tempZ.getReal());</span>
-<span class="fc" id="L596">		return this;</span>
+<span class="pc bpc" id="L601" title="1 of 4 branches missed.">		if (ComplexF.isNaN(this) 				|| ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L602" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) 	|| ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L603">			throw (new FieldBinaryException(this, &quot;Multiply failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc" id="L604">		ComplexF tempZ = (ComplexF) pF;</span>
+<span class="fc" id="L605">		setReal(getReal() * tempZ.getReal() - getImg() * tempZ.getImg());</span>
+<span class="fc" id="L606">		setImg(getReal() * tempZ.getImg() + getImg() * tempZ.getReal());</span>
+<span class="fc" id="L607">		return this;</span>
 	}
 
 	/**
@@ -604,9 +615,9 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexF scale(Number pS) {
-<span class="fc" id="L607">		setReal(pS.floatValue() * getReal());</span>
-<span class="fc" id="L608">		setImg(pS.floatValue() * getImg());</span>
-<span class="fc" id="L609">		return this;</span>
+<span class="fc" id="L618">		setReal(pS.floatValue() * getReal());</span>
+<span class="fc" id="L619">		setImg(pS.floatValue() * getImg());</span>
+<span class="fc" id="L620">		return this;</span>
 	}
 
 	/**
@@ -616,8 +627,8 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 * @return ComplexF this number
 	 */
 	public ComplexF setImg(float pimg) {
-<span class="fc" id="L619">		vals[1] = pimg;</span>
-<span class="fc" id="L620">		return this;</span>
+<span class="fc" id="L630">		vals[1] = pimg;</span>
+<span class="fc" id="L631">		return this;</span>
 	}
 
 	/**
@@ -627,8 +638,8 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 * @return ComplexF this number
 	 */
 	public ComplexF setReal(float preal) {
-<span class="fc" id="L630">		vals[0] = preal;</span>
-<span class="fc" id="L631">		return this;</span>
+<span class="fc" id="L641">		vals[0] = preal;</span>
+<span class="fc" id="L642">		return this;</span>
 	}
 
 	/**
@@ -641,14 +652,14 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public ComplexF subtract(Field pF) throws FieldBinaryException {
-<span class="fc bfc" id="L644" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
-<span class="pc bpc" id="L645" title="1 of 4 branches missed.">				|| ComplexF.isNaN(this) 		|| ComplexF.isNaN((ComplexF) pF)</span>
-<span class="pc bpc" id="L646" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) 	|| ComplexF.isInfinite((ComplexF) pF))</span>
-<span class="fc" id="L647">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
+<span class="fc bfc" id="L655" title="All 2 branches covered.">		if (!ProtoN.isTypeMatch(this, (ProtoN) pF) </span>
+<span class="pc bpc" id="L656" title="1 of 4 branches missed.">				|| ComplexF.isNaN(this) 		|| ComplexF.isNaN((ComplexF) pF)</span>
+<span class="pc bpc" id="L657" title="1 of 4 branches missed.">				|| ComplexF.isInfinite(this) 	|| ComplexF.isInfinite((ComplexF) pF))</span>
+<span class="fc" id="L658">			throw (new FieldBinaryException(this, &quot;Subtraction failed type match or size test&quot;, (ProtoN) pF));</span>
 		
-<span class="fc" id="L649">		setReal(getReal() - ((ComplexF) pF).getReal());</span>
-<span class="fc" id="L650">		setImg(getImg() - ((ComplexF) pF).getImg());</span>
-<span class="fc" id="L651">		return this;</span>
+<span class="fc" id="L660">		setReal(getReal() - ((ComplexF) pF).getReal());</span>
+<span class="fc" id="L661">		setImg(getImg() - ((ComplexF) pF).getImg());</span>
+<span class="fc" id="L662">		return this;</span>
 	}
 
 	/**
@@ -658,7 +669,7 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L661">		return (getReal() + &quot;FR, &quot; + getImg() + &quot;FI&quot;);</span>
+<span class="fc" id="L672">		return (getReal() + &quot;FR, &quot; + getImg() + &quot;FI&quot;);</span>
 	}
 
 	/**
@@ -668,8 +679,8 @@ public class ComplexF extends ProtoN implements Field, Normalizable {
 	 * @return String
 	 */
 	public final static String toXMLString(ComplexF pN) {
-<span class="fc" id="L671">		return (&quot;&lt;ComplexF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; img=\&quot;&quot;</span>
-<span class="fc" id="L672">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
+<span class="fc" id="L682">		return (&quot;&lt;ComplexF cardinal=\&quot;&quot; + pN.getCardinalString() + &quot;\&quot; real=\&quot;&quot; + pN.getReal() + &quot;\&quot; img=\&quot;&quot;</span>
+<span class="fc" id="L683">				+ pN.getImg() + &quot;\&quot;/&gt;&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -29,95 +29,75 @@ import org.interworldtransport.cladosF.FCache;
 import org.interworldtransport.cladosF.ProtoN;
 
 /**
- * Objects within the cladosG package have a number of attributes in common that
- * relate to a point that describes where the geometry of the algebra is tangent
- * to the manifold underneath it. In a flat space it is not really necessary to
- * use a foot point, but a simple one is still used in the cladosG package to
- * help avoid the trap of assuming transport of objects along the manifold
- * doesn't cause them to re-orient and change into other objects.
+ * Objects within the cladosG package have a number of attributes in common that relate to a point that describes 
+ * where the geometry of the algebra is tangent to the manifold underneath it. In a flat space it is not necessary 
+ * to use a foot, but a simple one is still used by cladosG classes to help avoid the trap of assuming transport of 
+ * objects along the manifold doesn't cause them to transform into other objects.
  * &lt;br&gt;&lt;br&gt;
- * At a minimum, a Foot is the name of an event and the type of numbers used 
- * as wieghts for the tangent space. At this location it is
- * assumed the geometry of the algebra is aligned with the tangent geometry of 
- * the manifold at that point. This makes a Foot the root reference.
+ * At a minimum a Foot is the name of a point, but it may also be thought of as a name for an open set of points
+ * covered by a 'chart' (topology). This set is the portion of the underlying manifold that has an image in the
+ * tangent space where the cladosG classes will represent geometry. Objects with different Feet, therefore, are 
+ * covered by different charts. That makes a Foot a root reference label.
  * &lt;br&gt;&lt;br&gt;
  * @version 2.0
  * @author Dr Alfred W Differ
  */
 public final class Foot {
 	/**
-	 * This factory build method produces a new Foot with an empty cardinal list. It
-	 * is intend to name an otherwise opaque constructor that creates a new Foot but
-	 * re-uses a Cardinal.
-	 * &lt;br&gt;
+	 * This factory build method produces a new Foot. Plain and simple.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pFootName String name for the new Foot
 	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
 	 */
 	public static final Foot buildAsType(String pFootName) {
-<span class="fc" id="L57">		return new Foot(pFootName);</span>
+<span class="fc" id="L53">		return new Foot(pFootName);</span>
 	}
 
 	/**
-	 * This String is the name the footPoint. Think of it as naming the tangent
-	 * point between a flat algebra and the curvy manifold.
+	 * A human readable name for the Foot. The &quot;tangent point&quot; between a flat algebra and the curvy manifold is being labeled.
 	 */
 	private String footName;
 
 	/**
 	 * Build the Foot from scratch.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pName String This string will be the name of the foot point.
 	 */
-<span class="fc" id="L71">	public Foot(String pName) {</span>
-<span class="fc" id="L72">		setFootName(pName);</span>
-<span class="fc" id="L73">		FBuilder.createCardinal(pName);</span>
-<span class="fc" id="L74">	}</span>
+<span class="fc" id="L66">	public Foot(String pName) {</span>
+<span class="fc" id="L67">		setName(pName);</span>
+<span class="fc" id="L68">		FBuilder.createCardinal(pName);</span>
+<span class="fc" id="L69">	}</span>
 
 	/**
 	 * Build the Foot from scratch then put the number's Cardinal in the internal list.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pName String This string will be the name of the foot point.
 	 * @param pF    ProtoN This object holds the cardinal that defines the kind of
 	 *              numbers that are meaningful for this foot point
 	 */
-<span class="fc" id="L83">	public Foot(String pName, ProtoN pF) {</span>
-<span class="fc" id="L84">		setFootName(pName);</span>
-<span class="fc" id="L85">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
-<span class="fc" id="L86">	}</span>
+<span class="fc" id="L78">	public Foot(String pName, ProtoN pF) {</span>
+<span class="fc" id="L79">		setName(pName);</span>
+<span class="fc" id="L80">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
+<span class="fc" id="L81">	}</span>
 
 	/**
 	 * Simple gettor of the Foot's name element
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @return String name of the Foot
 	 */
-	public String getFootName() {
-<span class="fc" id="L94">		return footName;</span>
+	public String getName() {
+<span class="fc" id="L89">		return footName;</span>
 	}
 
 	/**
 	 * Simple setter of the Foot's name element.
-	 * &lt;br&gt;
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param footName String name of the Foot to set here
 	 */
-	public void setFootName(String footName) {
-<span class="fc" id="L103">		this.footName = footName;</span>
-<span class="fc" id="L104">	}</span>
+	public void setName(String footName) {
+<span class="fc" id="L98">		this.footName = footName;</span>
+<span class="fc" id="L99">	}</span>
 
-	/**
-	 * This is an exporter of internal details to XML. It exists to bypass certain
-	 * security concerns related to Java serialization of objects.
-	 * &lt;br&gt;
-	 * @param pF Foot the be exported as XML.
-	 * @param indent String indentation to assist with human readability of output
-	 *               XML data
-	 * @return String formatted as XML containing information about the Foot
-	 */
-	public final static String toXMLString(Foot pF, String indent) {
-<span class="fc bfc" id="L116" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
-<span class="fc" id="L117">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
-<span class="fc" id="L118">		rB	.append(pF.getFootName())</span>
-<span class="fc" id="L119">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L120">		return rB.toString();</span>
-	}
+	
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
