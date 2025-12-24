@@ -17,10 +17,10 @@ Clados,org.interworldtransport.cladosGExceptions,BadSignatureException,0,13,0,0,
 Clados,org.interworldtransport.cladosGExceptions,CladosMonadException,0,13,0,0,0,5,0,3,0,3
 Clados,org.interworldtransport.cladosG,Scale,264,1311,42,149,46,215,47,150,11,76
 Clados,org.interworldtransport.cladosG,Blade,10,503,5,39,1,106,5,58,0,41
-Clados,org.interworldtransport.cladosG,Connection,214,0,11,0,38,0,22,0,15,0
+Clados,org.interworldtransport.cladosG,Connection,216,0,11,0,39,0,23,0,16,0
 Clados,org.interworldtransport.cladosG,Generator,0,183,0,12,0,28,0,13,0,7
 Clados,org.interworldtransport.cladosG,Monad,82,1895,22,144,23,345,24,155,2,76
-Clados,org.interworldtransport.cladosG,Nyad,167,1453,32,148,24,257,35,152,5,92
+Clados,org.interworldtransport.cladosG,Nyad,409,1453,50,148,81,257,54,152,15,92
 Clados,org.interworldtransport.cladosG,GCache,10,143,1,11,2,28,2,20,1,15
 Clados,org.interworldtransport.cladosG,Foot,0,31,0,0,0,12,0,5,0,5
 Clados,org.interworldtransport.cladosG,GProduct,29,501,9,41,7,72,11,40,2,23
@@ -30,6 +30,6 @@ Clados,org.interworldtransport.cladosG,GBuilder,5,411,1,27,1,86,1,46,0,32
 Clados,org.interworldtransport.cladosG,Basis,19,518,7,39,2,95,6,48,1,30
 Clados,org.interworldtransport.cladosG,Algebra,113,226,16,18,21,56,12,25,2,17
 Clados,org.interworldtransport.cladosG,CanonicalBasis,0,13,0,4,0,1,0,3,0,1
-Clados,org.interworldtransport.cladosG,BladeDuet,13,362,1,31,2,57,2,25,1,10
+Clados,org.interworldtransport.cladosG,BladeDuet,21,459,5,39,3,71,5,30,1,12
 Clados,org.interworldtransport.cladosG,GExporter,48,1045,11,45,8,231,12,38,1,18
 Clados,org.interworldtransport.cladosG,CliffordProduct,0,42,0,12,0,13,0,8,0,1

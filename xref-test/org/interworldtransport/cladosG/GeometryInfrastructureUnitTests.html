@@ -15,7 +15,7 @@
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.util.ArrayList;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.util.EnumSet;
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.IdentityHashMap;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.TreeMap;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> java.util.Optional;
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.util.stream.IntStream;
@@ -542,10 +542,10 @@
 <a class="jxr_linenumber" name="L534" href="#L534">534</a>                 ComplexF[] tCF = (ComplexF[]) FListBuilder.COMPLEXF.createONE(workCard, 16);   <em class="jxr_comment">//new ComplexF[16];</em>
 <a class="jxr_linenumber" name="L535" href="#L535">535</a>                 ComplexD[] tCD = (ComplexD[]) FListBuilder.COMPLEXD.createONE(workCard, 16);   <em class="jxr_comment">//new ComplexD[16];</em>
 <a class="jxr_linenumber" name="L536" href="#L536">536</a> 
-<a class="jxr_linenumber" name="L537" href="#L537">537</a>                 Map&lt;Blade, RealF&gt; mapRF = <strong class="jxr_keyword">new</strong> IdentityHashMap&lt;&gt;(tRF.length);
-<a class="jxr_linenumber" name="L538" href="#L538">538</a>                 Map&lt;Blade, RealD&gt; mapRD = <strong class="jxr_keyword">new</strong> IdentityHashMap&lt;&gt;(tRD.length);
-<a class="jxr_linenumber" name="L539" href="#L539">539</a>                 Map&lt;Blade, ComplexF&gt; mapCF = <strong class="jxr_keyword">new</strong> IdentityHashMap&lt;&gt;(tCF.length);
-<a class="jxr_linenumber" name="L540" href="#L540">540</a>                 Map&lt;Blade, ComplexD&gt; mapCD = <strong class="jxr_keyword">new</strong> IdentityHashMap&lt;&gt;(tCD.length);
+<a class="jxr_linenumber" name="L537" href="#L537">537</a>                 Map&lt;Blade, RealF&gt; mapRF = <strong class="jxr_keyword">new</strong> TreeMap&lt;&gt;();
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>                 Map&lt;Blade, RealD&gt; mapRD = <strong class="jxr_keyword">new</strong> TreeMap&lt;&gt;();
+<a class="jxr_linenumber" name="L539" href="#L539">539</a>                 Map&lt;Blade, ComplexF&gt; mapCF = <strong class="jxr_keyword">new</strong> TreeMap&lt;&gt;();
+<a class="jxr_linenumber" name="L540" href="#L540">540</a>                 Map&lt;Blade, ComplexD&gt; mapCD = <strong class="jxr_keyword">new</strong> TreeMap&lt;&gt;();
 <a class="jxr_linenumber" name="L541" href="#L541">541</a> 
 <a class="jxr_linenumber" name="L542" href="#L542">542</a>                 workBasis.bladeStream().forEach(blade -&gt; {
 <a class="jxr_linenumber" name="L543" href="#L543">543</a>                     mapRF.put(blade, tRF[workBasis.find(blade)-1]);
@@ -1310,14 +1310,14 @@
 <a class="jxr_linenumber" name="L1302" href="#L1302">1302</a> 
 <a class="jxr_linenumber" name="L1303" href="#L1303">1303</a>         @Test
 <a class="jxr_linenumber" name="L1304" href="#L1304">1304</a>         <strong class="jxr_keyword">void</strong> testStaticComplement() {
-<a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>             out = BladeDuet.complementLeft(firstB, sig);
+<a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>             out = BladeDuet.complementLeft(firstB, sig, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L1306" href="#L1306">1306</a>             assertTrue(CanonicalBlade.isNBlade(out, (byte) 1));
 <a class="jxr_linenumber" name="L1307" href="#L1307">1307</a>             assertTrue(out.sign() == -1);
 <a class="jxr_linenumber" name="L1308" href="#L1308">1308</a>             out.remove(Generator.E4);
 <a class="jxr_linenumber" name="L1309" href="#L1309">1309</a>             assertTrue(Blade.isScalar(out));
 <a class="jxr_linenumber" name="L1310" href="#L1310">1310</a> 
-<a class="jxr_linenumber" name="L1311" href="#L1311">1311</a>             out = BladeDuet.complementLeft(secondB, sig);
-<a class="jxr_linenumber" name="L1312" href="#L1312">1312</a>             out2 = BladeDuet.complementLeft(out, sig);
+<a class="jxr_linenumber" name="L1311" href="#L1311">1311</a>             out = BladeDuet.complementLeft(secondB, sig, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1312" href="#L1312">1312</a>             out2 = BladeDuet.complementLeft(out, sig, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L1313" href="#L1313">1313</a>             assertTrue(Blade.isPScalar(out2));
 <a class="jxr_linenumber" name="L1314" href="#L1314">1314</a>             assertTrue(CanonicalBlade.equivalent(secondB, out2));
 <a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>             assertTrue(secondB.sign() == out2.sign());
@@ -1326,13 +1326,13 @@
 <a class="jxr_linenumber" name="L1318" href="#L1318">1318</a>         @Test
 <a class="jxr_linenumber" name="L1319" href="#L1319">1319</a>         <strong class="jxr_keyword">void</strong> testStaticComplementDegenerate() {
 <a class="jxr_linenumber" name="L1320" href="#L1320">1320</a>             byte[] dsig = { 1, 1, 1, 0 };
-<a class="jxr_linenumber" name="L1321" href="#L1321">1321</a>             out = BladeDuet.complementLeft(firstB, dsig);
+<a class="jxr_linenumber" name="L1321" href="#L1321">1321</a>             out = BladeDuet.complementLeft(firstB, dsig, false);
 <a class="jxr_linenumber" name="L1322" href="#L1322">1322</a>             assertTrue(CanonicalBlade.isNBlade(out, (byte) 1));
 <a class="jxr_linenumber" name="L1323" href="#L1323">1323</a>             assertTrue(out.sign() == -1);
 <a class="jxr_linenumber" name="L1324" href="#L1324">1324</a>             out.remove(Generator.E4);
 <a class="jxr_linenumber" name="L1325" href="#L1325">1325</a>             assertTrue(Blade.isScalar(out));
 <a class="jxr_linenumber" name="L1326" href="#L1326">1326</a> 
-<a class="jxr_linenumber" name="L1327" href="#L1327">1327</a>             out = BladeDuet.complementLeft(secondB, dsig);
+<a class="jxr_linenumber" name="L1327" href="#L1327">1327</a>             out = BladeDuet.complementLeft(secondB, dsig, false);
 <a class="jxr_linenumber" name="L1328" href="#L1328">1328</a>             assertFalse(Blade.isPScalar(out));
 <a class="jxr_linenumber" name="L1329" href="#L1329">1329</a>             assertTrue(Blade.isScalar(out));
 <a class="jxr_linenumber" name="L1330" href="#L1330">1330</a>         }

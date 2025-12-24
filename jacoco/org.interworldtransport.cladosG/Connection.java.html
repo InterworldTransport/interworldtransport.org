@@ -47,53 +47,9 @@ import org.interworldtransport.cladosF.RealF;
  * Cristoffel coefficients and you get the rough idea. As such, there will always be two different algebras
  * with two different Feet.
  * &lt;br&gt;&lt;br&gt;
- * 
- * 
- * This class contains cladosF numbers that act together as the coefficients of a monad. They are all children of 
- * ProtoN and implement Field, so they have both a sense of 'units' and support basic arithmetic operations. Which
- * numbers are contained internally, therefore, is tracked by two private elements. One contains a reference to a 
- * Cardinal that all the numbers should share. The other is a reference two one of the CladosField elements so we
- * know whether this Scale is expected to contain real or complex numbers and at what level of floating point 
- * precision. Access to the two private elements is managed by their 'get' methods. getCardinal() and getMode(). 
- * There are set methods for them too, but they are package protected methods that should not be handled much by 
- * developers of physical models.
- * &lt;br&gt;&lt;br&gt;
- * The data structure used to represent 'coefficients' used to be a fixed array that had the same length as the 
- * number of blades in a monad's basis. That has been modernized to an IdentityHashMap contained within this class. 
- * The basis against which the map is applicable can be referenced by another private element, but shouldn't be 
- * manipulated once set. The private element is finalized.
- * &lt;br&gt;&lt;br&gt;
- * An IdentityHashMap was used instead of a simpler HashMap in order to get reference equality between map keys 
- * instead of object equality. Map Keys are Blades from the basis, so reference equality is the correct expectation 
- * when comparing keys. Typical use of keys from the map occurs with streams that effectively iterate through the 
- * blades for access to coefficients in the encompassing vector space. The information within a blade is far less
- * important than which blade it is, thus reference equality is what is needed.
- * &lt;br&gt;&lt;br&gt;
- * Map Values are CladosF numbers like RealF or ComplexD. Because they are objects instead of primitives, they 
- * behave much like Java's boxed primitives. In fact, they would BE those boxed primitives if not for the need to 
- * track units in physical models. For example, one meter is not one second. No equality test should pass.
- * &lt;br&gt;&lt;br&gt;
- * Because values are objects, care must be taken once one has a reference to them. Any reference to one enables a 
- * developer to change it without the Scale or Monad knowing. This is the hydra monster named Mutability. It IS a 
- * danger here. Many of Scale's methods copy inbound numbers to avoid altering them, but some do not INTENTIONALLY.
- * &lt;br&gt;&lt;br&gt;
- * 1. Coefficient settors that accept arrays do NOT copy values before placing them in the internal map. BEWARE BEWARE
- * &lt;br&gt;&lt;br&gt;
- * 2. Put() does not copy the incoming value before placing it in the internal map. Again... BEWARE.
- * &lt;br&gt;&lt;br&gt;
- * 3. Coefficient settors that accept maps DO COPY values before placing them in the internal map. Any object 
- * from which values are taken to be used here are safe from the hydra.
- * &lt;br&gt;&lt;br&gt;
- * 4. All gettors for coefficients provide direct references to values in the map. The most common use is 
- * INTENTIONAL MUTABILITY, so... BEWARE THE HYDRA. The safest way to use them is within streams / lambdas.
- * &lt;br&gt;&lt;br&gt;
- * GENERAL NOTE | Many of the methods for Scale look a lot like Monad, so one can reasonably wonder why all the 
- * extra stuff in Monad when Scale looks enough like a tuple to represent things. The primary difference is that Scale 
- * contains only the coefficients and references a basis like what we got used to as students. That's not enough 
- * because a basis is only enough to represent linear combinations for a vector space. Other geometric meanings aren't 
- * in the basis. They are in the product table. Combining product table and basis into an 'algebra' gives a MUCH 
- * better description of a 'tuple's' reference frame than a vector space.
- * &lt;br&gt;&lt;br&gt;
+ * This class has a usage document with the primary scenario that drives its design. Rather than duplicate the
+ * explanation from there to here and risk getting the documentation out of sync, check out the site usage pages.
+ * &lt;br&gt;&lt;br&gt; 
  * @param &lt;D&gt; ProtoN child class is used in the inner maps for weights of blades. (Linear Combinations)
  * @version 2.0
  * @author Dr Alfred W Differ
@@ -140,7 +96,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	private final CladosField mode;
     
      /**
-      * Construct a Connetion with everything required being provided up front except the numbers acting as weights for linear combinations.
+      * Construct a Connection with everything required being provided up front except the numbers acting as weights for linear combinations.
       * Without numbers, assume the two bases connect directly. For example E1 in algebra1 is E1 in algebra2... and so on.
       * &lt;br&gt;&lt;br&gt;
       * Note: Because the two algebras can be of different sizes there is an asymmetry in the map of maps due to how 'equivalent' blades are 
@@ -154,29 +110,45 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
       * @param pMode    Precision mode used by numbers in the transformation maps.
       * @param pCard    Cardinal used by the numbers in the transformation maps.
       */
-<span class="nc" id="L157">    public Connection(Algebra pA, Algebra pB, CladosField pMode, Cardinal pCard) {</span>
-<span class="nc" id="L158">        algebra1 = pA;</span>
-<span class="nc" id="L159">        algebra2 = pB;</span>
-<span class="nc" id="L160">        mode = pMode;</span>
-<span class="nc" id="L161">        card = pCard;</span>
-<span class="nc" id="L162">        mapOfMaps = new TreeMap&lt;&gt;();</span>
-<span class="nc" id="L163">        pA.getBasis().bladeStream().parallel().forEach(b1 -&gt; {                                                  //Pick a blade in the outer algebra</span>
-<span class="nc" id="L164">            Scale&lt;D&gt; tScale = new Scale&lt;D&gt;(mode, pB.getBasis(), card);                                          //Create a zero Scale using the inner algebra</span>
-<span class="nc" id="L165">            Optional&lt;Blade&gt; similar = pB.getBasis().bladeStream().filter(b2 -&gt; CanonicalBlade.equivalent(b1, b2)).findFirst(); //Find equivalent blade in inner algebra</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">            if (similar.isPresent()) {                                                                          //If inner algebra has equivalent blade</span>
-<span class="nc bnc" id="L167" title="All 5 branches missed.">                switch (mode) {</span>
-<span class="nc" id="L168">                    case COMPLEXD -&gt; tScale.put(similar.get(), (D) ComplexD.create(card, 1.0D, 0.0D));   //Replace weight at that blade to ONE</span>
-<span class="nc" id="L169">                    case COMPLEXF -&gt; tScale.put(similar.get(), (D) ComplexF.create(card, 1.0F, 0.0F));   //Replace weight at that blade to ONE</span>
-<span class="nc" id="L170">                    case REALD -&gt; tScale.put(similar.get(), (D) RealD.create(card, 1.0D));                  //Replace weight at that blade to ONE</span>
-<span class="nc" id="L171">                    case REALF -&gt; tScale.put(similar.get(), (D) RealF.create(card, 1.0F));                  //Replace weight at that blade to ONE</span>
+<span class="nc" id="L113">    public Connection(Algebra pA, Algebra pB, CladosField pMode, Cardinal pCard) {</span>
+<span class="nc" id="L114">        algebra1 = pA;</span>
+<span class="nc" id="L115">        algebra2 = pB;</span>
+<span class="nc" id="L116">        mode = pMode;</span>
+<span class="nc" id="L117">        card = pCard;</span>
+<span class="nc" id="L118">        mapOfMaps = new TreeMap&lt;&gt;();</span>
+<span class="nc" id="L119">        pA.getBasis().bladeStream().parallel().forEach(b1 -&gt; {                                                  //Pick a blade in the outer algebra</span>
+<span class="nc" id="L120">            Scale&lt;D&gt; tScale = new Scale&lt;D&gt;(mode, pB.getBasis(), card);                                          //Create a zero Scale using the inner algebra</span>
+<span class="nc" id="L121">            Optional&lt;Blade&gt; similar = pB.getBasis().bladeStream().filter(b2 -&gt; CanonicalBlade.equivalent(b1, b2)).findFirst(); //Find equivalent blade in inner algebra</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (similar.isPresent()) {                                                                          //If inner algebra has equivalent blade</span>
+<span class="nc bnc" id="L123" title="All 5 branches missed.">                switch (mode) {</span>
+<span class="nc" id="L124">                    case COMPLEXD -&gt; tScale.put(similar.get(), (D) ComplexD.create(card, 1.0D, 0.0D));   //Replace weight at that blade to ONE</span>
+<span class="nc" id="L125">                    case COMPLEXF -&gt; tScale.put(similar.get(), (D) ComplexF.create(card, 1.0F, 0.0F));   //Replace weight at that blade to ONE</span>
+<span class="nc" id="L126">                    case REALD -&gt; tScale.put(similar.get(), (D) RealD.create(card, 1.0D));                  //Replace weight at that blade to ONE</span>
+<span class="nc" id="L127">                    case REALF -&gt; tScale.put(similar.get(), (D) RealF.create(card, 1.0F));                  //Replace weight at that blade to ONE</span>
                 }
             }                                                                                                   //ELSE not needed. tScale initiated with zero weights.
                                                                                                                 //Zero scale or ONE at equivalent blade
-<span class="nc" id="L175">            mapOfMaps.put(b1, tScale);                                                                          //Happens for every b1. Processing order doesn't matter.</span>
-<span class="nc" id="L176">        });</span>
-    
-    
-<span class="nc" id="L179">    }</span>
+<span class="nc" id="L131">            mapOfMaps.put(b1, tScale);                                                                          //Happens for every b1. Processing order doesn't matter.</span>
+<span class="nc" id="L132">        });    </span>
+<span class="nc" id="L133">    }</span>
+
+    /**
+     * TODO CAST: A monad in one algebra is remapped to another algebra using a Connection.&lt;br&gt;
+     * Cast involves turning a monad's scale from a map defined in terms of blades of algebra1 into blades of algebra2. Where a blade in pM's 
+     * scale matches a blade in the outer mapOfMaps basis, the weight from pM's scale is used to weight the inner map. Once all pM's blades 
+     * are considered, the inner maps are summed a blade at a time with the result becoming the new Scale for pM.&lt;br&gt;
+     * Examples: &lt;br&gt;
+     * 1) The simplest cast involves projecting a monad from one algebra to another exactly parallel one. Weights simply transfer.&lt;br&gt;
+     * 2) Another casts a monad into a subalgebra where a k-blade in the larger one is the pscalar in the subalgebra.
+     * &lt;br&gt;&lt;br&gt;
+     * Map(Blades1, Map(Blades2, Weights2)) casts Map(Blades1, Weights1) -&gt; Map(Blades2, some linear combination of Weights1 and Weights2) 
+     * &lt;br&gt;&lt;br&gt;
+     * @param pM Monad to be cast
+     * @return Monad transformed by the cast operation
+     */
+    public Monad cast(Monad pM) {
+<span class="nc" id="L150">        return null;</span>
+    }
 
     /**
      * Get the Scale object associated with the blade in the outer layer of the map.
@@ -185,9 +157,9 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Scale of D which extend ProtoN and other numeric interfaces
      */
     public Scale&lt;D&gt; getAt(Blade pB) {
-<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB))</span>
-<span class="nc" id="L189">            return mapOfMaps.get(pB);</span>
-<span class="nc" id="L190">        return null;</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB))</span>
+<span class="nc" id="L161">            return mapOfMaps.get(pB);</span>
+<span class="nc" id="L162">        return null;</span>
     }
 
     /**
@@ -197,7 +169,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	 */
     @Override
     public Cardinal getCardinal() {
-<span class="nc" id="L200">        return card;</span>
+<span class="nc" id="L172">        return card;</span>
     }
 
     /**
@@ -207,7 +179,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	 */
     @Override
     public CladosField getMode() {
-<span class="nc" id="L210">        return mode;</span>
+<span class="nc" id="L182">        return mode;</span>
     }
 
     /**
@@ -218,9 +190,9 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Frame of D which extend ProtoN and other numeric interfaces. Basically... this object.
      */
     public Connection&lt;D&gt; put(Blade pB, Scale&lt;D&gt; pS) {
-<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB))   //This is enough to ensure Scale's basis matches Algebra's basis.</span>
-<span class="nc" id="L222">            mapOfMaps.put(pB, pS);</span>
-<span class="nc" id="L223">        return this;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB))   //This is enough to ensure Scale's basis matches Algebra's basis.</span>
+<span class="nc" id="L194">            mapOfMaps.put(pB, pS);</span>
+<span class="nc" id="L195">        return this;</span>
     }
 
     /**
@@ -240,7 +212,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Stream of Scales of numbers (ProtoN children)
      */
     public Stream&lt;Scale&lt;D&gt;&gt; scaleStream() {
-<span class="nc" id="L243">        return mapOfMaps.values().stream();</span>
+<span class="nc" id="L215">        return mapOfMaps.values().stream();</span>
     }
 
     /**
@@ -250,7 +222,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	 * @return A stream of weights as children of ProtoN.
 	 */
     public Stream&lt;Scale&lt;D&gt;&gt; scaleParallelStream() {
-<span class="nc" id="L253">        return mapOfMaps.values().parallelStream();</span>
+<span class="nc" id="L225">        return mapOfMaps.values().parallelStream();</span>
     }
 
     /**
@@ -260,12 +232,12 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Frame after it has had all the numbers zero'd out.
      */
     protected Connection&lt;D&gt; zeroAll(CladosField pMode) {
-<span class="nc" id="L263">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
-<span class="nc" id="L264">			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
-<span class="nc" id="L265">                    scl =   FBuilder.createZERO(pMode, scl.getCardinal());}</span>
+<span class="nc" id="L235">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
+<span class="nc" id="L236">			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
+<span class="nc" id="L237">                    scl =   FBuilder.createZERO(pMode, scl.getCardinal());}</span>
             );
-<span class="nc" id="L267">        });</span>
-<span class="nc" id="L268">		return this;</span>
+<span class="nc" id="L239">        });</span>
+<span class="nc" id="L240">		return this;</span>
 	}
 
     /**
@@ -276,12 +248,12 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Frame after it has had all the numbers zero'd out.
      */
     protected Connection&lt;D&gt; zeroAll(CladosField pMode, Cardinal pCard) {
-<span class="nc" id="L279">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
-<span class="nc" id="L280">			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
-<span class="nc" id="L281">                    scl =   FBuilder.createZERO(pMode, pCard);}</span>
+<span class="nc" id="L251">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
+<span class="nc" id="L252">			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
+<span class="nc" id="L253">                    scl =   FBuilder.createZERO(pMode, pCard);}</span>
             );
-<span class="nc" id="L283">        });</span>
-<span class="nc" id="L284">		return this;</span>
+<span class="nc" id="L255">        });</span>
+<span class="nc" id="L256">		return this;</span>
 	}
 
 }
