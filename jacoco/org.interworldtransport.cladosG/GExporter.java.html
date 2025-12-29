@@ -50,17 +50,228 @@ public class GExporter {
 	 * Export a Foot as a small JSON fragment. Object properties are represented as attributes.
 	 * This is intended as an output format.
 	 * &lt;br&gt;&lt;br&gt;
-	 * {&quot;Foot&quot;: {&quot;name&quot;: &quot;NamedPoint&quot;}}
+	 * {&lt;br&gt;
+	 * 	&quot;Foot&quot;: {&lt;br&gt;
+	 * 		&quot;name&quot;: &quot;NamedPoint&quot;&lt;br&gt;
+	 * 		}&lt;br&gt;
+	 * }
 	 * &lt;br&gt;&lt;br&gt;
 	 * @param pF Foot to be exported as JSON
-	 * @return String formatted as JSON containing information about the Foot
+	 * @return String formatted as JSON containing information about the input
 	 */
 	public final static String toJSON(Foot pF) {
-<span class="nc" id="L59">		StringBuilder rB = new StringBuilder();</span>
-<span class="nc" id="L60">		rB	.append(&quot;{\&quot;Foot\&quot;: {\&quot;name\&quot;: \&quot;&quot;)</span>
-<span class="nc" id="L61">			.append(pF.getName())</span>
-<span class="nc" id="L62">			.append(&quot;\&quot;}}\n&quot;);</span>
-<span class="nc" id="L63">		return rB.toString();</span>
+<span class="fc" id="L63">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L64">		rB	.append(&quot;{\&quot;foot\&quot;: {\&quot;name\&quot;: \&quot;&quot;)</span>
+<span class="fc" id="L65">			.append(pF.getName())</span>
+<span class="fc" id="L66">			.append(&quot;\&quot;}}\n&quot;);</span>
+<span class="fc" id="L67">		return rB.toString();</span>
+	}
+
+	/**
+	 * Export a Blade as a small JSON fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * Example:&lt;br&gt;
+	 * {&lt;br&gt;
+	 * 	&quot;Blade&quot;: {&lt;br&gt;
+	 * 		&quot;key&quot;: 81985529216486895, &lt;br&gt;
+	 * 		&quot;bitKey&quot;: &quot;0b111111111111111&quot;, &lt;br&gt;
+	 * 		&quot;generators&quot;: [&quot;E1&quot;,&quot;E2&quot;,&quot;E3&quot;,&quot;E4&quot;,&quot;E5&quot;,&quot;E6&quot;,&quot;E7&quot;,&quot;E8&quot;,&quot;E9&quot;,&quot;EA&quot;,&quot;EB&quot;,&quot;EC&quot;,&quot;ED&quot;,&quot;EE&quot;,&quot;EF&quot;]&lt;br&gt;
+	 * 		}&lt;br&gt;
+	 * }
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param blade Blade to be exported as JSON
+	 * @param pAsText boolean determines whether generators are exported in text or ordinal representation.
+	 * @return String formatted as JSON containing information about the input
+	*/
+	public final static String toJSON(Blade blade, boolean pAsText) {
+<span class="fc" id="L88">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L89">		rB	.append(&quot;{\&quot;blade\&quot;: {\&quot;key\&quot;: &quot;)</span>
+<span class="fc" id="L90">			.append(blade.key())</span>
+<span class="fc" id="L91">			.append(&quot;, \&quot;bitKey\&quot;: \&quot;0b&quot;);</span>
+<span class="fc" id="L92">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		while (pad&gt;0) {</span>
+<span class="fc" id="L94">			rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L95">			pad--;</span>
+		}
+<span class="fc" id="L97">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
+<span class="fc" id="L98">			.append(&quot;\&quot;, \&quot;generators\&quot;: [&quot;);</span>
+
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if(pAsText)	blade	.generatorStream()</span>
+<span class="fc" id="L101">							.forEachOrdered(g -&gt; rB.append(&quot;\&quot;&quot;+g.toString()+&quot;\&quot;&quot;).append(&quot;,&quot;));</span>
+<span class="nc" id="L102">		else		blade	.generatorStream()</span>
+<span class="nc" id="L103">							.forEachOrdered(g -&gt; rB.append(g.ord).append(&quot;,&quot;));</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (blade.getGenerators().size() &gt; 0)	rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L106">		rB	.append(&quot;]}}&quot;);</span>
+<span class="fc" id="L107">		return rB.toString();</span>
+	}
+
+	/**
+	 * Export a BladeDuet as a small JSON fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * Example:&lt;br&gt;
+	 * {&lt;br&gt;
+	 *	&quot;duet&quot;: {&lt;br&gt;
+	 *		&quot;sign&quot;: 1, &lt;br&gt;
+	 *		&quot;maxGrade&quot;: 3, &lt;br&gt;
+	 *		&quot;Blades&quot;: {&lt;br&gt;
+	 *			&quot;blade&quot;: [ 	{&quot;key&quot;: 27, &quot;bitKey&quot;: &quot;0b111&quot;, &quot;generators&quot;: [&quot;E1&quot;,&quot;E2&quot;,&quot;E3&quot;]}, &lt;br&gt;
+	 *						{&quot;key&quot;: 6, &quot;bitKey&quot;: &quot;0b011&quot;, &quot;generators&quot;: [&quot;E1&quot;,&quot;E2&quot;]} ]&lt;br&gt;
+	 *		}&lt;br&gt;
+	 *	}&lt;br&gt;
+	 * }
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param duet BladeDuet to be exported as JSON
+	 * @return String formatted as JSON containing information about the input
+	*/
+	public final static String toJSON(BladeDuet duet) {		
+<span class="fc" id="L130">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L131">		rB	.append(&quot;{\&quot;duet\&quot;: {\&quot;sign\&quot;: &quot;)</span>
+<span class="fc" id="L132">			.append(duet.sign)</span>
+<span class="fc" id="L133">			.append(&quot;, \&quot;maxGrade\&quot;: &quot;);</span>
+	
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if(duet.maxGen != null)	rB.append(duet.maxGen.ord);</span>
+<span class="fc" id="L136">		else 					rB.append(Math.max(duet.bladeLeft.maxGenerator(), duet.bladeRight.maxGenerator()));</span>
+		
+<span class="fc" id="L138">		rB	.append(&quot;, \&quot;Blades\&quot;: {\&quot;blade\&quot;: [&quot;);</span>
+			
+<span class="fc" id="L140">		StringBuffer workThis = new StringBuffer(GExporter.toJSON(duet.bladeLeft, true));</span>
+<span class="fc" id="L141">		workThis.delete(0,9);</span>
+<span class="fc" id="L142">		workThis.deleteCharAt(workThis.length()-1);</span>
+<span class="fc" id="L143">		workThis.append(&quot;,&quot;);</span>
+<span class="fc" id="L144">		rB.append(workThis);</span>
+
+<span class="fc" id="L146">		workThis = new StringBuffer(GExporter.toJSON(duet.bladeRight, true));</span>
+<span class="fc" id="L147">		workThis.delete(0,9);</span>
+<span class="fc" id="L148">		workThis.deleteCharAt(workThis.length()-1);</span>
+<span class="fc" id="L149">		rB.append(workThis);</span>
+
+<span class="fc" id="L151">		rB	.append(&quot;]}}&quot;);</span>
+<span class="fc" id="L152">		return rB.toString();</span>
+	}
+	
+
+	/**
+	 * Export a Basis as a JSON fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * Example:&lt;br&gt;
+	 * {&lt;br&gt;
+	 *	&quot;basis&quot;: {&lt;br&gt;
+	 *	&quot;UUID&quot;: &quot;6f264df4-0b45-4ac2-9679-3ff1d181a0dc&quot;, &lt;br&gt;
+	 *	&quot;Grades&quot;: {&lt;br&gt;
+	 *		&quot;count&quot;: 3,&lt;br&gt; 
+	 *		&quot;grade&quot;: [	{&quot;rank&quot;: 0, &quot;range&quot;: &quot;0-0&quot;}, &lt;br&gt;
+	 *					{&quot;rank&quot;: 1, &quot;range&quot;: &quot;1-2&quot;}, &lt;br&gt;
+	 *					{&quot;rank&quot;: 2, &quot;range&quot;: &quot;3-3&quot;}]&lt;br&gt;
+	 *		}, &lt;br&gt;
+	 *	&quot;Blades&quot;: {&lt;br&gt;
+	 *		&quot;count&quot;: 4,&lt;br&gt; 
+	 *		&quot;blade&quot;: [ 	{&quot;key&quot;: 0, &quot;bitKey&quot;: &quot;0b00&quot;, &quot;generators&quot;: []}, &lt;br&gt;
+	 *					{&quot;key&quot;: 1, &quot;bitKey&quot;: &quot;0b01&quot;, &quot;generators&quot;: [&quot;E1&quot;]}, &lt;br&gt;
+	 *					{&quot;key&quot;: 2, &quot;bitKey&quot;: &quot;0b10&quot;, &quot;generators&quot;: [&quot;E2&quot;]}, &lt;br&gt;
+	 *					{&quot;key&quot;: 5, &quot;bitKey&quot;: &quot;0b11&quot;, &quot;generators&quot;: [&quot;E1&quot;,&quot;E2&quot;]}]&lt;br&gt;
+	 *		}&lt;br&gt;
+	 *	}&lt;br&gt;
+	 * }
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param basis to be exported as JSON
+	 * @return String formatted as JSON containing information about the input
+	 */
+	public final static String toJSON(Basis basis) {
+<span class="fc" id="L184">		StringBuilder rB = new StringBuilder();</span>
+
+<span class="fc" id="L186">		rB	.append(&quot;{\&quot;basis\&quot;: {\&quot;UUID\&quot;: \&quot;&quot;)</span>
+<span class="fc" id="L187">			.append(basis.uuid)</span>
+<span class="fc" id="L188">			.append(&quot;\&quot;, \&quot;Grades\&quot;: {\&quot;count\&quot;: &quot;)</span>
+<span class="fc" id="L189">			.append(basis.getGradeCount());</span>
+			
+<span class="fc" id="L191">		rB	.append(&quot;, \&quot;grade\&quot;: [&quot;);</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		for (int k = 0; k &lt; basis.getGradeCount(); k++) {						//loop through grades constructing grade ranges.</span>
+<span class="fc" id="L193">			rB	.append(&quot;{\&quot;rank\&quot;: &quot;)</span>
+<span class="fc" id="L194">				.append(k)</span>
+<span class="fc" id="L195">				.append(&quot;, \&quot;range\&quot;: \&quot;&quot;);</span>
+<span class="fc" id="L196">			rB	.append(basis.getGrades().get(k))</span>
+<span class="fc" id="L197">				.append(&quot;-&quot;);</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">			if (k == basis.getGradeCount() - 1 )</span>
+<span class="fc" id="L199">					rB	.append(basis.getGrades().get(k));						//this is why the pscalar is handled separately</span>
+<span class="fc" id="L200">			else 	rB	.append(basis.getGrades().get(k + 1) - 1);				//there is is a next higher grade</span>
+<span class="fc" id="L201">			rB	.append(&quot;\&quot;}, &quot;);</span>
+			}
+<span class="fc" id="L203">		rB	.deleteCharAt(rB.length()-1);										//lop the last character (removes trailing space)</span>
+<span class="fc" id="L204">		rB	.deleteCharAt(rB.length()-1);										//lop the last character (removes trailing comma)</span>
+<span class="fc" id="L205">		rB	.append(&quot;]}, &quot;);</span>
+
+<span class="fc" id="L207">		rB	.append(&quot;\&quot;Blades\&quot;: {\&quot;count\&quot;: &quot;)</span>
+<span class="fc" id="L208">			.append(basis.getBladeCount());</span>
+<span class="fc" id="L209">		rB	.append(&quot;, \&quot;blade\&quot;: [&quot;);</span>
+<span class="fc" id="L210">		basis.bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L211">			StringBuffer workThis = new StringBuffer(GExporter.toJSON(blade, true));</span>
+<span class="fc" id="L212">			workThis.delete(0,9);</span>
+<span class="fc" id="L213">			workThis.deleteCharAt(workThis.length()-1);</span>
+<span class="fc" id="L214">			workThis.append(&quot;,&quot;);</span>
+<span class="fc" id="L215">			rB.append(workThis);</span>
+<span class="fc" id="L216">		});</span>
+<span class="fc" id="L217">		rB	.deleteCharAt(rB.length()-1);									//lop the last character (removes trailing comma)</span>
+<span class="fc" id="L218">		rB	.append(&quot;]}}}&quot;);</span>
+<span class="fc" id="L219">		return rB.toString();</span>
+	}
+
+	/**
+	 * Export a GProduct as a JSON fragment. Object properties are represented as attributes.
+	 * This is intended as an output format.
+	 * &lt;br&gt;&lt;br&gt;
+	 * Example: &lt;br&gt;
+	 * {&lt;br&gt;
+	 * 	&quot;gproduct&quot;: {&lt;br&gt;
+	 * 		&quot;signature&quot;: &quot;+++0&quot;, &lt;br&gt;
+	 * 		&quot;cayleytable&quot;: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], &lt;br&gt;
+	 * 						[2, 1, 6, 7, 8, 3, 4, 5, 12, 13, 14, 9, 10, 11, 16, 15], &lt;br&gt;
+	 * 						[3, -6, 1, 9, 10, -2, -12, -13, 4, 5, 15, -7, -8, -16, 11, -14], &lt;br&gt;
+	 * 						[4, -7, -9, 1, 11, 12, -2, -14, -3, -15, 5, 6, 16, -8, -10, 13], &lt;br&gt;
+	 * 						[5, -8, -10, -11, 0, 13, 14, 0, 15, 0, 0, -16, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[6, -3, 2, 12, 13, -1, -9, -10, 7, 8, 16, -4, -5, -15, 14, -11], &lt;br&gt;
+	 * 						[7, -4, -12, 2, 14, 9, -1, -11, -6, -16, 8, 3, 15, -5, -13, 10], &lt;br&gt;
+	 * 						[8, -5, -13, -14, 0, 10, 11, 0, 16, 0, 0, -15, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[9, 12, -4, 3, 15, -7, 6, 16, -1, -11, 10, -2, -14, 13, -5, -8], &lt;br&gt;
+	 * 						[10, 13, -5, -15, 0, -8, -16, 0, 11, 0, 0, 14, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[11, 14, 15, -5, 0, 16, -8, 0, -10, 0, 0, -13, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[12, 9, -7, 6, 16, -4, 3, 15, -2, -14, 13, -1, -11, 10, -8, -5], &lt;br&gt;
+	 * 						[13, 10, -8, -16, 0, -5, -15, 0, 14, 0, 0, 11, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[14, 11, 16, -8, 0, 15, -5, 0, -13, 0, 0, -10, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[15, -16, 11, -10, 0, -14, 13, 0, -5, 0, 0, 8, 0, 0, 0, 0], &lt;br&gt;
+	 * 						[16, -15, 14, -13, 0, -11, 10, 0, -8, 0, 0, 5, 0, 0, 0, 0] ]&lt;br&gt;
+	 * 	}&lt;br&gt;
+	 * }
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pG GProduct to be exported as JSON
+	 * @return String formatted as JSON containing information about the input
+	 */
+	public final static String toJSON(GProduct pG) {
+<span class="fc" id="L253">		StringBuilder rB = new StringBuilder();</span>
+<span class="fc" id="L254">		rB	.append(&quot;{\&quot;gproduct\&quot;: {\&quot;signature\&quot;: \&quot;&quot;)</span>
+<span class="fc" id="L255">			.append(pG.signature());</span>
+<span class="fc" id="L256">		rB	.append(&quot;\&quot;, \&quot;cayleytable\&quot;: [&quot;);</span>
+
+<span class="fc" id="L258">		pG.getBasis().bladeStream().forEach(blade0 -&gt; {</span>
+<span class="fc" id="L259">			StringBuffer workThis0 = new StringBuffer(&quot;[&quot;);</span>
+<span class="fc" id="L260">			pG.getBasis().bladeStream().forEach(blade1 -&gt; {</span>
+<span class="fc" id="L261">				int p = pG.getBasis().find(blade0) - 1;</span>
+<span class="fc" id="L262">				int q = pG.getBasis().find(blade1) - 1;	</span>
+<span class="fc" id="L263">				workThis0.append(pG.getResult(p, q)+&quot;,&quot;);</span>
+<span class="fc" id="L264">			});</span>
+<span class="fc" id="L265">			workThis0.deleteCharAt(workThis0.length()-1);</span>
+<span class="fc" id="L266">			workThis0.append(&quot;],&quot;);</span>
+			//workThis0.replace(workThis0.length()-2, workThis0.length()-1, &quot;],&quot;);	//swap trailing comma and space -&gt; for bracket and comma
+<span class="fc" id="L268">			rB.append(workThis0);</span>
+<span class="fc" id="L269">		});</span>
+<span class="fc" id="L270">		rB	.deleteCharAt(rB.length()-1);</span>
+		//rB	.deleteCharAt(rB.length()-1);									//lop the last character (removes trailing space)
+		//rB	.deleteCharAt(rB.length()-1);									//lop the last character (removes trailing comma)
+<span class="fc" id="L273">		rB	.append(&quot;]}}&quot;);</span>
+<span class="fc" id="L274">		return rB.toString();</span>
 	}
 
     /**
@@ -72,11 +283,11 @@ public class GExporter {
 	 * @return String formatted as XML containing information about the Foot
 	 */
 	public final static String toXMLString(Foot pF, String indent) {
-<span class="fc bfc" id="L75" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
-<span class="fc" id="L76">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
-<span class="fc" id="L77">		rB	.append(pF.getName())</span>
-<span class="fc" id="L78">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L79">		return rB.toString();</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">		if (indent == null)		indent = &quot;\t\t&quot;;</span>
+<span class="fc" id="L287">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Foot name=\&quot;&quot;);</span>
+<span class="fc" id="L288">		rB	.append(pF.getName())</span>
+<span class="fc" id="L289">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L290">		return rB.toString();</span>
 	}
 
 	/**
@@ -92,27 +303,27 @@ public class GExporter {
 	 * @return String The XML formated String representing the Blade.
 	 */
 	public final static String toXMLOrdString(Blade blade, String indent) {
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L96">		StringBuilder rB = new StringBuilder(indent);</span>
-<span class="fc" id="L97">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
-<span class="fc" id="L98">			.append(blade.key())</span>
-<span class="fc" id="L99">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L307">		StringBuilder rB = new StringBuilder(indent);</span>
+<span class="fc" id="L308">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
+<span class="fc" id="L309">			.append(blade.key())</span>
+<span class="fc" id="L310">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
 
-<span class="fc" id="L101">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		while (pad&gt;0) {</span>
-<span class="nc" id="L103">			rB.append(&quot;0&quot;);</span>
-<span class="nc" id="L104">			pad--;</span>
+<span class="fc" id="L312">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="pc bpc" id="L313" title="1 of 2 branches missed.">		while (pad&gt;0) {</span>
+<span class="nc" id="L314">			rB.append(&quot;0&quot;);</span>
+<span class="nc" id="L315">			pad--;</span>
 		}
-<span class="fc" id="L106">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
-<span class="fc" id="L107">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
+<span class="fc" id="L317">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
+<span class="fc" id="L318">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
 
-<span class="fc" id="L109">		blade	.generatorStream()</span>
-<span class="fc" id="L110">				.forEachOrdered(gen -&gt; rB.append(gen.ord).append(&quot;,&quot;));</span>
+<span class="fc" id="L320">		blade	.generatorStream()</span>
+<span class="fc" id="L321">				.forEachOrdered(gen -&gt; rB.append(gen.ord).append(&quot;,&quot;));</span>
 
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (blade.rank() &gt; 0)</span>
-<span class="fc" id="L113">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L114">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L115">		return rB.toString();</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">		if (blade.rank() &gt; 0)</span>
+<span class="fc" id="L324">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L325">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L326">		return rB.toString();</span>
 	}
 
 	/**
@@ -121,34 +332,33 @@ public class GExporter {
 	 * &lt;br&gt;
 	 * This variation uses a Generator's name in the generator list.
 	 * &lt;br&gt;
-	 * @param blade  The Blade to be exported to XML.
-	 * @param indent String of 'tab' characters that help space the output correctly
-	 *               visually. It's not actually necessary except for human
-	 *               readability of the output.
-	 * @return String The XML formated String representing the Blade.
+	 * @param blade  	The Blade to be exported to XML.
+	 * @param indent 	String of 'tab' characters that help space the output correctly visually. 
+	 * 					It's not actually necessary except for human readability of the output.
+	 * @return String 	The XML formated String representing the Blade.
 	 */
 	public final static String toXMLString(Blade blade, String indent) {
-<span class="pc bpc" id="L131" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L132">		StringBuilder rB = new StringBuilder(indent);</span>
-<span class="fc" id="L133">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
-<span class="fc" id="L134">			.append(blade.key())</span>
-<span class="fc" id="L135">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L342">		StringBuilder rB = new StringBuilder(indent);</span>
+<span class="fc" id="L343">		rB	.append(&quot;&lt;Blade key=\&quot;&quot;)</span>
+<span class="fc" id="L344">			.append(blade.key())</span>
+<span class="fc" id="L345">			.append(&quot;\&quot; bitKey=\&quot;0b&quot;);</span>
 
-<span class="fc" id="L137">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
-<span class="fc bfc" id="L138" title="All 2 branches covered.">		while (pad&gt;0) {</span>
-<span class="fc" id="L139">			rB.append(&quot;0&quot;);</span>
-<span class="fc" id="L140">			pad--;</span>
+<span class="fc" id="L347">		int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L348" title="All 2 branches covered.">		while (pad&gt;0) {</span>
+<span class="fc" id="L349">			rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L350">			pad--;</span>
 		}
-<span class="fc" id="L142">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
-<span class="fc" id="L143">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
+<span class="fc" id="L352">		rB	.append(Integer.toBinaryString(blade.bitKey()))</span>
+<span class="fc" id="L353">			.append(&quot;\&quot; generators=\&quot;&quot;);</span>
 
-<span class="fc" id="L145">		blade	.generatorStream()</span>
-<span class="fc" id="L146">				.forEachOrdered(g -&gt; rB.append(g.toString()).append(&quot;,&quot;));</span>
+<span class="fc" id="L355">		blade	.generatorStream()</span>
+<span class="fc" id="L356">				.forEachOrdered(g -&gt; rB.append(g.toString()).append(&quot;,&quot;));</span>
 
-<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (blade.getGenerators().size() &gt; 0)</span>
-<span class="fc" id="L149">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L150">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L151">		return rB.toString();</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">		if (blade.getGenerators().size() &gt; 0)</span>
+<span class="fc" id="L359">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L360">		rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L361">		return rB.toString();</span>
 	}
 
 	/**
@@ -161,16 +371,18 @@ public class GExporter {
 	 * @param pBD The blade duet to export as XML.
 	 * @return String The XML formated String representing the BladeDuet.
 	 */
+	/*
 	public final static String toXMLString(BladeDuet pBD) {
-<span class="fc" id="L165">		StringBuilder rB = new StringBuilder();</span>
-<span class="fc" id="L166">		rB.append(&quot;&lt;BladeDuet sign=\&quot;&quot;).append(pBD.sign).append(&quot;\&quot; maxGrade=\&quot;&quot;).append(pBD.maxGen.ord).append(&quot;\&quot; generators=\&quot;&quot;);</span>
-<span class="fc" id="L167">		pBD.bladeDuet.stream().forEachOrdered(g -&gt; rB.append(g.toString() + &quot;,&quot;));</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (pBD.bladeDuet.size() &gt; 0)</span>
-<span class="fc" id="L169">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L170">		rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L171">		return rB.toString();</span>
+		StringBuilder rB = new StringBuilder();
+		rB.append(&quot;&lt;BladeDuet sign=\&quot;&quot;).append(pBD.sign).append(&quot;\&quot; maxGrade=\&quot;&quot;).append(pBD.maxGen.ord).append(&quot;\&quot; generators=\&quot;&quot;);
+		pBD.bladeDuet.stream().forEachOrdered(g -&gt; rB.append(g.toString() + &quot;,&quot;));
+		if (pBD.bladeDuet.size() &gt; 0)
+			rB.deleteCharAt(rB.length() - 1);
+		rB.append(&quot;\&quot; /&gt;\n&quot;);
+		return rB.toString();
 	}
-
+	 */
+	
 	/**
 	 * This method produces a printable and parseable string that represents the
 	 * Basis in a human readable form. return String
@@ -182,80 +394,80 @@ public class GExporter {
 	 * @return String
 	 */
 	public static String toXMLString(Basis pB, String indent) {
-<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (indent == null)</span>
-<span class="fc" id="L186">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L187">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis UUID=\&quot;&quot;);</span>
-<span class="fc" id="L188">		rB	.append(pB.uuid)</span>
-<span class="fc" id="L189">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L397" title="All 2 branches covered.">		if (indent == null)</span>
+<span class="fc" id="L398">			indent = &quot;\t\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L399">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Basis UUID=\&quot;&quot;);</span>
+<span class="fc" id="L400">		rB	.append(pB.uuid)</span>
+<span class="fc" id="L401">			.append(&quot;\&quot;&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L191">		rB.append(indent)</span>
-<span class="fc" id="L192">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
-<span class="fc" id="L193">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L194" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.getGradeCount() - 2; k++) // loop to get all but the highest grade</span>
-<span class="fc" id="L195">			rB	.append(indent)</span>
-<span class="fc" id="L196">				.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
-<span class="fc" id="L197">				.append(k)</span>
-<span class="fc" id="L198">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L199">				.append(pB.getGrades().get(k))</span>
-<span class="fc" id="L200">				.append(&quot;-&quot;)</span>
-<span class="fc" id="L201">				.append((pB.getGrades().get(k + 1) - 1))</span>
-<span class="fc" id="L202">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L403">		rB.append(indent)</span>
+<span class="fc" id="L404">			.append(&quot;\t&lt;Grades count=\&quot;&quot;)</span>
+<span class="fc" id="L405">			.append(pB.getGradeCount() + &quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">		for (int k = 0; k &lt;= pB.getGradeCount() - 2; k++) // loop to get all but the highest grade</span>
+<span class="fc" id="L407">			rB	.append(indent)</span>
+<span class="fc" id="L408">				.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
+<span class="fc" id="L409">				.append(k)</span>
+<span class="fc" id="L410">				.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L411">				.append(pB.getGrades().get(k))</span>
+<span class="fc" id="L412">				.append(&quot;-&quot;)</span>
+<span class="fc" id="L413">				.append((pB.getGrades().get(k + 1) - 1))</span>
+<span class="fc" id="L414">				.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		// Handle last grade separate. There is no k+1 index for the largest grade
-<span class="fc" id="L204">		rB	.append(indent)</span>
-<span class="fc" id="L205">			.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
-<span class="fc" id="L206">			.append((pB.getGradeCount() - 1))</span>
-<span class="fc" id="L207">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
-<span class="fc" id="L208">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
-<span class="fc" id="L209">			.append(&quot;-&quot;)</span>
-<span class="fc" id="L210">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
-<span class="fc" id="L211">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L212">		rB.append(indent)</span>
-<span class="fc" id="L213">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
+<span class="fc" id="L416">		rB	.append(indent)</span>
+<span class="fc" id="L417">			.append(&quot;\t\t&lt;Grade rank=\&quot;&quot;)</span>
+<span class="fc" id="L418">			.append((pB.getGradeCount() - 1))</span>
+<span class="fc" id="L419">			.append(&quot;\&quot; range=\&quot;&quot;)</span>
+<span class="fc" id="L420">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
+<span class="fc" id="L421">			.append(&quot;-&quot;)</span>
+<span class="fc" id="L422">			.append(pB.getGrades().get(pB.getGradeCount() - 1))</span>
+<span class="fc" id="L423">			.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L424">		rB.append(indent)</span>
+<span class="fc" id="L425">			.append(&quot;\t&lt;/Grades&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L215">		rB	.append(indent)</span>
-<span class="fc" id="L216">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
-<span class="fc" id="L217">			.append(pB.getBladeCount())</span>
-<span class="fc" id="L218">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L219" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
-<span class="fc" id="L220">			rB	.append(GExporter.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L221">		rB	.append(indent)</span>
-<span class="fc" id="L222">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
+<span class="fc" id="L427">		rB	.append(indent)</span>
+<span class="fc" id="L428">			.append(&quot;\t&lt;Blades count=\&quot;&quot;)</span>
+<span class="fc" id="L429">			.append(pB.getBladeCount())</span>
+<span class="fc" id="L430">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L431" title="All 2 branches covered.">		for (int k = 0; k &lt; pB.bladeList.size(); k++) // Appending blades</span>
+<span class="fc" id="L432">			rB	.append(GExporter.toXMLString(pB.bladeList.get(k), indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L433">		rB	.append(indent)</span>
+<span class="fc" id="L434">			.append(&quot;\t&lt;/Blades&gt;\n&quot;);</span>
 		// ------------------------------------------------------------------
-<span class="fc" id="L224">		rB	.append(indent)</span>
-<span class="fc" id="L225">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
-<span class="fc" id="L226">		return rB.toString();</span>
+<span class="fc" id="L436">		rB	.append(indent)</span>
+<span class="fc" id="L437">			.append(&quot;&lt;/Basis&gt;\n&quot;);</span>
+<span class="fc" id="L438">		return rB.toString();</span>
 	}
 
 	/**
-	 * This method produces a printable and parseable string that represents the
-	 * Basis in a human readable form.
+	 * This method produces a printable and parseable string that represents the GProduct in a human readable form.
+	 * NOTE the GProduct no longer exports the Basis on which it is built. It exports the Cayley table and signature.
 	 * &lt;br&gt;
 	 * @param pG A geometric product to be exported to XML
 	 * @param indent A string to use for XML element intentation. Not required.
 	 * @return String This is the XML string export of an object.
 	 */
 	public final static String toXMLString(GProduct pG, String indent) {
-<span class="pc bpc" id="L238" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
-<span class="fc" id="L239">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc" id="L240">		rB	.append(GExporter.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L241">		rB	.append(indent)</span>
-<span class="fc" id="L242">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
-<span class="fc" id="L243">			.append(pG.getBladeCount())</span>
-<span class="fc" id="L244">			.append(&quot;\&quot;&gt;\n&quot;);</span>
-<span class="fc bfc" id="L245" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
-<span class="fc" id="L246">			rB	.append(indent)</span>
-<span class="fc" id="L247">				.append(&quot;\t\t&lt;row id=\&quot;&quot;)</span>
-<span class="fc" id="L248">				.append(k)</span>
-<span class="fc" id="L249">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
-<span class="fc bfc" id="L250" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
-<span class="fc" id="L251">				rB	.append(pG.getResult(k, m))</span>
-<span class="fc" id="L252">					.append(&quot;,&quot;);</span>
-<span class="fc" id="L253">			rB.deleteCharAt(rB.length() - 1);</span>
-<span class="fc" id="L254">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t\t\t&quot;;</span>
+<span class="fc" id="L451">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;GProduct signature=\&quot;&quot;+pG.signature()+&quot;\&quot;&gt;\n&quot;);</span>
+		//rB	.append(GExporter.toXMLString(pG.getBasis(), indent + &quot;\t&quot;));
+<span class="fc" id="L453">		rB	.append(indent)</span>
+<span class="fc" id="L454">			.append(&quot;\t&lt;CayleyTable rows=\&quot;&quot;)</span>
+<span class="fc" id="L455">			.append(pG.getBladeCount())</span>
+<span class="fc" id="L456">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc bfc" id="L457" title="All 2 branches covered.">		for (int k = 0; k &lt; pG.getBladeCount(); k++) {		// Appending rows of the Cayley table</span>
+<span class="fc" id="L458">			rB	.append(indent)</span>
+<span class="fc" id="L459">				.append(&quot;\t\t&lt;row id=\&quot;&quot;) </span>
+<span class="fc" id="L460">				.append(k)</span>
+<span class="fc" id="L461">				.append(&quot;\&quot; cells=\&quot;&quot;);</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">			for (int m = 0; m &lt; pG.getBladeCount(); m++)</span>
+<span class="fc" id="L463">				rB	.append(pG.getResult(k, m))</span>
+<span class="fc" id="L464">					.append(&quot;,&quot;);</span>
+<span class="fc" id="L465">			rB.deleteCharAt(rB.length() - 1);</span>
+<span class="fc" id="L466">			rB.append(&quot;\&quot; /&gt;\n&quot;);</span>
 		}
-<span class="fc" id="L256">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
-<span class="fc" id="L257">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
-<span class="fc" id="L258">		return rB.toString();</span>
+<span class="fc" id="L468">		rB.append(indent + &quot;\t&lt;/CayleyTable&gt;\n&quot;);</span>
+<span class="fc" id="L469">		rB.append(indent + &quot;&lt;/GProduct&gt;\n&quot;);</span>
+<span class="fc" id="L470">		return rB.toString();</span>
 	}
 	
 	/**
@@ -267,19 +479,20 @@ public class GExporter {
 	 * @return String formatted as XML containing information about the Algebra
 	 */
 	public final static String toXMLString(Algebra pA, String indent) {
-<span class="pc bpc" id="L270" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t&quot;;</span>
-<span class="fc" id="L271">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Algebra name=\&quot;&quot;);</span>
-<span class="fc" id="L272">		rB	.append(pA.getAName())</span>
-<span class="fc" id="L273">			.append(&quot;\&quot; UUID=\&quot;&quot;)</span>
-<span class="fc" id="L274">			.append(pA.uuid)</span>
-<span class="fc" id="L275">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="pc bpc" id="L482" title="1 of 2 branches missed.">		if (indent == null)		indent = &quot;\t\t\t\t&quot;;</span>
+<span class="fc" id="L483">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Algebra name=\&quot;&quot;);</span>
+<span class="fc" id="L484">		rB	.append(pA.getAName())</span>
+<span class="fc" id="L485">			.append(&quot;\&quot; UUID=\&quot;&quot;)</span>
+<span class="fc" id="L486">			.append(pA.uuid)</span>
+<span class="fc" id="L487">			.append(&quot;\&quot; &gt;\n&quot;);</span>
 		
-<span class="fc" id="L277">		rB	.append(GExporter.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));			//Algebra owns a reference to a Foot</span>
-<span class="fc" id="L278">		rB	.append(GExporter.toXMLString(pA.getGP(), indent + &quot;\t&quot;));				//Algebra owns a reference to a GP</span>
+<span class="fc" id="L489">		rB	.append(GExporter.toXMLString(pA.getFoot(), indent + &quot;\t&quot;));	//Algebra owns a reference to a Foot</span>
+<span class="fc" id="L490">		rB	.append(GExporter.toXMLString(pA.getBasis(), indent+&quot;\t&quot;));		//Algebra owns a reference to a Basis</span>
+<span class="fc" id="L491">		rB	.append(GExporter.toXMLString(pA.getGP(), indent + &quot;\t&quot;));		//Algebra owns a reference to a GP</span>
 		
-<span class="fc" id="L280">		rB	.append(indent)</span>
-<span class="fc" id="L281">			.append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
-<span class="fc" id="L282">		return rB.toString();</span>
+<span class="fc" id="L493">		rB	.append(indent)</span>
+<span class="fc" id="L494">			.append(&quot;&lt;/Algebra&gt;\n&quot;);</span>
+<span class="fc" id="L495">		return rB.toString();</span>
 	}
 
 	/**
@@ -290,47 +503,47 @@ public class GExporter {
 	 * @return String formatted as XML containing information about the Scale
 	 */
 	public final static String toXMLString(Scale&lt;?&gt; pS, String indent) {
-<span class="fc" id="L293">		StringBuilder rB = new StringBuilder(indent);		</span>
-<span class="fc" id="L294">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; &quot;);</span>
-<span class="fc" id="L295">		rB	.append(&quot;pans=\&quot;&quot;+pS.map.size()+&quot;\&quot; &quot;)</span>
-<span class="fc" id="L296">			.append(&quot;cardinal=&quot;+pS.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L506">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L507">		rB	.append(&quot;&lt;Scale mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; &quot;);</span>
+<span class="fc" id="L508">		rB	.append(&quot;pans=\&quot;&quot;+pS.map.size()+&quot;\&quot; &quot;)</span>
+<span class="fc" id="L509">			.append(&quot;cardinal=\&quot;&quot;+pS.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
 
-<span class="fc" id="L298">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L299">			rB	.append(indent+&quot;\t&quot;)</span>
-<span class="fc" id="L300">				.append(&quot;&lt;Pair bitKey=\&quot;0b&quot;);</span>
-<span class="fc" id="L301">			int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
-<span class="fc bfc" id="L302" title="All 2 branches covered.">			while (pad&gt;0) {</span>
-<span class="fc" id="L303">				rB.append(&quot;0&quot;);</span>
-<span class="fc" id="L304">				pad--;</span>
+<span class="fc" id="L511">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L512">			rB	.append(indent+&quot;\t&quot;)</span>
+<span class="fc" id="L513">				.append(&quot;&lt;Pair bitKey=\&quot;0b&quot;);</span>
+<span class="fc" id="L514">			int pad = blade.maxGen - Integer.toBinaryString(blade.bitKey()).length();</span>
+<span class="fc bfc" id="L515" title="All 2 branches covered.">			while (pad&gt;0) {</span>
+<span class="fc" id="L516">				rB.append(&quot;0&quot;);</span>
+<span class="fc" id="L517">				pad--;</span>
 			}
-<span class="fc" id="L306">			rB	.append(Integer.toBinaryString(blade.bitKey()));</span>
+<span class="fc" id="L519">			rB	.append(Integer.toBinaryString(blade.bitKey()));</span>
 			//rB	.append(&quot;\&quot; cardinal=\&quot;&quot;+pS.map.get(blade).getCardinalString());
-<span class="fc" id="L308">			rB	.append(&quot;\&quot; &quot;);</span>
+<span class="fc" id="L521">			rB	.append(&quot;\&quot; &quot;);</span>
 			
-<span class="pc bpc" id="L310" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="pc bpc" id="L523" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
 				case REALF:
-<span class="fc" id="L312">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealF)pS.map.get(blade)).getReal());</span>
-<span class="fc" id="L313">					break;</span>
+<span class="fc" id="L525">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealF)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L526">					break;</span>
 				case REALD:
-<span class="fc" id="L315">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealD)pS.map.get(blade)).getReal());</span>
-<span class="fc" id="L316">					break;</span>
+<span class="fc" id="L528">					rB	.append(&quot;realvalue=\&quot;&quot;+((RealD)pS.map.get(blade)).getReal());</span>
+<span class="fc" id="L529">					break;</span>
 				case COMPLEXF:
-<span class="fc" id="L318">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getReal())</span>
-<span class="fc" id="L319">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getImg());</span>
-<span class="fc" id="L320">					break;</span>
+<span class="fc" id="L531">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L532">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexF)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L533">					break;</span>
 				case COMPLEXD:
-<span class="fc" id="L322">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getReal())</span>
-<span class="fc" id="L323">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getImg());</span>
-<span class="fc" id="L324">					break;</span>
+<span class="fc" id="L535">					rB	.append(&quot;realvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getReal())</span>
+<span class="fc" id="L536">						.append(&quot;\&quot; imgvalue=\&quot;&quot;+((ComplexD)pS.map.get(blade)).getImg());</span>
+<span class="fc" id="L537">					break;</span>
 				default:
 					break;
 				
 			}
-<span class="fc" id="L329">			rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
-<span class="fc" id="L330">		});</span>
-<span class="fc" id="L331">		rB	.append(indent)</span>
-<span class="fc" id="L332">			.append(&quot;&lt;/Scales&gt;\n&quot;);</span>
-<span class="fc" id="L333">		return rB.toString();</span>
+<span class="fc" id="L542">			rB	.append(&quot;\&quot; /&gt;\n&quot;);</span>
+<span class="fc" id="L543">		});</span>
+<span class="fc" id="L544">		rB	.append(indent)</span>
+<span class="fc" id="L545">			.append(&quot;&lt;/Scale&gt;\n&quot;);</span>
+<span class="fc" id="L546">		return rB.toString();</span>
 	}
 
 	/**
@@ -341,27 +554,27 @@ public class GExporter {
 	 * @return String formatted as XML containing information about the Scale
 	 */
 	public final static String toXMLFullString(Scale&lt;?&gt; pS, String indent) {
-<span class="fc" id="L344">		StringBuilder rB = new StringBuilder(indent);		</span>
-<span class="fc" id="L345">		rB	.append(&quot;&lt;Scales mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;)</span>
-<span class="fc" id="L346">			.append(pS.map.size())</span>
-<span class="fc" id="L347">			.append(&quot;\&quot;&gt;\n&quot;);</span>
+<span class="fc" id="L557">		StringBuilder rB = new StringBuilder(indent);		</span>
+<span class="fc" id="L558">		rB	.append(&quot;&lt;Scale mode=\&quot;&quot;+pS.getMode()+&quot;\&quot; pans=\&quot;&quot;)</span>
+<span class="fc" id="L559">			.append(pS.map.size())</span>
+<span class="fc" id="L560">			.append(&quot;\&quot;&gt;\n&quot;);</span>
 
-<span class="fc" id="L349">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
-<span class="fc" id="L350">			rB	.append(indent)</span>
-<span class="fc" id="L351">				.append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
-<span class="fc" id="L352">			rB	.append(indent)</span>
-<span class="fc" id="L353">				.append(GExporter.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
-<span class="pc bpc" id="L354" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
-<span class="fc" id="L355">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L356">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L357">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="fc" id="L358">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
-<span class="nc" id="L359">				default -&gt; 		{rB.append(indent + &quot;\t\t\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L562">		pS.getBasis().bladeStream().forEach(blade -&gt; {</span>
+<span class="fc" id="L563">			rB	.append(indent)</span>
+<span class="fc" id="L564">				.append(&quot;\t\t\t&lt;Pair&gt;\n&quot;);</span>
+<span class="fc" id="L565">			rB	.append(indent)</span>
+<span class="fc" id="L566">				.append(GExporter.toXMLString(blade, &quot;\t\t\t\t&quot;));</span>
+<span class="pc bpc" id="L567" title="1 of 5 branches missed.">			switch (pS.getMode()){</span>
+<span class="fc" id="L568">				case COMPLEXD -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexD.toXMLString((ComplexD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L569">				case COMPLEXF -&gt; {rB.append(indent + &quot;\t\t\t\t&quot;).append(ComplexF.toXMLString((ComplexF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L570">				case REALD -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealD.toXMLString((RealD) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="fc" id="L571">				case REALF -&gt; 	{rB.append(indent + &quot;\t\t\t\t&quot;).append(RealF.toXMLString((RealF) pS.map.get(blade))).append(&quot;\n&quot;);}</span>
+<span class="nc" id="L572">				default -&gt; 		{rB.append(indent + &quot;\t\t\t\t&quot;).append(ProtoN.toXMLString(pS.map.get(blade))).append(&quot;\n&quot;);}</span>
 			}	
-<span class="fc" id="L361">			rB	.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
-<span class="fc" id="L362">		});</span>
-<span class="fc" id="L363">		rB	.append(indent).append(&quot;\t\t&lt;/Scales&gt;\n&quot;);</span>
-<span class="fc" id="L364">		return rB.toString();</span>
+<span class="fc" id="L574">			rB	.append(indent).append(&quot;\t\t\t&lt;/Pair&gt;\n&quot;);</span>
+<span class="fc" id="L575">		});</span>
+<span class="fc" id="L576">		rB	.append(indent).append(&quot;\t\t&lt;/Scale&gt;\n&quot;);</span>
+<span class="fc" id="L577">		return rB.toString();</span>
 	}
 
 	/**
@@ -372,20 +585,20 @@ public class GExporter {
 	 * @return String
 	 */
 	public final static String toXMLFullString(Monad pM, String indent) {
-<span class="pc bpc" id="L375" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
-<span class="fc" id="L376">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
-<span class="fc" id="L377">		rB.append(&quot;name=\&quot;&quot;)</span>
-<span class="fc" id="L378">			.append(pM.getName())</span>
-<span class="fc" id="L379">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
-<span class="fc" id="L380">			.append(pM.getGradeKey())</span>
-<span class="fc" id="L381">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
-<span class="fc" id="L382">			.append(pM.getSparseFlag())</span>
-<span class="fc" id="L383">			.append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L384">		rB.append(GExporter.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
-<span class="fc" id="L385">		rB.append(indent)</span>
-<span class="fc" id="L386">			.append(GExporter.toXMLFullString(pM.scales, &quot;\t&quot;));</span>
-<span class="fc" id="L387">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
-<span class="fc" id="L388">		return rB.toString();</span>
+<span class="pc bpc" id="L588" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L589">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L590">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L591">			.append(pM.getName())</span>
+<span class="fc" id="L592">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L593">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L594">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L595">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L596">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L597">		rB.append(GExporter.toXMLString(pM.getAlgebra(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L598">		rB.append(indent)</span>
+<span class="fc" id="L599">			.append(GExporter.toXMLFullString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L600">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L601">		return rB.toString();</span>
 	}
 
 	/**
@@ -396,21 +609,21 @@ public class GExporter {
 	 * @return String
 	 */
 	public final static String toXMLString(Monad pM, String indent) {
-<span class="pc bpc" id="L399" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
-<span class="fc" id="L400">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
-<span class="fc" id="L401">		rB.append(&quot;name=\&quot;&quot;)</span>
-<span class="fc" id="L402">			.append(pM.getName())</span>
-<span class="fc" id="L403">			.append(&quot;\&quot; algebra=\&quot;&quot;)</span>
-<span class="fc" id="L404">			.append(pM.getAlgebra().getAName())</span>
-<span class="fc" id="L405">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
-<span class="fc" id="L406">			.append(pM.getGradeKey())</span>
-<span class="fc" id="L407">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
-<span class="fc" id="L408">			.append(pM.getSparseFlag())</span>
-<span class="fc" id="L409">			.append(&quot;\&quot; &gt;\n&quot;);</span>
-<span class="fc" id="L410">		rB.append(indent)</span>
-<span class="fc" id="L411">			.append(GExporter.toXMLString(pM.scales, &quot;\t&quot;));</span>
-<span class="fc" id="L412">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
-<span class="fc" id="L413">		return rB.toString();</span>
+<span class="pc bpc" id="L612" title="1 of 2 branches missed.">		if (indent == null)			indent = &quot;\t\t\t&quot;;</span>
+<span class="fc" id="L613">		StringBuilder rB = new StringBuilder(indent + &quot;&lt;Monad &quot;);</span>
+<span class="fc" id="L614">		rB.append(&quot;name=\&quot;&quot;)</span>
+<span class="fc" id="L615">			.append(pM.getName())</span>
+<span class="fc" id="L616">			.append(&quot;\&quot; algebra=\&quot;&quot;)</span>
+<span class="fc" id="L617">			.append(pM.getAlgebra().getAName())</span>
+<span class="fc" id="L618">			.append(&quot;\&quot; gradeKey=\&quot;&quot;)</span>
+<span class="fc" id="L619">			.append(pM.getGradeKey())</span>
+<span class="fc" id="L620">			.append(&quot;\&quot; sparseFlag=\&quot;&quot;)</span>
+<span class="fc" id="L621">			.append(pM.getSparseFlag())</span>
+<span class="fc" id="L622">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc" id="L623">		rB.append(indent)</span>
+<span class="fc" id="L624">			.append(GExporter.toXMLString(pM.scales, &quot;\t&quot;));</span>
+<span class="fc" id="L625">		rB.append(indent + &quot;&lt;/Monad&gt;\n&quot;);</span>
+<span class="fc" id="L626">		return rB.toString();</span>
 	}
 
 
@@ -422,37 +635,37 @@ public class GExporter {
 	 * @return String
 	 */
 	public final static String toXMLFullString(Nyad pN, String indent) {
-<span class="fc bfc" id="L425" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L426">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
-<span class="fc" id="L427">		rB	.append(pN.getName())</span>
-<span class="fc" id="L428">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
-<span class="fc" id="L429">			.append(pN.arity())</span>
-<span class="fc" id="L430">			.append(&quot;\&quot; algorder=\&quot;&quot;)</span>
-<span class="fc" id="L431">			.append(pN.algrity())</span>
-<span class="fc" id="L432">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc bfc" id="L638" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L639">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
+<span class="fc" id="L640">		rB	.append(pN.getName())</span>
+<span class="fc" id="L641">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
+<span class="fc" id="L642">			.append(pN.arity())</span>
+<span class="fc" id="L643">			.append(&quot;\&quot; algorder=\&quot;&quot;)</span>
+<span class="fc" id="L644">			.append(pN.algrity())</span>
+<span class="fc" id="L645">			.append(&quot;\&quot; &gt;\n&quot;);</span>
 		
-<span class="fc" id="L434">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L647">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
 	
-<span class="fc" id="L436">		rB	.append(indent)</span>
-<span class="fc" id="L437">			.append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L438" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
-<span class="fc" id="L439">			rB	.append(indent)</span>
-<span class="fc" id="L440">				.append(&quot;\t\t&lt;AlgebraName&gt;&quot;)</span>
-<span class="fc" id="L441">				.append(point.getAName())</span>
-<span class="fc" id="L442">				.append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
-<span class="fc" id="L443">		rB	.append(indent)</span>
-<span class="fc" id="L444">			.append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
+<span class="fc" id="L649">		rB	.append(indent)</span>
+<span class="fc" id="L650">			.append(&quot;\t&lt;AlgebraList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L651" title="All 2 branches covered.">		for (Algebra point : pN.algebraList)</span>
+<span class="fc" id="L652">			rB	.append(indent)</span>
+<span class="fc" id="L653">				.append(&quot;\t\t&lt;AlgebraName&gt;&quot;)</span>
+<span class="fc" id="L654">				.append(point.getAName())</span>
+<span class="fc" id="L655">				.append(&quot;&lt;/AlgebraName&gt;\n&quot;);</span>
+<span class="fc" id="L656">		rB	.append(indent)</span>
+<span class="fc" id="L657">			.append(&quot;\t&lt;/AlgebraList&gt;\n&quot;);</span>
 		
-<span class="fc" id="L446">		rB	.append(indent)</span>
-<span class="fc" id="L447">			.append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L448" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L449">			rB.append(GExporter.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L450">		rB	.append(indent)</span>
-<span class="fc" id="L451">			.append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L659">		rB	.append(indent)</span>
+<span class="fc" id="L660">			.append(&quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L661" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L662">			rB.append(GExporter.toXMLFullString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L663">		rB	.append(indent)</span>
+<span class="fc" id="L664">			.append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
 	
-<span class="fc" id="L453">		rB	.append(indent)</span>
-<span class="fc" id="L454">			.append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L455">		return rB.toString();</span>
+<span class="fc" id="L666">		rB	.append(indent)</span>
+<span class="fc" id="L667">			.append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L668">		return rB.toString();</span>
 	}
 
 	/**
@@ -463,24 +676,49 @@ public class GExporter {
 	 * @return String
 	 */
 	public final static String toXMLString(Nyad pN, String indent) {
-<span class="fc bfc" id="L466" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
-<span class="fc" id="L467">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
-<span class="fc" id="L468">		rB	.append(pN.getName())</span>
-<span class="fc" id="L469">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
-<span class="fc" id="L470">			.append(pN.arity())</span>
-<span class="fc" id="L471">			.append(&quot;\&quot; algorder=\&quot;&quot;);</span>
-<span class="fc" id="L472">		rB	.append(pN.algrity())</span>
-<span class="fc" id="L473">			.append(&quot;\&quot; &gt;\n&quot;);</span>
+<span class="fc bfc" id="L679" title="All 2 branches covered.">		if (indent == null)			indent = &quot;\t&quot;;</span>
+<span class="fc" id="L680">		StringBuilder rB = new StringBuilder(indent+&quot;&lt;Nyad name=\&quot;&quot;);</span>
+<span class="fc" id="L681">		rB	.append(pN.getName())</span>
+<span class="fc" id="L682">			.append(&quot;\&quot; order=\&quot;&quot;)</span>
+<span class="fc" id="L683">			.append(pN.arity())</span>
+<span class="fc" id="L684">			.append(&quot;\&quot; algorder=\&quot;&quot;);</span>
+<span class="fc" id="L685">		rB	.append(pN.algrity())</span>
+<span class="fc" id="L686">			.append(&quot;\&quot; &gt;\n&quot;);</span>
 				
-<span class="fc" id="L475">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
+<span class="fc" id="L688">		rB	.append(GExporter.toXMLString(pN.getFoot(), indent + &quot;\t&quot;));</span>
 		
-<span class="fc" id="L477">		rB	.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
-<span class="fc bfc" id="L478" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
-<span class="fc" id="L479">			rB.append(GExporter.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
-<span class="fc" id="L480">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
+<span class="fc" id="L690">		rB	.append(indent + &quot;\t&lt;MonadList&gt;\n&quot;);</span>
+<span class="fc bfc" id="L691" title="All 2 branches covered.">		for (Monad tSpot : pN.monadList)</span>
+<span class="fc" id="L692">			rB.append(GExporter.toXMLString(tSpot, indent + &quot;\t\t&quot;));</span>
+<span class="fc" id="L693">		rB.append(indent).append(&quot;\t&lt;/MonadList&gt;\n&quot;);</span>
 		
-<span class="fc" id="L482">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
-<span class="fc" id="L483">		return rB.toString();</span>
+<span class="fc" id="L695">		rB.append(indent).append(&quot;&lt;/Nyad&gt;\n&quot;);</span>
+<span class="fc" id="L696">		return rB.toString();</span>
+	}
+
+	/**
+	 * Display XML string that represents the Connection and all its internal details
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pC The Connection to be exported as XML
+	 * @return String XML output of the offered Connection
+	 */
+	public final static String toXMLFullString(Connection&lt;?&gt; pC) {
+		
+<span class="nc" id="L707">		StringBuilder rB = new StringBuilder(&quot;&lt;Connection  mode=\&quot;&quot;+pC.getMode());</span>
+<span class="nc" id="L708">		rB	.append(&quot;\&quot; cardinal=\&quot;&quot;+pC.getCardinal().getUnit()+&quot;\&quot;&gt;\n&quot;);</span>
+
+<span class="nc" id="L710">		rB	.append(GExporter.toXMLString(pC.getAlgebra(true), &quot;\t&quot;));</span>
+<span class="nc" id="L711">		rB	.append(GExporter.toXMLString(pC.getAlgebra(false), &quot;\t&quot;));</span>
+
+<span class="nc" id="L713">		pC.bladeStream().forEach(blade -&gt; {</span>
+<span class="nc" id="L714">			rB	.append(&quot;\t&quot;).append(&quot;&lt;OuterMap&gt;\n&quot;);</span>
+<span class="nc" id="L715">			rB	.append(&quot;\t&quot;).append(GExporter.toXMLString(blade, &quot;\t&quot;));</span>
+<span class="nc" id="L716">			rB	.append(&quot;\t&quot;).append(GExporter.toXMLString(pC.get(blade), &quot;\t&quot;));</span>
+<span class="nc" id="L717">			rB	.append(&quot;\t&quot;).append(&quot;&lt;/OuterMap&gt;\n&quot;);</span>
+<span class="nc" id="L718">		});</span>
+
+<span class="nc" id="L720">		rB	.append(&quot;&lt;/Connection&gt;\n&quot;);</span>
+<span class="nc" id="L721">		return rB.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

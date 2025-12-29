@@ -24,20 +24,16 @@
  */
 package org.interworldtransport.cladosG;
 
-import org.interworldtransport.cladosF.FBuilder;
-import org.interworldtransport.cladosF.FCache;
-import org.interworldtransport.cladosF.ProtoN;
-
 /**
  * Objects within the cladosG package have a number of attributes in common that relate to a point that describes 
  * where the geometry of the algebra is tangent to the manifold underneath it. In a flat space it is not necessary 
  * to use a foot, but a simple one is still used by cladosG classes to help avoid the trap of assuming transport of 
  * objects along the manifold doesn't cause them to transform into other objects.
  * &lt;br&gt;&lt;br&gt;
- * At a minimum a Foot is the name of a point, but it may also be thought of as a name for an open set of points
- * covered by a 'chart' (topology). This set is the portion of the underlying manifold that has an image in the
- * tangent space where the cladosG classes will represent geometry. Objects with different Feet, therefore, are 
- * covered by different charts. That makes a Foot a root reference label.
+ * At a minimum a Foot is the name of a point. Itt may also be thought of as a name for an open set of pointscovered
+ * by a 'chart' (topology). This open set on the underlying manifold has an image in the tangent space where cladosG 
+ * will represent geometry. Objects with different Feet, therefore, are covered by different charts. That makes a 
+ * Foot a root reference label, but in terms of technical detail it is only a string wrapper.
  * &lt;br&gt;&lt;br&gt;
  * @version 2.0
  * @author Dr Alfred W Differ
@@ -49,8 +45,8 @@ public final class Foot {
 	 * @param pFootName String name for the new Foot
 	 * @return Foot Factory method builds a new Foot re-using a Cardinal object.
 	 */
-	public static final Foot buildAsType(String pFootName) {
-<span class="fc" id="L53">		return new Foot(pFootName);</span>
+	public static final Foot build(String pFootName) {
+<span class="fc" id="L49">		return new Foot(pFootName);</span>
 	}
 
 	/**
@@ -63,22 +59,19 @@ public final class Foot {
 	 * &lt;br&gt;&lt;br&gt;
 	 * @param pName String This string will be the name of the foot point.
 	 */
-<span class="fc" id="L66">	public Foot(String pName) {</span>
-<span class="fc" id="L67">		setName(pName);</span>
-<span class="fc" id="L68">		FBuilder.createCardinal(pName);</span>
-<span class="fc" id="L69">	}</span>
+<span class="fc" id="L62">	public Foot(String pName) {</span>
+<span class="fc" id="L63">		setName(pName);</span>
+<span class="fc" id="L64">	}</span>
 
 	/**
-	 * Build the Foot from scratch then put the number's Cardinal in the internal list.
-	 * &lt;br&gt;&lt;br&gt;
-	 * @param pName String This string will be the name of the foot point.
-	 * @param pF    ProtoN This object holds the cardinal that defines the kind of
-	 *              numbers that are meaningful for this foot point
+	 * Overridden Equals method from Object.
+	 * This ensures reference equality is the standard. They must literally be the same object to be equal.
+	 * @return boolean check for reference equality
 	 */
-<span class="fc" id="L78">	public Foot(String pName, ProtoN pF) {</span>
-<span class="fc" id="L79">		setName(pName);</span>
-<span class="fc" id="L80">		FCache.INSTANCE.appendCardinal(pF.getCardinal());</span>
-<span class="fc" id="L81">	}</span>
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		return (this == obj);</span>
+	}
 
 	/**
 	 * Simple gettor of the Foot's name element
@@ -86,18 +79,16 @@ public final class Foot {
 	 * @return String name of the Foot
 	 */
 	public String getName() {
-<span class="fc" id="L89">		return footName;</span>
+<span class="fc" id="L82">		return footName;</span>
 	}
 
 	/**
 	 * Simple setter of the Foot's name element.
 	 * &lt;br&gt;&lt;br&gt;
-	 * @param footName String name of the Foot to set here
+	 * @param pFootName String name of the Foot to set here
 	 */
-	public void setName(String footName) {
-<span class="fc" id="L98">		this.footName = footName;</span>
-<span class="fc" id="L99">	}</span>
-
-	
+	public void setName(String pFootName) {
+<span class="fc" id="L91">		this.footName = pFootName;</span>
+<span class="fc" id="L92">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

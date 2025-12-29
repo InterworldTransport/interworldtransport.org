@@ -256,7 +256,7 @@
 <a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L249" href="#L249">249</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> <a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> createFoot(String pName, String pCardName) {
 <a class="jxr_linenumber" name="L250" href="#L250">250</a> 		Cardinal.generate(pCardName);
-<a class="jxr_linenumber" name="L251" href="#L251">251</a> 		<strong class="jxr_keyword">return</strong> Foot.buildAsType(pName);
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> 		<strong class="jxr_keyword">return</strong> Foot.build(pName);
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> 	}
 <a class="jxr_linenumber" name="L253" href="#L253">253</a> 
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> 	<em class="jxr_javadoccomment">/**</em>
@@ -268,7 +268,7 @@
 <a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L261" href="#L261">261</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> <a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> createFootLike(String pName, <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pCard) {
 <a class="jxr_linenumber" name="L262" href="#L262">262</a> 		FCache.INSTANCE.appendCardinal(pCard);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 		<strong class="jxr_keyword">return</strong> Foot.buildAsType(pName);
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 		<strong class="jxr_keyword">return</strong> Foot.build(pName);
 <a class="jxr_linenumber" name="L264" href="#L264">264</a> 	}
 <a class="jxr_linenumber" name="L265" href="#L265">265</a> 
 <a class="jxr_linenumber" name="L266" href="#L266">266</a> 	<em class="jxr_javadoccomment">/**</em>
@@ -285,7 +285,7 @@
 <a class="jxr_linenumber" name="L277" href="#L277">277</a> <em class="jxr_javadoccomment">	 * @return Foot (new instance)</em>
 <a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L279" href="#L279">279</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> <a name="Foot" href="../../../org/interworldtransport/cladosG/Foot.html#Foot">Foot</a> createFootLike(String pName) {
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		<strong class="jxr_keyword">return</strong> Foot.buildAsType(pName);
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		<strong class="jxr_keyword">return</strong> Foot.build(pName);
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> 	}
 <a class="jxr_linenumber" name="L282" href="#L282">282</a> 
 <a class="jxr_linenumber" name="L283" href="#L283">283</a> 	<em class="jxr_javadoccomment">/**</em>

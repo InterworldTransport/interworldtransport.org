@@ -248,7 +248,7 @@ import org.interworldtransport.cladosGExceptions.*;
 	 */
 	public final static Foot createFoot(String pName, String pCardName) {
 <span class="fc" id="L250">		Cardinal.generate(pCardName);</span>
-<span class="fc" id="L251">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L251">		return Foot.build(pName);</span>
 	}
 
 	/**
@@ -260,7 +260,7 @@ import org.interworldtransport.cladosGExceptions.*;
 	 */
 	public final static Foot createFootLike(String pName, Cardinal pCard) {
 <span class="fc" id="L262">		FCache.INSTANCE.appendCardinal(pCard);</span>
-<span class="fc" id="L263">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L263">		return Foot.build(pName);</span>
 	}
 
 	/**
@@ -277,7 +277,7 @@ import org.interworldtransport.cladosGExceptions.*;
 	 * @return Foot (new instance)
 	 */
 	public final static Foot createFootLike(String pName) {
-<span class="fc" id="L280">		return Foot.buildAsType(pName);</span>
+<span class="fc" id="L280">		return Foot.build(pName);</span>
 	}
 
 	/**

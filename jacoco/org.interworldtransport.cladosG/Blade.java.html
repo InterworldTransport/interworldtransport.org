@@ -421,31 +421,29 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	}
 
 	/**
-	 * The method needs to be as efficient as possible because it is used in comparators.
-	 * It determines the sort order of blades in a basis, thus the streaming order for
-	 * coefficients in a Scale.
-	 * &lt;br&gt;
-	 * This function is WHY Blades keep a Long key. The bit key suffices to distinguish
-	 * blades, but not to sort them into grades in a basis.
-	 * &lt;br&gt;
+	 * The method needs to be as efficient as possible because it is used in comparators. It determines 
+	 * the sort order of blades in a basis, thus the streaming order for coefficients in a Scale.
+	 * &lt;br&gt;&lt;br&gt;
+	 * This function is WHY Blades keep a Long key. The bit key suffices to distinguish blades, but not 
+	 * to sort them into grades in a basis.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pIn Blade to be compared to this one
-	 * @return int in {-1, 0, 1} depending on the size of the offered blade's long
-	 *         integer key relative to this one. If the incoming long key is larger
-	 * 		   the integer returned is +1.
+	 * @return int 	in {-1, 0, 1} depending on the size of the offered blade's long integer key relative 
+	 * 				to this one. If the incoming long key is larger the integer returned is +1.
 	 */
 	@Override
 	public int compareTo(Blade pIn) {
-<span class="fc bfc" id="L438" title="All 4 branches covered.">		return (key() &lt; pIn.key()) ? -1 : (key() &gt; pIn.key() ? 1 : 0);</span>
+<span class="fc bfc" id="L436" title="All 4 branches covered.">		return (key() &lt; pIn.key()) ? -1 : (key() &gt; pIn.key() ? 1 : 0);</span>
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-<span class="fc bfc" id="L443" title="All 2 branches covered.">		if (this == obj)					return true;</span>
-<span class="fc bfc" id="L444" title="All 2 branches covered.">		if (obj == null)					return false;</span>
-<span class="pc bpc" id="L445" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())	return false;</span>
-<span class="fc bfc" id="L446" title="All 2 branches covered.">		if (key != ((Blade) obj).key)		return false;</span>
-<span class="fc bfc" id="L447" title="All 2 branches covered.">		if (maxGen != ((Blade) obj).maxGen)	return false;</span>
-<span class="fc" id="L448">		return true;</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">		if (this == obj)					return true;</span>
+<span class="fc bfc" id="L442" title="All 2 branches covered.">		if (obj == null)					return false;</span>
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())	return false;</span>
+<span class="fc bfc" id="L444" title="All 2 branches covered.">		if (key != ((Blade) obj).key)		return false;</span>
+<span class="fc bfc" id="L445" title="All 2 branches covered.">		if (maxGen != ((Blade) obj).maxGen)	return false;</span>
+<span class="fc" id="L446">		return true;</span>
 	}
 
 	/**
@@ -458,7 +456,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return an Optional of the Generator requested.
 	 */
 	public Optional&lt;Generator&gt; get(Generator pG) {
-<span class="fc bfc" id="L461" title="All 2 branches covered.">		return Optional.ofNullable(genSet.contains(pG) ? pG : null);</span>
+<span class="fc bfc" id="L459" title="All 2 branches covered.">		return Optional.ofNullable(genSet.contains(pG) ? pG : null);</span>
 	}
 
 	/**
@@ -468,7 +466,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return key Returns the blade's enumerated set of generators.
 	 */
 	protected EnumSet&lt;Generator&gt; getGenerators() {
-<span class="fc" id="L471">		return genSet;</span>
+<span class="fc" id="L469">		return genSet;</span>
 	}
 
 	/**
@@ -478,16 +476,16 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return Stream of generators used in the blade.
 	 */
 	public Stream&lt;Generator&gt; generatorStream() {
-<span class="fc" id="L481">		return genSet.stream();</span>
+<span class="fc" id="L479">		return genSet.stream();</span>
 	}
 
 	@Override
 	public int hashCode() {
-<span class="fc" id="L486">		final int prime = 67;</span>
-<span class="fc" id="L487">		int result = 1;</span>
-<span class="fc" id="L488">		result = prime + (int) (key ^ (key &gt;&gt;&gt; 32));</span>
-<span class="fc" id="L489">		result = prime * result + sign;</span>
-<span class="fc" id="L490">		return result;</span>
+<span class="fc" id="L484">		final int prime = 67;</span>
+<span class="fc" id="L485">		int result = 1;</span>
+<span class="fc" id="L486">		result = prime + (int) (key ^ (key &gt;&gt;&gt; 32));</span>
+<span class="fc" id="L487">		result = prime * result + sign;</span>
+<span class="fc" id="L488">		return result;</span>
 	}
 
 	/**
@@ -497,7 +495,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return key Returns the blade's long integer key.
 	 */
 	public long key() {
-<span class="fc" id="L500">		return key;</span>
+<span class="fc" id="L498">		return key;</span>
 	}
 
 	/**
@@ -507,7 +505,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 *         could be placed in this blade.
 	 */
 	public byte maxGenerator() {
-<span class="fc" id="L510">		return maxGen;</span>
+<span class="fc" id="L508">		return maxGen;</span>
 	}
 
 	/**
@@ -517,7 +515,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return byte integer number of generators involved in this blade.
 	 */
 	public byte rank() {
-<span class="fc" id="L520">		return (byte) genSet.size();</span>
+<span class="fc" id="L518">		return (byte) genSet.size();</span>
 	}
 
 	/**
@@ -536,12 +534,12 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return this blade
 	 */
 	public Blade remove(EnumSet&lt;Generator&gt; pS) {
-<span class="fc bfc" id="L539" title="All 2 branches covered.">		if (isScalar(this))</span>
-<span class="fc" id="L540">			return this;</span>
+<span class="fc bfc" id="L537" title="All 2 branches covered.">		if (isScalar(this))</span>
+<span class="fc" id="L538">			return this;</span>
 		else {
-<span class="fc" id="L542">			genSet.removeAll(pS);</span>
-<span class="fc" id="L543">			makeKey(); // Removing anything changes the key.</span>
-<span class="fc" id="L544">			return this;</span>
+<span class="fc" id="L540">			genSet.removeAll(pS);</span>
+<span class="fc" id="L541">			makeKey(); // Removing anything changes the key.</span>
+<span class="fc" id="L542">			return this;</span>
 		}
 	}
 
@@ -553,9 +551,9 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return Blade The blade itself is returned to support stream calls.
 	 */
 	public Blade remove(Generator pS) {
-<span class="fc bfc" id="L556" title="All 2 branches covered.">		if (genSet.remove(pS))</span>
-<span class="fc" id="L557">			makeKey();</span>
-<span class="fc" id="L558">		return this;</span>
+<span class="fc bfc" id="L554" title="All 2 branches covered.">		if (genSet.remove(pS))</span>
+<span class="fc" id="L555">			makeKey();</span>
+<span class="fc" id="L556">		return this;</span>
 	}
 
 	/**
@@ -585,7 +583,7 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return byte integer represeting the sign. Should be +1 or -1.
 	 */
 	public byte sign() {
-<span class="fc" id="L588">		return sign;</span>
+<span class="fc" id="L586">		return sign;</span>
 	}
 
 	/*
@@ -602,18 +600,18 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * pow() method is in CladosConstant as a replacement for Math.pow()
 	 */
 	private void makeKey() {
-<span class="fc" id="L605">		key = 0L;</span>
-<span class="fc" id="L606">		bitKey = 0;</span>
-<span class="fc" id="L607">		int counter = 0;</span>
-<span class="fc" id="L608">		Iterator&lt;Generator&gt; cursor = genSet.iterator();</span>
+<span class="fc" id="L603">		key = 0L;</span>
+<span class="fc" id="L604">		bitKey = 0;</span>
+<span class="fc" id="L605">		int counter = 0;</span>
+<span class="fc" id="L606">		Iterator&lt;Generator&gt; cursor = genSet.iterator();</span>
 		Generator g;
-<span class="fc bfc" id="L610" title="All 2 branches covered.">		while (cursor.hasNext()) {</span>
-<span class="fc" id="L611">			g = cursor.next();</span>
-<span class="fc" id="L612">			key += g.ord * pow((byte)(maxGen+1), (genSet.size() - 1 - counter)).longValue();</span>
-<span class="fc" id="L613">			bitKey += (1 &lt;&lt; (g.ord - 1));</span>
-<span class="fc" id="L614">			counter++;</span>
+<span class="fc bfc" id="L608" title="All 2 branches covered.">		while (cursor.hasNext()) {</span>
+<span class="fc" id="L609">			g = cursor.next();</span>
+<span class="fc" id="L610">			key += g.ord * pow((byte)(maxGen+1), (genSet.size() - 1 - counter)).longValue();</span>
+<span class="fc" id="L611">			bitKey += (1 &lt;&lt; (g.ord - 1));</span>
+<span class="fc" id="L612">			counter++;</span>
 		}
-<span class="fc" id="L616">	}</span>
+<span class="fc" id="L614">	}</span>
 	
 	/**
 	 * Simple settor for the sign of this blade.
@@ -622,8 +620,8 @@ public class Blade implements CanonicalBlade, Comparable&lt;Blade&gt; {
 	 * @return this blade
 	 */
 	protected Blade setSign(byte pSign) {
-<span class="fc bfc" id="L625" title="All 4 branches covered.">		sign = (pSign == (byte) 1) ? (byte) 1 : ((pSign == (byte) -1) ? (byte) -1 : (byte) 0);</span>
-<span class="fc" id="L626">		return this;</span>
+<span class="fc bfc" id="L623" title="All 4 branches covered.">		sign = (pSign == (byte) 1) ? (byte) 1 : ((pSign == (byte) -1) ? (byte) -1 : (byte) 0);</span>
+<span class="fc" id="L624">		return this;</span>
 	}
 
 }

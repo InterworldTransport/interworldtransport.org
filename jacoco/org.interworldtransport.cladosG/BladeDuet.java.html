@@ -44,7 +44,7 @@ import java.util.Collections;
  * @version 2.0
  * @author Dr Alfred W Differ
  */
-<span class="fc" id="L47">public final class BladeDuet {</span>
+<span class="fc" id="L47">public final class BladeDuet implements Comparable&lt;BladeDuet&gt;{</span>
 
 	/**
 	 * This method takes the set of generators in the offered blade and returns a blade with a set of generators that 
@@ -110,11 +110,16 @@ import java.util.Collections;
 <span class="fc" id="L110">		BladeDuet tBD = new BladeDuet(pB1, pB2);</span>
 <span class="fc" id="L111">		return tBD.simplify(sig);</span>
 	}
+
 	/**
-	 * These are the bitKey's of the Blades inserted.
-	 * They get used to help with the simplify algorithm.
+	 * This is the left blade in the ordered pair that BladeDuet really is.
 	 */
-<span class="fc" id="L117">	private int bitKeyLeft, bitKeyRight = 0;</span>
+	protected final Blade bladeLeft;
+
+	/**
+	 * This is the right blade in the ordered pair that BladeDuet really is.
+	 */
+	protected final Blade bladeRight;
 	
 	/**
 	 * This holds the combined list of generators from each blade.
@@ -131,33 +136,80 @@ import java.util.Collections;
 	 * Calculating the sign ALSO gets the algebra's signature involved,
 	 * so this DOES involve the metric.
 	 */
-<span class="fc" id="L134">	protected byte sign = 1;</span>
+<span class="fc" id="L139">	protected byte sign = 0;</span>
 
 	/**
-	 * This is where the hint is kept for the largest possible blade in the 
-	 * basis to which the resulting blade actually belongs. It is capped by the 
-	 * maximum grade from one of the blades... which really should have the 
-	 * same maximum grade.
+	 * This is where the hint is kept for the largest possible blade in the basis to which the resulting blade actually belongs. 
+	 * It is capped by the maximum grade from one of the blades... which really should have the same maximum grade.
 	 */
-	protected final Generator maxGen;
+	protected Generator maxGen;
 
 	/**
-	 * This is a re-use constructor that builds this as a juxtaposition of the two offered blades.
-	 * &lt;br&gt;
+	 * This constructor builds what is essentially an ordered pair of blades and then sets up the simplification steps
+	 * that usually follow.
+	 * &lt;br&gt;&lt;br&gt;
 	 * @param pB1 A Blade to re-use on the left.
 	 * @param pB2 A Blade to re-use on the right.
 	 */
-<span class="fc" id="L150">	public BladeDuet(Blade pB1, Blade pB2) {</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">		assert (pB1.maxGenerator() == pB2.maxGenerator());</span>
-<span class="fc" id="L152">		maxGen = Generator.get((byte) pB1.maxGenerator());</span>
-<span class="fc bfc" id="L153" title="All 2 branches covered.">		bladeDuet = (maxGen != null) ? new ArrayList&lt;&gt;(2 * maxGen.ord) : new ArrayList&lt;&gt;(2);</span>
-<span class="fc" id="L154">		pB1.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
-<span class="fc" id="L155">		sign = pB1.sign();</span>
-<span class="fc" id="L156">		bitKeyLeft = pB1.bitKey();</span>
-<span class="fc" id="L157">		pB2.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
-<span class="fc" id="L158">		sign *= pB2.sign();</span>
-<span class="fc" id="L159">		bitKeyRight = pB2.bitKey();</span>
-<span class="fc" id="L160">	}</span>
+<span class="fc" id="L154">	public BladeDuet(Blade pB1, Blade pB2) {</span>
+<span class="fc" id="L155">		bladeLeft = pB1;</span>
+<span class="fc" id="L156">		bladeRight = pB2;</span>
+<span class="fc" id="L157">		bladeDuet = new ArrayList&lt;Generator&gt;(30);</span>
+<span class="fc" id="L158">	}</span>
+
+	/**
+	 * The method needs to be as efficient as possible because it is used in comparators. It determines the 
+	 * sort order of ordered pairs of blades, thus the streaming order for key/value pairs.
+	 * &lt;br&gt;&lt;br&gt;
+	 * The way this works is simple. If the left blades compare to +/-1, return that. If they compare to ZERO,
+	 * return the comparison of the right blades. This ensures the sort order in maps containing BladeDuets
+	 * will sort on the left blade first and then the right blade. Remember that blade comparisons use their
+	 * blade keys, so the net effect of this method for sorting BladeDuet will place them in the same order
+	 * as the blades appear in a Basis. 
+	 * &lt;br&gt;&lt;br&gt;
+	 * @param pIn BladeDuet to be compared to this one
+	 * @return int in {-1, 0, 1} depending on the blade comparisons in the duet.
+	 */
+	@Override
+	public int compareTo(BladeDuet pIn) {
+<span class="fc" id="L175">		int testThis = this.bladeLeft.compareTo(pIn.bladeLeft);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (testThis == 0)		return (this.bladeRight.compareTo(pIn.bladeRight));</span>
+<span class="fc" id="L177">		else 					return testThis;</span>
+	}
+
+	/**
+	 * Overridden Equals method from Object.
+	 * This ensures reference equality is the standard. They must literally refer to the same blade objects to be equal.
+	 * @return boolean check for reference equality
+	 */
+	@Override
+	public boolean equals(Object obj) {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">		if (obj == null)						return false;</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		if (! (obj instanceof BladeDuet)) 		return false;</span>
+
+<span class="nc bnc" id="L190" title="All 4 branches missed.">		return 		this.bladeLeft  == ((BladeDuet) obj).bladeLeft </span>
+				&amp; 	this.bladeRight == ((BladeDuet) obj).bladeRight;
+	}
+
+	/**
+	 * The details in this method were originally in the Constructor, but have been moved to this private method which gets called 
+	 * by any other method that ACTUALLY needs the work to be done. The contents of private data elements don't need to be preserved
+	 * long most of the time, so once the Cayley Table is constructed, the primary use for BladeDuet is as an ordered pair of blades
+	 * in maps. That use in maps does not require the work done in this method.
+	 * &lt;br&gt;&lt;br&gt;
+	 * There is a secondary use that does wind up calling here that involves blade complements. The complement methods rely on the 
+	 * simplify methods, so initialization of the bladeDuet is handled properly.
+	 */
+	private void setup() {																						//Only relevant when blades are multiplied
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		assert (bladeLeft.maxGenerator() == bladeRight.maxGenerator());											//Don't simplify mismatched blades basically</span>
+<span class="fc" id="L205">		sign = (byte) (bladeLeft.sign() * bladeRight.sign());													</span>
+<span class="fc" id="L206">		maxGen = Generator.get((byte) Math.max(bladeLeft.maxGenerator(), bladeRight.maxGenerator()));</span>
+
+<span class="fc" id="L208">		bladeDuet = new ArrayList&lt;Generator&gt;(2*CladosConstant.MAXGRADE);</span>
+<span class="fc" id="L209">		bladeLeft.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L210">		bladeRight.generatorStream().forEachOrdered(g -&gt; bladeDuet.add(g));</span>
+<span class="fc" id="L211">		bladeDuet.trimToSize();</span>
+<span class="fc" id="L212">	}</span>
 
 	/**
 	 * This method reduces generator pairs in what is an ALMOST sorted bladeDuet list. It is two buckets of sorted generators 
@@ -173,26 +225,27 @@ import java.util.Collections;
 	 * @return Blade complement of the non-pscalar blade used to initialize the BladeDuet.
 	 */
 	private Blade simplifyForEllipticDual(byte[] pSig) {
-<span class="fc" id="L176">		int andKey = bitKeyLeft &amp; bitKeyRight;</span>
-<span class="fc" id="L177">		byte gen = 1;										//start with lowest generator</span>
-<span class="fc bfc" id="L178" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
-<span class="pc bpc" id="L179" title="1 of 2 branches missed.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit names duplicate generator. Action required.</span>
-<span class="fc" id="L180">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
+<span class="fc" id="L228">		setup();</span>
+<span class="fc" id="L229">		int andKey = bladeLeft.bitKey() &amp; bladeRight.bitKey();</span>
+<span class="fc" id="L230">		byte gen = 1;										//start with lowest generator</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit names duplicate generator. Action required.</span>
+<span class="fc" id="L233">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
 															//lastIndexOf = right-most. indexOf = left-most.
 															//We won't be in this section unless there are exactly two.
 															//This 'permutes' generators without moving them.
-<span class="pc bpc" id="L185" title="1 of 2 branches missed.">				sign *= (pSig[gen - 1] == 0) ? 1 : pSig[gen - 1];	//IF SIGNATURE of eq is 0, pretend it is +1. </span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">				sign *= (pSig[gen - 1] == 0) ? 1 : pSig[gen - 1];	//IF SIGNATURE of eq is 0, pretend it is +1. </span>
 																	//Otherwise use correct signature.
-<span class="fc" id="L187">				bladeDuet.removeAll(Collections.singleton(eq));</span>
+<span class="fc" id="L240">				bladeDuet.removeAll(Collections.singleton(eq));</span>
 			}
-<span class="fc" id="L189">			gen++;											//move up to the next generator to test</span>
-<span class="fc" id="L190">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
+<span class="fc" id="L242">			gen++;											//move up to the next generator to test</span>
+<span class="fc" id="L243">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
 		}
-<span class="fc" id="L192">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
-<span class="fc" id="L193">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators </span>
+<span class="fc" id="L245">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
+<span class="fc" id="L246">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators </span>
 															//returnIt has the correct generators AND sign.
-<span class="fc" id="L195">		return returnIt.setSign(sign);</span>
+<span class="fc" id="L248">		return returnIt.setSign(sign);</span>
 	}
 
 	/**
@@ -209,26 +262,27 @@ import java.util.Collections;
 	 * @return Blade complement of the non-pscalar blade used to initialize the BladeDuet.
 	 */
 	private Blade simplifyForHyperbolicDual(byte[] pSig) {
-<span class="fc" id="L212">		int andKey = bitKeyLeft &amp; bitKeyRight;</span>
-<span class="fc" id="L213">		byte gen = 1;										//start with lowest generator</span>
-<span class="fc bfc" id="L214" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
-<span class="pc bpc" id="L215" title="1 of 2 branches missed.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit names duplicate generator. Action required.</span>
-<span class="fc" id="L216">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
+<span class="fc" id="L265">		setup();</span>
+<span class="fc" id="L266">		int andKey = bladeLeft.bitKey() &amp; bladeRight.bitKey();</span>
+<span class="fc" id="L267">		byte gen = 1;										//start with lowest generator</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit names duplicate generator. Action required.</span>
+<span class="fc" id="L270">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
 															//lastIndexOf = right-most. indexOf = left-most.
 															//We won't be in this section unless there are exactly two.
 															//This 'permutes' generators without moving them.
-<span class="fc bfc" id="L221" title="All 2 branches covered.">				sign *= (pSig[gen - 1] == 0) ? -1 : pSig[gen - 1];	//IF SIGNATURE of eq is 0, pretend it is -1. </span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">				sign *= (pSig[gen - 1] == 0) ? -1 : pSig[gen - 1];	//IF SIGNATURE of eq is 0, pretend it is -1. </span>
 																	//Otherwise use correct signature.
-<span class="fc" id="L223">				bladeDuet.removeAll(Collections.singleton(eq));</span>
+<span class="fc" id="L277">				bladeDuet.removeAll(Collections.singleton(eq));</span>
 			}
-<span class="fc" id="L225">			gen++;											//move up to the next generator to test</span>
-<span class="fc" id="L226">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
+<span class="fc" id="L279">			gen++;											//move up to the next generator to test</span>
+<span class="fc" id="L280">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
 		}
-<span class="fc" id="L228">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
-<span class="fc" id="L229">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators </span>
+<span class="fc" id="L282">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
+<span class="fc" id="L283">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators </span>
 															//returnIt has the correct generators AND sign.
-<span class="fc" id="L231">		return returnIt.setSign(sign);</span>
+<span class="fc" id="L285">		return returnIt.setSign(sign);</span>
 	}
 
 	/**
@@ -252,43 +306,44 @@ import java.util.Collections;
 	 * @return Blade [supporting stream approach]
 	 */
 	private Blade simplify(byte[] pSig) {
-<span class="fc" id="L255">		int andKey = bitKeyLeft &amp; bitKeyRight;</span>
-<span class="fc" id="L256">		byte gen = 1;										//start with lowest generator</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit points at duplicate generator</span>
-<span class="fc" id="L259">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
+<span class="fc" id="L309">		setup();</span>
+<span class="fc" id="L310">		int andKey = bladeLeft.bitKey() &amp; bladeRight.bitKey();</span>
+<span class="fc" id="L311">		byte gen = 1;										//start with lowest generator</span>
+<span class="fc bfc" id="L312" title="All 2 branches covered.">		while (andKey &gt; 0) {								//while any duplicate generators present</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">			if (Integer.lowestOneBit(andKey) == 1) {		//andKey is odd =&gt; low bit points at duplicate generator</span>
+<span class="fc" id="L314">				Generator eq = Generator.get(gen);			//find generator for that lowest bit</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">				sign *= (Integer.lowestOneBit(bladeDuet.lastIndexOf(eq) ^ bladeDuet.indexOf(eq)) == 1) ? (byte) 1 : (byte) -1;</span>
 															//lastIndexOf = right-most. indexOf = left-most.
 															//We won't be in this section unless there are exactly two.
 															//This 'permutes' generators without moving them.
-<span class="fc" id="L264">				sign *= pSig[gen - 1];						//Adjust again for signature of generators.</span>
-<span class="fc" id="L265">				bladeDuet.removeAll(Collections.singleton(eq));</span>
+<span class="fc" id="L319">				sign *= pSig[gen - 1];						//Adjust again for signature of generators.</span>
+<span class="fc" id="L320">				bladeDuet.removeAll(Collections.singleton(eq));</span>
 			}
-<span class="fc bfc" id="L267" title="All 2 branches covered.">			if (sign == 0) 	break;							//Degenerate eq found. We are done since result is a scalar ZERO.</span>
-<span class="fc" id="L268">			gen++;											//move up to the next generator to test</span>
-<span class="fc" id="L269">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
+<span class="fc bfc" id="L322" title="All 2 branches covered.">			if (sign == 0) 	break;							//Degenerate eq found. We are done since result is a scalar ZERO.</span>
+<span class="fc" id="L323">			gen++;											//move up to the next generator to test</span>
+<span class="fc" id="L324">			andKey = andKey &gt;&gt;&gt; 1;							//shift andKey right dropping lowest bit</span>
 		}
-<span class="fc" id="L271">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
-<span class="fc bfc" id="L272" title="All 2 branches covered.">		if (sign == 0)							</span>
-<span class="fc" id="L273">			return returnIt.setSign((byte) 0);				//In the degenerate case, we are done!</span>
+<span class="fc" id="L326">		Blade returnIt = Blade.createBlade(maxGen); 		//A scalar blade with room to expand.</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">		if (sign == 0)							</span>
+<span class="fc" id="L328">			return returnIt.setSign((byte) 0);				//In the degenerate case, we are done!</span>
 		
-<span class="fc" id="L275">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators IF NO paired generator was degenerate</span>
+<span class="fc" id="L330">		bladeDuet.stream().forEach(g -&gt; returnIt.add(g));	//Load remaining generators IF NO paired generator was degenerate</span>
 															//returnIt has the correct generators, but might have the wrong sign
-<span class="fc" id="L277">		andKey = bitKeyLeft &amp; bitKeyRight;</span>
+<span class="fc" id="L332">		andKey = bladeLeft.bitKey() &amp; bladeRight.bitKey();</span>
 															// if either residue key vanishes, the bladeDuet is already in SORT order.
-<span class="fc bfc" id="L279" title="All 6 branches covered.">		if ((bitKeyLeft - andKey) != 0 &amp; (bitKeyRight - andKey) != 0) {</span>
-<span class="fc" id="L280">			ArrayList&lt;Generator&gt; pB = new ArrayList&lt;&gt;(returnIt.getGenerators());</span>
-<span class="fc bfc" id="L281" title="All 2 branches covered.">			for (Generator pG : pB) { 						// Exploiting the KNOWN correct order.</span>
-<span class="fc" id="L282">				int found = bladeDuet.indexOf(pG);</span>
-<span class="fc" id="L283">				int refer = pB.indexOf(pG);</span>
+<span class="fc bfc" id="L334" title="All 6 branches covered.">		if ((bladeLeft.bitKey() - andKey) != 0 &amp; (bladeRight.bitKey() - andKey) != 0) {</span>
+<span class="fc" id="L335">			ArrayList&lt;Generator&gt; pB = new ArrayList&lt;&gt;(returnIt.getGenerators());</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">			for (Generator pG : pB) { 						// Exploiting the KNOWN correct order.</span>
+<span class="fc" id="L337">				int found = bladeDuet.indexOf(pG);</span>
+<span class="fc" id="L338">				int refer = pB.indexOf(pG);</span>
 
-<span class="fc bfc" id="L285" title="All 2 branches covered.">				if (found != refer) {</span>
-<span class="fc" id="L286">					sign *= (byte) -1;</span>
-<span class="fc" id="L287">					Collections.swap(bladeDuet, found, refer);</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">				if (found != refer) {</span>
+<span class="fc" id="L341">					sign *= (byte) -1;</span>
+<span class="fc" id="L342">					Collections.swap(bladeDuet, found, refer);</span>
 				}
-<span class="fc" id="L289">			}</span>
+<span class="fc" id="L344">			}</span>
 		}
-<span class="fc" id="L291">		return returnIt.setSign(sign);</span>
+<span class="fc" id="L346">		return returnIt.setSign(sign);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
