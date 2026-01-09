@@ -106,7 +106,7 @@
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     * are multiplicative inverses.</em>
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">private</strong> TreeMap&lt;Blade, Scale&lt;D&gt;&gt; mapOfMapsInverse;
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <em class="jxr_comment">//private TreeMap&lt;Blade, Scale&lt;D&gt;&gt; mapOfMapsInverse;</em>
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">     * This map is the counterpart to mapOfBlades that has an ordered pair of blades (BladeDuet) as keys and the kind </em>
@@ -162,220 +162,258 @@
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>                                                                                                                 <em class="jxr_comment">//Zero scale or ONE at equivalent blade</em>
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>             mapOfMaps.put(b1, tScale);                                                                          <em class="jxr_comment">//Happens for every b1. Processing order doesn't matter.</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>         });
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>         setAltMaps();
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>         setAltMaps();                                                                                           <em class="jxr_comment">//Fill the blade pairs map and the map relating pairs to weights.</em>
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>     }
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     * This method sifts through the map of maps and rebuilds the blade lists to support connection transpose operations.</em>
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setAltMaps() {
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>         bladeStream().forEachOrdered(b1 -&gt; {
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>             Scale&lt;D&gt; value = mapOfMaps.get(b1);
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>             value.getMap().keySet().stream().forEach(b2 -&gt; {
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>                 mapOfBlades.put(b1, b2);
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 mapOfWeights.put(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(b1, b2), mapOfMaps.get(b1).get(b2));
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>             });
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         });
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>     }
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">     * This stream should produce the same output (blades from algebra1) as bladeStream(), but it does so by looking </em>
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     * at the mapOfBlades instead of the mapOfMaps. That means when you get the corresponding value from the pair you </em>
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">     * get a single blade from algebra2.</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">     * The counterpart stream is blade2PairStream().</em>
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra1 that appear as keys in mapOfMaps</em>
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; blade1PairStream() {
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <strong class="jxr_keyword">return</strong> mapOfBlades.keySet().stream();
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>     }
-<a class="jxr_linenumber" name="L185" href="#L185">185</a> 
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">     * This stream would produce output blades from algebra2 like bladeStream() if mapOfMaps was transposed. It does so </em>
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">     * by looking at the mapOfBlades instead. That means when you get the corresponding key from the pair you get a </em>
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> <em class="jxr_javadoccomment">     * single blade from algebra1.</em>
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">     * The counterpart stream is blade1PairStream().</em>
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra2 that appear any Scale in mapOfMaps.</em>
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; blade2PairStream() {
-<a class="jxr_linenumber" name="L196" href="#L196">196</a>         <strong class="jxr_keyword">return</strong> mapOfBlades.values().stream();
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         mapOfBlades.clear();
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         mapOfWeights.clear();
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         bladeStream().forEachOrdered(b1 -&gt; {
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>             Scale&lt;D&gt; value = mapOfMaps.get(b1);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>             value.getMap().keySet().stream().forEach(b2 -&gt; {
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                 <strong class="jxr_keyword">switch</strong> (mode) {
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>                     <strong class="jxr_keyword">case</strong> COMPLEXD -&gt; {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>                         <strong class="jxr_keyword">if</strong> (!ComplexD.isZero((<a name="ComplexD" href="../../../org/interworldtransport/cladosF/ComplexD.html#ComplexD">ComplexD</a>) value.get(b2))) {
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>                             mapOfBlades.put(b1, b2);
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>                             mapOfWeights.put(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(b1, b2), mapOfMaps.get(b1).get(b2));
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>                         }
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>                     }
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>                     <strong class="jxr_keyword">case</strong> COMPLEXF -&gt; {
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>                         <strong class="jxr_keyword">if</strong> (!ComplexF.isZero((<a name="ComplexF" href="../../../org/interworldtransport/cladosF/ComplexF.html#ComplexF">ComplexF</a>) value.get(b2))) {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>                             mapOfBlades.put(b1, b2);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>                             mapOfWeights.put(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(b1, b2), mapOfMaps.get(b1).get(b2));
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>                         }
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>                     }
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>                     <strong class="jxr_keyword">case</strong> REALD -&gt; {
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>                         <strong class="jxr_keyword">if</strong> (!RealD.isZero((<a name="RealD" href="../../../org/interworldtransport/cladosF/RealD.html#RealD">RealD</a>) value.get(b2))) {
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>                             mapOfBlades.put(b1, b2);
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>                             mapOfWeights.put(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(b1, b2), mapOfMaps.get(b1).get(b2));
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                         }
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>                     }
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>                     <strong class="jxr_keyword">case</strong> REALF -&gt; {
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>                         <strong class="jxr_keyword">if</strong> (!RealF.isZero((<a name="RealF" href="../../../org/interworldtransport/cladosF/RealF.html#RealF">RealF</a>) value.get(b2))) {
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>                             mapOfBlades.put(b1, b2);
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>                             mapOfWeights.put(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(b1, b2), mapOfMaps.get(b1).get(b2));
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>                         }
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>                     } 
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>                 }
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>             });
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         });
 <a class="jxr_linenumber" name="L197" href="#L197">197</a>     }
 <a class="jxr_linenumber" name="L198" href="#L198">198</a> 
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> 
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     * This is the blade stream of the outer map. These blades from algebra1 are keys paired up with Scales using algebra2.</em>
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra1 that are in the outer map</em>
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L205" href="#L205">205</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; bladeStream() {
-<a class="jxr_linenumber" name="L206" href="#L206">206</a>         <strong class="jxr_keyword">return</strong> mapOfMaps.keySet().stream();
-<a class="jxr_linenumber" name="L207" href="#L207">207</a>     }
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 
-<a class="jxr_linenumber" name="L209" href="#L209">209</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> <em class="jxr_javadoccomment">     * A monad in one algebra is remapped to another algebra using a Connection.</em>
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">     * Cast involves turning a monad's scale from a map defined in terms of blades of algebra1 into blades of algebra2. Where a blade in pM's </em>
-<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">     * scale matches a blade in the outer mapOfMaps basis, the weight from pM's scale is used to weight the inner map. Once all pM's blades </em>
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">     * are considered, the inner maps are summed and the result becomes the new Scale for pM.</em>
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> <em class="jxr_javadoccomment">     * See the usage documentation for Connection for more details.</em>
-<a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">     * @param pM Monad to be cast</em>
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">     * @return Monad transformed by the cast operation</em>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">     * This stream should produce the same output (blades from algebra1) as bladeStream(), but it does so by looking </em>
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     * at the mapOfBlades instead of the mapOfMaps. That means when you get the corresponding value from the pair you </em>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">     * get a single blade from algebra2.</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">     * The counterpart stream is blade2PairStream().</em>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra1 that appear as keys in mapOfMaps</em>
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; blade1PairStream() {
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>         <strong class="jxr_keyword">return</strong> mapOfBlades.keySet().stream();
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>     }
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">     * This stream would produce output blades from algebra2 like bladeStream() if mapOfMaps was transposed. It does so </em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">     * by looking at the mapOfBlades instead. That means when you get the corresponding key from the pair you get a </em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> <em class="jxr_javadoccomment">     * single blade from algebra1.</em>
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">     * The counterpart stream is blade1PairStream().</em>
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra2 that appear any Scale in mapOfMaps.</em>
 <a class="jxr_linenumber" name="L220" href="#L220">220</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L221" href="#L221">221</a>     <strong class="jxr_keyword">public</strong> <a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> <strong class="jxr_keyword">cast</strong>(<a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> pM) {
-<a class="jxr_linenumber" name="L222" href="#L222">222</a>         <strong class="jxr_keyword">if</strong> (pM == <strong class="jxr_keyword">null</strong>)                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;                                        <em class="jxr_comment">//Oops. Nothing to do.</em>
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>         <strong class="jxr_keyword">if</strong> (pM.getMode() != mode)       <strong class="jxr_keyword">return</strong> pM;                                          <em class="jxr_comment">//No. Mixed modes makes messes.</em>
-<a class="jxr_linenumber" name="L224" href="#L224">224</a>         <strong class="jxr_keyword">if</strong> (pM.getCardinal() != card)   <strong class="jxr_keyword">return</strong> pM;                                          <em class="jxr_comment">//No. Apples and Oranges.</em>
-<a class="jxr_linenumber" name="L225" href="#L225">225</a>         Scale&lt;D&gt; newScale = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(mode, algebra2.getBasis(), card);                   <em class="jxr_comment">//new zeroed Scale uses THIS mode and cardinal</em>
-<a class="jxr_linenumber" name="L226" href="#L226">226</a> 
-<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <strong class="jxr_keyword">if</strong> (pM.sparseFlag)                                                  <em class="jxr_comment">//Few grades in use, so blocks of zero weights are skipped</em>
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>             pM  .bladeOfGradesStream()                                      <em class="jxr_comment">//No parallelization (I think) because aggregating</em>
-<a class="jxr_linenumber" name="L229" href="#L229">229</a>                 .forEach(b1 -&gt; {newScale.aggregate(                         <em class="jxr_comment">//aggregate into the replacement Scale</em>
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>                                 GBuilder.copyOfScale(get(b1))             <em class="jxr_comment">//a copy of the relevant Scale</em>
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>                                         .scale(pM.get(b1)));                <em class="jxr_comment">//weighted correctly for that blade. (Could be scaled by ZERO.)</em>
-<a class="jxr_linenumber" name="L232" href="#L232">232</a>                                }    <em class="jxr_comment">//[the action for each non-zero blade in pM]</em>
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>                         );          <em class="jxr_comment">//[far edge of forEach loop]</em>
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>         <strong class="jxr_keyword">else</strong>                                                                <em class="jxr_comment">//Many grades in use, so individual zero weights are skipped.</em>
-<a class="jxr_linenumber" name="L235" href="#L235">235</a>             pM  .getWeights()
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>                 .bladesNotZeroStream()                                      <em class="jxr_comment">//No parallelization (I think) because aggregating</em>
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>                 .forEach(b1 -&gt; {newScale.aggregate(                         <em class="jxr_comment">//aggregate into the replacement Scale</em>
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>                                 GBuilder.copyOfScale(get(b1))             <em class="jxr_comment">//a copy of the relevant Scale</em>
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>                                         .scale(pM.get(b1)));                <em class="jxr_comment">//weighted correctly for that blade. (Never scaled by ZERO.)</em>
-<a class="jxr_linenumber" name="L240" href="#L240">240</a>                                }    <em class="jxr_comment">//[the action for each non-zero blade in pM]</em>
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>                         );          <em class="jxr_comment">//[far edge of forEach loop]</em>
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> 
-<a class="jxr_linenumber" name="L243" href="#L243">243</a>         pM.setAlgebra(algebra2);
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>         <strong class="jxr_keyword">try</strong> {pM.setScale(newScale);}                                                        <em class="jxr_comment">//This should never fail because...</em>
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <strong class="jxr_keyword">catch</strong> (<a name="CladosMonadException" href="../../../org/interworldtransport/cladosGExceptions/CladosMonadException.html#CladosMonadException">CladosMonadException</a> e) {                                                    <em class="jxr_comment">//the possible ways for it are...</em>
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Connection.cast error shouldn't happen"</span>);<em class="jxr_comment">//prevented by use of algebra2.</em>
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>         }
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">return</strong> pM;
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>     }
-<a class="jxr_linenumber" name="L250" href="#L250">250</a> 
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">     * Get the Scale object associated with the blade in the outer layer of the map.</em>
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the index for finding the Scale map</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">     * @return Scale of D which extend ProtoN and other numeric interfaces</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>     <strong class="jxr_keyword">public</strong> Scale&lt;D&gt; get(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB))
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>             <strong class="jxr_keyword">return</strong> mapOfMaps.get(pB);
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>     }
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">     * Retrieve a reference to one of the algebras used in this object. The boolean input picks between</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">     * outer/inner (algebra1/algebra2) choices.</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">     * @param pOuter boolean True returns the outer map's algebra, False returns the inner maps algebra</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">     * @return Algebra (Either the first or second one depending on the boolean)</em>
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <strong class="jxr_keyword">public</strong> <a name="Algebra" href="../../../org/interworldtransport/cladosG/Algebra.html#Algebra">Algebra</a> getAlgebra(<strong class="jxr_keyword">boolean</strong> pOuter) {
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>         <strong class="jxr_keyword">if</strong> (pOuter)     <strong class="jxr_keyword">return</strong> algebra1;
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>         <strong class="jxr_keyword">else</strong>            <strong class="jxr_keyword">return</strong> algebra2;
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>     }
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> <em class="jxr_javadoccomment">	 * Simple gettor method for the Cardinal associated with these objects.</em>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">	 * @return Cardinal in use in this.</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>     @Override
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>     <strong class="jxr_keyword">public</strong> <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> getCardinal() {
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         <strong class="jxr_keyword">return</strong> card;
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>     }
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> <em class="jxr_javadoccomment">	 * Simple gettor method reporting the Connection's internal mode.</em>
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">	 * @return CladosField element reporting which ProtoN child is expected in the Scale's used.</em>
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>     @Override
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>     <strong class="jxr_keyword">public</strong> <a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> getMode() {
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>         <strong class="jxr_keyword">return</strong> mode;
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>     }
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">     * PUT a Blade, Scale key/value pair into the mapOfMaps. Check that the operation is legitimate first, though.</em>
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the key for finding the Scale map</em>
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">     * @param pS    Scale of D which extend ProtoN and other numeric interfaces</em>
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">     * @return Frame of D which extend ProtoN and other numeric interfaces. Basically... this object.</em>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>     <strong class="jxr_keyword">public</strong> Connection&lt;D&gt; put(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB, Scale&lt;D&gt; pS) {
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB))   <em class="jxr_comment">//This is enough to ensure Scale's basis matches Algebra's basis.</em>
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>             mapOfMaps.put(pB, pS);
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>     }
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> 
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> <em class="jxr_javadoccomment">     * Remove a Blade, Scale key/value pair into the mapOfMaps. Check for legitimate use isn't needed, though, because remove</em>
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">     * fails quietly if the key isn't present.</em>
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; blade2PairStream() {
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>         <strong class="jxr_keyword">return</strong> mapOfBlades.values().stream();
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>     }
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> <em class="jxr_javadoccomment">     * This is the blade stream of the outer map. These blades from algebra1 are keys paired up with Scales using algebra2.</em>
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> <em class="jxr_javadoccomment">     * @return Stream of Blades from algebra1 that are in the outer map</em>
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>     <strong class="jxr_keyword">public</strong> Stream&lt;Blade&gt; bladeStream() {
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         <strong class="jxr_keyword">return</strong> mapOfMaps.keySet().stream();
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     }
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> <em class="jxr_javadoccomment">     * A monad in one algebra is remapped to another algebra using a Connection.</em>
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">     * Cast involves turning a monad's scale from a map defined in terms of blades of algebra1 into blades of algebra2. Where a blade in pM's </em>
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">     * scale matches a blade in the outer mapOfMaps basis, the weight from pM's scale is used to weight the inner map. Once all pM's blades </em>
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> <em class="jxr_javadoccomment">     * are considered, the inner maps are summed and the result becomes the new Scale for pM.</em>
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">     * See the usage documentation for Connection for more details.</em>
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">     * @param pM Monad to be cast</em>
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">     * @return Monad transformed by the cast operation</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>     <strong class="jxr_keyword">public</strong> <a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> <strong class="jxr_keyword">cast</strong>(<a name="Monad" href="../../../org/interworldtransport/cladosG/Monad.html#Monad">Monad</a> pM) {
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">if</strong> (pM == <strong class="jxr_keyword">null</strong>)                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;                                        <em class="jxr_comment">//Oops. Nothing to do.</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>         <strong class="jxr_keyword">if</strong> (pM.getMode() != mode)       <strong class="jxr_keyword">return</strong> pM;                                          <em class="jxr_comment">//No. Mixed modes makes messes.</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>         <strong class="jxr_keyword">if</strong> (pM.getCardinal() != card)   <strong class="jxr_keyword">return</strong> pM;                                          <em class="jxr_comment">//No. Apples and Oranges.</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>         Scale&lt;D&gt; newScale = <strong class="jxr_keyword">new</strong> Scale&lt;&gt;(mode, algebra2.getBasis(), card);                   <em class="jxr_comment">//new zeroed Scale uses THIS mode and cardinal</em>
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         <strong class="jxr_keyword">if</strong> (pM.sparseFlag)                                                  <em class="jxr_comment">//Few grades in use, so blocks of zero weights are skipped</em>
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>             pM  .bladeOfGradesStream()                                      <em class="jxr_comment">//No parallelization (I think) because aggregating</em>
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>                 .forEach(b1 -&gt; {newScale.aggregate(                         <em class="jxr_comment">//aggregate into the replacement Scale</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>                                 GBuilder.copyOfScale(getScale(b1))             <em class="jxr_comment">//a copy of the relevant Scale</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>                                         .scale(pM.get(b1)));                <em class="jxr_comment">//weighted correctly for that blade. (Could be scaled by ZERO.)</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>                                }    <em class="jxr_comment">//[the action for each non-zero blade in pM]</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>                         );          <em class="jxr_comment">//[far edge of forEach loop]</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">else</strong>                                                                <em class="jxr_comment">//Many grades in use, so individual zero weights are skipped.</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>             pM  .getWeights()
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>                 .bladesNotZeroStream()                                      <em class="jxr_comment">//No parallelization (I think) because aggregating</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>                 .forEach(b1 -&gt; {newScale.aggregate(                         <em class="jxr_comment">//aggregate into the replacement Scale</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>                                 GBuilder.copyOfScale(getScale(b1))             <em class="jxr_comment">//a copy of the relevant Scale</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>                                         .scale(pM.get(b1)));                <em class="jxr_comment">//weighted correctly for that blade. (Never scaled by ZERO.)</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>                                }    <em class="jxr_comment">//[the action for each non-zero blade in pM]</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>                         );          <em class="jxr_comment">//[far edge of forEach loop]</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>         pM.setAlgebra(algebra2);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>         <strong class="jxr_keyword">try</strong> {pM.setScale(newScale);}                                                        <em class="jxr_comment">//This should never fail because...</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>         <strong class="jxr_keyword">catch</strong> (<a name="CladosMonadException" href="../../../org/interworldtransport/cladosGExceptions/CladosMonadException.html#CladosMonadException">CladosMonadException</a> e) {                                                    <em class="jxr_comment">//the possible ways for it are...</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Connection.cast error shouldn't happen"</span>);<em class="jxr_comment">//prevented by use of algebra2.</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>         }
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>         <strong class="jxr_keyword">return</strong> pM;
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>     }
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">     * Retrieve a reference to one of the algebras used in this object. The boolean input picks between</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">     * outer/inner (algebra1/algebra2) choices.</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">     * @param pOuter boolean True returns the outer map's algebra, False returns the inner maps algebra</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     * @return Algebra (Either the first or second one depending on the boolean)</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>     <strong class="jxr_keyword">public</strong> <a name="Algebra" href="../../../org/interworldtransport/cladosG/Algebra.html#Algebra">Algebra</a> getAlgebra(<strong class="jxr_keyword">boolean</strong> pOuter) {
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         <strong class="jxr_keyword">if</strong> (pOuter)     <strong class="jxr_keyword">return</strong> algebra1;
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">else</strong>            <strong class="jxr_keyword">return</strong> algebra2;
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>     }
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 * Simple gettor method for the Cardinal associated with these objects.</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">	 * @return Cardinal in use in this.</em>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     @Override
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>     <strong class="jxr_keyword">public</strong> <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> getCardinal() {
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>         <strong class="jxr_keyword">return</strong> card;
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>     }
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">	 * Simple gettor method reporting the Connection's internal mode.</em>
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">	 * @return CladosField element reporting which ProtoN child is expected in the Scale's used.</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     @Override
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     <strong class="jxr_keyword">public</strong> <a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> getMode() {
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>         <strong class="jxr_keyword">return</strong> mode;
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>     }
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">     * Get the Scale object associated with the blade in the outer layer of the map.</em>
 <a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the key for finding the Scale map</em>
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">     * @return Connection of D which extend ProtoN and other numeric interfaces. Basically... this object.</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the index for finding the Scale map</em>
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">     * @return Scale of D which extend ProtoN and other numeric interfaces</em>
 <a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>     <strong class="jxr_keyword">public</strong> Connection&lt;D&gt; remove(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
-<a class="jxr_linenumber" name="L316" href="#L316">316</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB))       mapOfMaps.remove(pB);        
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>     }
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L321" href="#L321">321</a> <em class="jxr_javadoccomment">     * This is the compliment of a blade stream involving the scaling maps that act as connection patches.</em>
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers as values, there is a cast to a 'generic' type </em>
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">	 * within this method. This would normally cause warnings by the compiler since the generic named in the internal </em>
-<a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">	 * map IS a ProtoN child AND casting an unchecked type could fail at runtime.</em>
-<a class="jxr_linenumber" name="L326" href="#L326">326</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> <em class="jxr_javadoccomment">	 * That won't happen when CladosF builders are used because they can't build anything that is NOT a ProtoN child. </em>
-<a class="jxr_linenumber" name="L328" href="#L328">328</a> <em class="jxr_javadoccomment">	 * Scale's internal map only accepts ProtoN child classes, so there is no danger of a failed cast operation... </em>
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> <em class="jxr_javadoccomment">	 * until someone creates a new ProtoN child class and fails to update the builders.</em>
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">     * @return Stream of Scales of numbers (ProtoN children)</em>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>     <em class="jxr_comment">//public Stream&lt;Scale&lt;D&gt;&gt; scaleStream() {</em>
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>     <em class="jxr_comment">//    return mapOfMaps.sequencedValues().stream();</em>
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>     <em class="jxr_comment">//}</em>
-<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">     * This method causes all coefficients to be set to zero re-using their cardinals.</em>
-<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">     * @param pMode CladosField mode in which the numbers operate.</em>
-<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">     * @return Frame after it has had all the numbers zero'd out.</em>
-<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L343" href="#L343">343</a>     <strong class="jxr_keyword">protected</strong> Connection&lt;D&gt; zeroAll(<a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> pMode) {
-<a class="jxr_linenumber" name="L344" href="#L344">344</a> 		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {
-<a class="jxr_linenumber" name="L345" href="#L345">345</a> 			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>                     scl =   FBuilder.createZERO(pMode, scl.getCardinal());}
-<a class="jxr_linenumber" name="L347" href="#L347">347</a>             );
-<a class="jxr_linenumber" name="L348" href="#L348">348</a>         });
-<a class="jxr_linenumber" name="L349" href="#L349">349</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L350" href="#L350">350</a> 	}
-<a class="jxr_linenumber" name="L351" href="#L351">351</a> 
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">     * This method causes all coefficients to be set to zero using the new cardinal.</em>
-<a class="jxr_linenumber" name="L354" href="#L354">354</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> <em class="jxr_javadoccomment">     * @param pMode CladosField mode in which the numbers operate.</em>
-<a class="jxr_linenumber" name="L356" href="#L356">356</a> <em class="jxr_javadoccomment">     * @param pCard Cardinal to use when rebuilding the numbers.</em>
-<a class="jxr_linenumber" name="L357" href="#L357">357</a> <em class="jxr_javadoccomment">     * @return Frame after it has had all the numbers zero'd out.</em>
-<a class="jxr_linenumber" name="L358" href="#L358">358</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>     <strong class="jxr_keyword">protected</strong> Connection&lt;D&gt; zeroAll(<a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> pMode, <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pCard) {
-<a class="jxr_linenumber" name="L360" href="#L360">360</a> 		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {
-<a class="jxr_linenumber" name="L361" href="#L361">361</a> 			     mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>                     scl =   FBuilder.createZERO(pMode, pCard);}
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>             );
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>         });
-<a class="jxr_linenumber" name="L365" href="#L365">365</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L366" href="#L366">366</a> 	}
-<a class="jxr_linenumber" name="L367" href="#L367">367</a> 
-<a class="jxr_linenumber" name="L368" href="#L368">368</a> }
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>     <strong class="jxr_keyword">public</strong> Scale&lt;D&gt; getScale(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB))
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>             <strong class="jxr_keyword">return</strong> mapOfMaps.get(pB);
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>     }
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">     * Get the weight at the blade pair.</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">     * @param pB1 Blade #1 of the pair (a row) for which to fetch a weight</em>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">     * @param pB2 Blade #2 of the pair (a col) for which to fetch a weight</em>
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> <em class="jxr_javadoccomment">     * @return D which is just a cladosF number. A child of ProtoN.</em>
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>     <strong class="jxr_keyword">public</strong> D getWeight(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB1, <a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB2) {
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>         <strong class="jxr_keyword">if</strong> (mapOfBlades.containsKey(pB1))
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>             <strong class="jxr_keyword">return</strong> mapOfWeights.get(<strong class="jxr_keyword">new</strong> <a name="BladeDuet" href="../../../org/interworldtransport/cladosG/BladeDuet.html#BladeDuet">BladeDuet</a>(pB1, mapOfBlades.get(pB1)));
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>     }
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> <em class="jxr_javadoccomment">     * PUT a Blade, Scale key/value pair into the mapOfMaps. Check that the operation is legitimate first, though.</em>
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the key for finding the Scale map</em>
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">     * @param pS    Scale of D which extend ProtoN and other numeric interfaces</em>
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">     * @return Frame of D which extend ProtoN and other numeric interfaces. Basically... this object.</em>
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>     <strong class="jxr_keyword">public</strong> Connection&lt;D&gt; put(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB, Scale&lt;D&gt; pS) {
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB)) {  <em class="jxr_comment">//This is enough to ensure Scale's basis matches Algebra's basis.</em>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>             mapOfMaps.put(pB, pS);
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>             setAltMaps();
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>         }    
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>     }
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> 
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">     * Remove a Blade, Scale key/value pair into the mapOfMaps. Check for legitimate use isn't needed, though, because remove</em>
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> <em class="jxr_javadoccomment">     * fails quietly if the key isn't present.</em>
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">     * @param pB    Blade to use as the key for finding the Scale map</em>
+<a class="jxr_linenumber" name="L354" href="#L354">354</a> <em class="jxr_javadoccomment">     * @return Connection of D which extend ProtoN and other numeric interfaces. Basically... this object.</em>
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>     <strong class="jxr_keyword">public</strong> Connection&lt;D&gt; remove(<a name="Blade" href="../../../org/interworldtransport/cladosG/Blade.html#Blade">Blade</a> pB) {
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>         <strong class="jxr_keyword">if</strong> (algebra1.getBasis().hasBlade(pB)) {
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>             mapOfMaps.remove(pB);
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>             setAltMaps();
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>         }
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>     }
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">     * This is the compliment of a blade stream involving the scaling maps that act as connection patches.</em>
+<a class="jxr_linenumber" name="L366" href="#L366">366</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">	 * Since the internal map can accept any of the CladosF numbers as values, there is a cast to a 'generic' type </em>
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">	 * within this method. This would normally cause warnings by the compiler since the generic named in the internal </em>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">	 * map IS a ProtoN child AND casting an unchecked type could fail at runtime.</em>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">	 * That won't happen when CladosF builders are used because they can't build anything that is NOT a ProtoN child. </em>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> <em class="jxr_javadoccomment">	 * Scale's internal map only accepts ProtoN child classes, so there is no danger of a failed cast operation... </em>
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">	 * until someone creates a new ProtoN child class and fails to update the builders.</em>
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">	 * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">     * @return Stream of Scales of numbers (ProtoN children)</em>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>     <em class="jxr_comment">//public Stream&lt;Scale&lt;D&gt;&gt; scaleStream() {</em>
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>     <em class="jxr_comment">//    return mapOfMaps.sequencedValues().stream();</em>
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>     <em class="jxr_comment">//}</em>
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> <em class="jxr_javadoccomment">     * This method causes all coefficients to be set to zero re-using their cardinals.</em>
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">     * @param pMode CladosField mode in which the numbers operate.</em>
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> <em class="jxr_javadoccomment">     * @return Connection after it has had all the numbers zero'd out.</em>
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>     <strong class="jxr_keyword">protected</strong> Connection&lt;D&gt; zeroAll(<a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> pMode) {
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>         <strong class="jxr_keyword">return</strong> zeroAll(pMode, card);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 	}
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> 
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">     * This method causes all coefficients to be set to zero using the new cardinal.</em>
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">     * &lt;br&gt;&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">     * @param pMode CladosField mode in which the numbers operate.</em>
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">     * @param pCard Cardinal to use when rebuilding the numbers.</em>
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">     * @return Connection after it has had all the numbers zero'd out.</em>
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>     <strong class="jxr_keyword">protected</strong> Connection&lt;D&gt; zeroAll(<a name="CladosField" href="../../../org/interworldtransport/cladosF/CladosField.html#CladosField">CladosField</a> pMode, <a name="Cardinal" href="../../../org/interworldtransport/cladosF/Cardinal.html#Cardinal">Cardinal</a> pCard) {
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>         bladeStream().forEach(b -&gt; {
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>              Scale&lt;D&gt; tScale = <strong class="jxr_keyword">new</strong> Scale&lt;D&gt;(mode, algebra2.getBasis(), pCard);                                          <em class="jxr_comment">//Create a zero Scale using the inner algebra</em>
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> 			    mapOfMaps.put(b, tScale);
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>             });
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>         setAltMaps();
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 	}
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> }
 </pre>
 <hr/>
-<div id="footer">© 2025</div>
+<div id="footer">© 2026</div>
 </body>
 </html>

@@ -713,7 +713,7 @@ public class GExporter {
 <span class="nc" id="L713">		pC.bladeStream().forEach(blade -&gt; {</span>
 <span class="nc" id="L714">			rB	.append(&quot;\t&quot;).append(&quot;&lt;OuterMap&gt;\n&quot;);</span>
 <span class="nc" id="L715">			rB	.append(&quot;\t&quot;).append(GExporter.toXMLString(blade, &quot;\t&quot;));</span>
-<span class="nc" id="L716">			rB	.append(&quot;\t&quot;).append(GExporter.toXMLString(pC.get(blade), &quot;\t&quot;));</span>
+<span class="nc" id="L716">			rB	.append(&quot;\t&quot;).append(GExporter.toXMLString(pC.getScale(blade), &quot;\t&quot;));</span>
 <span class="nc" id="L717">			rB	.append(&quot;\t&quot;).append(&quot;&lt;/OuterMap&gt;\n&quot;);</span>
 <span class="nc" id="L718">		});</span>
 

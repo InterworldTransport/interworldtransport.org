@@ -98,7 +98,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * are multiplicative inverses.
      * &lt;br&gt;&lt;br&gt;
      */
-    private TreeMap&lt;Blade, Scale&lt;D&gt;&gt; mapOfMapsInverse;
+    //private TreeMap&lt;Blade, Scale&lt;D&gt;&gt; mapOfMapsInverse;
 
     /**
      * This map is the counterpart to mapOfBlades that has an ordered pair of blades (BladeDuet) as keys and the kind 
@@ -154,21 +154,47 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
                                                                                                                 //Zero scale or ONE at equivalent blade
 <span class="fc" id="L155">            mapOfMaps.put(b1, tScale);                                                                          //Happens for every b1. Processing order doesn't matter.</span>
 <span class="fc" id="L156">        });</span>
-<span class="fc" id="L157">        setAltMaps();</span>
+<span class="fc" id="L157">        setAltMaps();                                                                                           //Fill the blade pairs map and the map relating pairs to weights.</span>
 <span class="fc" id="L158">    }</span>
 
     /**
      * This method sifts through the map of maps and rebuilds the blade lists to support connection transpose operations.
      */
     private void setAltMaps() {
-<span class="fc" id="L164">        bladeStream().forEachOrdered(b1 -&gt; {</span>
-<span class="fc" id="L165">            Scale&lt;D&gt; value = mapOfMaps.get(b1);</span>
-<span class="fc" id="L166">            value.getMap().keySet().stream().forEach(b2 -&gt; {</span>
-<span class="fc" id="L167">                mapOfBlades.put(b1, b2);</span>
-<span class="fc" id="L168">                mapOfWeights.put(new BladeDuet(b1, b2), mapOfMaps.get(b1).get(b2));</span>
-<span class="fc" id="L169">            });</span>
-<span class="fc" id="L170">        });</span>
-<span class="fc" id="L171">    }</span>
+<span class="fc" id="L164">        mapOfBlades.clear();</span>
+<span class="fc" id="L165">        mapOfWeights.clear();</span>
+<span class="fc" id="L166">        bladeStream().forEachOrdered(b1 -&gt; {</span>
+<span class="fc" id="L167">            Scale&lt;D&gt; value = mapOfMaps.get(b1);</span>
+<span class="fc" id="L168">            value.getMap().keySet().stream().forEach(b2 -&gt; {</span>
+<span class="pc bpc" id="L169" title="1 of 5 branches missed.">                switch (mode) {</span>
+                    case COMPLEXD -&gt; {
+<span class="fc bfc" id="L171" title="All 2 branches covered.">                        if (!ComplexD.isZero((ComplexD) value.get(b2))) {</span>
+<span class="fc" id="L172">                            mapOfBlades.put(b1, b2);</span>
+<span class="fc" id="L173">                            mapOfWeights.put(new BladeDuet(b1, b2), mapOfMaps.get(b1).get(b2));</span>
+                        }
+                    }
+                    case COMPLEXF -&gt; {
+<span class="fc bfc" id="L177" title="All 2 branches covered.">                        if (!ComplexF.isZero((ComplexF) value.get(b2))) {</span>
+<span class="fc" id="L178">                            mapOfBlades.put(b1, b2);</span>
+<span class="fc" id="L179">                            mapOfWeights.put(new BladeDuet(b1, b2), mapOfMaps.get(b1).get(b2));</span>
+                        }
+                    }
+                    case REALD -&gt; {
+<span class="fc bfc" id="L183" title="All 2 branches covered.">                        if (!RealD.isZero((RealD) value.get(b2))) {</span>
+<span class="fc" id="L184">                            mapOfBlades.put(b1, b2);</span>
+<span class="fc" id="L185">                            mapOfWeights.put(new BladeDuet(b1, b2), mapOfMaps.get(b1).get(b2));</span>
+                        }
+                    }
+                    case REALF -&gt; {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">                        if (!RealF.isZero((RealF) value.get(b2))) {</span>
+<span class="fc" id="L190">                            mapOfBlades.put(b1, b2);</span>
+<span class="fc" id="L191">                            mapOfWeights.put(new BladeDuet(b1, b2), mapOfMaps.get(b1).get(b2));</span>
+                        }
+                    } 
+                }
+<span class="fc" id="L195">            });</span>
+<span class="fc" id="L196">        });</span>
+<span class="fc" id="L197">    }</span>
 
     /**
      * This stream should produce the same output (blades from algebra1) as bladeStream(), but it does so by looking 
@@ -180,7 +206,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Stream of Blades from algebra1 that appear as keys in mapOfMaps
      */
     public Stream&lt;Blade&gt; blade1PairStream() {
-<span class="nc" id="L183">        return mapOfBlades.keySet().stream();</span>
+<span class="fc" id="L209">        return mapOfBlades.keySet().stream();</span>
     }
 
     /**
@@ -193,7 +219,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Stream of Blades from algebra2 that appear any Scale in mapOfMaps.
      */
     public Stream&lt;Blade&gt; blade2PairStream() {
-<span class="nc" id="L196">        return mapOfBlades.values().stream();</span>
+<span class="fc" id="L222">        return mapOfBlades.values().stream();</span>
     }
 
 
@@ -203,7 +229,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Stream of Blades from algebra1 that are in the outer map
      */
     public Stream&lt;Blade&gt; bladeStream() {
-<span class="fc" id="L206">        return mapOfMaps.keySet().stream();</span>
+<span class="fc" id="L232">        return mapOfMaps.keySet().stream();</span>
     }
 
     /**
@@ -219,45 +245,33 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Monad transformed by the cast operation
      */
     public Monad cast(Monad pM) {
-<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (pM == null)                 return null;                                        //Oops. Nothing to do.</span>
-<span class="nc bnc" id="L223" title="All 2 branches missed.">        if (pM.getMode() != mode)       return pM;                                          //No. Mixed modes makes messes.</span>
-<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (pM.getCardinal() != card)   return pM;                                          //No. Apples and Oranges.</span>
-<span class="nc" id="L225">        Scale&lt;D&gt; newScale = new Scale&lt;&gt;(mode, algebra2.getBasis(), card);                   //new zeroed Scale uses THIS mode and cardinal</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (pM == null)                 return null;                                        //Oops. Nothing to do.</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (pM.getMode() != mode)       return pM;                                          //No. Mixed modes makes messes.</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (pM.getCardinal() != card)   return pM;                                          //No. Apples and Oranges.</span>
+<span class="nc" id="L251">        Scale&lt;D&gt; newScale = new Scale&lt;&gt;(mode, algebra2.getBasis(), card);                   //new zeroed Scale uses THIS mode and cardinal</span>
 
-<span class="nc bnc" id="L227" title="All 2 branches missed.">        if (pM.sparseFlag)                                                  //Few grades in use, so blocks of zero weights are skipped</span>
-<span class="nc" id="L228">            pM  .bladeOfGradesStream()                                      //No parallelization (I think) because aggregating</span>
-<span class="nc" id="L229">                .forEach(b1 -&gt; {newScale.aggregate(                         //aggregate into the replacement Scale</span>
-<span class="nc" id="L230">                                GBuilder.copyOfScale(get(b1))             //a copy of the relevant Scale</span>
-<span class="nc" id="L231">                                        .scale(pM.get(b1)));                //weighted correctly for that blade. (Could be scaled by ZERO.)</span>
-<span class="nc" id="L232">                               }    //[the action for each non-zero blade in pM]</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (pM.sparseFlag)                                                  //Few grades in use, so blocks of zero weights are skipped</span>
+<span class="nc" id="L254">            pM  .bladeOfGradesStream()                                      //No parallelization (I think) because aggregating</span>
+<span class="nc" id="L255">                .forEach(b1 -&gt; {newScale.aggregate(                         //aggregate into the replacement Scale</span>
+<span class="nc" id="L256">                                GBuilder.copyOfScale(getScale(b1))             //a copy of the relevant Scale</span>
+<span class="nc" id="L257">                                        .scale(pM.get(b1)));                //weighted correctly for that blade. (Could be scaled by ZERO.)</span>
+<span class="nc" id="L258">                               }    //[the action for each non-zero blade in pM]</span>
                         );          //[far edge of forEach loop]
         else                                                                //Many grades in use, so individual zero weights are skipped.
-<span class="nc" id="L235">            pM  .getWeights()</span>
-<span class="nc" id="L236">                .bladesNotZeroStream()                                      //No parallelization (I think) because aggregating</span>
-<span class="nc" id="L237">                .forEach(b1 -&gt; {newScale.aggregate(                         //aggregate into the replacement Scale</span>
-<span class="nc" id="L238">                                GBuilder.copyOfScale(get(b1))             //a copy of the relevant Scale</span>
-<span class="nc" id="L239">                                        .scale(pM.get(b1)));                //weighted correctly for that blade. (Never scaled by ZERO.)</span>
-<span class="nc" id="L240">                               }    //[the action for each non-zero blade in pM]</span>
+<span class="nc" id="L261">            pM  .getWeights()</span>
+<span class="nc" id="L262">                .bladesNotZeroStream()                                      //No parallelization (I think) because aggregating</span>
+<span class="nc" id="L263">                .forEach(b1 -&gt; {newScale.aggregate(                         //aggregate into the replacement Scale</span>
+<span class="nc" id="L264">                                GBuilder.copyOfScale(getScale(b1))             //a copy of the relevant Scale</span>
+<span class="nc" id="L265">                                        .scale(pM.get(b1)));                //weighted correctly for that blade. (Never scaled by ZERO.)</span>
+<span class="nc" id="L266">                               }    //[the action for each non-zero blade in pM]</span>
                         );          //[far edge of forEach loop]
 
-<span class="nc" id="L243">        pM.setAlgebra(algebra2);</span>
-<span class="nc" id="L244">        try {pM.setScale(newScale);}                                                        //This should never fail because...</span>
-<span class="nc" id="L245">        catch (CladosMonadException e) {                                                    //the possible ways for it are...</span>
-<span class="nc" id="L246">            throw new IllegalArgumentException(&quot;Connection.cast error shouldn't happen&quot;);//prevented by use of algebra2.</span>
-<span class="nc" id="L247">        }</span>
-<span class="nc" id="L248">        return pM;</span>
-    }
-
-    /**
-     * Get the Scale object associated with the blade in the outer layer of the map.
-     * &lt;br&gt;&lt;br&gt;
-     * @param pB    Blade to use as the index for finding the Scale map
-     * @return Scale of D which extend ProtoN and other numeric interfaces
-     */
-    public Scale&lt;D&gt; get(Blade pB) {
-<span class="pc bpc" id="L258" title="1 of 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB))</span>
-<span class="fc" id="L259">            return mapOfMaps.get(pB);</span>
-<span class="nc" id="L260">        return null;</span>
+<span class="nc" id="L269">        pM.setAlgebra(algebra2);</span>
+<span class="nc" id="L270">        try {pM.setScale(newScale);}                                                        //This should never fail because...</span>
+<span class="nc" id="L271">        catch (CladosMonadException e) {                                                    //the possible ways for it are...</span>
+<span class="nc" id="L272">            throw new IllegalArgumentException(&quot;Connection.cast error shouldn't happen&quot;);//prevented by use of algebra2.</span>
+<span class="nc" id="L273">        }</span>
+<span class="nc" id="L274">        return pM;</span>
     }
 
     /**
@@ -268,8 +282,8 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Algebra (Either the first or second one depending on the boolean)
      */
     public Algebra getAlgebra(boolean pOuter) {
-<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (pOuter)     return algebra1;</span>
-<span class="fc" id="L272">        else            return algebra2;</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        if (pOuter)     return algebra1;</span>
+<span class="fc" id="L286">        else            return algebra2;</span>
     }
 
     /**
@@ -279,7 +293,7 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	 */
     @Override
     public Cardinal getCardinal() {
-<span class="fc" id="L282">        return card;</span>
+<span class="fc" id="L296">        return card;</span>
     }
 
     /**
@@ -289,7 +303,32 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
 	 */
     @Override
     public CladosField getMode() {
-<span class="fc" id="L292">        return mode;</span>
+<span class="fc" id="L306">        return mode;</span>
+    }
+
+    /**
+     * Get the Scale object associated with the blade in the outer layer of the map.
+     * &lt;br&gt;&lt;br&gt;
+     * @param pB    Blade to use as the index for finding the Scale map
+     * @return Scale of D which extend ProtoN and other numeric interfaces
+     */
+    public Scale&lt;D&gt; getScale(Blade pB) {
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB))</span>
+<span class="fc" id="L317">            return mapOfMaps.get(pB);</span>
+<span class="nc" id="L318">        return null;</span>
+    }
+
+    /**
+     * Get the weight at the blade pair.
+     * &lt;br&gt;&lt;br&gt;
+     * @param pB1 Blade #1 of the pair (a row) for which to fetch a weight
+     * @param pB2 Blade #2 of the pair (a col) for which to fetch a weight
+     * @return D which is just a cladosF number. A child of ProtoN.
+     */
+    public D getWeight(Blade pB1, Blade pB2) {
+<span class="nc bnc" id="L329" title="All 2 branches missed.">        if (mapOfBlades.containsKey(pB1))</span>
+<span class="nc" id="L330">            return mapOfWeights.get(new BladeDuet(pB1, mapOfBlades.get(pB1)));</span>
+<span class="nc" id="L331">        return null;</span>
     }
 
     /**
@@ -300,9 +339,11 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Frame of D which extend ProtoN and other numeric interfaces. Basically... this object.
      */
     public Connection&lt;D&gt; put(Blade pB, Scale&lt;D&gt; pS) {
-<span class="nc bnc" id="L303" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB))   //This is enough to ensure Scale's basis matches Algebra's basis.</span>
-<span class="nc" id="L304">            mapOfMaps.put(pB, pS);</span>
-<span class="nc" id="L305">        return this;</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB) &amp; pS.getBasis().hasBlade(pB)) {  //This is enough to ensure Scale's basis matches Algebra's basis.</span>
+<span class="nc" id="L343">            mapOfMaps.put(pB, pS);</span>
+<span class="nc" id="L344">            setAltMaps();</span>
+        }    
+<span class="nc" id="L346">        return this;</span>
     }
 
     /**
@@ -313,8 +354,11 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * @return Connection of D which extend ProtoN and other numeric interfaces. Basically... this object.
      */
     public Connection&lt;D&gt; remove(Blade pB) {
-<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB))       mapOfMaps.remove(pB);        </span>
-<span class="nc" id="L317">        return this;</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">        if (algebra1.getBasis().hasBlade(pB)) {</span>
+<span class="nc" id="L358">            mapOfMaps.remove(pB);</span>
+<span class="nc" id="L359">            setAltMaps();</span>
+        }
+<span class="nc" id="L361">        return this;</span>
     }
 
     /**
@@ -338,15 +382,10 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * This method causes all coefficients to be set to zero re-using their cardinals.
      * &lt;br&gt;&lt;br&gt;
      * @param pMode CladosField mode in which the numbers operate.
-     * @return Frame after it has had all the numbers zero'd out.
+     * @return Connection after it has had all the numbers zero'd out.
      */
     protected Connection&lt;D&gt; zeroAll(CladosField pMode) {
-<span class="nc" id="L344">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
-<span class="nc" id="L345">			    mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
-<span class="nc" id="L346">                    scl =   FBuilder.createZERO(pMode, scl.getCardinal());}</span>
-            );
-<span class="nc" id="L348">        });</span>
-<span class="nc" id="L349">		return this;</span>
+<span class="fc" id="L388">        return zeroAll(pMode, card);</span>
 	}
 
     /**
@@ -354,16 +393,15 @@ public final class Connection&lt;D extends ProtoN &amp; Field &amp; Normalizable
      * &lt;br&gt;&lt;br&gt;
      * @param pMode CladosField mode in which the numbers operate.
      * @param pCard Cardinal to use when rebuilding the numbers.
-     * @return Frame after it has had all the numbers zero'd out.
+     * @return Connection after it has had all the numbers zero'd out.
      */
     protected Connection&lt;D&gt; zeroAll(CladosField pMode, Cardinal pCard) {
-<span class="nc" id="L360">		algebra1.getBasis()  .bladeStream().forEach(b -&gt; {</span>
-<span class="nc" id="L361">			     mapOfMaps   .get(b).weightsParallelStream().forEach(scl -&gt; {</span>
-<span class="nc" id="L362">                    scl =   FBuilder.createZERO(pMode, pCard);}</span>
-            );
-<span class="nc" id="L364">        });</span>
-<span class="nc" id="L365">		return this;</span>
+<span class="fc" id="L399">        bladeStream().forEach(b -&gt; {</span>
+<span class="fc" id="L400">             Scale&lt;D&gt; tScale = new Scale&lt;D&gt;(mode, algebra2.getBasis(), pCard);                                          //Create a zero Scale using the inner algebra</span>
+<span class="fc" id="L401">			    mapOfMaps.put(b, tScale);</span>
+<span class="fc" id="L402">            });</span>
+<span class="fc" id="L403">        setAltMaps();</span>
+<span class="fc" id="L404">		return this;</span>
 	}
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
